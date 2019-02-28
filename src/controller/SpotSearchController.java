@@ -1,0 +1,101 @@
+package controller;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import data.FetchParkingSpotsDAO;
+import model.*;
+
+@WebServlet("/SpotSearchController")
+public class SpotSearchController extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		listAreas(request, response);	
+	}
+
+	private void listAreas(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		try 
+		{
+			ArrayList<ParkingArea> allAreas = FetchParkingSpotsDAO.getAllParkingAreas();
+			request.setAttribute("Areas", allAreas);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/SearchSpot.jsp");
+            dispatcher.forward(request, response);
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			throw new ServletException(e);
+		}
+    }
+	private void listFloorsForSelectedArea(HttpServletRequest request, HttpServletResponse response, Integer areaId) throws ServletException, IOException 
+	{
+		try 
+		{
+			ParkingArea selectedArea = FetchParkingSpotsDAO.getspecificParkingArea(areaId);
+			ArrayList<ParkingAreaFloors> floorDetails = FetchParkingSpotsDAO.getFloorsbyParkingAreaId(areaId);
+			request.setAttribute("selectedArea", selectedArea);
+			request.setAttribute("allFloors", floorDetails);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/SearchSpot_Floor.jsp");
+            dispatcher.forward(request, response);
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			throw new ServletException(e);
+		}
+    }
+	private void listSpotsForSelectedFloor
+	(	
+			HttpServletRequest request, 
+			HttpServletResponse response, 
+			Integer areaId, 
+			Integer floorNumber, 
+			String permitType 
+	) throws ServletException, IOException 
+	{
+		try 
+		{
+			ParkingArea selectedArea = FetchParkingSpotsDAO.getspecificParkingArea(areaId);
+			ArrayList<ParkingSpots> spotsList = FetchParkingSpotsDAO.getSpotsByAreaFloorPermitFromDb(areaId, floorNumber, permitType);
+			request.setAttribute("selectedArea", selectedArea);
+			request.setAttribute("selectedFloorNumber", floorNumber);
+			request.setAttribute("selectedPermitType", permitType);
+			request.setAttribute("spotsList", spotsList);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/SearchSpot_SelectSpot.jsp");
+            dispatcher.forward(request, response);
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			throw new ServletException(e);
+		}
+    }
+	@Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException 
+	{
+        String action = request.getParameter("action");
+		if (action.equalsIgnoreCase("getSelectedArea") ) {  
+			int areaId = Integer.parseInt(request.getParameter("areaDropDrown"));
+	        request.setAttribute("selectedAreaId", areaId);
+	        listFloorsForSelectedArea(request, response, areaId);
+		}
+		
+		if (action.equalsIgnoreCase("getSpotsForFloor") ) {  
+			int areaId = Integer.parseInt(request.getParameter("selectedAreaId"));
+			int selectedFloorNumber = Integer.parseInt(request.getParameter("selectedFloorNumber"));
+			String selectedPermitType = request.getParameter("selectedPermitType");
+	        request.setAttribute("selectedAreaId", areaId);
+	        listSpotsForSelectedFloor(request, response, areaId, selectedFloorNumber, selectedPermitType);
+		}
+    }
+	
+}
