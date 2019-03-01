@@ -3,10 +3,4 @@ bin/
 build/
 /.project
 /.classpath
-<<<<<<< HEAD
 src/util/SQLConnection.java
-=======
-/src/util/SQLConnection.java
-src/util/SQLConnection.java
-build/classes/util/SQLConnection.class
->>>>>>> 703653a5c5860af063bbae5c14a3ee77fde92b8a
