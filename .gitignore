@@ -4,3 +4,5 @@ build/
 /.project
 /.classpath
 /src/util/SQLConnection.java
+src/util/SQLConnection.java
+build/classes/util/SQLConnection.class
