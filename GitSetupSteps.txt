@@ -1,0 +1,10 @@
+Steps to add Git
+
+-create new Dynamic Web Project - parking_management_new
+-delete from local directory src and web content folder.
+-open cmd
+-go to the local directory of parking management_new (cd)
+run following commands
+-git init
+-git remote add origin https://github.com/toshaltambave/parking_management_new.git
+-git fetch
