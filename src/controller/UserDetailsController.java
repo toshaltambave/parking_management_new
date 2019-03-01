@@ -20,16 +20,16 @@ import model.*;
 public class UserDetailsController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-       
+
 	private void getUserDetailsParam (HttpServletRequest request, UserDetails userdetails)
 	{	
-					userdetails.setUserDetails(request.getParameter("firstname"), request.getParameter("middlename"),
-					 request.getParameter("lastname"),request.getParameter("sex"),
-					 request.getParameter("dob"), request.getParameter("address"),request.getParameter("email")
-					 ,request.getParameter("phone"),request.getParameter("dlno"),request.getParameter("dlexpirydte")
-					 ,request.getParameter("regno"),request.getParameter("utaid"));
+		userdetails.setUserDetails(request.getParameter("firstname"), request.getParameter("middlename"),
+				request.getParameter("lastname"),request.getParameter("sex"),
+				request.getParameter("dob"), request.getParameter("address"),request.getParameter("email")
+				,request.getParameter("phone"),request.getParameter("dlno"),request.getParameter("dlexpirydte")
+				,request.getParameter("regno"),request.getParameter("utaid"));
 	}
-	
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		String action = request.getParameter("action");
@@ -41,7 +41,7 @@ public class UserDetailsController extends HttpServlet {
 		} else if(action.equalsIgnoreCase("search")){
 			String type = request.getParameter("type");
 			String query = request.getParameter("query");
-			
+
 			if ("UserName".equals(type)) {
 				List<UserDetails> userDetailsList = new ArrayList<UserDetails>();
 				userDetailsList = UserDetailsDAO.searchByUsername(query);
@@ -96,5 +96,5 @@ public class UserDetailsController extends HttpServlet {
 
 		getServletContext().getRequestDispatcher(url).forward(request, response);		
 	}
-	
+
 }
