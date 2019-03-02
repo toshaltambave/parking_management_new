@@ -24,7 +24,7 @@
 					<div class="col">
 						<input name="usernameError" class="form-control"
 								value="<c:out value='${errorMsgs.usernameError}'/>" type="text"
-								style="background-color: white; color: red; border: none; width: 800px"
+								style="background-color: white; color: red; border: none;"
 								disabled="disabled" maxlength="60">
 					</div>
 					</div>
@@ -40,7 +40,7 @@
 					<div class="col">
 						<input name="passwordError"
 						value="<c:out value='${errorMsgs.passwordError}'/>" type="text"
-						style="background-color: white; color: red; border: none; width: 800px"
+						style="background-color: white; color: red; border: none;"
 						disabled="disabled" maxlength="60" class="form-control">
 						<span class="error">${errorMsgs.passwordError}</span>
 					</div>
