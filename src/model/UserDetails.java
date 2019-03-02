@@ -56,17 +56,7 @@ public class UserDetails {
 	}
 
 	public void setDrivingLicenseExpiry(String drivingLicenseExpiry) {
-		if(drivingLicenseExpiry != null && !drivingLicenseExpiry.isEmpty())
-		{
-			if(!drivingLicenseExpiry.contains("-"))
-			{
-				String year = drivingLicenseExpiry.substring(6,10);
-				String month = drivingLicenseExpiry.substring(0,2);
-				String day = drivingLicenseExpiry.substring(3,5);
-				String Date = year + '-' + month + '-' + day;
-				this.DrivingLicenseExpiry = Date;
-			}
-		}
+		this.DrivingLicenseExpiry = drivingLicenseExpiry;
 	}
 
 	public String getRegistrationNumber() {
@@ -90,17 +80,7 @@ public class UserDetails {
 	}
 
 	public void setBirthDate(String birthDate) {
-		if(birthDate != null && !birthDate.isEmpty())
-		{
-			if(!birthDate.contains("-"))
-			{
-				String year = birthDate.substring(6,10);
-				String month = birthDate.substring(0,2);
-				String day = birthDate.substring(3,5);
-				String Date = year + '-' + month + '-' + day;
-				this.birthDate = Date;
-			}
-		}
+		this.birthDate = birthDate;
 	}
 
 	public Integer getUserID() {
@@ -193,8 +173,6 @@ public class UserDetails {
 			errorMsgs.setRegNumberError(validateRegNo(6,10,UserDetail.getRegistrationNumber()));
 			errorMsgs.setUtaIdError(validateUTAId(UserDetail.getUta_Id()));
 			errorMsgs.setDrivingLicenseExpiry(validateMandatory(UserDetail.getDrivingLicenseExpiry()));
-			
-					
 			errorMsgs.setErrorMsg(action);
 		}
 	}
@@ -307,7 +285,6 @@ public class UserDetails {
 			Integer useryear = Integer.parseInt(DOB.substring(0,4));
 			Integer usermonth = Integer.parseInt(DOB.substring(5,7));
 			Integer userday = Integer.parseInt(DOB.substring(8,10));
-			
 			Integer currentyear = Integer.parseInt(modifiedDate.substring(0,4));
 			Integer currentmonth = Integer.parseInt(modifiedDate.substring(5,7));
 			Integer currentday = Integer.parseInt(modifiedDate.substring(8,10));
@@ -324,7 +301,7 @@ public class UserDetails {
 				}	
 				else if (usermonth.equals(currentmonth))
 				{
-					if(userday > currentday)
+					if(userday >= currentday)
 					{
 						result = "Date of birth can't be after the current date.";		
 					}
