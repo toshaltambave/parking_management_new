@@ -1,11 +1,21 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    <style>
+    input[type="text"] {
+width:300px
+}
+
+input[type="password"]{
+width:300px
+}
+    </style>
 <t:_layout>
 	<jsp:attribute name="header">
     </jsp:attribute>
 	<jsp:attribute name="footer">
     </jsp:attribute>
+
 	<jsp:body>
         <t:Navbar></t:Navbar>
     	<div class="container">
@@ -15,6 +25,7 @@
 
 				<div class="row">
 					<div class="form-group">
+					<br>
 					<label for="Username">Username</label>
 					<div class="col">
 						<input class="form-control" placeholder="Enter Username"
@@ -51,8 +62,6 @@
 					<div class="col">
 						<input name="action" value="Login" type="hidden">
 						<input class="btn btn-secondary" type="submit" value="Login">
-					</div>
-					<div class="col">
 						<a href="formRegistration.jsp" target="_top" class="btn btn-info">
 							<span>New? Register Here!</span>
 						</a>
