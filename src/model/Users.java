@@ -100,7 +100,7 @@ public class Users
 		if (action.equals("saveUser")) 
 		{
 			errorMsgs.setusernameError(validateUsername(action,user.getUsername()));
-			errorMsgs.setpasswordError(validatePassword(user.getHashedPassword()));
+			errorMsgs.setpasswordError(validatePassword(action,user.getHashedPassword()));
 			errorMsgs.setconfirmpasswordError(validateConfirmPassword(user.getHashedPassword(),user.getConfirmPassword()));
 			errorMsgs.setroleError(validateRole(user.getRole()));
 			errorMsgs.setpermitTypeError(validatePermitType(user.getPermitType(),user.getRole()));
@@ -117,43 +117,52 @@ public class Users
 				if (!UsersDAO.Usernameunique(username))
 					result="Username is already in database";
 		}
+		else if(action.equals("Login")){
+			result = "username or password is incorrect.";
+		}
 		return result;
 	}
 	
-	private String validatePassword(String password) {
+	private String validatePassword(String action , String password) {
 		String result="";
-		if (!stringSize(password,4,10))
-			result= "Your password must between 4 and 10 characters.";
-		else
+		if (action.equals("saveUser")) 
 		{
-		    char ch;
-		    boolean capitalFlag = false;
-		    boolean numberFlag = false;
-		    for(int i=0;i < password.length();i++) 
-		    {
-		        ch = password.charAt(i);
-		        if(Character.isDigit(ch)) {
-		        	numberFlag = true;
-		        	result = "";
-		        }
-		        else
-		        {
-			       if(!numberFlag)
-			    	   result="Password must contain at least one number.";
-		        }
-		        if (Character.isUpperCase(ch)) {
-		        	capitalFlag = true;
-		        	result = "";
-
-		        } 
-		        else
-		        {	
-		        	if (!capitalFlag)
-			        	result="Password must contain at least one uppercase.";
-		        }
-		        if(!numberFlag && !capitalFlag)
-		        	result="Password must contain at least one uppercase and one number.";
-		    }		    				
+			if (!stringSize(password,4,10))
+				result= "Your password must between 4 and 10 characters.";
+			else
+			{
+			    char ch;
+			    boolean capitalFlag = false;
+			    boolean numberFlag = false;
+			    for(int i=0;i < password.length();i++) 
+			    {
+			        ch = password.charAt(i);
+			        if(Character.isDigit(ch)) {
+			        	numberFlag = true;
+			        	result = "";
+			        }
+			        else
+			        {
+				       if(!numberFlag)
+				    	   result="Password must contain at least one number.";
+			        }
+			        if (Character.isUpperCase(ch)) {
+			        	capitalFlag = true;
+			        	result = "";
+	
+			        } 
+			        else
+			        {	
+			        	if (!capitalFlag)
+				        	result="Password must contain at least one uppercase.";
+			        }
+			        if(!numberFlag && !capitalFlag)
+			        	result="Password must contain at least one uppercase and one number.";
+			    }		    				
+			}
+		}
+		else if(action.equals("Login")){
+			result = "username or password is incorrect.";
 		}
 		return result;		
 	}
@@ -187,10 +196,19 @@ public class Users
 		}
 		return result;		
 	}
+	
+	public void validateLogin (String action, Users user, UsersErrorMsgs errorMsgs) {
+		if(user == null)
+		{
+			errorMsgs.setusernameError(validateUsername(action,""));
+			errorMsgs.setpasswordError(validatePassword(action,""));
+			errorMsgs.setErrorMsg(action);
+		}
+	}
 
-//	This section is for general purpose methods used internally in this class	
+	//	This section is for general purpose methods used internally in this class	
 	private boolean stringSize(String string, int min, int max) {
 		return string.length()>=min && string.length()<=max;
 	}
-	
+
 }

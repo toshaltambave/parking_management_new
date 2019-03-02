@@ -9,7 +9,7 @@
     </jsp:attribute>
 	<jsp:body>
         <t:Navbar></t:Navbar>
-<div class="container">	
+<div class="container center_div">	
 <h2> ADMIN HOMEPAGE </h2>
 <div class="row">
 <div class="form-group">

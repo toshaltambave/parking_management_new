@@ -26,17 +26,26 @@ public class UsersErrorMsgs {
 			if (!usernameError.equals("") || !passwordError.equals("") 
 					|| !confirmpasswordError.equals("") || !roleError.equals("")
 					|| !permitTypeError.equals(""))
-				this.errorMsg="Please correct the following errors";
+				this.errorMsg="Please correct the following errors.";
+		}
+		else if (action.equals("Login"))
+		{
+			if (!usernameError.equals("") || !passwordError.equals("")) 
+			{
+				this.errorMsg="Login Failed.";
+			}
 		}
 		else
+		{
 			if (action.equals("searchUser")) 
 			{
 				if (!usernameError.equals("")) 
-					this.errorMsg="Please correct the following errors";
+					this.errorMsg="Please correct the following errors.";
 			}
 			else // action=listEmployee
 				if (!usernameError.equals("")) 
-					this.errorMsg="Please correct the following errors";				
+					this.errorMsg="Please correct the following errors.";
+		}
 	}
 	public String getusernameError() {
 		return usernameError;

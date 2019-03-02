@@ -10,7 +10,7 @@
     </jsp:attribute>
 	<jsp:body>
         <t:Navbar></t:Navbar>
-<div class="container">
+<div class="container center_div">
 <div class="row">
 <div class="form-group">
 <div class="col">

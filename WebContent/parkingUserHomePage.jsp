@@ -9,7 +9,7 @@
     </jsp:attribute>
 	<jsp:body>
         <t:Navbar></t:Navbar>
-<div class="container">	
+<div class="container center_div">	
 <h2>PARKING USER HOMEPAGE</h2>
 
 <br>
