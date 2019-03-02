@@ -20,12 +20,12 @@ width:300px
 <jsp:attribute name="header">
 <title>Registration</title>
 </jsp:attribute>
+<t:_layout>
 	<jsp:attribute name="footer">
     </jsp:attribute>
 	<jsp:body>
         <t:Navbar></t:Navbar>
     	<div class="container center_div">
-
 <form name="formRegistration" action="${pageContext.request.contextPath}/UsersController?saveUser" method="post">
 
 <div class="row">    

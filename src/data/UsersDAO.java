@@ -71,7 +71,8 @@ public class UsersDAO {
 	}
 
 
-	public static String userExists(Users user) {
+	public static void userExists(String username, String password, Users user) {
+		//TODO: If user exists add all attributes into Users obj and return
 		String role = "";
 		Statement stmt = null;
 		Connection conn = SQLConnection.getDBConnection();
@@ -80,13 +81,20 @@ public class UsersDAO {
 			PreparedStatement pst = null;
 			String sql = "SELECT * FROM system_users where username=? and hashedpassword=?";
 			pst = conn.prepareStatement(sql);
-			pst.setString(1, user.getUsername());
-			pst.setString(2, user.getHashedPassword());
+			pst.setString(1, username);
+			pst.setString(2, password);
 			ResultSet rs = pst.executeQuery();
 			if (rs.next()) 
 			{
-				role = rs.getString("Role");
+				user.setUsername(rs.getString("UserName"));
+				user.setHashedPassword(rs.getString("HashedPassword"));
+				user.setRole(rs.getString("Role"));
+				user.setisRevoked(rs.getBoolean("IsRevoked"));
+				user.setPermitType(rs.getString("PermitType"));
+				user.setUserID(rs.getInt("User_Id"));
 			}
+			else
+				user = null;
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -98,7 +106,6 @@ public class UsersDAO {
 				e.printStackTrace();
 			}
 		}
-		return role;
 	}
 	
 	public static void insertUser(Users user) {  

@@ -21,12 +21,20 @@ import model.UsersErrorMsgs;
 public class UsersController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-
-	private void getUserParam(HttpServletRequest request, Users user) {
+	
+	Users user = new Users();
+	private void getUserParam(HttpServletRequest request) {
+		//TODO: on SaveUser UserId is null
 		user.setUser(request.getParameter("username"), request.getParameter("hashedPassword"),
 				 request.getParameter("confirmPassword"),request.getParameter("role"),
 				 request.getParameter("permitType"), false);
 	}
+//	
+//	private void getUserParamFromRequest(HttpServletRequest request) {
+//		user.setUser(request.getParameter("username"), request.getParameter("hashedPassword"),
+//				 request.getParameter("confirmPassword"),request.getParameter("role"),
+//				 request.getParameter("permitType"), false);
+//	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -59,24 +67,28 @@ public class UsersController extends HttpServlet {
 
 		String action = request.getParameter("action"), url = "";
 		HttpSession session = request.getSession();
-		Users user = new Users();
+		
 		UsersErrorMsgs errorMsgs = new UsersErrorMsgs();
 		if(action.equalsIgnoreCase("Login")){
-			getUserParam(request, user);
-			session.setAttribute("user", user);
-			String role = UsersDAO.userExists(user);
-			if("Admin".equalsIgnoreCase(role))
-			{
-				url = "/adminHomePage.jsp";
+			UsersDAO.userExists(request.getParameter("username"), request.getParameter("hashedPassword"), user);
+			//Set Attributes of Logged in User in session for further pages
+			session.setAttribute("User", user);
+			if(user.getUserID() != null){
+				if("Admin".equalsIgnoreCase(user.getRole()))
+				{
+					url = "/adminHomePage.jsp";
+				}
+				else if("ParkingManager".equalsIgnoreCase(user.getRole()))
+				{
+					url = "/parkingManagementHomePage.jsp";
+				}
+				else if("ParkingUser".equalsIgnoreCase(user.getRole()))
+				{
+					url = "/parkingUserHomePage.jsp";
+				}
 			}
-			else if("ParkingManager".equalsIgnoreCase(role))
-			{
-				url = "/parkingManagementHomePage.jsp";
-			}
-			else if("ParkingUser".equalsIgnoreCase(role))
-			{
-				url = "/parkingUserHomePage.jsp";
-			}
+			//Login Failed
+			//TODO: Add error messages for Failed login
 			else
 			{
 				url = "/index.jsp";
@@ -86,12 +98,12 @@ public class UsersController extends HttpServlet {
 			request.getSession().invalidate();
 		
 		} else if(action.equalsIgnoreCase("saveUser")){
-			getUserParam(request, user);
+			getUserParam(request);
 			user.validateUser(action,user,errorMsgs);
 			session.setAttribute("user", user);
 			if (!errorMsgs.getErrorMsg().equals(""))
 			{// if error messages
-				getUserParam(request, user);
+				getUserParam(request);
 				session.setAttribute("errorMsgs", errorMsgs);
 				url = "/formRegistration.jsp";
 			} 
