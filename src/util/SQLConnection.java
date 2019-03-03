@@ -15,7 +15,7 @@ public class SQLConnection {
 		DB_DRIVER = "com.mysql.jdbc.Driver";
 		DB_CONNECTION = "jdbc:mysql://localhost:3306/parking_management?autoReconnect=true&useSSL=false";
 		DB_USER = "root";
-		DB_PASSWORD = "password";
+		DB_PASSWORD = "toshal123";
 	}
 
 	public static synchronized SQLConnection getInstance() {
