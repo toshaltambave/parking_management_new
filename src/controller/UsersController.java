@@ -37,19 +37,6 @@ public class UsersController extends HttpServlet {
 			ArrayList<Users> usersInDB = new ArrayList<Users>();
 			usersInDB = UsersDAO.listUsers();
 			getServletContext().getRequestDispatcher("/RevokeUser.jsp").forward(request, response);
-		} else if(action.equalsIgnoreCase("search")){
-			String type = request.getParameter("type");
-			String query = request.getParameter("query");
-			
-			if ("UserName".equals(type)) {
-				List<Users> userList = new ArrayList<Users>();
-				userList = UsersDAO.searchByUsername(query);
-				for(Users user: userList){
-					System.out.println(user.getUsername());
-				}
-			} else if ("LastName".equals(type)) {
-				System.out.println("Search by LastName");
-			}
 		} else // redirect all other gets to post
 			doPost(request, response);
 	}
@@ -57,6 +44,8 @@ public class UsersController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String action = request.getParameter("action"), url = "";
+		String userName = request.getParameter("username");
+		
 		HttpSession session = request.getSession();
 		Users user = new Users();
 		UsersErrorMsgs errorMsgs = new UsersErrorMsgs();
@@ -75,6 +64,7 @@ public class UsersController extends HttpServlet {
 			else if("ParkingUser".equalsIgnoreCase(role))
 			{
 				url = "/parkingUserHomePage.jsp";
+				
 			}
 			else
 			{
@@ -102,6 +92,8 @@ public class UsersController extends HttpServlet {
 				url = "/formUserDetails.jsp";
 			}
 		}
+	
 		getServletContext().getRequestDispatcher(url).forward(request, response);
+		
 	}
 }

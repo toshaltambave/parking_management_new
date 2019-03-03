@@ -119,9 +119,8 @@ public class UserDetailsController extends HttpServlet {
 			String type = request.getParameter("type");
 			String value = request.getParameter("value");
 			String role = request.getParameter("role");
-	
 			
-			UserDetailsDAO.revokeUser(type, value, Boolean.FALSE);
+			UserDetailsDAO.changeRole(type, value, role);
 			url = "/ChangeUserRole.jsp";
 		}
 

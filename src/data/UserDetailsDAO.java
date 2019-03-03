@@ -132,7 +132,7 @@ public class UserDetailsDAO {
 	}
 
 	public static List<UserDetails> searchByUsername(String userName) {
-		System.out.printf("HEY!! SEARCH");
+		
 		List<UserDetails> userListInDB = new ArrayList<UserDetails>();
 		Statement stmt = null;
 		Connection conn = SQLConnection.getDBConnection();
@@ -262,7 +262,7 @@ public class UserDetailsDAO {
 		return userListInDB;
 	}
 	
-	public static void revokeUser(String type, String value, Boolean isRevoke) {
+	public static void revokeUser(String type, String value, Boolean isRevoked) {
 		Statement stmt = null;
 		Connection conn = SQLConnection.getDBConnection();
 		
@@ -273,15 +273,48 @@ public class UserDetailsDAO {
 			PreparedStatement pst = null;
 			String sql = "UPDATE parking_management.system_users SET IsRevoked=? where UserName=?";
 			pst = conn.prepareStatement(sql);
-			pst.setBoolean(1, isRevoke);
+			pst.setBoolean(1, isRevoked);
 			pst.setString(2, value);
 			int code = pst.executeUpdate();
-			System.out.printf("CODE: "+code+"\n");
 			
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} finally {
 				try {
+					conn.commit();
+					conn.close();
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		} else {
+			int userId;
+			try {
+				stmt = conn.createStatement();
+				PreparedStatement pst = null;
+				String sql = "SELECT * FROM parking_management.user_details where LastName=?";
+				pst = conn.prepareStatement(sql);
+				pst.setString(1, value);
+				ResultSet rs = pst.executeQuery();
+
+				if (!rs.isBeforeFirst()) {
+					System.out.println("No data");
+				} else if (rs.next()) {
+					userId = rs.getInt("User_Id");
+					stmt = conn.createStatement();
+					PreparedStatement pst2 = null;
+					String sql2 = "UPDATE parking_management.system_users SET IsRevoked=? where User_Id=?";
+					pst2 = conn.prepareStatement(sql2);
+					pst2.setBoolean(1, isRevoked);
+					pst2.setInt(2, userId);
+					pst2.executeUpdate();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					conn.commit();
 					conn.close();
 					stmt.close();
 				} catch (SQLException e) {
@@ -300,17 +333,51 @@ public class UserDetailsDAO {
 				stmt = conn.createStatement();
 
 			PreparedStatement pst = null;
+	
 			String sql = "UPDATE parking_management.system_users SET Role=? where UserName=?";
 			pst = conn.prepareStatement(sql);
 			pst.setString(1, role);
 			pst.setString(2, value);
 			int code = pst.executeUpdate();
-			System.out.printf("CODE: "+code+"\n");
 			
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} finally {
 				try {
+					conn.commit();
+					conn.close();
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		} else{
+			int userId;
+			try {
+				stmt = conn.createStatement();
+				PreparedStatement pst = null;
+				String sql = "SELECT * FROM parking_management.user_details where LastName=?";
+				pst = conn.prepareStatement(sql);
+				pst.setString(1, value);
+				ResultSet rs = pst.executeQuery();
+
+				if (!rs.isBeforeFirst()) {
+					System.out.println("No data");
+				} else if (rs.next()) {
+					userId = rs.getInt("User_Id");
+					stmt = conn.createStatement();
+					PreparedStatement pst2 = null;
+					String sql2 = "UPDATE parking_management.system_users SET Role=? where UserName=?";
+					pst2 = conn.prepareStatement(sql2);
+					pst2.setString(1, role);
+					pst2.setInt(2, userId);
+					pst2.executeUpdate();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					conn.commit();
 					conn.close();
 					stmt.close();
 				} catch (SQLException e) {
