@@ -126,6 +126,10 @@ CREATE TABLE `parking_management`.`reservations` (
   ON DELETE CASCADE
   ON UPDATE CASCADE);
   
+  ALTER TABLE `parking_management`.`parking_spots` 
+ADD COLUMN `Spot_UID` INT NULL AUTO_INCREMENT AFTER `PermitType`,
+ADD UNIQUE INDEX `Spot_UID_UNIQUE` (`Spot_UID` ASC);
+;
   
   CREATE TABLE `parking_management`.`reservations` (
   `Reservation_Id` INT NOT NULL AUTO_INCREMENT,
@@ -163,3 +167,11 @@ ADD CONSTRAINT `reservations_systems_users_FK`
   REFERENCES `parking_management`.`system_users` (`User_Id`)
   ON DELETE CASCADE
   ON UPDATE CASCADE;
+
+
+
+
+ALTER TABLE `parking_management`.`reservations` 
+DROP PRIMARY KEY,
+ADD PRIMARY KEY (`Spot_UID`, `End_Time`, `Start_Time`),
+ADD UNIQUE INDEX `Reservation_Id_UNIQUE` (`Reservation_Id` ASC);
