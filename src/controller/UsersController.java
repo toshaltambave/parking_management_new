@@ -2,8 +2,10 @@ package controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,8 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import data.*;
-import model.Users;
-import model.UsersErrorMsgs;
+import model.*;
 import util.PasswordUtility;
 
 @WebServlet("/UsersController")
@@ -30,13 +31,18 @@ public class UsersController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String action = request.getParameter("action");
+		String action = request.getParameter("action");		
+		listPermitTypes(request,response);
+		listRoles(request,response);
 		// List users
-		if(action.equalsIgnoreCase("search")){
-			searchuserdetails(request);
-		} 
-		else // redirect all other gets to post
-			doPost(request, response);
+		if(action != null)
+		{
+			if(action.equalsIgnoreCase("search")){
+				searchuserdetails(request);
+			} 
+			else // redirect all other gets to post
+				doPost(request, response);
+		}
 	}
 private void searchuserdetails(HttpServletRequest request) {
 	String type = request.getParameter("type");
@@ -69,9 +75,57 @@ private void searchuserdetails(HttpServletRequest request) {
 		
 		} else if(action.equalsIgnoreCase("saveUser")){
 			url = register(request, action, session, errorMsgs);
+			listSex(request,response);
+			listPermitTypes(request,response);
+			listRoles(request,response);
 		}
 		getServletContext().getRequestDispatcher(url).forward(request, response);
 	}
+	
+	protected void listSex(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		try 
+		{
+			ArrayList<Sex> listSex = new ArrayList<Sex>(Arrays.asList(Sex.values()));
+			request.setAttribute("allSex", listSex);
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			throw new ServletException(e);
+		}
+    }
+	
+	protected void listPermitTypes(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		try 
+		{
+			ArrayList<PermitType> listPermitTypes = new ArrayList<PermitType>(Arrays.asList(PermitType.values()));
+			request.setAttribute("allPermitTypes", listPermitTypes);
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			throw new ServletException(e);
+		}
+    }
+	
+	protected void listRoles(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		try 
+		{
+			ArrayList<Role> listRoles = new ArrayList<Role>(Arrays.asList(Role.values()));
+			request.setAttribute("allRoles", listRoles);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/formRegistration.jsp");
+            dispatcher.forward(request, response);
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			throw new ServletException(e);
+		}
+    }
+		
 
 	private String register(HttpServletRequest request, String action, HttpSession session, UsersErrorMsgs errorMsgs) 
 	{
@@ -83,6 +137,10 @@ private void searchuserdetails(HttpServletRequest request) {
 		{// if error messages
 			getUserParam(request);
 			session.setAttribute("registererrorMsgs", errorMsgs);
+			String role = request.getParameter("role");
+	        request.setAttribute("selectedrole", role);
+			String permitType = request.getParameter("permitType");
+	        request.setAttribute("selectedpermitType", permitType);
 			url = "/formRegistration.jsp";
 		} 
 		else 

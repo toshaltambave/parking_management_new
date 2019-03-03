@@ -18,7 +18,7 @@ width:300px
 
 	<jsp:body>
         <t:Navbar></t:Navbar>
-    	<div class="container justify-content-center" >
+    	<div class="container center_div" >
 			<form name="formRegistration"
 				action="${pageContext.request.contextPath}/UsersController?Login"
 				method="post">
@@ -51,7 +51,7 @@ width:300px
 					<div class="col">
 						<input name="action" value="Login" type="hidden">
 						<input class="btn btn-secondary" type="submit" value="Login">
-						<a href="formRegistration.jsp" target="_top" class="btn btn-info">
+						<a href="${pageContext.request.contextPath}/UsersController" target="_top" class="btn btn-info">
 							<span>New? Register Here!</span>
 						</a>
 					</div>

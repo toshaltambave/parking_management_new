@@ -91,10 +91,13 @@ width:300px
     <td> Sex: </td>
     <td> 
     	<select name="sex" id="sex">
-          <option>Select Sex</option>
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
-          <option value="Other">Other</option>
+    	 <c:forEach var="sexValue" items="${allSex}">
+			   <option value="${sexValue}"
+			           <c:if test="${sexValue eq selectedsex}">selected="selected"</c:if>
+			     >
+			        ${sexValue}
+			    </option>
+     	</c:forEach>
 		</select>	
     </td>
   	<td> <input name="sexError"

@@ -46,20 +46,25 @@ width:300px
  
 <div class="row"><label> Role (*): </label></div>
     	<div class="row"><select class="form-control style-select" name="role" id="role">
-          <option>Select User Role</option>
-          <option value="ParkingUser">Parking User</option>
-          <option value="ParkingManager">Parking Manager</option>
-          <option value="Admin">Administrator</option>
+    	 <c:forEach var="roleValue" items="${allRoles}">
+			   <option value="${roleValue}"
+			           <c:if test="${roleValue eq selectedrole}">selected="selected"</c:if>
+			     >
+			        ${roleValue}
+			    </option>
+     	</c:forEach>
 		</select></div>	
 <div class="row"><input class="form-control" name="roleError"  value="<c:out value='${registererrorMsgs.roleError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"   disabled="disabled" maxlength="60"></div>
 	
 <div class="row"><label> Permit Type: </label></div>
 		<div class="row"><select class="form-control style-select" name="permitType" id="permitType">
-          <option>Select Permit Type</option>
-          <option value="Basic">Basic</option>
-          <option value="Midrange">MidRange</option>
-          <option value="Premium">Premium</option>
-          <option value="Access">Access</option>
+    	 <c:forEach var="permitTypeValue" items="${allPermitTypes}">
+			   <option value="${permitTypeValue}"
+			           <c:if test="${permitTypeValue eq selectedpermitType}">selected="selected"</c:if>
+			     >
+			        ${permitTypeValue}
+			    </option>
+     	</c:forEach>
 		</select></div>	
 <div class="row"><input class="form-control" name="permitTypeError"  value="<c:out value='${registererrorMsgs.permitTypeError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"   disabled="disabled" maxlength="60"> </div>
 

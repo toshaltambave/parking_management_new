@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -34,6 +35,7 @@ public class UserDetailsController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		String action = request.getParameter("action");
+		listSex(request, response);	
 		if (action.equalsIgnoreCase("listUsers")) {
 			ArrayList<Users> usersInDB = new ArrayList<Users>();
 			usersInDB= UsersDAO.listUsers(); 
@@ -44,7 +46,21 @@ public class UserDetailsController extends HttpServlet {
 		} else // redirect all other gets to post
 			doPost(request,response);
 	}
-
+	
+	protected void listSex(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		try 
+		{
+			ArrayList<Sex> listSex = new ArrayList<Sex>(Arrays.asList(Sex.values()));
+			request.setAttribute("allSex", listSex);
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			throw new ServletException(e);
+		}
+    }
+	
 	private void searchuserdetails(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String type = request.getParameter("type");
@@ -75,6 +91,7 @@ public class UserDetailsController extends HttpServlet {
 		if (action.equalsIgnoreCase("saveUserDetails") )
 		{  
 			url = saveUserDetails(request, action, url, session, userdetails, errorMsgs);
+			listSex(request,response);
 		}
 
 		getServletContext().getRequestDispatcher(url).forward(request, response);		
@@ -92,6 +109,8 @@ public class UserDetailsController extends HttpServlet {
 		{
 			getUserDetailsParam(request,userdetails);
 			session.setAttribute("userDetailsErrorMsgs", errorMsgs);
+			String sex = request.getParameter("sex");
+	        request.setAttribute("selectedsex", sex);
 			url="/formUserDetails.jsp";
 		}
 		else 
