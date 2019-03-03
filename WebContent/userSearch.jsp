@@ -48,12 +48,11 @@
 		</div>
 		</div>
 		</div>
-<table class="table table-bordered">
+<table class="table table-bordered center_div">
 <tr>
 <th>First Name</th>
+<th>Middle Name</th>
 <th>Last Name</th>
-<th>Address</th>
-<th>Phone</th>
 <th>Address</th>
 <th>Phone</th>
 <th>Email</th>
@@ -68,6 +67,7 @@
 <c:forEach items="${details}" var="UserDetails">	
    <tr>  
     	<td>${UserDetails.firstName}</td>
+    	<td>${UserDetails.middleName}</td>
     	<td>${UserDetails.lastName}</td>
     	<td>${UserDetails.address}</td>
     	<td>${UserDetails.phone}</td>

@@ -76,8 +76,11 @@ private void searchuserdetails(HttpServletRequest request) {
 		} else if(action.equalsIgnoreCase("saveUser")){
 			url = register(request, action, session, errorMsgs);
 			listSex(request,response);
-			listPermitTypes(request,response);
-			listRoles(request,response);
+			if(url == "/formRegistration.jsp")
+			{
+				listPermitTypes(request,response);
+				listRoles(request,response);
+			}
 		}
 		getServletContext().getRequestDispatcher(url).forward(request, response);
 	}

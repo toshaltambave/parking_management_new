@@ -186,6 +186,7 @@ public class UserDetailsDAO {
 					userDetails.setDrivingLicenseExpiry(rs2.getDate("DL_Expiry").toString());
 					userDetails.setBirthDate(rs2.getDate("DOB").toString());
 					userDetails.setFirstName(rs2.getString("FirstName"));
+					userDetails.setMiddleName(rs2.getString("MiddleName"));
 					userDetails.setLastName(rs2.getString("LastName"));
 					userDetails.setSex(rs2.getString("Sex"));
 					userDetails.setEmail(rs2.getString("Email"));
@@ -234,7 +235,9 @@ public class UserDetailsDAO {
 					userDetails.setDrivingLicenseExpiry(rs.getDate("DL_Expiry").toString());
 					userDetails.setBirthDate(rs.getDate("DOB").toString());
 					userDetails.setFirstName(rs.getString("FirstName"));
+					userDetails.setMiddleName(rs.getString("MiddleName"));
 					userDetails.setLastName(rs.getString("LastName"));
+					userDetails.setSex(rs.getString("Sex"));
 					userDetails.setEmail(rs.getString("Email"));
 					userDetails.setPhone(rs.getString("Phone"));
 					userDetails.setDrivingLicenseNo(rs.getString("DL_Number"));
