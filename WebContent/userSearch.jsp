@@ -1,86 +1,93 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"
-	type="text/css" />
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<t:_layout>
+	<jsp:attribute name="header">
+
 <title>User Search</title>
-</head>
-<body>
-	<center>
-		<h1>User Search</h1>
-	</center>
-	<form
-		action="${pageContext.request.contextPath}/UserDetailsController?search"
+</jsp:attribute>
+	<jsp:attribute name="footer">
+    </jsp:attribute>
+	<jsp:body>
+        <t:Navbar></t:Navbar>
+<div class="container center_div">
+<div class="row">
+<div class="form-group">
+<div class="col">
+	<h2>User Search</h2>
+	<form action="${pageContext.request.contextPath}/UserDetailsController?search"
 		method="GET">
-		<script type="text/javascript">
-			function chg() {
-				var val = document.getElementById('one').value;
-				var xhttp = new XMLHttpRequest();
-				xhttp.onreadystatechange = function() {
-					if (xhttp.readyState === 4 && xhttp.status === 200) {
-						document.getElementById('two').innerHTML = xhttp.responseText;
-					}
-				};
-				xhttp.open("GET", "UserDetailsController?action=" + val, true)
-				xhttp.send();
-			}
-		</script>
-		<h1>Search by</h1>
-		<select id="one" name=type onchange="chg()">
-			<option>Select</option>
+		<div class="row">
+		<div class="form-group">
+		<div class="col">
+		<input type="text" name="query" /> 
+		</div>
+		</div>
+		</div>
+		<div class="row">
+		<div class="form-group">
+		<div class="col">
+		<select name="type">
 			<option value="UserName">UserName</option>
 			<option value="LastName">LastName</option>
-		</select> <br></br>
-		<div>
-			<select name=query id="two">
-			</select>
+		</select> 
 		</div>
-		<br></br> <input name="action" value="search" type="hidden">
-		<input type="submit" value="Submit" />
+		</div>
+		</div>
+		<input name="action" value="search" type="hidden"> 
+		<div class="row">
+		<div class="form-group">
+		<div class="col">
+		<input class="btn btn-secondary" type="submit" value="Search" />
+		</div>
+		</div>
+		</div>
 	</form>
-	<br>
-	<br>
-	<div align="center">
-		<table border="1" cellpadding="5">
-			<caption><h2>Users Information</h2></caption>
-			<tr>
-				<th>First Name</th>
-				<th>Middle Name</th>
-				<th>Last Name</th>
-				<th>Sex</th>
-				<th>Email</th>
-				<th>Phone</th>
-				<th>Address</th>
-				<th>DOB</th>
-				<th>DrivingLicenseNo</th>
-				<th>DrivingLicenseExpiry</th>
-				<th>RegistrationNumber</th>
-				<th>uta_Id</th>
-				<th>username</th>
-			</tr>
-			<c:forEach var="UserDetails" items="${details}">
-				<tr>
-					<td><c:out value="${UserDetails.firstName}" /></td>
-					<td><c:out value="${UserDetails.middleName}" /></td>
-					<td><c:out value="${UserDetails.lastName}" /></td>
-					<td><c:out value="${UserDetails.sex}" /></td>
-					<td><c:out value="${UserDetails.email}" /></td>
-					<td><c:out value="${UserDetails.phone}" /></td>
-					<td><c:out value="${UserDetails.address}" /></td>
-					<td><c:out value="${UserDetails.birthDate}" /></td>
-					<td><c:out value="${UserDetails.drivingLicenseNo}" /></td>
-					<td><c:out value="${UserDetails.drivingLicenseExpiry}" /></td>
-					<td><c:out value="${UserDetails.registrationNumber}" /></td>
-					<td><c:out value="${UserDetails.uta_Id}" /></td>
-					<td><c:out value="${UserDetails.username}" /></td>
-				</tr>
-			</c:forEach>
-		</table>
-	</div>
-	<button type="button" name="back" onclick="history.back()">Back</button>
-</body>
-</html>
+</div>
+
+		</div>
+		</div>
+		</div>
+<table class="table table-bordered center_div">
+<tr>
+<th>First Name</th>
+<th>Middle Name</th>
+<th>Last Name</th>
+<th>Address</th>
+<th>Phone</th>
+<th>Email</th>
+<th>Date of Birth</th>
+<th>Sex</th>
+<th>Driving License No.</th>
+<th>Driving License Expiry Date</th>
+<th>Registration No.</th>
+<th>UTA ID</th>
+
+</tr>
+<c:forEach items="${details}" var="UserDetails">	
+   <tr>  
+    	<td>${UserDetails.firstName}</td>
+    	<td>${UserDetails.middleName}</td>
+    	<td>${UserDetails.lastName}</td>
+    	<td>${UserDetails.address}</td>
+    	<td>${UserDetails.phone}</td>
+    	<td>${UserDetails.email}</td>
+    	<td>${UserDetails.birthDate}</td>
+    	<td>${UserDetails.sex}</td>
+    	<td>${UserDetails.drivingLicenseNo}</td>
+    	<td>${UserDetails.drivingLicenseExpiry}</td>
+    	<td>${UserDetails.registrationNumber}</td>
+    	<td>${UserDetails.uta_Id}</td>   
+    </tr>
+</c:forEach>
+</table>
+		<div class="row">
+		<div class="form-group">
+		<div class="col">
+<button class="btn btn-secondary" type="button" name="back" onclick="history.back()">Back</button>
+    	</div>
+		</div>
+		</div>
+    
+    </jsp:body>
+</t:_layout>
