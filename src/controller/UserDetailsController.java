@@ -65,21 +65,40 @@ public class UserDetailsController extends HttpServlet {
 			throws ServletException, IOException {
 		String type = request.getParameter("type");
 		String query = request.getParameter("query");
-
 		if ("UserName".equals(type)) {
 			List<UserDetails> userDetailsList = new ArrayList<UserDetails>();
 			userDetailsList = UserDetailsDAO.searchByUsername(query);
 			request.setAttribute("details", userDetailsList);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/userSearch.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/UserSearch.jsp");
 			dispatcher.forward(request, response);
 		} else if ("LastName".equals(type)) {
 			List<UserDetails> userDetailsList = new ArrayList<UserDetails>();
 			userDetailsList = UserDetailsDAO.searchByLastName(query);
 			request.setAttribute("details", userDetailsList);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/userSearch.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/UserSearch.jsp");
+			dispatcher.forward(request, response);
+		} else{
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/UserSearch.jsp");
 			dispatcher.forward(request, response);
 		}
 	}
+//	else if (action.equals("LastName")) {
+//		List<UserDetails> userDetailsList = new ArrayList<UserDetails>();
+//		userDetailsList = UserDetailsDAO.getLastNames();
+//		for (UserDetails userDetail : userDetailsList)
+//		{
+//			response.getWriter().println("<option>" + userDetail.getLastName() + "</option>");
+//		}
+//
+//	} 
+//	else if (action.equals("UserName"))
+//	{
+//		List<UserDetails> userDetailsList = new ArrayList<UserDetails>();
+//		userDetailsList = UserDetailsDAO.getUserNames();
+//		for (UserDetails userDetail : userDetailsList) {
+//			response.getWriter().println("<option>" + userDetail.getUsername() + "</option>");
+//	}
+//}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -92,6 +111,23 @@ public class UserDetailsController extends HttpServlet {
 		{  
 			url = saveUserDetails(request, action, url, session, userdetails, errorMsgs);
 			listSex(request,response);
+		}
+		else if(action.equals("revoke")){
+			String type = request.getParameter("type");
+			String value = request.getParameter("value");
+			UserDetailsDAO.revokeUser(type, value, Boolean.TRUE);
+			url = "/RevokeUser.jsp";
+		} else if(action.equals("unrevoke")){
+			String type = request.getParameter("type");
+			String value = request.getParameter("value");	
+			UserDetailsDAO.revokeUser(type, value, Boolean.FALSE);
+			url = "/UnrevokeUser.jsp";
+		} else if(action.equals("role")){
+			String type = request.getParameter("type");
+			String value = request.getParameter("value");
+//			String role = request.getParameter("role");	
+			UserDetailsDAO.revokeUser(type, value, Boolean.FALSE);
+			url = "/ChangeUserRole.jsp";
 		}
 
 		getServletContext().getRequestDispatcher(url).forward(request, response);		

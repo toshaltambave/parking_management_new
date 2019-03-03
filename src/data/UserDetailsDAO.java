@@ -162,7 +162,7 @@ public class UserDetailsDAO {
 		try {
 			stmt = conn.createStatement();
 			PreparedStatement pst = null;
-			String sql = "SELECT * FROM parking_management.system_users where username=?";
+			String sql = "SELECT * FROM parking_management.system_users where UserName=?";
 			pst = conn.prepareStatement(sql);
 			pst.setString(1, userName);
 			ResultSet rs = pst.executeQuery();
@@ -211,8 +211,138 @@ public class UserDetailsDAO {
 			}
 		}
 		return userListInDB;
+	}	
+	
+	public static List<UserDetails> getLastNames() {
+		List<UserDetails> userListInDB = new ArrayList<UserDetails>();
+		Statement stmt = null;
+		Connection conn = SQLConnection.getDBConnection();
+
+		try {
+			stmt = conn.createStatement();
+			PreparedStatement pst = null;
+			String sql = "SELECT LastName FROM parking_management.user_details";
+			pst = conn.prepareStatement(sql);
+			ResultSet rs = pst.executeQuery();
+
+			if (!rs.isBeforeFirst()) {
+				System.out.println("No data");
+			} else
+				while (rs.next()) {
+
+					UserDetails userDetails = new UserDetails();
+					userDetails.setLastName(rs.getString("LastName"));
+					userListInDB.add(userDetails);
+
+				}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return userListInDB;
+	}
+
+	public static List<UserDetails> getUserNames() {
+		List<UserDetails> userListInDB = new ArrayList<UserDetails>();
+		Statement stmt = null;
+		Connection conn = SQLConnection.getDBConnection();
+
+		try {
+			stmt = conn.createStatement();
+			PreparedStatement pst = null;
+			String sql = "SELECT UserName FROM parking_management.system_users";
+			pst = conn.prepareStatement(sql);
+			ResultSet rs = pst.executeQuery();
+
+			if (!rs.isBeforeFirst()) {
+				System.out.println("No data");
+			} else
+				while (rs.next()) {
+
+					UserDetails userDetails = new UserDetails();
+					userDetails.setUsername(rs.getString("UserName"));
+					System.out.printf("In DAO\n");
+					System.out.printf(userDetails.getUsername()+"\n");
+					userListInDB.add(userDetails);
+
+				}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return userListInDB;
 	}
 	
+	public static void revokeUser(String type, String value, Boolean isRevoke) {
+		Statement stmt = null;
+		Connection conn = SQLConnection.getDBConnection();
+		
+		if(type.equalsIgnoreCase("UserName")){
+			try {
+				stmt = conn.createStatement();
+
+			PreparedStatement pst = null;
+			String sql = "UPDATE parking_management.system_users SET IsRevoked=? where UserName=?";
+			pst = conn.prepareStatement(sql);
+			pst.setBoolean(1, isRevoke);
+			pst.setString(2, value);
+			int code = pst.executeUpdate();
+			System.out.printf("CODE: "+code+"\n");
+			
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					conn.close();
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public static void changeRole(String type, String value, String role) {
+		Statement stmt = null;
+		Connection conn = SQLConnection.getDBConnection();
+		
+		if(type.equalsIgnoreCase("UserName")){
+			try {
+				stmt = conn.createStatement();
+
+			PreparedStatement pst = null;
+			String sql = "UPDATE parking_management.system_users SET Role=? where UserName=?";
+			pst = conn.prepareStatement(sql);
+			pst.setString(1, role);
+			pst.setString(2, value);
+			int code = pst.executeUpdate();
+			System.out.printf("CODE: "+code+"\n");
+			
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					conn.close();
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
 	public static List<UserDetails> searchByLastName(String lastName) {
 		List<UserDetails> userListInDB = new ArrayList<UserDetails>();
 		Statement stmt = null;
@@ -220,15 +350,14 @@ public class UserDetailsDAO {
 		try {
 			stmt = conn.createStatement();
 			PreparedStatement pst = null;
-			String sql = "SELECT * FROM parking_management.user_details where lastName=?";
+			String sql = "SELECT * FROM parking_management.user_details where LastName=?";
 			pst = conn.prepareStatement(sql);
 			pst.setString(1, lastName);
 			ResultSet rs = pst.executeQuery();
 
 			if (!rs.isBeforeFirst()) {
 				System.out.println("No data");
-			} else 
-				while (rs.next()) {
+			} else if(rs.next()) {
 
 					UserDetails userDetails = new UserDetails();
 					userDetails.setAddress(rs.getString("Address"));
@@ -243,7 +372,7 @@ public class UserDetailsDAO {
 					userDetails.setDrivingLicenseNo(rs.getString("DL_Number"));
 					userDetails.setRegistrationNumber(rs.getString("Reg_Number"));
 					userDetails.setUta_Id(rs.getString("uta_id"));
-					
+
 					userListInDB.add(userDetails);
 
 				}

@@ -17,13 +17,20 @@
 	<h2>User Search</h2>
 	<form action="${pageContext.request.contextPath}/UserDetailsController?search"
 		method="GET">
-		<div class="row">
-		<div class="form-group">
-		<div class="col">
-		<input type="text" name="query" /> 
-		</div>
-		</div>
-		</div>
+		<script type="text/javascript">
+			function chg() {
+				var val = document.getElementById('one').value;
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (xhttp.readyState === 4 && xhttp.status === 200) {
+						document.getElementById('two').innerHTML = xhttp.responseText;
+					}
+				};
+				xhttp.open("GET", "UserDetailsController?action=" + val, true)
+				xhttp.send();
+			}
+		</script>
+		
 		<div class="row">
 		<div class="form-group">
 		<div class="col">
@@ -31,6 +38,14 @@
 			<option value="UserName">UserName</option>
 			<option value="LastName">LastName</option>
 		</select> 
+		</div>
+		</div>
+		</div>
+		<div class="row">
+		<div class="form-group">
+		<div class="col">
+			<select name=query id="two">
+			</select>
 		</div>
 		</div>
 		</div>
@@ -49,6 +64,7 @@
 		</div>
 		</div>
 <table class="table table-bordered center_div">
+<caption>Users Information</caption>
 <tr>
 <th>First Name</th>
 <th>Middle Name</th>
@@ -62,6 +78,7 @@
 <th>Driving License Expiry Date</th>
 <th>Registration No.</th>
 <th>UTA ID</th>
+<th>UserName</th>
 
 </tr>
 <c:forEach items="${details}" var="UserDetails">	
@@ -78,6 +95,7 @@
     	<td>${UserDetails.drivingLicenseExpiry}</td>
     	<td>${UserDetails.registrationNumber}</td>
     	<td>${UserDetails.uta_Id}</td>   
+    	<td>"${UserDetails.username}"</td>
     </tr>
 </c:forEach>
 </table>

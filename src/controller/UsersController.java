@@ -37,7 +37,12 @@ public class UsersController extends HttpServlet {
 		// List users
 		if(action != null)
 		{
-			if(action.equalsIgnoreCase("search")){
+			if (action.equalsIgnoreCase("listUsers")) {
+				ArrayList<Users> usersInDB = new ArrayList<Users>();
+				usersInDB = UsersDAO.listUsers();
+				getServletContext().getRequestDispatcher("/RevokeUser.jsp").forward(request, response);
+			}
+			else if(action.equalsIgnoreCase("search")){
 				searchuserdetails(request);
 			} 
 			else // redirect all other gets to post

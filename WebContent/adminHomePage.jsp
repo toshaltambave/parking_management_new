@@ -15,10 +15,10 @@
 <div class="form-group">
 <br><div class="col"><a class="btn btn-info"href="#" onclick="return false;">Create profile</a> </div>
 <br><div class="col"><a class="btn btn-info"href="#" onclick="return false;">Edit user profile</a></div>
-<br><div class="col"><a class="btn btn-info"href="#" onclick="return false;">Change user role</a></div>
-<br><div class="col"><a class="btn btn-info"href="userSearch.jsp">Search for user</a></div>
-<br><div class="col"><a class="btn btn-info"href="#" onclick="return false;">Revoke user</a></div>
-<br><div class="col"><a class="btn btn-info"href="#" onclick="return false;">Unrevoke user</a></div>
+<br><div class="col"><a class="btn btn-info"href="ChangeUserRole.jsp">Change user role</a></div>
+<br><div class="col"><a class="btn btn-info"href="UserSearch.jsp">Search for user</a></div>
+<br><div class="col"><a class="btn btn-info"href="RevokeUser.jsp">Revoke user</a></div>
+<br><div class="col"><a class="btn btn-info"href="UnrevokeUser.jsp">Unrevoke user</a></div>
 </div>
 </div>
 
