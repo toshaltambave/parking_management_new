@@ -34,34 +34,37 @@ public class UsersController extends HttpServlet {
 		String action = request.getParameter("action");		
 		listPermitTypes(request,response);
 		listRoles(request,response);
-		// List users
 		if(action != null)
 		{
-			if(action.equalsIgnoreCase("search")){
+			if (action.equalsIgnoreCase("listUsers")) {
+			ArrayList<Users> usersInDB = new ArrayList<Users>();
+			usersInDB = UsersDAO.listUsers();
+			getServletContext().getRequestDispatcher("/RevokeUser.jsp").forward(request, response);
+			}
+			else if(action.equalsIgnoreCase("search")){
 				searchuserdetails(request);
 			} 
 			else // redirect all other gets to post
 				doPost(request, response);
 		}
 	}
-private void searchuserdetails(HttpServletRequest request) {
-	String type = request.getParameter("type");
-	String query = request.getParameter("query");
-	
-	if ("UserName".equals(type)) {
-		List<Users> userList = new ArrayList<Users>();
-		userList = UsersDAO.searchByUsername(query);
-		for(Users user: userList){
-			System.out.println(user.getUsername());
-		}
-	} else if ("LastName".equals(type)) {
-		System.out.println("Search by LastName");
+	private void searchuserdetails(HttpServletRequest request) {
+		String type = request.getParameter("type");
+		String query = request.getParameter("query");
+				
+			if ("UserName".equals(type)) {
+				List<Users> userList = new ArrayList<Users>();
+				userList = UsersDAO.searchByUsername(query);
+				for(Users user: userList){
+					System.out.println(user.getUsername());
+				}
+			} else if ("LastName".equals(type)) {
+				System.out.println("Search by LastName");
+			}
 	}
-}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 		String action = request.getParameter("action"), url = "";
 		HttpSession session = request.getSession();
 		
