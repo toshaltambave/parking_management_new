@@ -36,7 +36,7 @@ public class UsersController extends HttpServlet {
 		if (action.equalsIgnoreCase("listUsers")) {
 			ArrayList<Users> usersInDB = new ArrayList<Users>();
 			usersInDB = UsersDAO.listUsers();
-			getServletContext().getRequestDispatcher("/listUser.jsp").forward(request, response);
+			getServletContext().getRequestDispatcher("/RevokeUser.jsp").forward(request, response);
 		} else if(action.equalsIgnoreCase("search")){
 			String type = request.getParameter("type");
 			String query = request.getParameter("query");
@@ -56,7 +56,6 @@ public class UsersController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 		String action = request.getParameter("action"), url = "";
 		HttpSession session = request.getSession();
 		Users user = new Users();

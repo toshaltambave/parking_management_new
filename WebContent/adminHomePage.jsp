@@ -13,10 +13,10 @@
 
 <br><a href="#" onclick="return false;">Create profile</a>
 <br><a href="#" onclick="return false;">Edit user profile</a>
-<br><a href="#" onclick="return false;">Change user role</a>
-<br><a href="userSearch.jsp">Search for user</a>
-<br><a href="#" onclick="return false;">Revoke user</a>
-<br><a href="#" onclick="return false;">Unrevoke user</a>
+<br><a href="ChangeUserRole.jsp">Change user role</a>
+<br><a href="UserSearch.jsp">Search for user</a>
+<br><a href="RevokeUser.jsp">Revoke user</a>
+<br><a href="UnrevokeUser.jsp">Unrevoke user</a>
 
 <form action="${pageContext.request.contextPath}/UsersController?logout" method="post">
 	<input name="action" value="logout" type="hidden">
