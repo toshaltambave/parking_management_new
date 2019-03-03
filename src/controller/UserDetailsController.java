@@ -15,35 +15,36 @@ import javax.servlet.http.HttpSession;
 import data.*;
 import model.*;
 
+
+
 @WebServlet("/UserDetailsController")
 public class UserDetailsController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	private void getUserDetailsParam(HttpServletRequest request, UserDetails userdetails) {
+	private void getUserDetailsParam (HttpServletRequest request, UserDetails userdetails)
+	{	
 		userdetails.setUserDetails(request.getParameter("firstname"), request.getParameter("middlename"),
-		request.getParameter("lastname"), request.getParameter("sex"), request.getParameter("dob"),
-		request.getParameter("address"), request.getParameter("email"), request.getParameter("phone"),
-		request.getParameter("dlno"), request.getParameter("dlexpirydte"), request.getParameter("regno"),
-		request.getParameter("utaid"));
+				request.getParameter("lastname"),request.getParameter("sex"),
+				request.getParameter("dob"), request.getParameter("address"),request.getParameter("email")
+				,request.getParameter("phone"),request.getParameter("dlno"),request.getParameter("dlexpirydte")
+				,request.getParameter("regno"),request.getParameter("utaid"));
+		System.out.println(userdetails);
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		String action = request.getParameter("action");
 		listSex(request, response);	
 		if (action.equalsIgnoreCase("listUsers")) {
 			ArrayList<Users> usersInDB = new ArrayList<Users>();
-			usersInDB = UsersDAO.listUsers();
-			session.setAttribute("USERS", usersInDB);
+			usersInDB= UsersDAO.listUsers(); 
+			session.setAttribute("USERS", usersInDB);				
 			getServletContext().getRequestDispatcher("/listUser.jsp").forward(request, response);
-		} 
-		else if(action.equalsIgnoreCase("search")){
+		} else if(action.equalsIgnoreCase("search")){
 			searchuserdetails(request, response);
-		} 
-		else // redirect all other gets to post
-			doPost(request, response);
+		} else // redirect all other gets to post
+			doPost(request,response);
 	}
 	
 	protected void listSex(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
@@ -62,70 +63,35 @@ public class UserDetailsController extends HttpServlet {
 	
 	private void searchuserdetails(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-					String type = request.getParameter("type");
-			String query = request.getParameter("query");
-			if ("UserName".equals(type)) {
-				List<UserDetails> userDetailsList = new ArrayList<UserDetails>();
-				userDetailsList = UserDetailsDAO.searchByUsername(query);
-				request.setAttribute("details", userDetailsList);
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/UserSearch.jsp");
-				dispatcher.forward(request, response);
-			} else if ("LastName".equals(type)) {
-				List<UserDetails> userDetailsList = new ArrayList<UserDetails>();
-				userDetailsList = UserDetailsDAO.searchByLastName(query);
-				request.setAttribute("details", userDetailsList);
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/UserSearch.jsp");
-				dispatcher.forward(request, response);
-			} else{
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/UserSearch.jsp");
-				dispatcher.forward(request, response);
-			}
-		} 
-		else if (action.equals("LastName")) {
-			List<UserDetails> userDetailsList = new ArrayList<UserDetails>();
-			userDetailsList = UserDetailsDAO.getLastNames();
-			for (UserDetails userDetail : userDetailsList)
-			{
-				response.getWriter().println("<option>" + userDetail.getLastName() + "</option>");
-			}
+		String type = request.getParameter("type");
+		String query = request.getParameter("query");
 
-		} 
-		else if (action.equals("UserName"))
-		{
+		if ("UserName".equals(type)) {
 			List<UserDetails> userDetailsList = new ArrayList<UserDetails>();
-			userDetailsList = UserDetailsDAO.getUserNames();
-			for (UserDetails userDetail : userDetailsList) {
-				response.getWriter().println("<option>" + userDetail.getUsername() + "</option>");
+			userDetailsList = UserDetailsDAO.searchByUsername(query);
+			request.setAttribute("details", userDetailsList);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/userSearch.jsp");
+			dispatcher.forward(request, response);
+		} else if ("LastName".equals(type)) {
+			List<UserDetails> userDetailsList = new ArrayList<UserDetails>();
+			userDetailsList = UserDetailsDAO.searchByLastName(query);
+			request.setAttribute("details", userDetailsList);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/userSearch.jsp");
+			dispatcher.forward(request, response);
 		}
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		String action = request.getParameter("action"), url = "";
-		HttpSession session = request.getSession();
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		String action = request.getParameter("action"), url="";
+		HttpSession session = request.getSession();		
 		UserDetails userdetails = new UserDetails();
 		UserDetailsErrorMsgs errorMsgs = new UserDetailsErrorMsgs();
+
 		if (action.equalsIgnoreCase("saveUserDetails") )
 		{  
 			url = saveUserDetails(request, action, url, session, userdetails, errorMsgs);
 			listSex(request,response);
-		}
-		else if(action.equals("revoke")){
-			String type = request.getParameter("type");
-			String value = request.getParameter("value");
-			UserDetailsDAO.revokeUser(type, value, Boolean.TRUE);
-			url = "/RevokeUser.jsp";
-		} else if(action.equals("unrevoke")){
-			String type = request.getParameter("type");
-			String value = request.getParameter("value");	
-			UserDetailsDAO.revokeUser(type, value, Boolean.FALSE);
-			url = "/UnrevokeUser.jsp";
-		} else if(action.equals("role")){
-			String type = request.getParameter("type");
-			String value = request.getParameter("value");
-			String role = request.getParameter("role");	
-			UserDetailsDAO.revokeUser(type, value, Boolean.FALSE);
-			url = "/ChangeUserRole.jsp";
 		}
 
 		getServletContext().getRequestDispatcher(url).forward(request, response);		
@@ -160,6 +126,6 @@ public class UserDetailsController extends HttpServlet {
 			}
 		}
 		return url;
-		}
 	}
+
 }
