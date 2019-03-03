@@ -1,5 +1,4 @@
 package model;
-import data.*;
 
 public class Reservations 
 {
