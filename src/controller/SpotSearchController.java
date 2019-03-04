@@ -100,6 +100,8 @@ public class SpotSearchController extends HttpServlet {
 	        request.setAttribute("selectedAreaId", areaId);
 	        listSpotsForSelectedFloor(request, response, areaId, selectedFloorNumber, selectedPermitType);
 		}
+		
+		
     }
 	
 }

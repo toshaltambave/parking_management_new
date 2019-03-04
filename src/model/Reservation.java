@@ -1,9 +1,13 @@
 package model;
 
-public class Reservations 
+import java.io.Serializable;
+
+import data.*;
+
+public class Reservation implements Serializable
 {
 
-//	private static final long serialVersionUID = 3L;
+	private static final long serialVersionUID = 3L;
 	private Integer ReservationID;
 	private Integer UserID;
 	private Integer SpotUID;
@@ -16,8 +20,8 @@ public class Reservations
 	private Boolean History=false;
 	private Double Total=0.0;
 	
-	public void makeReservations (Integer userID,Integer spotUID,String startTime, 
-			String endTime, Boolean noShow, Boolean overStay, Boolean cart,Boolean camera,Boolean history)
+	public void makeReservation (Integer userID,Integer spotUID,String startTime, 
+			String endTime, Boolean noShow, Boolean overStay, Boolean cart,Boolean camera,Boolean history, Double total)
 	{
 		setUserID(userID);
 		setSpotUID(spotUID);
@@ -28,9 +32,20 @@ public class Reservations
 		setCart(cart);
 		setCamera(camera);
 		setHistory(history);
+		setTotal(total);
 	}
 	
 	
+	public Double getTotal() {
+		return Total;
+	}
+
+
+	public void setTotal(Double total) {
+		Total = total;
+	}
+
+
 	public Integer getReservationID() {
 		return ReservationID;
 	}
@@ -92,15 +107,4 @@ public class Reservations
 		History = history;
 	}
 	
-	public void calculateTotal() {
-		if (Cart==true){
-			Total+=15.95;
-		}
-		if (Camera==true){
-			Total+=2.95;
-		}	
-		if(History==true){
-			Total+=1.95;
-		}
-	}
 }
