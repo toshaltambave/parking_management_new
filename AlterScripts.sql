@@ -18,3 +18,10 @@ CREATE TABLE `parking_management`.`reservations` (
     REFERENCES `parking_management`.`parking_spots` (`Spot_UID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
+	
+	
+	ALTER TABLE `parking_management`.`reservations` 
+DROP PRIMARY KEY,
+ADD PRIMARY KEY (`Spot_UID`, `End_Time`, `Start_Time`),
+ADD UNIQUE INDEX `Reservation_Id_UNIQUE` (`Reservation_Id` ASC) VISIBLE;
+;
