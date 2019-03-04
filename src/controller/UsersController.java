@@ -174,7 +174,7 @@ private void searchuserdetails(HttpServletRequest request) {
 		if(user.getUserID() != null){
 			if("Admin".equalsIgnoreCase(user.getRole()))
 			{
-				url = "/AdminHomePage.jsp";
+				url = "/adminHomePage.jsp";
 			}
 			else if("ParkingManager".equalsIgnoreCase(user.getRole()))
 			{

@@ -83,7 +83,7 @@ public class UpdateUserController extends HttpServlet {
 
 			UpdatedUserDetailsErrorMsgs errorMsgsuser = new UpdatedUserDetailsErrorMsgs();
 			session.setAttribute("updatedUserDetailsErrorMsgs", errorMsgsuser);
-			url = "/AdminHomePage.jsp?username=" + userName;
+			url = "/adminHomePage.jsp?username=" + userName;
 		}
 		return url;
 	}
