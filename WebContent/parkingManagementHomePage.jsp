@@ -19,7 +19,7 @@
 <br><a href="#" onclick="return false;">View parking user details</a>
 <br><a href="#" onclick="return false;">Delete a reservation</a>
 <br><a href="#" onclick="return false;">Edit a reservation</a>
-<br><a href="#" onclick="return false;">Make Spot Available</a>
+<br><a href="${pageContext.request.contextPath}/ReservationsController" >Make Spot Available</a>
 <br><a href="#" onclick="return false;">Set no-show</a>
 <br><a href="#" onclick="return false;">Set Overdue</a>
 <br><a href="#" onclick="return false;">Add parking area</a>
