@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Users;
+import util.PasswordUtility;
 import util.SQLConnection;
 
 public class UsersDAO {
@@ -46,14 +47,16 @@ public class UsersDAO {
 		return userListInDB;
 	}
 	
-	private static void StoreListinDB (Users user,String queryString) {
+	private static void storeUser (Users user,String queryString) {
 		Statement stmt = null;
 		Connection conn = SQLConnection.getDBConnection();  
+        // Protect user's password. The generated value can be stored in DB.       
+        String mySecurePassword = PasswordUtility.generatePassword(user.getHashedPassword());
 		try {
 			stmt = conn.createStatement();
 			String insertUser = queryString + " VALUES ('"  
 					+ user.getUsername()  + "','"
-					+ user.getHashedPassword() + "','"	
+					+ mySecurePassword + "','"	
 					+ user.getRole() + "','"	
 					+ user.getisRevoked() + "','"	
 					+ user.getPermitType() + "'" + ')';
@@ -71,8 +74,7 @@ public class UsersDAO {
 	}
 
 
-	public static String userExists(Users user) {
-		String role = "";
+	public static void userExists(String username, String password, Users user) {
 		Statement stmt = null;
 		Connection conn = SQLConnection.getDBConnection();
 		try {
@@ -80,13 +82,20 @@ public class UsersDAO {
 			PreparedStatement pst = null;
 			String sql = "SELECT * FROM system_users where username=? and hashedpassword=?";
 			pst = conn.prepareStatement(sql);
-			pst.setString(1, user.getUsername());
-			pst.setString(2, user.getHashedPassword());
+			pst.setString(1, username);
+			pst.setString(2, password);
 			ResultSet rs = pst.executeQuery();
 			if (rs.next()) 
 			{
-				role = rs.getString("Role");
+				user.setUsername(rs.getString("UserName"));
+				user.setHashedPassword(rs.getString("HashedPassword"));
+				user.setRole(rs.getString("Role"));
+				user.setisRevoked(rs.getBoolean("IsRevoked"));
+				user.setPermitType(rs.getString("PermitType"));
+				user.setUserID(rs.getInt("User_Id"));
 			}
+			else
+				user = null;
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -98,18 +107,17 @@ public class UsersDAO {
 				e.printStackTrace();
 			}
 		}
-		return role;
 	}
 	
 	public static void insertUser(Users user) {  
-		StoreListinDB(user,"INSERT INTO system_users (UserName,HashedPassword,Role,IsRevoked,PermitType) ");
+		storeUser(user,"INSERT INTO system_users (UserName,HashedPassword,Role,IsRevoked,PermitType) ");
 	} 
 	
 	public static ArrayList<Users>  listUsers() {  
 			return ReturnMatchingUsers(" SELECT * from system_users ORDER BY UserName");
 	}
 	
-	//determine if companyID is unique
+	//determine if username is unique
 	public static Boolean Usernameunique(String username)  {  
 			return (ReturnMatchingUsers(" SELECT * from system_users WHERE UserName = '"+username+"' ORDER BY UserName").isEmpty());
 	}

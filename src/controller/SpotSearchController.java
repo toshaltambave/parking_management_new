@@ -8,6 +8,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import data.FetchParkingSpotsDAO;
 import model.*;
 
@@ -39,8 +41,10 @@ public class SpotSearchController extends HttpServlet {
 	{
 		try 
 		{
+			HttpSession session = request.getSession();
 			ParkingArea selectedArea = FetchParkingSpotsDAO.getspecificParkingArea(areaId);
-			ArrayList<ParkingAreaFloors> floorDetails = FetchParkingSpotsDAO.getFloorsbyParkingAreaId(areaId);
+			Users user = (Users) session.getAttribute("User");
+			ArrayList<ParkingAreaFloors> floorDetails = FetchParkingSpotsDAO.getFloorsbyParkingAreaId(areaId, user.getPermitType());
 			request.setAttribute("selectedArea", selectedArea);
 			request.setAttribute("allFloors", floorDetails);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/SearchSpot_Floor.jsp");
@@ -96,6 +100,8 @@ public class SpotSearchController extends HttpServlet {
 	        request.setAttribute("selectedAreaId", areaId);
 	        listSpotsForSelectedFloor(request, response, areaId, selectedFloorNumber, selectedPermitType);
 		}
+		
+		
     }
 	
 }

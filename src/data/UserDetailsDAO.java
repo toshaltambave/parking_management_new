@@ -170,6 +170,7 @@ public class UserDetailsDAO {
 					userDetails.setDrivingLicenseExpiry(df.format(rs2.getDate("DL_Expiry")));
 					userDetails.setBirthDate(df.format(rs2.getDate("DOB")));
 					userDetails.setFirstName(rs2.getString("FirstName"));
+					userDetails.setMiddleName(rs2.getString("MiddleName"));
 					userDetails.setLastName(rs2.getString("LastName"));
 					userDetails.setSex(rs2.getString("Sex"));
 					userDetails.setEmail(rs2.getString("Email"));
@@ -446,7 +447,9 @@ public class UserDetailsDAO {
 					userDetails.setDrivingLicenseExpiry(df.format(rs.getDate("DL_Expiry")));
 					userDetails.setBirthDate(df.format(rs.getDate("DOB")));
 					userDetails.setFirstName(rs.getString("FirstName"));
+					userDetails.setMiddleName(rs.getString("MiddleName"));
 					userDetails.setLastName(rs.getString("LastName"));
+					userDetails.setSex(rs.getString("Sex"));
 					userDetails.setEmail(rs.getString("Email"));
 					userDetails.setPhone(rs.getString("Phone"));
 					userDetails.setDrivingLicenseNo(rs.getString("DL_Number"));

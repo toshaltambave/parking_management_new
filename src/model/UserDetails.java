@@ -16,12 +16,12 @@ public class UserDetails {
 	private String MiddleName = "";
 	private String LastName = "";
 	private String Sex = "";
-	private String birthDate;
+	private String birthDate = "";
 	private String Address = "";
 	private String Email = "";
 	private String Phone = "";
 	private String DrivingLicenseNo = "";
-	private String DrivingLicenseExpiry;
+	private String DrivingLicenseExpiry = "";
 	private String RegistrationNumber = "";
 	private String uta_Id = "";
 	private String username = "";
@@ -56,7 +56,7 @@ public class UserDetails {
 	}
 
 	public void setDrivingLicenseExpiry(String drivingLicenseExpiry) {
-		DrivingLicenseExpiry = drivingLicenseExpiry;
+		this.DrivingLicenseExpiry = drivingLicenseExpiry;
 	}
 
 	public String getRegistrationNumber() {
@@ -249,6 +249,7 @@ public class UserDetails {
 			return "The field is mandatory.";
 		}
 	}
+
 
 	private String validateDOB(String DOB) {
 		String result = "";

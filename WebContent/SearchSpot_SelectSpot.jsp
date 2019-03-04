@@ -22,7 +22,7 @@
 							</tr>
 							<c:forEach items="${spotsList}" var="ParkingSpots" begin="0" end="${fn:length(spotsList)}">
 								<tr>
-									<td><input type="submit" value="${ParkingSpots.spot_Id}" /></td>
+									<td><input class="btn btn-secondary" type="submit" value="${ParkingSpots.spot_Id}" /></td>
 								</tr>
 								<input type="hidden" name="selectedSpotId" value="${ParkingSpots.spot_Id}">
 							</c:forEach>
@@ -30,7 +30,7 @@
 						<input name="action" value="" type="hidden">
 			    </form>
 			</div>
-			<button type="button" name="back" onclick="history.back()">Back</button>			
+			<button class="btn btn-secondary" type="button" name="back" onclick="history.back()">Back</button>			
 		</div>
     </jsp:body>
 </t:_layout>

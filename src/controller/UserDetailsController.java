@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -29,13 +30,29 @@ public class UserDetailsController extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		String action = request.getParameter("action");
+		listSex(request, response);	
 		if (action.equalsIgnoreCase("listUsers")) {
 			handleListUser(request, response, session);
 		} else if (action.equalsIgnoreCase("search")) {
 			handleSearch(request, response);
+
 		} else // redirect all other gets to post
 			doPost(request, response);
 	}
+	
+	protected void listSex(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		try 
+		{
+			ArrayList<Sex> listSex = new ArrayList<Sex>(Arrays.asList(Sex.values()));
+			request.setAttribute("allSex", listSex);
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			throw new ServletException(e);
+		}
+    }
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -45,6 +62,7 @@ public class UserDetailsController extends HttpServlet {
 		HttpSession session = request.getSession();
 		UserDetails userdetails = new UserDetails();
 		UserDetailsErrorMsgs errorMsgs = new UserDetailsErrorMsgs();
+
 
 		switch(action){
 		case "saveUserDetails":

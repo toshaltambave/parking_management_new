@@ -11,29 +11,33 @@
     	<div class="container">
 			<div align="center">
 			    <h2>${selectedArea.area_Name}</h2>
-			    <form action="${pageContext.request.contextPath}/SpotSearchController?getSpotsForFloor" method="post">
+			    <h3>From: ${startTime} To:  ${endTime}</h3>
+			    
 					<table>
 						<tr>
 							<th>Floor Number</th>
 							<th>Permit Type</th>
-							<th>Number of Spots</th>
+							<th>Available Spots</th>
 						</tr>
 						<c:forEach items="${allFloors}" var="ParkingAreaFloors">
+						<form action="${pageContext.request.contextPath}/ReservationsController?getSpotsForFloor" method="post">
 							<tr>
 								<td>${ParkingAreaFloors.floor_Number}</td>
 								<td>${ParkingAreaFloors.permitType}</td>
 								<td>${ParkingAreaFloors.no_Spots}</td>
-								<td><input class="btn btn-secondary" type="submit" value="Select" /></td>
+								<td><input type="submit" value="Select" /></td>
 							</tr>
 							<input type="hidden" name="selectedAreaId" value="${selectedArea.area_Id}">
 							<input type="hidden" name="selectedFloorNumber" value="${ParkingAreaFloors.floor_Number}">
 							<input type="hidden" name="selectedPermitType" value="${ParkingAreaFloors.permitType}">
+							<input type="hidden" name="selectedStartTime" value="${startTime}">
+							<input type="hidden" name="selectedEndTime" value="${endTime}">
+							<input name="action" value="getSpotsForFloor" type="hidden">
+						</form>
 						</c:forEach>
 					</table>
-					<input name="action" value="getSpotsForFloor" type="hidden">
-			    </form>
 			</div>
-			<button class="btn btn-secondary" type="button" name="back" onclick="history.back()">Back</button>
+			<button type="button" name="back" onclick="history.back()">Back</button>
 				
 		</div>
     </jsp:body>

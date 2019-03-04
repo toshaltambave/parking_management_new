@@ -88,19 +88,59 @@ public class FetchParkingSpotsDAO {
 		return parkingAreaFloorsInDb;
 	}
 
-	public static ArrayList<ParkingAreaFloors> getFloorsbyParkingAreaId(int areaId){
+	public static ArrayList<ParkingAreaFloors> getFloorsbyParkingAreaId(int areaId, String permitType){
 		ArrayList<ParkingAreaFloors> filteredFloors = new ArrayList<ParkingAreaFloors>();
 		Iterator <ParkingAreaFloors> floorsList = FetchParkingSpotsDAO.getAllParkingAreaFloors().iterator();
 		while (floorsList.hasNext()) {
 			ParkingAreaFloors currentFloor = floorsList.next();
-			if(currentFloor.getArea_Id().equals(areaId))
-			{
-				filteredFloors.add(currentFloor);
+			//TODO: Make PermitType mandatory
+			if(permitType.equalsIgnoreCase("access")){
+				if(currentFloor.getArea_Id().equals(areaId) && (currentFloor.getPermitType().equalsIgnoreCase("access")))
+				{
+					filteredFloors.add(currentFloor);
+				}
 			}
+			else if(permitType.equalsIgnoreCase("premium")){
+				if(currentFloor.getArea_Id().equals(areaId) && (currentFloor.getPermitType().equalsIgnoreCase("premium")
+						|| currentFloor.getPermitType().equalsIgnoreCase("midrange")
+						|| currentFloor.getPermitType().equalsIgnoreCase("basic")))
+				{
+					filteredFloors.add(currentFloor);
+				}
+			}
+			else if(permitType.equalsIgnoreCase("midrange")){
+				if(currentFloor.getArea_Id().equals(areaId) && (currentFloor.getPermitType().equalsIgnoreCase("midrange")
+						|| currentFloor.getPermitType().equalsIgnoreCase("basic")))
+				{
+					filteredFloors.add(currentFloor);
+				}
+			}
+			else if(permitType.equalsIgnoreCase("basic")){
+				if(currentFloor.getArea_Id().equals(areaId) && currentFloor.getPermitType().equalsIgnoreCase("basic"))
+				{
+					filteredFloors.add(currentFloor);
+				}
+			}
+			
 		}
 		return filteredFloors;
 	}
 
+//	public static ArrayList<ParkingAreaFloors> getFloorsbyAvailability(int areaId, String permitType, String start_time, String end_time){
+//		ArrayList<ParkingAreaFloors> filteredFloors = new ArrayList<ParkingAreaFloors>();
+//		Iterator <ParkingAreaFloors> FloorList = FetchParkingSpotsDAO.getFloorsbyParkingAreaId(areaId, permitType).iterator();
+//		while (FloorList.hasNext()) {
+//			ParkingAreaFloors currentFloor = FloorList.next();
+//			if(currentFloor.getArea_Id().equals(areaId) && currentFloor.getFloor_Number() == floorNumber)
+//			{
+//				currentFloor.
+//				filteredFloors.add(currentFloor);
+//			}
+//		}
+//		return filteredFloors;
+//	}
+	
+	
 	public static ArrayList<ParkingSpots> getAllSpots () {
 
 		ArrayList<ParkingSpots> parkingSpotsInDb = new ArrayList<ParkingSpots>();
