@@ -10,7 +10,43 @@ public class ReservationsHelper
 	private Integer Spot_Id;
 	private String Start_Time;
 	private String End_Time;
+	private Boolean isNoShow;
+	private Boolean isOverStay;
 	
+	public Boolean getisOverDue() {
+		return isOverStay;
+	}
+	public void setisOverDue(Integer isOverStay) {
+		if (isOverStay==1){
+			this.isOverStay=true;
+		}
+		else{
+			this.isOverStay=false;
+		}
+	}
+	public Boolean getIsNoShow() {
+		return isNoShow;
+	}
+	public void setIsNoShow(Boolean isNoShow) {
+		this.isNoShow = isNoShow;
+	}
+	public Boolean getIsOverStay() {
+		return isOverStay;
+	}
+	public void setIsOverStay(Boolean isOverStay) {
+		this.isOverStay = isOverStay;
+	}
+	public Boolean getisNoShow() {
+		return isNoShow;
+	}
+	public void setisNoShow(Integer isNoShow) {
+		if (isNoShow==1){
+			this.isNoShow=true;
+		}
+		else{
+			this.isNoShow=false;
+		}
+	}
 	public Integer getReservationID() {
 		return ReservationID;
 	}

@@ -22,8 +22,8 @@
 <br><div class="col"><a class="btn btn-info"href="#" onclick="return false;">Delete a reservation</a></div>
 <br><div class="col"><a class="btn btn-info"href="#" onclick="return false;">Edit a reservation</a></div>
 <br><div class="col"><a class="btn btn-info"href="#" onclick="return false;">Make Spot Available</a></div>
-<br><div class="col"><a class="btn btn-info"href="#" onclick="return false;">Set no-show</a></div>
-<br><div class="col"><a class="btn btn-info"href="#" onclick="return false;">Set Overdue</a></div>
+<br><div class="col"><a class="btn btn-info"href="${pageContext.request.contextPath}/SetNoShowController">Set no-show</a></div>
+<br><div class="col"><a class="btn btn-info"href="${pageContext.request.contextPath}/SetOverdueController">Set Overdue</a></div>
 <br><div class="col"><a class="btn btn-info"href="#" onclick="return false;">Add parking area</a></div>
 <br><div class="col"><a class="btn btn-info"href="#" onclick="return false;">Edit parking area</a></div>
 
