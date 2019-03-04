@@ -2,8 +2,10 @@ package controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,10 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import data.*;
-import model.Users;
-import model.UsersErrorMsgs;
-
-
+import model.*;
+import util.PasswordUtility;
 
 @WebServlet("/UsersController")
 public class UsersController extends HttpServlet {
@@ -24,43 +24,40 @@ public class UsersController extends HttpServlet {
 	
 	Users user = new Users();
 	private void getUserParam(HttpServletRequest request) {
-		//TODO: on SaveUser UserId is null
 		user.setUser(request.getParameter("username"), request.getParameter("hashedPassword"),
 				 request.getParameter("confirmPassword"),request.getParameter("role"),
 				 request.getParameter("permitType"), false);
 	}
-//	
-//	private void getUserParamFromRequest(HttpServletRequest request) {
-//		user.setUser(request.getParameter("username"), request.getParameter("hashedPassword"),
-//				 request.getParameter("confirmPassword"),request.getParameter("role"),
-//				 request.getParameter("permitType"), false);
-//	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		String action = request.getParameter("action");
+		String action = request.getParameter("action");		
+		listPermitTypes(request,response);
+		listRoles(request,response);
 		// List users
-		if (action.equalsIgnoreCase("listUsers")) {
-			ArrayList<Users> usersInDB = new ArrayList<Users>();
-			usersInDB = UsersDAO.listUsers();
-			getServletContext().getRequestDispatcher("/listUser.jsp").forward(request, response);
-		} else if(action.equalsIgnoreCase("search")){
-			String type = request.getParameter("type");
-			String query = request.getParameter("query");
-			
-			if ("UserName".equals(type)) {
-				List<Users> userList = new ArrayList<Users>();
-				userList = UsersDAO.searchByUsername(query);
-				for(Users user: userList){
-					System.out.println(user.getUsername());
-				}
-			} else if ("LastName".equals(type)) {
-				System.out.println("Search by LastName");
-			}
-		} else // redirect all other gets to post
-			doPost(request, response);
+		if(action != null)
+		{
+			if(action.equalsIgnoreCase("search")){
+				searchuserdetails(request);
+			} 
+			else // redirect all other gets to post
+				doPost(request, response);
+		}
 	}
+private void searchuserdetails(HttpServletRequest request) {
+	String type = request.getParameter("type");
+	String query = request.getParameter("query");
+	
+	if ("UserName".equals(type)) {
+		List<Users> userList = new ArrayList<Users>();
+		userList = UsersDAO.searchByUsername(query);
+		for(Users user: userList){
+			System.out.println(user.getUsername());
+		}
+	} else if ("LastName".equals(type)) {
+		System.out.println("Search by LastName");
+	}
+}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -70,51 +67,134 @@ public class UsersController extends HttpServlet {
 		
 		UsersErrorMsgs errorMsgs = new UsersErrorMsgs();
 		if(action.equalsIgnoreCase("Login")){
-			UsersDAO.userExists(request.getParameter("username"), request.getParameter("hashedPassword"), user);
-			//Set Attributes of Logged in User in session for further pages
-			session.setAttribute("User", user);
-			if(user.getUserID() != null){
-				if("Admin".equalsIgnoreCase(user.getRole()))
-				{
-					url = "/adminHomePage.jsp";
-				}
-				else if("ParkingManager".equalsIgnoreCase(user.getRole()))
-				{
-					url = "/parkingManagementHomePage.jsp";
-				}
-				else if("ParkingUser".equalsIgnoreCase(user.getRole()))
-				{
-					url = "/parkingUserHomePage.jsp";
-				}
-			}
-			//Login Failed
-			//TODO: Add error messages for Failed login
-			else
-			{
-				url = "/index.jsp";
-			}
-		} else if (action.equalsIgnoreCase("logout")){
-			url = "/index.jsp";
-			request.getSession().invalidate();
+			url = login(request, action, url, session, errorMsgs);
+		} 
+		else if (action.equalsIgnoreCase("logout"))
+		{
+			url = logout(request);
 		
 		} else if(action.equalsIgnoreCase("saveUser")){
-			getUserParam(request);
-			user.validateUser(action,user,errorMsgs);
-			session.setAttribute("user", user);
-			if (!errorMsgs.getErrorMsg().equals(""))
-			{// if error messages
-				getUserParam(request);
-				session.setAttribute("errorMsgs", errorMsgs);
-				url = "/formRegistration.jsp";
-			} 
-			else 
-			{// if no error messages
-				UsersDAO.insertUser(user);
-				UsersErrorMsgs errorMsgsuser = new UsersErrorMsgs();
-				session.setAttribute("errorMsgs", errorMsgsuser);
-				url = "/formUserDetails.jsp";
+			url = register(request, action, session, errorMsgs);
+			listSex(request,response);
+			if(url == "/formRegistration.jsp")
+			{
+				listPermitTypes(request,response);
+				listRoles(request,response);
 			}
 		}
 		getServletContext().getRequestDispatcher(url).forward(request, response);
+	}
+	
+	protected void listSex(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		try 
+		{
+			ArrayList<Sex> listSex = new ArrayList<Sex>(Arrays.asList(Sex.values()));
+			request.setAttribute("allSex", listSex);
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			throw new ServletException(e);
+		}
+    }
+	
+	protected void listPermitTypes(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		try 
+		{
+			ArrayList<PermitType> listPermitTypes = new ArrayList<PermitType>(Arrays.asList(PermitType.values()));
+			request.setAttribute("allPermitTypes", listPermitTypes);
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			throw new ServletException(e);
+		}
+    }
+	
+	protected void listRoles(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		try 
+		{
+			ArrayList<Role> listRoles = new ArrayList<Role>(Arrays.asList(Role.values()));
+			request.setAttribute("allRoles", listRoles);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/formRegistration.jsp");
+            dispatcher.forward(request, response);
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			throw new ServletException(e);
+		}
+    }
+		
+
+	private String register(HttpServletRequest request, String action, HttpSession session, UsersErrorMsgs errorMsgs) 
+	{
+		String url;
+		getUserParam(request);
+		user.validateUser(action,user,errorMsgs);
+		session.setAttribute("user", user);
+		if (!errorMsgs.getErrorMsg().equals(""))
+		{// if error messages
+			getUserParam(request);
+			session.setAttribute("registererrorMsgs", errorMsgs);
+			String role = request.getParameter("role");
+	        request.setAttribute("selectedrole", role);
+			String permitType = request.getParameter("permitType");
+	        request.setAttribute("selectedpermitType", permitType);
+			url = "/formRegistration.jsp";
+		} 
+		else 
+		{// if no error messages
+			UsersDAO.insertUser(user);
+			UsersErrorMsgs errorMsgsuser = new UsersErrorMsgs();
+			session.setAttribute("registererrorMsgs", errorMsgsuser);
+			url = "/formUserDetails.jsp";
+		}
+		return url;
+	}
+
+	private String logout(HttpServletRequest request) {
+		String url;
+		url = "/index.jsp";
+		request.getSession().invalidate();
+		return url;
+	}
+
+	private String login(HttpServletRequest request, String action, String url, HttpSession session,
+			UsersErrorMsgs errorMsgs) 
+	{
+        // Protect user's password. The generated value can be stored in DB.
+        String mySecurePassword = PasswordUtility.generatePassword(request.getParameter("hashedPassword"));		
+		UsersDAO.userExists(request.getParameter("username"), mySecurePassword, user);
+		//Set Attributes of Logged in User in session for further pages
+		session.setAttribute("User", user);
+		if(user.getUserID() != null){
+			if("Admin".equalsIgnoreCase(user.getRole()))
+			{
+				url = "/adminHomePage.jsp";
+			}
+			else if("ParkingManager".equalsIgnoreCase(user.getRole()))
+			{
+				url = "/parkingManagementHomePage.jsp";
+			}
+			else if("ParkingUser".equalsIgnoreCase(user.getRole()))
+			{
+				url = "/parkingUserHomePage.jsp";
+			}
+		}
+		//Login Failed
+		else
+		{
+			if(user.getUserID() == null)
+			{
+				user.validateLogin(action,null,errorMsgs);
+				session.setAttribute("loginerrorMsgs", errorMsgs);
+				url = "/index.jsp";
+			}
+		}
+		return url;
 	}
 }

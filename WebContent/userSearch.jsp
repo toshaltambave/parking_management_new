@@ -1,33 +1,58 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<t:_layout>
+	<jsp:attribute name="header">
+
 <title>User Search</title>
-</head>
-<body>
-	<center>
-		<h1>User Search</h1>
-	</center>
+</jsp:attribute>
+	<jsp:attribute name="footer">
+    </jsp:attribute>
+	<jsp:body>
+        <t:Navbar></t:Navbar>
+<div class="container center_div">
+<div class="row">
+<div class="form-group">
+<div class="col">
+	<h2>User Search</h2>
 	<form action="${pageContext.request.contextPath}/UserDetailsController?search"
 		method="GET">
-		<input type="text" name="query" /> <select name="type">
+		<div class="row">
+		<div class="form-group">
+		<div class="col">
+		<input type="text" name="query" /> 
+		</div>
+		</div>
+		</div>
+		<div class="row">
+		<div class="form-group">
+		<div class="col">
+		<select name="type">
 			<option value="UserName">UserName</option>
 			<option value="LastName">LastName</option>
-		</select> <input name="action" value="search" type="hidden"> <input
-			type="submit" value="Search" />
+		</select> 
+		</div>
+		</div>
+		</div>
+		<input name="action" value="search" type="hidden"> 
+		<div class="row">
+		<div class="form-group">
+		<div class="col">
+		<input class="btn btn-secondary" type="submit" value="Search" />
+		</div>
+		</div>
+		</div>
 	</form>
-<br>
-<br>
-<table>
+</div>
+
+		</div>
+		</div>
+		</div>
+<table class="table table-bordered center_div">
 <tr>
 <th>First Name</th>
+<th>Middle Name</th>
 <th>Last Name</th>
-<th>Address</th>
-<th>Phone</th>
 <th>Address</th>
 <th>Phone</th>
 <th>Email</th>
@@ -42,6 +67,7 @@
 <c:forEach items="${details}" var="UserDetails">	
    <tr>  
     	<td>${UserDetails.firstName}</td>
+    	<td>${UserDetails.middleName}</td>
     	<td>${UserDetails.lastName}</td>
     	<td>${UserDetails.address}</td>
     	<td>${UserDetails.phone}</td>
@@ -55,6 +81,13 @@
     </tr>
 </c:forEach>
 </table>
-<button type="button" name="back" onclick="history.back()">Back</button>
-</body>
-</html>
+		<div class="row">
+		<div class="form-group">
+		<div class="col">
+<button class="btn btn-secondary" type="button" name="back" onclick="history.back()">Back</button>
+    	</div>
+		</div>
+		</div>
+    
+    </jsp:body>
+</t:_layout>
