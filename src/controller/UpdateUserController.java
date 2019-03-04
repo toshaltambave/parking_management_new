@@ -12,9 +12,10 @@ import javax.servlet.http.HttpSession;
 import data.UpdatedUserDetailsDAO;
 import model.UpdatedUserDetails;
 import model.UpdatedUserDetailsErrorMsgs;
+import model.UserDetailsErrorMsgs;
 import model.Users;
 
-@WebServlet("/UpdatedUserDetailsController")
+@WebServlet("/UpdatedUserController")
 public class UpdateUserController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -67,6 +68,8 @@ public class UpdateUserController extends HttpServlet {
 		} else {
 			// if no error messages
 			UpdatedUserDetailsDAO.updateUser(userdetails);
+			UpdatedUserDetailsErrorMsgs errorMsgsuser = new UpdatedUserDetailsErrorMsgs();
+			session.setAttribute("updatedUserDetailsErrorMsgs", errorMsgsuser);
 			url = "/AdminHomePage.jsp?username="+userName;
 		}
 		return url;

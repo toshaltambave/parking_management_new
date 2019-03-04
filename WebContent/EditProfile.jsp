@@ -28,7 +28,9 @@ UpdatedUserDetails updatedUserDetails = userList.get(0);
   </style>
   <script>
   $(function() {
-    $( ".datepicker" ).datepicker();
+    $( ".datepicker" ).datepicker({ 
+    	dateFormat: 'yy-mm-dd'
+    }).val();
   });
   </script>
 
@@ -37,7 +39,7 @@ UpdatedUserDetails updatedUserDetails = userList.get(0);
 <table>
   <tr>
    <td>
-    <form name="formUserDetails" action="${pageContext.request.contextPath}/UpdatedUserDetailsController?saveUserDetails" method="post">
+    <form name="formUserDetails" action="${pageContext.request.contextPath}/UpdatedUserController?update" method="post">
     <table style="width: 1200px; ">
     
     <tr>

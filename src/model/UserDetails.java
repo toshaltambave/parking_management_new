@@ -1,13 +1,16 @@
 package model;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
 import java.util.regex.Pattern;
 
+import com.sun.istack.internal.logging.Logger;
 
 public class UserDetails {
-
-//	private static final long serialVersionUID = 3L;
+	private static final Logger LOG = Logger.getLogger(UserDetails.class.getName(), UserDetails.class);
+	// private static final long serialVersionUID = 3L;
 	private Integer UserID;
 	private String FirstName = "";
 	private String MiddleName = "";
@@ -20,15 +23,12 @@ public class UserDetails {
 	private String DrivingLicenseNo = "";
 	private String DrivingLicenseExpiry;
 	private String RegistrationNumber = "";
-	private String uta_Id = "";	
+	private String uta_Id = "";
 	private String username = "";
-	
-	public void setUserDetails (String firstname,String middlename, 
-			String lastname, String sex, String dob,
-			String Address, String Email, String Phone,
-			String DL_Number, String DL_Expiry, String Reg_Number,
-			String uta_Id)
-	{
+
+	public void setUserDetails(String firstname, String middlename, String lastname, String sex, String dob,
+			String Address, String Email, String Phone, String DL_Number, String DL_Expiry, String Reg_Number,
+			String uta_Id) {
 		setFirstName(firstname);
 		setMiddleName(middlename);
 		setLastName(lastname);
@@ -40,9 +40,9 @@ public class UserDetails {
 		setDrivingLicenseNo(DL_Number);
 		setDrivingLicenseExpiry(DL_Expiry);
 		setRegistrationNumber(Reg_Number);
-		setUta_Id(uta_Id);		
-	}	
-	
+		setUta_Id(uta_Id);
+	}
+
 	public String getDrivingLicenseNo() {
 		return DrivingLicenseNo;
 	}
@@ -74,7 +74,6 @@ public class UserDetails {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-		
 
 	public String getBirthDate() {
 		return birthDate;
@@ -156,209 +155,156 @@ public class UserDetails {
 		this.uta_Id = uta_Id;
 	}
 
-	public void validateUserDetails (String action, UserDetails UserDetail, UserDetailsErrorMsgs errorMsgs) {
-		if (action.equals("saveUserDetails")) 
-		{
-			errorMsgs.setFirstNameError(validateName(action,UserDetail.getFirstName()));
+	public void validateUserDetails(String action, UserDetails UserDetail, UserDetailsErrorMsgs errorMsgs) {
+		if (action.equals("saveUserDetails")) {
+			errorMsgs.setFirstNameError(validateName(action, UserDetail.getFirstName()));
 			String middleName = UserDetail.getMiddleName();
-			if (!middleName.isEmpty())
-			{
-				errorMsgs.setMiddleNameError(validateName(action,UserDetail.getMiddleName()));
+			if (!middleName.isEmpty()) {
+				errorMsgs.setMiddleNameError(validateName(action, UserDetail.getMiddleName()));
 			}
-			errorMsgs.setLastNameError(validateName(action,UserDetail.getLastName()));
+			errorMsgs.setLastNameError(validateName(action, UserDetail.getLastName()));
 			errorMsgs.setBirthDateError(validateDOB(UserDetail.getBirthDate()));
 			errorMsgs.setAddressError(validateMandatory(UserDetail.getAddress()));
 			errorMsgs.setEmailError(validateEmail(UserDetail.getEmail()));
-			errorMsgs.setPhoneError(validateNumber(10,UserDetail.getPhone(),"PhoneNo"));
-			errorMsgs.setDrivingLicenseError(validateNumber(8,UserDetail.getDrivingLicenseNo(), "DLNumber"));
-			errorMsgs.setRegNumberError(validateRegNo(6,10,UserDetail.getRegistrationNumber()));
+			errorMsgs.setPhoneError(validateNumber(10, UserDetail.getPhone(), "PhoneNo"));
+			errorMsgs.setDrivingLicenseError(validateNumber(8, UserDetail.getDrivingLicenseNo(), "DLNumber"));
+			errorMsgs.setRegNumberError(validateRegNo(6, 10, UserDetail.getRegistrationNumber()));
 			errorMsgs.setUtaIdError(validateUTAId(UserDetail.getUta_Id()));
 			errorMsgs.setDrivingLicenseExpiry(validateMandatory(UserDetail.getDrivingLicenseExpiry()));
-			
-					
+
 			errorMsgs.setErrorMsg(action);
 		}
 	}
-	
+
 	private String validateUTAId(String utaID) {
-		if(utaID != null && !utaID.isEmpty())
-		{
-		String result="";
-		if (!isTextAnInteger(utaID))
-			result= "UTA ID must contain digits only.";
-		else
-			if(utaID.length() == 10)
-			{
+		if (utaID != null && !utaID.isEmpty()) {
+			String result = "";
+			if (!isTextAnInteger(utaID))
+				result = "UTA ID must contain digits only.";
+			else if (utaID.length() == 10) {
 				String firstsub = utaID.substring(0, 3);
-				if(!(firstsub.equals("100")))
+				if (!(firstsub.equals("100")))
 					result = "UTA ID must start with 100.";
 				else
 					result = "";
-			}
-			else
+			} else
 				result = "UTA ID must be 10 digits long.";
-		return result;
-		}		
-		else 
-		{
+			return result;
+		} else {
 			return "The field is mandatory.";
 		}
 	}
-	
 
 	private String validateName(String action, String name) {
-		if(name != null && !name.isEmpty())
-		{
-		String result="";
-		if (action.equals("saveUserDetails"))
-		{
-			String regex = "(.)*(\\d)(.)*";      
-			Pattern pattern = Pattern.compile(regex);
-			boolean containsNumber = pattern.matcher(name).matches();
-			if (containsNumber)
-				result= "Your name must only contain alphabets.";
-			else
-				result="";
-		}
+		if (name != null && !name.isEmpty()) {
+			String result = "";
+			if (action.equals("saveUserDetails")) {
+				String regex = "(.)*(\\d)(.)*";
+				Pattern pattern = Pattern.compile(regex);
+				boolean containsNumber = pattern.matcher(name).matches();
+				if (containsNumber)
+					result = "Your name must only contain alphabets.";
+				else
+					result = "";
+			}
 			return result;
-		}		
-		else 
-		{
+		} else {
 			return "The field is mandatory.";
 		}
 	}
-	
+
 	private String validateMandatory(String value) {
-		if(value != null && !value.isEmpty())
-		{
+		if (value != null && !value.isEmpty()) {
 			return "";
-		}		
-		else 
-		{
+		} else {
 			return "The field is mandatory.";
 		}
 	}
-	
-	
-	private String validateRegNo(Integer min,Integer max, String value) {
-		if(value != null && !value.isEmpty())
-		{
-			if(!stringSize(value,min,max))
-			   return "Registration number should be between "+ min +" and "+max+" characters.";				
+
+	private String validateRegNo(Integer min, Integer max, String value) {
+		if (value != null && !value.isEmpty()) {
+			if (!stringSize(value, min, max))
+				return "Registration number should be between " + min + " and " + max + " characters.";
 			return "";
-		}		
-		else 
-		{
+		} else {
 			return "The field is mandatory.";
 		}
 	}
-	
-	
-	
+
 	private String validateEmail(String email) {
-		if(email != null && !email.isEmpty())
-		{
-			String result="",extension="";
+		if (email != null && !email.isEmpty()) {
+			String result = "", extension = "";
 			if (!email.contains("@"))
 				result = "Email address needs to contain @";
-			else
-				if (!stringSize(email,7,45))
-					result="Email address must be between 7 and 45 characters long";
-				else {
-					extension = email.substring(email.length()-4, email.length());
-					if (!extension.equals(".org") && !extension.equals(".edu") && !extension.equals(".com") 
-							&& !extension.equals(".net") && !extension.equals(".gov") && !extension.equals(".mil"))
-						result = "Invalid domain name";				
-				}
-			return result;	
-		}
-		else
-		{
+			else if (!stringSize(email, 7, 45))
+				result = "Email address must be between 7 and 45 characters long";
+			else {
+				extension = email.substring(email.length() - 4, email.length());
+				if (!extension.equals(".org") && !extension.equals(".edu") && !extension.equals(".com")
+						&& !extension.equals(".net") && !extension.equals(".gov") && !extension.equals(".mil"))
+					result = "Invalid domain name";
+			}
+			return result;
+		} else {
 			return "The field is mandatory.";
 		}
 	}
-	
-	private String validateDOB(String DOB)
-	{
-		String result="";
-		Date date = new Date();
-		String modifiedDate= new SimpleDateFormat("yyyy-MM-dd").format(date);
-		if(DOB != null && !DOB.isEmpty())
-		{
-			Integer useryear = Integer.parseInt(DOB.substring(0,4));
-			Integer usermonth = Integer.parseInt(DOB.substring(5,7));
-			Integer userday = Integer.parseInt(DOB.substring(8,10));
-			
-			Integer currentyear = Integer.parseInt(modifiedDate.substring(0,4));
-			Integer currentmonth = Integer.parseInt(modifiedDate.substring(5,7));
-			Integer currentday = Integer.parseInt(modifiedDate.substring(8,10));
-			
-			if(useryear > currentyear)
-			{
-				result = "Date of birth can't be after the current date.";							
-			}
-			else if(useryear.equals(currentyear))
-			{
-				if(usermonth > currentmonth)
-				{
-					result = "Date of birth can't be after the current date.";									
-				}	
-				else if (usermonth.equals(currentmonth))
-				{
-					if(userday > currentday)
-					{
-						result = "Date of birth can't be after the current date.";		
-					}
+
+	private String validateDOB(String DOB) {
+		String result = "";
+		if (DOB != null && !DOB.isEmpty()) {
+			try {
+				
+				Date date;
+				date = new SimpleDateFormat("yyyy-MM-dd").parse(DOB);
+				Calendar cal = Calendar.getInstance();
+
+				if (date.after(cal.getTime())) {
+					result = "Date of birth can't be after the current date.";
 				}
+
+			} catch (java.text.ParseException e) {
+				LOG.log(Level.SEVERE, "Date Error: ", e);
 			}
 
-		}
-		else
+		} else
 			result = "The field is mandatory.";
-		return result;		
-	}
-
-//	This section is for general purpose methods used internally in this class	
-	private boolean stringSize(String string, int min, int max) {
-		return string.length()>=min && string.length()<=max;
-	}
-	
-	private boolean isTextAnInteger (String string) {
-        boolean result;
-		try
-        {
-            Long.parseLong(string);
-            result=true;
-        } 
-        catch (NumberFormatException e) 
-        {
-            result=false;
-        }
 		return result;
 	}
-	
-	private String validateNumber(Integer size,String value, String type)
-	{
-		if(value != null && !value.isEmpty())
-		{
-			String result="";
-			if (!stringSize(value,size,size))
-				if(type.equals("PhoneNo"))
-					result= "Your phone number should be "+ size + " digits. eg: 7283334567";
-				else
-					result= "This should be of length " + size + "digits.";
-			else
-			if(!isTextAnInteger(value))
-				if(type.equals("PhoneNo"))
-					result= "Phone number can only contain digits.";
-				else
-					result= "It can only contain digits.";
-			return result;
+
+	// This section is for general purpose methods used internally in this class
+	private boolean stringSize(String string, int min, int max) {
+		return string.length() >= min && string.length() <= max;
+	}
+
+	private boolean isTextAnInteger(String string) {
+		boolean result;
+		try {
+			Long.parseLong(string);
+			result = true;
+		} catch (NumberFormatException e) {
+			result = false;
 		}
-		else
-		{
+		return result;
+	}
+
+	private String validateNumber(Integer size, String value, String type) {
+		if (value != null && !value.isEmpty()) {
+			String result = "";
+			if (!stringSize(value, size, size))
+				if (type.equals("PhoneNo"))
+					result = "Your phone number should be " + size + " digits. eg: 7283334567";
+				else
+					result = "This should be of length " + size + "digits.";
+			else if (!isTextAnInteger(value))
+				if (type.equals("PhoneNo"))
+					result = "Phone number can only contain digits.";
+				else
+					result = "It can only contain digits.";
+			return result;
+		} else {
 			return "The field is mandatory.";
 		}
 	}
-	
+
 }
