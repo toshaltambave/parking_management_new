@@ -39,7 +39,7 @@ UpdatedUserDetails updatedUserDetails = userList.get(0);
 <table>
   <tr>
    <td>
-    <form name="formUserDetails" action="${pageContext.request.contextPath}/UpdatedUserController?update" method="post">
+    <form name="formUserDetails" action="${pageContext.request.contextPath}/UpdateUserController?update" method="post">
     <table style="width: 1200px; ">
     
     <tr>

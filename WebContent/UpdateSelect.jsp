@@ -5,15 +5,15 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Change Users Role</title>
+<title>Select User</title>
 </head>
 <body>
 	<center>
-		<h1>Select User/s to Change Role</h1>
+		<h1>Select Users Profile to Update</h1>
 	</center>
 	<form
-		action="${pageContext.request.contextPath}/UserDetailsController?role"
-		method="GET">
+		action="${pageContext.request.contextPath}/UpdateUserController?updateSelect"
+		method="POST">
 		<script type="text/javascript">
 			function chg() {
 				var val = document.getElementById('one').value;
@@ -35,22 +35,9 @@
 		<div>
 			<select name=value id="two">
 			</select>
-		</div><br></br>
-		<div>
-			<select name=role>
-				<option>Select</option>
-				<option value="Admin">Admin</option>
-				<option value="ParkingUser">ParkingUser</option>
-				<option value="ParkingManager">ParkingManager</option>
-			</select>
 		</div>
-		<input name="action" value="role" type="hidden"> <input
+		<br></br> <input name="action" value="updateSelect" type="hidden"> <input
 			type="submit" value="Submit" />
 	</form>
-		<div class="col">
-		<c:if test="${isSuccess eq true}">
-			<div class="alert alert-success" role="alert">Role has changed to <%= request.getParameter("role")%> for User:<%= request.getParameter("value")%>.</div>
-		</c:if>
-	</div>
 </body>
 </html>

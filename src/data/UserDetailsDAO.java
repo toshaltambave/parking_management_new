@@ -269,65 +269,70 @@ public class UserDetailsDAO {
 		Statement stmt = null;
 		Connection conn = SQLConnection.getDBConnection();
 		boolean isSuccessful = true;
-		if (type.equalsIgnoreCase("UserName")) {
-			try {
-				stmt = conn.createStatement();
-				PreparedStatement pst = null;
-				String sql = "UPDATE parking_management.system_users SET IsRevoked=? where UserName=?";
-				pst = conn.prepareStatement(sql);
-				pst.setBoolean(1, isRevoked);
-				pst.setString(2, value);
-				pst.executeUpdate();
+		if (type != null) {
+			if (type.equalsIgnoreCase("UserName")) {
 
-			} catch (SQLException e) {
-				LOG.log(Level.SEVERE, "Sql Error: ", e);
-				isSuccessful = false;
-			} finally {
 				try {
-					conn.commit();
-					conn.close();
-					stmt.close();
+					stmt = conn.createStatement();
+					PreparedStatement pst = null;
+					String sql = "UPDATE parking_management.system_users SET IsRevoked=? where UserName=?";
+					pst = conn.prepareStatement(sql);
+					pst.setBoolean(1, isRevoked);
+					pst.setString(2, value);
+					pst.executeUpdate();
+
 				} catch (SQLException e) {
 					LOG.log(Level.SEVERE, "Sql Error: ", e);
 					isSuccessful = false;
+				} finally {
+					try {
+						conn.commit();
+						conn.close();
+						stmt.close();
+					} catch (SQLException e) {
+						LOG.log(Level.SEVERE, "Sql Error: ", e);
+						isSuccessful = false;
+					}
+				}
+			} else {
+				int userId;
+				try {
+					stmt = conn.createStatement();
+					PreparedStatement pst = null;
+					String sql = "SELECT * FROM parking_management.user_details where LastName=?";
+					pst = conn.prepareStatement(sql);
+					pst.setString(1, value);
+					ResultSet rs = pst.executeQuery();
+
+					if (!rs.isBeforeFirst()) {
+						LOG.info("No Data Available");
+						isSuccessful = false;
+					} else if (rs.next()) {
+						userId = rs.getInt("User_Id");
+						stmt = conn.createStatement();
+						PreparedStatement pst2 = null;
+						String sql2 = "UPDATE parking_management.system_users SET IsRevoked=? where User_Id=?";
+						pst2 = conn.prepareStatement(sql2);
+						pst2.setBoolean(1, isRevoked);
+						pst2.setInt(2, userId);
+						pst2.executeUpdate();
+					}
+				} catch (SQLException e) {
+					LOG.log(Level.SEVERE, "Sql Error: ", e);
+					isSuccessful = false;
+				} finally {
+					try {
+						conn.commit();
+						conn.close();
+						stmt.close();
+					} catch (SQLException e) {
+						LOG.log(Level.SEVERE, "Sql Error: ", e);
+						isSuccessful = false;
+					}
 				}
 			}
 		} else {
-			int userId;
-			try {
-				stmt = conn.createStatement();
-				PreparedStatement pst = null;
-				String sql = "SELECT * FROM parking_management.user_details where LastName=?";
-				pst = conn.prepareStatement(sql);
-				pst.setString(1, value);
-				ResultSet rs = pst.executeQuery();
-
-				if (!rs.isBeforeFirst()) {
-					LOG.info("No Data Available");
-					isSuccessful = false;
-				} else if (rs.next()) {
-					userId = rs.getInt("User_Id");
-					stmt = conn.createStatement();
-					PreparedStatement pst2 = null;
-					String sql2 = "UPDATE parking_management.system_users SET IsRevoked=? where User_Id=?";
-					pst2 = conn.prepareStatement(sql2);
-					pst2.setBoolean(1, isRevoked);
-					pst2.setInt(2, userId);
-					pst2.executeUpdate();
-				}
-			} catch (SQLException e) {
-				LOG.log(Level.SEVERE, "Sql Error: ", e);
-				isSuccessful = false;
-			} finally {
-				try {
-					conn.commit();
-					conn.close();
-					stmt.close();
-				} catch (SQLException e) {
-					LOG.log(Level.SEVERE, "Sql Error: ", e);
-					isSuccessful = false;
-				}
-			}
+			isSuccessful = false;
 		}
 
 		return isSuccessful;
@@ -337,70 +342,73 @@ public class UserDetailsDAO {
 		Statement stmt = null;
 		Connection conn = SQLConnection.getDBConnection();
 		boolean isSuccessful = true;
-
-		if (type.equalsIgnoreCase("UserName")) {
-			try {
-				stmt = conn.createStatement();
-
-				PreparedStatement pst = null;
-
-				String sql = "UPDATE parking_management.system_users SET Role=? where UserName=?";
-				pst = conn.prepareStatement(sql);
-				pst.setString(1, role);
-				pst.setString(2, value);
-				pst.executeUpdate();
-
-			} catch (SQLException e) {
-				isSuccessful = false;
-				LOG.log(Level.SEVERE, "Sql Error: ", e);
-			} finally {
+		if (type != null) {
+			if (type.equalsIgnoreCase("UserName")) {
 				try {
-					conn.commit();
-					conn.close();
-					stmt.close();
+					stmt = conn.createStatement();
+
+					PreparedStatement pst = null;
+
+					String sql = "UPDATE parking_management.system_users SET Role=? where UserName=?";
+					pst = conn.prepareStatement(sql);
+					pst.setString(1, role);
+					pst.setString(2, value);
+					pst.executeUpdate();
+
 				} catch (SQLException e) {
 					isSuccessful = false;
 					LOG.log(Level.SEVERE, "Sql Error: ", e);
+				} finally {
+					try {
+						conn.commit();
+						conn.close();
+						stmt.close();
+					} catch (SQLException e) {
+						isSuccessful = false;
+						LOG.log(Level.SEVERE, "Sql Error: ", e);
+					}
+				}
+			} else {
+				int userId;
+				try {
+					stmt = conn.createStatement();
+					PreparedStatement pst = null;
+					String sql = "SELECT * FROM parking_management.user_details where LastName=?";
+					pst = conn.prepareStatement(sql);
+					pst.setString(1, value);
+					ResultSet rs = pst.executeQuery();
+
+					if (!rs.isBeforeFirst()) {
+						isSuccessful = false;
+						LOG.info("No Data Available");
+					} else if (rs.next()) {
+						userId = rs.getInt("User_Id");
+						stmt = conn.createStatement();
+						PreparedStatement pst2 = null;
+						String sql2 = "UPDATE parking_management.system_users SET Role=? where User_Id=?";
+						pst2 = conn.prepareStatement(sql2);
+						pst2.setString(1, role);
+						pst2.setInt(2, userId);
+						pst2.executeUpdate();
+					}
+				} catch (SQLException e) {
+					isSuccessful = false;
+					LOG.log(Level.SEVERE, "Sql Error: ", e);
+				} finally {
+					try {
+						conn.commit();
+						conn.close();
+						stmt.close();
+					} catch (SQLException e) {
+						isSuccessful = false;
+						LOG.log(Level.SEVERE, "Sql Error: ", e);
+					}
 				}
 			}
 		} else {
-			int userId;
-			try {
-				stmt = conn.createStatement();
-				PreparedStatement pst = null;
-				String sql = "SELECT * FROM parking_management.user_details where LastName=?";
-				pst = conn.prepareStatement(sql);
-				pst.setString(1, value);
-				ResultSet rs = pst.executeQuery();
-
-				if (!rs.isBeforeFirst()) {
-					isSuccessful = false;
-					LOG.info("No Data Available");
-				} else if (rs.next()) {
-					userId = rs.getInt("User_Id");
-					stmt = conn.createStatement();
-					PreparedStatement pst2 = null;
-					String sql2 = "UPDATE parking_management.system_users SET Role=? where User_Id=?";
-					pst2 = conn.prepareStatement(sql2);
-					pst2.setString(1, role);
-					pst2.setInt(2, userId);
-					pst2.executeUpdate();
-				}
-			} catch (SQLException e) {
-				isSuccessful = false;
-				LOG.log(Level.SEVERE, "Sql Error: ", e);
-			} finally {
-				try {
-					conn.commit();
-					conn.close();
-					stmt.close();
-				} catch (SQLException e) {
-					isSuccessful = false;
-					LOG.log(Level.SEVERE, "Sql Error: ", e);
-				}
-			}
+			isSuccessful = false;
 		}
-		
+
 		return isSuccessful;
 	}
 

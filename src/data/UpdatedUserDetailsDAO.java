@@ -53,6 +53,7 @@ public class UpdatedUserDetailsDAO {
 					userDetails.setDrivingLicenseExpiry(df.format(rs2.getDate("DL_Expiry")));
 					userDetails.setBirthDate(df.format(rs2.getDate("DOB")));
 					userDetails.setFirstName(rs2.getString("FirstName"));
+					userDetails.setMiddleName(rs2.getString("MiddleName"));
 					userDetails.setLastName(rs2.getString("LastName"));
 					userDetails.setSex(rs2.getString("Sex"));
 					userDetails.setEmail(rs2.getString("Email"));
@@ -61,8 +62,11 @@ public class UpdatedUserDetailsDAO {
 					userDetails.setRegistrationNumber(rs2.getString("Reg_Number"));
 					userDetails.setUta_Id(rs2.getString("uta_id"));
 					userDetails.setUserID(rs2.getInt("User_Id"));
+					userDetails.setUserName(userName);
 					userDetails.setPermitType(rs.getString("PermitType"));
 					userDetails.setRole(rs.getString("Role"));
+					userDetails.setConfirmPassword(rs.getString("HashedPassword"));
+					userDetails.setHashedPassword(rs.getString("HashedPassword"));
 
 					userListInDB.add(userDetails);
 
@@ -82,9 +86,10 @@ public class UpdatedUserDetailsDAO {
 		return userListInDB;
 	}
 	
-	public static void updateUser(UpdatedUserDetails userDetails){
+	public static boolean updateUser(UpdatedUserDetails userDetails){
 		Statement stmt = null;
 		Connection conn = SQLConnection.getDBConnection();
+		boolean isSuccessful = true;
 		
 		try {
 			stmt = conn.createStatement();
@@ -127,14 +132,18 @@ public class UpdatedUserDetailsDAO {
 			conn.commit();
 			
 		} catch (SQLException e) {
+			isSuccessful = false;
 			e.printStackTrace();
 		} finally {
 			try {
 				conn.close();
 				stmt.close();
 			} catch (SQLException e) {
+				isSuccessful = false;
 				e.printStackTrace();
 			}
 		}
+		
+	return isSuccessful;
 	}
 }

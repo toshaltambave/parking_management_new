@@ -58,7 +58,7 @@
 						</a>
 					</div>
 					<div class="col">
-						<c:if test="${isSuccess eq true}">
+						<c:if test="${isSuccessful eq true}">
 							<div class="alert alert-success" role="alert"> Registered Successfully.</div>
 						</c:if>
 					</div>	

@@ -29,9 +29,8 @@
 		</script>
 		<h1>Search by</h1>
 		<select id="one" name=type onchange="chg()">
-			<option>Select</option>
+			<option value="" disabled selected style="display: none;">Select</option>
 			<option value="UserName">UserName</option>
-			<option value="LastName">LastName</option>
 		</select> <br></br>
 		<div>
 			<select name=value id="two">
