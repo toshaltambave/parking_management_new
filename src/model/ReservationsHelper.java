@@ -10,6 +10,7 @@ public class ReservationsHelper
 	private Integer Spot_Id;
 	private String Start_Time;
 	private String End_Time;
+<<<<<<< HEAD
 	private Boolean isNoShow;
 	private Boolean isOverStay;
 	
@@ -47,6 +48,9 @@ public class ReservationsHelper
 			this.isNoShow=false;
 		}
 	}
+=======
+
+>>>>>>> ac9543dfa6440030308f7db524e1efa28b404f51
 	public Integer getReservationID() {
 		return ReservationID;
 	}

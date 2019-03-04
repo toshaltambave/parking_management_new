@@ -21,12 +21,17 @@
 <br><div class="col"><a class="btn btn-info"href="#" onclick="return false;">View parking user details</a></div>
 <br><div class="col"><a class="btn btn-info"href="#" onclick="return false;">Delete a reservation</a></div>
 <br><div class="col"><a class="btn btn-info"href="#" onclick="return false;">Edit a reservation</a></div>
+<<<<<<< HEAD
 <br><div class="col"><a class="btn btn-info"href="#" onclick="return false;">Make Spot Available</a></div>
 <br><div class="col"><a class="btn btn-info"href="${pageContext.request.contextPath}/SetNoShowController">Set no-show</a></div>
 <br><div class="col"><a class="btn btn-info"href="${pageContext.request.contextPath}/SetOverdueController">Set Overdue</a></div>
+=======
+<br><div class="col"><a class="btn btn-info"href="${pageContext.request.contextPath}/ReservationsController">Make Spot Available</a></div>
+<br><div class="col"><a class="btn btn-info"href="#" onclick="return false;">Set no-show</a></div>
+<br><div class="col"><a class="btn btn-info"href="#" onclick="return false;">Set Overdue</a></div>
+>>>>>>> ac9543dfa6440030308f7db524e1efa28b404f51
 <br><div class="col"><a class="btn btn-info"href="#" onclick="return false;">Add parking area</a></div>
 <br><div class="col"><a class="btn btn-info"href="#" onclick="return false;">Edit parking area</a></div>
-
 </div>
 </div>
 <form action="${pageContext.request.contextPath}/UsersController?logout" method="post">
