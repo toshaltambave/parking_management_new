@@ -30,7 +30,7 @@ public class UsersDAO {
 				user.setRole(usersList.getString("Role"));
 				user.setisRevoked(usersList.getBoolean("IsRevoked"));  
 				user.setPermitType(usersList.getString("PermitType"));
-				System.out.println(user.getUsername());
+	
 				userListInDB.add(user);					
 			}
 		} catch (SQLException e) {

@@ -56,17 +56,7 @@ public class UserDetails {
 	}
 
 	public void setDrivingLicenseExpiry(String drivingLicenseExpiry) {
-		if(drivingLicenseExpiry != null && !drivingLicenseExpiry.isEmpty())
-		{
-			if(!drivingLicenseExpiry.contains("-"))
-			{
-				String year = drivingLicenseExpiry.substring(6,10);
-				String month = drivingLicenseExpiry.substring(0,2);
-				String day = drivingLicenseExpiry.substring(3,5);
-				String Date = year + '-' + month + '-' + day;
-				this.DrivingLicenseExpiry = Date;
-			}
-		}
+		DrivingLicenseExpiry = drivingLicenseExpiry;
 	}
 
 	public String getRegistrationNumber() {
@@ -85,22 +75,13 @@ public class UserDetails {
 		this.username = username;
 	}
 		
+
 	public String getBirthDate() {
 		return birthDate;
 	}
 
 	public void setBirthDate(String birthDate) {
-		if(birthDate != null && !birthDate.isEmpty())
-		{
-			if(!birthDate.contains("-"))
-			{
-				String year = birthDate.substring(6,10);
-				String month = birthDate.substring(0,2);
-				String day = birthDate.substring(3,5);
-				String Date = year + '-' + month + '-' + day;
-				this.birthDate = Date;
-			}
-		}
+		this.birthDate = birthDate;
 	}
 
 	public Integer getUserID() {

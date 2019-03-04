@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import data.UpdatedUserDetailsDAO;
 import model.UpdatedUserDetails;
 import model.UpdatedUserDetailsErrorMsgs;
 import model.Users;
@@ -18,46 +19,57 @@ public class UpdateUserController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	private void getUpdatedUserDetailsParam(HttpServletRequest request, UpdatedUserDetails userdetails) {
-		userdetails.setUpdatedUserDetails(request.getParameter("firstName"), request.getParameter("middleName"),
-				request.getParameter("lastName"), request.getParameter("sex"), request.getParameter("dob"),
-				request.getParameter("address"), request.getParameter("email"), request.getParameter("phone"),
-				request.getParameter("dlno"), request.getParameter("dlexpirydte"), request.getParameter("regno"),
-				request.getParameter("utaid"), request.getParameter("hashpass"), request.getParameter("confirmpass"),
-				request.getParameter("role"), Integer.valueOf(request.getParameter("isrevoked")),
-				request.getParameter("permitType"));
-	}
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		HttpSession session = request.getSession();
+		doPost(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 		String action = request.getParameter("action"), url = "";
+		String userName =  request.getParameter("username");
+		Integer userId = Integer.valueOf(request.getParameter("userId"));
 		HttpSession session = request.getSession();
 		UpdatedUserDetails userdetails = new UpdatedUserDetails();
 		UpdatedUserDetailsErrorMsgs errorMsgs = new UpdatedUserDetailsErrorMsgs();
-
-		if (action.equalsIgnoreCase("saveUserDetails")) {
-			Users user = (Users) session.getAttribute("user");
-			if (user != null && !user.getUsername().isEmpty())
-				userdetails.setUsername(user.getUsername());
-			getUpdatedUserDetailsParam(request, userdetails);
-			userdetails.validateUserDetails(action, userdetails, errorMsgs);
-			session.setAttribute("userdetails", userdetails);
-			if (!errorMsgs.getErrorMsg().equals("")) {
-				getUpdatedUserDetailsParam(request, userdetails);
-				session.setAttribute("userDetailsErrorMsgs", errorMsgs);
-				url = "/formUserDetails.jsp";
-			} else {// if no error messages
-
-			}
+		userdetails.setUserID(userId);
+		if (action.equalsIgnoreCase("update")) {
+			url = handleUpdate(request, action, userName, session, userdetails, errorMsgs);
 		}
 
 		getServletContext().getRequestDispatcher(url).forward(request, response);
+	}
+	
+	
+	private void getUpdatedUserDetailsParam(HttpServletRequest request, UpdatedUserDetails updatedUserdetails) {
+		updatedUserdetails.setUpdatedUserDetails(request.getParameter("firstName"), request.getParameter("middleName"),
+				request.getParameter("lastName"), request.getParameter("username"), request.getParameter("sex"), request.getParameter("dob"),
+				request.getParameter("address"), request.getParameter("email"), request.getParameter("phone"),
+				request.getParameter("dlno"), request.getParameter("dlexpirydte"), request.getParameter("regno"),
+				request.getParameter("utaid"), request.getParameter("hashpass"), request.getParameter("confirmpass"),
+				request.getParameter("role"),request.getParameter("permitType"));
+	}
+
+	private String handleUpdate(HttpServletRequest request, String action, String userName, HttpSession session,
+			UpdatedUserDetails userdetails, UpdatedUserDetailsErrorMsgs errorMsgs) {
+		String url;
+		Users user = (Users) session.getAttribute("user");
+		if (user != null && !user.getUsername().isEmpty())
+			userdetails.setUserName(user.getUsername());
+		getUpdatedUserDetailsParam(request, userdetails);
+		userdetails.validateUserDetails(action, userdetails, errorMsgs);
+		session.setAttribute("userdetails", userdetails);
+		if (!errorMsgs.getErrorMsg().equals("")) {
+			getUpdatedUserDetailsParam(request, userdetails);
+			session.setAttribute("updatedUserDetailsErrorMsgs", errorMsgs);
+			url = "/EditProfile.jsp?username="+user.getUsername();
+		} else {
+			// if no error messages
+			UpdatedUserDetailsDAO.updateUser(userdetails);
+			url = "/AdminHomePage.jsp?username="+userName;
+		}
+		return url;
 	}
 
 }

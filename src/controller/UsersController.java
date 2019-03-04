@@ -55,7 +55,7 @@ public class UsersController extends HttpServlet {
 			String role = UsersDAO.userExists(user);
 			if("Admin".equalsIgnoreCase(role))
 			{
-				url = "/adminHomePage.jsp";
+				url = "/AdminHomePage.jsp";
 			}
 			else if("ParkingManager".equalsIgnoreCase(role))
 			{

@@ -11,7 +11,6 @@
 <center><h1> ADMIN HOMEPAGE </h1></center>
 <div>
 
-<br><a href="#" onclick="return false;">Create profile</a>
 <br><a href="EditProfile.jsp?username=<%= request.getParameter("username")%>">Edit user profile</a>
 <br><a href="ChangeUserRole.jsp">Change user role</a>
 <br><a href="UserSearch.jsp">Search for user</a>

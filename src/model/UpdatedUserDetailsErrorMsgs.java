@@ -14,61 +14,50 @@ public class UpdatedUserDetailsErrorMsgs {
 	private String DrivingLicenseError = "";
 	private String DrivingLicenseExpiry = "";
 	private String RegNumberError = "";
-	private String utaIdError = "";	
+	private String utaIdError = "";
 	private String usernameError = "";
 	private String HashedPasswordError = "";
 	private String ConfirmPasswordError = "";
-	private String Role = "";
-	private String PermitType = "";
+	private String RoleError = "";
+	private String PermitTypeError = "";
 
-
-	
-	public UpdatedUserDetailsErrorMsgs () {
-		this.errorMsg="";
-		this.FirstNameError="";
-		this.MiddleNameError="";
-		this.LastNameError="";
-		this.SexError="";
-		this.BirthDateError="";
-		this.AddressError="";
-		this.EmailError="";
-		this.PhoneError="";
-		this.DrivingLicenseError="";
-		this.DrivingLicenseExpiry="";
-		this.RegNumberError="";
-		this.utaIdError="";	
+	public UpdatedUserDetailsErrorMsgs() {
+		this.errorMsg = "";
+		this.FirstNameError = "";
+		this.MiddleNameError = "";
+		this.LastNameError = "";
+		this.SexError = "";
+		this.BirthDateError = "";
+		this.AddressError = "";
+		this.EmailError = "";
+		this.PhoneError = "";
+		this.DrivingLicenseError = "";
+		this.DrivingLicenseExpiry = "";
+		this.RegNumberError = "";
+		this.utaIdError = "";
 		this.usernameError = "";
 		this.HashedPasswordError = "";
 		this.ConfirmPasswordError = "";
-		this.Role = "";
-		this.PermitType = "";
+		this.RoleError = "";
+		this.PermitTypeError = "";
+	}
+
+	public String getRoleError() {
+		return RoleError;
 	}
 	
-	
-	
-	public String getRole() {
-		return Role;
+
+	public String getPermitTypeError() {
+		return PermitTypeError;
 	}
 
-
-
-	public void setRole(String role) {
-		Role = role;
+	public void setPermitTypeError(String permitTypeError) {
+		PermitTypeError = permitTypeError;
 	}
 
-
-
-	public String getPermitType() {
-		return PermitType;
+	public void setRoleError(String roleError) {
+		RoleError = roleError;
 	}
-
-
-
-	public void setPermitType(String permitType) {
-		PermitType = permitType;
-	}
-
-
 
 	public String getFirstNameError() {
 		return FirstNameError;
@@ -141,8 +130,7 @@ public class UpdatedUserDetailsErrorMsgs {
 	public void setUtaIdError(String utaIdError) {
 		this.utaIdError = utaIdError;
 	}
-	
-	
+
 	public String getUsernameError() {
 		return usernameError;
 	}
@@ -166,7 +154,7 @@ public class UpdatedUserDetailsErrorMsgs {
 	public void setConfirmPasswordError(String confirmPasswordError) {
 		ConfirmPasswordError = confirmPasswordError;
 	}
-	
+
 	public String getDrivingLicenseError() {
 		return DrivingLicenseError;
 	}
@@ -183,29 +171,25 @@ public class UpdatedUserDetailsErrorMsgs {
 		DrivingLicenseExpiry = drivingLicenseExpiry;
 	}
 
-	
 	public String getErrorMsg() {
 		return errorMsg;
 	}
+
 	public void setErrorMsg(String action) {
 		if (action.equals("saveUserDetails")) {
-			if (!FirstNameError.equals("") || !MiddleNameError.equals("") 
-					|| !LastNameError.equals("") || !SexError.equals("")
-					|| !BirthDateError.equals("") || !AddressError.equals("")
-					|| !EmailError.equals("") || !PhoneError.equals("")
-					|| !DrivingLicenseError.equals("") || !DrivingLicenseExpiry.equals("")
-					|| !RegNumberError.equals("") || !utaIdError.equals(""))
-				this.errorMsg="Please correct the following errors";
-		}
-		else
-			if (action.equals("searchUserDetails")) 
-			{
-				if (!FirstNameError.equals("")) 
-					this.errorMsg="Please correct the following errors";
-			}
-			else // action=listEmployee
-				if (!LastNameError.equals("")) 
-					this.errorMsg="Please correct the following errors";				
+			if (!FirstNameError.equals("") || !MiddleNameError.equals("") || !LastNameError.equals("")
+					|| !SexError.equals("") || !BirthDateError.equals("") || !AddressError.equals("")
+					|| !EmailError.equals("") || !PhoneError.equals("") || !DrivingLicenseError.equals("")
+					|| !DrivingLicenseExpiry.equals("") || !RegNumberError.equals("") || !utaIdError.equals("")
+					|| !usernameError.equals("") || !HashedPasswordError.equals("") || !ConfirmPasswordError.equals("")
+					|| !RoleError.equals("") || !PermitTypeError.equals(""))
+				this.errorMsg = "Please correct the following errors";
+		} else if (action.equals("searchUserDetails")) {
+			if (!FirstNameError.equals(""))
+				this.errorMsg = "Please correct the following errors";
+		} else // action=listEmployee
+		if (!LastNameError.equals(""))
+			this.errorMsg = "Please correct the following errors";
 	}
 
 	public String getBirthDateError() {
@@ -215,6 +199,5 @@ public class UpdatedUserDetailsErrorMsgs {
 	public void setBirthDateError(String birthDateError) {
 		BirthDateError = birthDateError;
 	}
-	
-	
+
 }

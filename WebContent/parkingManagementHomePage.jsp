@@ -11,7 +11,6 @@
 <h1>PARKING MANAGEMENT HOMEPAGE</h1>
 <div>
 
-<br><a href="#" onclick="return false;">Create profile</a>
 <br><a href="#" onclick="return false;">Update profile</a>
 <br><a href="userSearch.jsp">Search for User</a>
 <br><a href="#" onclick="return false;">View spaces by type and time</a>

@@ -18,20 +18,22 @@
 		method="GET">
 		<script type="text/javascript">
 			function chg() {
-				var val = document.getElementById('one').value;
+				var val = document.getElementById('type').value;
 				var xhttp = new XMLHttpRequest();
 				xhttp.onreadystatechange = function() {
 					if (xhttp.readyState === 4 && xhttp.status === 200) {
 						document.getElementById('two').innerHTML = xhttp.responseText;
 					}
 				};
-				xhttp.open("GET", "UserDetailsController?action=" + val, true)
+
+				xhttp.open("POST", "UserDetailsController?action=" + val, true)
 				xhttp.send();
+
 			}
 		</script>
 		<h1>Search by</h1>
-		<select id="one" name=type onchange="chg()">
-			<option>Select</option>
+		<select id="type" name=type onchange="chg();">
+			<option value="" disabled selected style="display: none;">Select</option>
 			<option value="UserName">UserName</option>
 			<option value="LastName">LastName</option>
 		</select> <br></br>
@@ -39,14 +41,16 @@
 			<select name=query id="two">
 			</select>
 		</div>
-		<br></br> <input name="action" value="search" type="hidden">
-		<input type="submit" value="Submit" />
+		<br></br> <input name="action" value="search" type="hidden"> <input
+			type="submit" value="Submit" />
 	</form>
 	<br>
 	<br>
 	<div align="center">
+		<h2>Users Information</h2>
+	</div>
+	<div align="center">
 		<table border="1" cellpadding="5">
-			<caption><h2>Users Information</h2></caption>
 			<tr>
 				<th>First Name</th>
 				<th>Middle Name</th>
@@ -60,7 +64,7 @@
 				<th>DrivingLicenseExpiry</th>
 				<th>RegistrationNumber</th>
 				<th>uta_Id</th>
-				<th>username</th>
+				<th>UserName</th>
 			</tr>
 			<c:forEach var="UserDetails" items="${details}">
 				<tr>

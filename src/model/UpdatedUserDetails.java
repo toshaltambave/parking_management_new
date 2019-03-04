@@ -27,18 +27,18 @@ public class UpdatedUserDetails {
 	private String HashedPassword = "";
 	private String ConfirmPassword = "";
 	private String Role = "";
-	private Integer IsRevoked = 0;
 	private String PermitType = "";
 	
 	public void setUpdatedUserDetails (String firstName,String middleName, 
-			String lastName, String sex, String dob,
+			String lastName, String userName, String sex, String dob,
 			String address, String email, String phone,
 			String dlNumber, String dlExpiry, String regNumber,
-			String utaId, String hashPass, String confirmPass, String role, Integer isRevoked, String permitType)
+			String utaId, String hashPass, String confirmPass, String role, String permitType)
 	{
 		setFirstName(firstName);
 		setMiddleName(middleName);
 		setLastName(lastName);
+		setUserName(userName);
 		setSex(sex);
 		setBirthDate(dob);
 		setAddress(address);
@@ -51,7 +51,6 @@ public class UpdatedUserDetails {
 		setHashedPassword(hashPass);
 		setConfirmPassword(confirmPass);
 		setRole(role);
-		setIsRevoked(isRevoked);
 		setPermitType(permitType);
 	}	
 	
@@ -92,19 +91,6 @@ public class UpdatedUserDetails {
 	}
 
 
-
-	public Integer getIsRevoked() {
-		return IsRevoked;
-	}
-
-
-
-	public void setIsRevoked(Integer isRevoked) {
-		IsRevoked = isRevoked;
-	}
-
-
-
 	public String getPermitType() {
 		return PermitType;
 	}
@@ -125,23 +111,30 @@ public class UpdatedUserDetails {
 		DrivingLicenseNo = drivingLicenseNo;
 	}
 
+
 	public String getDrivingLicenseExpiry() {
 		return DrivingLicenseExpiry;
 	}
 
+
+
 	public void setDrivingLicenseExpiry(String drivingLicenseExpiry) {
-		if(drivingLicenseExpiry != null && !drivingLicenseExpiry.isEmpty())
-		{
-			if(!drivingLicenseExpiry.contains("-"))
-			{
-				String year = drivingLicenseExpiry.substring(6,10);
-				String month = drivingLicenseExpiry.substring(0,2);
-				String day = drivingLicenseExpiry.substring(3,5);
-				String Date = year + '-' + month + '-' + day;
-				this.DrivingLicenseExpiry = Date;
-			}
-		}
+		DrivingLicenseExpiry = drivingLicenseExpiry;
 	}
+
+
+
+	public String getUsername() {
+		return username;
+	}
+
+
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+
 
 	public String getRegistrationNumber() {
 		return RegistrationNumber;
@@ -151,30 +144,20 @@ public class UpdatedUserDetails {
 		RegistrationNumber = registrationNumber;
 	}
 
-	public String getUsername() {
+	public String getUserName() {
 		return username;
 	}
 
-	public void setUsername(String username) {
+	public void setUserName(String username) {
 		this.username = username;
 	}
-		
+
 	public String getBirthDate() {
 		return birthDate;
 	}
 
 	public void setBirthDate(String birthDate) {
-		if(birthDate != null && !birthDate.isEmpty())
-		{
-			if(!birthDate.contains("-"))
-			{
-				String year = birthDate.substring(6,10);
-				String month = birthDate.substring(0,2);
-				String day = birthDate.substring(3,5);
-				String Date = year + '-' + month + '-' + day;
-				this.birthDate = Date;
-			}
-		}
+		this.birthDate = birthDate;
 	}
 
 	public Integer getUserID() {
@@ -254,7 +237,7 @@ public class UpdatedUserDetails {
 		{
 			errorMsgs.setFirstNameError(validateName(action,UserDetail.getFirstName()));
 			String middleName = UserDetail.getMiddleName();
-			if (!middleName.isEmpty())
+			if (middleName != null && !middleName.isEmpty())
 			{
 				errorMsgs.setMiddleNameError(validateName(action,UserDetail.getMiddleName()));
 			}
@@ -267,11 +250,11 @@ public class UpdatedUserDetails {
 			errorMsgs.setRegNumberError(validateRegNo(6,10,UserDetail.getRegistrationNumber()));
 			errorMsgs.setUtaIdError(validateUTAId(UserDetail.getUta_Id()));
 			errorMsgs.setDrivingLicenseExpiry(validateMandatory(UserDetail.getDrivingLicenseExpiry()));
-			errorMsgs.setUsernameError(validateUsername(action,UserDetail.getUsername()));
+			errorMsgs.setUsernameError(validateUsername(action,UserDetail.getUserName()));
 			errorMsgs.setHashedPasswordError(validatePassword(UserDetail.getHashedPassword()));
 			errorMsgs.setConfirmPasswordError(validateConfirmPassword(UserDetail.getHashedPassword(),UserDetail.getConfirmPassword()));
-			errorMsgs.setRole(validateRole(UserDetail.getRole()));
-			errorMsgs.setPermitType(validatePermitType(UserDetail.getPermitType(),UserDetail.getRole()));
+			errorMsgs.setRoleError(validateRole(UserDetail.getRole()));
+			errorMsgs.setPermitTypeError(validatePermitType(UserDetail.getPermitType(),UserDetail.getRole()));
 			
 					
 			errorMsgs.setErrorMsg(action);

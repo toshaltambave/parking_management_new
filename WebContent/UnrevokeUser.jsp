@@ -23,7 +23,7 @@
 						document.getElementById('two').innerHTML = xhttp.responseText;
 					}
 				};
-				xhttp.open("GET", "UserDetailsController?action="+val, true)
+				xhttp.open("POST", "UserDetailsController?action=" + val, true)
 				xhttp.send();
 			}
 		</script>
@@ -33,12 +33,17 @@
 			<option value="UserName">UserName</option>
 			<option value="LastName">LastName</option>
 		</select> <br></br>
-		<div><select name=value  id="two">
+		<div>
+			<select name=value id="two">
 			</select>
 		</div>
-		<br></br>
-		<input name="action" value="unrevoke" type="hidden"> <input
-			type="submit" value="Unrevoke" />
+		<br></br> <input name="action" value="unrevoke" type="hidden">
+		<input type="submit" value="Unrevoke" />
 	</form>
+	<div class="col">
+		<c:if test="${isSuccess eq true}">
+			<div class="alert alert-success" role="alert">User: <%= request.getParameter("value")%> has Been UnRevoked.</div>
+		</c:if>
+	</div>
 </body>
 </html>

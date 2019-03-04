@@ -11,7 +11,6 @@
 <h1>PARKING USER HOMEPAGE</h1>
 <div>
 
-<br><a href="#" onclick="return false;">Create profile</a>
 <br><a href="#" onclick="return false;">Update profile</a>
 <br><a href="#" onclick="return false;">View a reservation</a>
 <br><a href="#" onclick="return false;">Request a reservation</a>
