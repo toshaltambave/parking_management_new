@@ -36,7 +36,7 @@
 						</div>
 						<input type="hidden" name="cart_price" value="${cartPrice}">
 						<input class="btn btn-secondary" name="action" value="checkout" type="hidden">
-						<input type="submit" value="Finish">
+						<input class="btn btn-secondary" type="submit" value="Finish">
 			    </form>
 			</div>
 			<button class="btn btn-secondary" type="button" name="back" onclick="history.back()">Back</button>			

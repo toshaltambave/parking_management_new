@@ -37,8 +37,27 @@
 		                    <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
 		                        <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
 		                    </div>
+	
 		                </div>
 				    </div>
+				    		                    <div><input name="starttimeError"
+								value="<c:out value='${startTimeError}'/>"
+								type="text"
+								style="background-color: white; color: red; border: none; width: 800px"
+								disabled="disabled" maxlength="60">
+							</div>
+								                    <div><input name="endtimeError"
+								value="<c:out value='${endTimeError}'/>"
+								type="text"
+								style="background-color: white; color: red; border: none; width: 800px"
+								disabled="disabled" maxlength="60">
+							</div>
+				    <div><input name="compareError"
+							value="<c:out value='${compareError}'/>"
+							type="text"
+							style="background-color: white; color: red; border: none; width: 800px"
+							disabled="disabled" maxlength="60">
+					</div>
 					<div class="col">
 						<div align="center">
 				    		<h2>Select an Area to Park</h2>
