@@ -208,8 +208,6 @@ public class MakeReservationsDOA{
 	 Connection conn = SQLConnection.getDBConnection();
 	 try{
 		 	
-
-		 	user_id=1;
 			stmt=conn.createStatement();
 			String queryString="update reservations set NoShow=1 where Reservation_Id="+reservationID+";";
 			stmt.executeUpdate(queryString);
@@ -244,7 +242,6 @@ public static Boolean SetOverdue(Integer reservationID, Integer user_id) {
 	 Statement stmt = null;
 	 Connection conn = SQLConnection.getDBConnection();
 	 try{
-		 	user_id=1;
 			stmt=conn.createStatement();
 			String queryString="update reservations set OverStay=1 where Reservation_Id="+reservationID+";";
 			stmt.executeUpdate(queryString);

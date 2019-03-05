@@ -25,10 +25,9 @@ public class GetReservationByUser extends HttpServlet {
 		HttpSession session = request.getSession();
 		try 
 		{
-//			Users user = (Users)session.getAttribute("User");
-//			user.getUserID()
-			Integer user_id=1;
-			ArrayList<ReservationsHelper> allReservations = MakeReservationsDOA.GetReservationsByUserId(user_id);
+			Users user = (Users)session.getAttribute("User");
+			user.getUserID();
+			ArrayList<ReservationsHelper> allReservations = MakeReservationsDOA.GetReservationsByUserId(user.getUserID());
 			request.setAttribute("allreservations", allReservations);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/ReservationsByUserId.jsp");
             dispatcher.forward(request, response);
