@@ -80,6 +80,7 @@ private void searchuserdetails(HttpServletRequest request) {
 		else if (action.equalsIgnoreCase("logout"))
 		{
 			url = logout(request);
+			getServletContext().getRequestDispatcher(url);
 		
 		} else if(action.equalsIgnoreCase("saveUser")){
 			url = register(request, action, session, errorMsgs);
@@ -167,7 +168,16 @@ private void searchuserdetails(HttpServletRequest request) {
 	private String logout(HttpServletRequest request) {
 		String url;
 		url = "/index.jsp";
-		request.getSession().invalidate();
+		try {
+			user = new Users();
+			request.logout();	
+			request.getSession().setAttribute("User", null);
+			request.getSession().invalidate();
+		}
+		catch (ServletException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return url;
 	}
 

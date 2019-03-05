@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;  
 import java.util.Date;  
 import data.*;
@@ -23,6 +26,7 @@ public class ReservationsController extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
+		
 		reservationLandingPage(request, response);	
 	}
 
@@ -34,12 +38,19 @@ public class ReservationsController extends HttpServlet {
 		//1st page - Get Start End Times & Area
 		if (action.equalsIgnoreCase("Search") ) {  
 			//TODO: Implement Request Spot , add Permit Type & Cart Attributes
-			String startTime = request.getParameter("start_time");
-			
+			String startTime = request.getParameter("start_time");		
 			String endTime = request.getParameter("end_time");
-			int areaId = Integer.parseInt(request.getParameter("areaDropDrown"));
-	        request.setAttribute("selectedAreaId", areaId);
-	        listFloorsAndAvailableSpots(request, response, areaId, startTime, endTime);
+			String error = validateDateTime(startTime,endTime,request);
+			if(error == "")
+			{
+				int areaId = Integer.parseInt(request.getParameter("areaDropDrown"));
+		        request.setAttribute("selectedAreaId", areaId);
+		        listFloorsAndAvailableSpots(request, response, areaId, startTime, endTime);
+			}
+			else
+			{
+				reservationLandingPage(request, response);	
+			}
 
 		}
 		
@@ -154,6 +165,135 @@ public class ReservationsController extends HttpServlet {
 		}
 
     }
+
+	private String validateDateTime(String startTime, String endTime,HttpServletRequest request) {
+		String startTimeError ="";
+		String endTimeError ="";
+		String compareError ="";
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		if(startTime.isEmpty())
+		{
+			startTimeError = "This field is required.";
+		}
+		else
+		{
+			try
+			{
+			Date startdate = formatter.parse(startTime);	
+			Date date = new Date();
+			int startHours = startdate.getHours();
+			int startMins =  startdate.getMinutes();
+			int currentHours = date.getHours();
+			int currentMins = date.getMinutes();
+				if(startHours < currentHours)
+				{
+					startTimeError = "Start time cannot be before current time.";
+				}
+				else
+				{
+					if(startHours == currentHours && startMins < currentMins)
+					{
+						startTimeError = "Start time cannot be before current time.";
+					}
+					else
+					{
+					    startTimeError ="";	
+					}
+				}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		}
+		if(endTime.isEmpty())
+		{
+			endTimeError = "This field is required.";
+		}
+		else
+		{
+			try
+			{
+			Date enddate = formatter.parse(endTime);
+			Date date  = new Date();
+			int endHours = enddate.getHours();
+			int endMins =  enddate.getMinutes();
+			int currentHours = date.getHours();
+			int currentMins = date.getMinutes();
+			
+			if(endHours < currentHours)
+			{
+				endTimeError = "End time cannot be before current time.";
+			}
+			else
+			{
+				if(endHours == currentHours && endMins < currentMins)
+				{
+					endTimeError = "End time cannot be before current time.";
+				}
+				else
+				{
+					endTimeError ="";	
+				}
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		}
+		if(!endTime.isEmpty() && !startTime.isEmpty())
+		{
+			Date enddate;
+			try {
+				enddate = formatter.parse(endTime);
+			
+			Date startdate;
+				startdate = formatter.parse(startTime);
+			int endHours = enddate.getHours();
+			int endMins =  enddate.getMinutes();
+			int startHours = startdate.getHours();
+			int startMins =  startdate.getMinutes();
+			int diffHours = endHours - startHours;
+			int diffMins = (endHours*60 + endMins) - (startHours*60 + startMins);
+			
+			
+			if(startdate.after(enddate))
+			{
+				compareError = "Start time cannot be after end time.";
+			}
+			else if(startdate.equals(enddate))
+			{
+				compareError = "Start time and end time cannot be same.";
+			}
+			else if(enddate.before(startdate))
+			{
+				compareError = "End time cannot be before start time.";
+			}
+			else if(diffHours >3)
+			{
+				compareError = "Reservation cannot be for more than 3 hours.";
+			}
+			else if(diffMins >180)
+			{
+				compareError = "Reservation cannot be for more than 3 hours.";
+			}
+			else
+			{
+				compareError = "";
+			}
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
+			
+		}
+		request.setAttribute("endTimeError", endTimeError);
+		request.setAttribute("startTimeError", startTimeError);
+		request.setAttribute("compareError", compareError);
+		if(!compareError.isEmpty() || !startTimeError.isEmpty() || !endTimeError.isEmpty())
+			return "There are time errors.";
+		else
+			return "";
+	}
 
 	private CreditCardError validatecreditcarddetails(String cardNumber, String expMonth, String expYear, String cardType,
 			String cvv,CreditCardError errorMsgs) {
@@ -340,6 +480,11 @@ public class ReservationsController extends HttpServlet {
 		reserve.setOverStay(false);
 		reserve.setSpotUID((Integer)session.getAttribute("resspotUID"));
 		reserve.setUserID(user.getUserID());
+		Integer resIdForEdit = (Integer) session.getAttribute("editReservationId");
+		Boolean previousReservationDeleted = false;
+		if(resIdForEdit != null){
+			previousReservationDeleted = ReservationsDAO.deleteReservationbyResId(resIdForEdit);
+		}
 		Boolean isReservationSuccessful = ReservationsDAO.StoreReservationsInDB(reserve);
 		return isReservationSuccessful;
 	}

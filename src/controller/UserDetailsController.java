@@ -29,6 +29,7 @@ public class UserDetailsController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		listSex(request,response);
 		String action = request.getParameter("action");
 		if (action.equalsIgnoreCase("listUsers")) {
 			handleListUser(request, response, session);
@@ -61,6 +62,7 @@ public class UserDetailsController extends HttpServlet {
 		switch (action) {
 		case "saveUserDetails":
 			url = handleSaveUserDetails(request, action, url, session, userdetails, errorMsgs);
+			listSex(request,response);
 			getServletContext().getRequestDispatcher(url).forward(request, response);
 			break;
 		case "revoke":
@@ -119,7 +121,7 @@ public class UserDetailsController extends HttpServlet {
 			Boolean isSuccess = false;
 			isSuccess = UserDetailsDAO.insertUserDetails(userdetails);
 			if (isSuccess) {
-				request.setAttribute("isSuccess", isSuccess);
+				request.setAttribute("isSuccessful", isSuccess);
 				UserDetailsErrorMsgs errorMsgsuser = new UserDetailsErrorMsgs();
 				session.setAttribute("userDetailsErrorMsgs", errorMsgsuser);
 				url = "/index.jsp";

@@ -17,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import data.FetchParkingSpotsDAO;
 import data.MakeReservationsDOA;
 import data.ReservationsDAO;
+import data.UsersDAO;
 import model.*;
 
 @WebServlet("/ModifyReservationController")
@@ -25,7 +26,16 @@ public class ModifyReservationController extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		showRelevantReservations(request, response);	
+		String action = request.getParameter("action");	
+		
+		if(action != null)
+		{
+			if (action.equalsIgnoreCase("editReservation")) {
+				showReservationsForEdit(request, response);
+			}
+			
+		}
+		showRelevantReservations(request, response);
 	}
 	
 	@Override
@@ -38,6 +48,18 @@ public class ModifyReservationController extends HttpServlet {
 			Boolean result = ReservationsDAO.deleteReservationbyResId(resId);
 			request.setAttribute("isNoShow", result);
 			showRelevantReservations(request, response);
+		}
+		
+		if (action.equalsIgnoreCase("editReservation") ) { 
+			HttpSession session = request.getSession();
+			int resId = Integer.parseInt(request.getParameter("reservationID"));
+			session.setAttribute("editReservationId", resId);
+			ArrayList<ParkingArea> allAreas = FetchParkingSpotsDAO.getAllParkingAreas();
+			request.setAttribute("Areas", allAreas);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/Reserve.jsp");
+            dispatcher.forward(request, response);
+			
+			
 		}
 
     }
@@ -59,6 +81,34 @@ public class ModifyReservationController extends HttpServlet {
 				ArrayList<ReservationsHelper> allReservations = MakeReservationsDOA.GetReservationsByReservationDate(timeStamp);
 				request.setAttribute("allreservations", allReservations);
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/DeleteReservation.jsp");
+	            dispatcher.forward(request, response);
+			}
+
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			throw new ServletException(e);
+		}
+    }
+
+	private void showReservationsForEdit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		try 
+		{
+			HttpSession session = request.getSession();
+			Users user = (Users) session.getAttribute("User");
+			if(user.getRole().equals("ParkingUser")){
+				ArrayList<ReservationsHelper> allReservations = MakeReservationsDOA.GetReservationsByUserId(user.getUserID());
+				request.setAttribute("allreservations", allReservations);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/EditReservation.jsp");
+	            dispatcher.forward(request, response);
+			}
+			else if(user.getRole().equals("ParkingManager")){
+				String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+				ArrayList<ReservationsHelper> allReservations = MakeReservationsDOA.GetReservationsByReservationDate(timeStamp);
+				request.setAttribute("allreservations", allReservations);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/EditReservation.jsp");
 	            dispatcher.forward(request, response);
 			}
 
