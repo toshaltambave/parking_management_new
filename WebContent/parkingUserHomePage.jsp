@@ -30,9 +30,9 @@
 <div class="col"><a class="btn btn-info" href="${pageContext.request.contextPath}/UpdateUserController?action=getList">Update profile</a> </div> <br>
 <div class="col"><a class="btn btn-info"href="${pageContext.request.contextPath}/GetReservationByUser">View My reservation</a> </div> <br> <!-- TODO ADITYA -->
 <div class="col"><a class="btn btn-info" href="${pageContext.request.contextPath}/ReservationsController">Request a reservation</a> </div> <br>
-<div class="col"><a class="btn btn-info" href="#" onclick="return false;">Edit a reservation</a> </div> <br> <!-- TODO TOSHAL -->
+<div class="col"><a class="btn btn-info" href="${pageContext.request.contextPath}/ModifyReservationController?action=editReservation">Edit a reservation</a> </div> <br> <!-- TODO TOSHAL -->
 <!-- <div class="col"><a class="btn btn-info" href="#" onclick="return false;">View reservation status</a> </div> <br> -->
-<div class="col"><a class="btn btn-info" href=${pageContext.request.contextPath}/ModifyReservationController">Cancel a reservation</a> </div> <br> <!-- TODO TOSHAL -->
+<div class="col"><a class="btn btn-info" href="${pageContext.request.contextPath}/ModifyReservationController">Cancel a reservation</a> </div> <br> <!-- TODO TOSHAL -->
 <div class="col"><a class="btn btn-info" href="${pageContext.request.contextPath}/UserViolationsController"">View no-shows and violations</a> </div> <br> <!-- TODO ADITYA -->
 <div class="col"><a class="btn btn-info" href="${pageContext.request.contextPath}/SpotSearchController">View parking spots</a> </div>
 </div>

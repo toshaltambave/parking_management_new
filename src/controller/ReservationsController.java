@@ -23,6 +23,7 @@ public class ReservationsController extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
+		
 		reservationLandingPage(request, response);	
 	}
 
@@ -340,6 +341,11 @@ public class ReservationsController extends HttpServlet {
 		reserve.setOverStay(false);
 		reserve.setSpotUID((Integer)session.getAttribute("resspotUID"));
 		reserve.setUserID(user.getUserID());
+		Integer resIdForEdit = (Integer) session.getAttribute("editReservationId");
+		Boolean previousReservationDeleted = false;
+		if(resIdForEdit != null){
+			previousReservationDeleted = ReservationsDAO.deleteReservationbyResId(resIdForEdit);
+		}
 		Boolean isReservationSuccessful = ReservationsDAO.StoreReservationsInDB(reserve);
 		return isReservationSuccessful;
 	}

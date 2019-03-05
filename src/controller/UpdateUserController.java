@@ -80,8 +80,8 @@ public class UpdateUserController extends HttpServlet {
 	}
 
 	private void getUpdatedUserDetailsParam(HttpServletRequest request, UpdatedUserDetails updatedUserdetails) {
-		updatedUserdetails.setUpdatedUserDetails(request.getParameter("firstName"), request.getParameter("middleName"),
-				request.getParameter("lastName"), request.getParameter("username"), request.getParameter("sex"),
+		updatedUserdetails.setUpdatedUserDetails(request.getParameter("firstname"), request.getParameter("middlename"),
+				request.getParameter("lastname"), request.getParameter("username"), request.getParameter("sex"),
 				request.getParameter("dob"), request.getParameter("address"), request.getParameter("email"),
 				request.getParameter("phone"), request.getParameter("dlno"), request.getParameter("dlexpirydte"),
 				request.getParameter("regno"), request.getParameter("utaid"), request.getParameter("hashpass"),
