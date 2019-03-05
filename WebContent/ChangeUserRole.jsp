@@ -26,7 +26,7 @@
 						document.getElementById('two').innerHTML = xhttp.responseText;
 					}
 				};
-				xhttp.open("GET", "UserDetailsController?action=" + val, true)
+				xhttp.open("POST", "UserDetailsController?action=" + val, true)
 				xhttp.send();
 			}
 		</script>
@@ -36,9 +36,8 @@
 		<div class="col">
 		<label> Select the user by the following:</label>
 		<select id="one" name=type onchange="chg()">
-			<option>Select Search Users by</option>
+			<option value="" disabled selected style="display: none;">Select Search Users by</option>
 			<option value="UserName">UserName</option>
-			<option value="LastName">LastName</option>
 		</select> 
 		</div>
 		</div>
@@ -75,7 +74,7 @@
 		</div>
 		<div class="col">
 			<c:if test="${isSuccess eq true}">
-			<div class="alert alert-success" role="alert"> Registered Successfully.</div>
+			<div class="alert alert-success" role="alert">Role has changed for User.</div>
 			</c:if>
 		</div>	
 	</form>

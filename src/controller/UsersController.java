@@ -48,6 +48,7 @@ public class UsersController extends HttpServlet {
 			else // redirect all other gets to post
 				doPost(request, response);
 		}
+
 	}
 private void searchuserdetails(HttpServletRequest request) {
 	String type = request.getParameter("type");
@@ -68,6 +69,8 @@ private void searchuserdetails(HttpServletRequest request) {
 			throws ServletException, IOException {
 
 		String action = request.getParameter("action"), url = "";
+		String userName = request.getParameter("username");
+		
 		HttpSession session = request.getSession();
 		
 		UsersErrorMsgs errorMsgs = new UsersErrorMsgs();
@@ -188,6 +191,7 @@ private void searchuserdetails(HttpServletRequest request) {
 			else if("ParkingUser".equalsIgnoreCase(user.getRole()))
 			{
 				url = "/parkingUserHomePage.jsp";
+				
 			}
 		}
 		//Login Failed
@@ -200,6 +204,8 @@ private void searchuserdetails(HttpServletRequest request) {
 				url = "/index.jsp";
 			}
 		}
+
 		return url;
+
 	}
 }
