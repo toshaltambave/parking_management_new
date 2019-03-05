@@ -14,7 +14,7 @@
 <div class="row">
 <div class="form-group">
 <br><div class="col"><a class="btn btn-info"href="#" onclick="return false;">Update profile</a></div>  <!-- TODO JOEL -->
-<br><div class="col"><a class="btn btn-info"href="userSearch.jsp">Search for User</a></div> 
+<br><div class="col"><a class="btn btn-info"href="UserSearch.jsp">Search for User</a></div> 
 <br><div class="col"><a class="btn btn-info"href="#" onclick="return false;">View spaces by type and time</a></div> <!-- TODO SHEHZAD -->
 <br><div class="col"><a class="btn btn-info"href="#" onclick="return false;">View parking spot details</a></div> <!-- TODO SHEHZAD -->
 <br><div class="col"><a class="btn btn-info"href="#" onclick="return false;">View parking user details</a></div> <!-- TODO JOEL -->
