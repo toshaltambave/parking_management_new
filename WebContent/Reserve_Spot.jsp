@@ -17,14 +17,14 @@
 			        <h3>Permit Type: ${selectedPermitType} </h3>
 			        <h3>Time: ${selectedStartTime} To ${selectedEndTime } </h3>
 			        <label>Select Spot to Reserve </label>
-						<table>
+						<table class="table table-bordered center_div">
 							<tr>
 								<th>Spot ID</th>
 							</tr>
 							<c:forEach items="${spotsList}" var="ParkingSpots" begin="0" end="${fn:length(spotsList)}">
 								<tr>
 									<form action="${pageContext.request.contextPath}/ReservationsController?startReservation" method="post">
-										<td><input type="submit" value="${ParkingSpots.spot_Id}"></td>
+										<td><input class="btn btn-secondary" type="submit" value="${ParkingSpots.spot_Id}"></td>
 										<input type="hidden" name="selectedAreaId" value="${selectedArea.area_Id}">
 										<input type="hidden" name="selectedFloorNumber" value="${selectedFloorNumber}">
 										<input type="hidden" name="selectedPermitType" value="${selectedPermitType}">
@@ -41,7 +41,7 @@
 						
 			    
 			</div>
-			<button type="button" name="back" onclick="history.back()">Back</button>			
+			<button class="btn btn-secondary" type="button" name="back" onclick="history.back()">Back</button>			
 		</div>
     </jsp:body>
 </t:_layout>

@@ -44,7 +44,7 @@ public class ParkingSpotsController extends HttpServlet  {
 			HttpSession session = request.getSession();
 			ParkingArea selectedArea = FetchParkingSpotsDAO.getspecificParkingArea(areaId);
 			Users user = (Users) session.getAttribute("User");
-			ArrayList<ParkingAreaFloors> floorDetails = FetchParkingSpotsDAO.getFloorsbyParkingAreaId(areaId, user.getPermitType());
+			ArrayList<ParkingAreaFloors> floorDetails = FetchParkingSpotsDAO.getFilteredFloorsbyParkingAreaId(areaId, user.getPermitType());
 			request.setAttribute("selectedArea", selectedArea);
 			request.setAttribute("allFloors", floorDetails);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/ParkingSpotFloors.jsp");
@@ -60,6 +60,7 @@ public class ParkingSpotsController extends HttpServlet  {
 	(	HttpServletRequest request, HttpServletResponse response, Integer areaId, Integer floorNumber,String permitType 
 	) throws ServletException, IOException 
 	{
+		HttpSession session = request.getSession();
 		try 
 		{
 			ParkingArea selectedArea = FetchParkingSpotsDAO.getspecificParkingArea(areaId);
@@ -68,6 +69,9 @@ public class ParkingSpotsController extends HttpServlet  {
 			request.setAttribute("selectedFloorNumber", floorNumber);
 			request.setAttribute("selectedPermitType", permitType);
 			request.setAttribute("spotsList", spotsList);
+			session.setAttribute("selectedArea", selectedArea);
+			session.setAttribute("selectedFloorNumber", floorNumber);
+			session.setAttribute("selectedPermitType", permitType);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/ParkingSpots.jsp");
             dispatcher.forward(request, response);
 		}
@@ -80,7 +84,8 @@ public class ParkingSpotsController extends HttpServlet  {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-        String action = request.getParameter("action");
+		HttpSession session = request.getSession();
+		        String action = request.getParameter("action");
 		if (action.equalsIgnoreCase("getSelectedArea") ) {  
 			int areaId = Integer.parseInt(request.getParameter("areaDropDrown"));
 	        request.setAttribute("selectedAreaId", areaId);
@@ -92,12 +97,36 @@ public class ParkingSpotsController extends HttpServlet  {
 			int selectedFloorNumber = Integer.parseInt(request.getParameter("selectedFloorNumber"));
 			String selectedPermitType = request.getParameter("selectedPermitType");
 	        request.setAttribute("selectedAreaId", areaId);
+	        session.setAttribute("selectedAreaId", areaId);
 	        listSpotsForSelectedFloor(request, response, areaId, selectedFloorNumber, selectedPermitType);
 		}
 		
 		if(action.equalsIgnoreCase("toggleBlock")){
 			int spotUID = Integer.parseInt(request.getParameter("selectedSpotUId"));
-			int isBlocked = Integer.parseInt(request.getParameter("isBlocked"));
+			int isBlocked = convertBoolToInt(request.getParameter("isBlocked"));
+			int areaId = (int)session.getAttribute("selectedAreaId");
+			int selectedFloorNumber = (int) session.getAttribute("selectedFloorNumber");
+			String selectedPermitType = (String) session.getAttribute("selectedPermitType");
+			toggleBlock(spotUID,isBlocked,request, response);
+			listSpotsForSelectedFloor(request, response, areaId, selectedFloorNumber, selectedPermitType);
 		}
     }
+	
+	public static Integer convertBoolToInt(String actual){
+		if(actual.equalsIgnoreCase("true")){
+			return 1;
+		}
+		else
+			return 0;
+	}
+	
+	private void toggleBlock(int spotUID,int isBlocked,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	{
+		HttpSession session = request.getSession();
+		Boolean isblocksuccess = FetchParkingSpotsDAO.blockSpot(spotUID,isBlocked); 
+	 	if(isblocksuccess)
+	 	{
+	 		session.setAttribute("isblocksuccess", isblocksuccess);
+	 	}
+	}
 }

@@ -8,39 +8,82 @@ import java.util.regex.Pattern;
 
 import com.sun.istack.internal.logging.Logger;
 
-public class UserDetails {
-	private static final Logger LOG = Logger.getLogger(UserDetails.class.getName(), UserDetails.class);
+import data.UsersDAO;
+
+public class UpdatedUserDetails {
+	private static final Logger LOG = Logger.getLogger(UpdatedUserDetails.class.getName(), UpdatedUserDetails.class);
 	// private static final long serialVersionUID = 3L;
 	private Integer UserID;
 	private String FirstName = "";
 	private String MiddleName = "";
 	private String LastName = "";
 	private String Sex = "";
-	private String birthDate = "";
+	private String birthDate;
 	private String Address = "";
 	private String Email = "";
 	private String Phone = "";
 	private String DrivingLicenseNo = "";
-	private String DrivingLicenseExpiry = "";
+	private String DrivingLicenseExpiry;
 	private String RegistrationNumber = "";
 	private String uta_Id = "";
 	private String username = "";
+	private String HashedPassword = "";
+	private String ConfirmPassword = "";
+	private String Role = "";
+	private String PermitType = "";
 
-	public void setUserDetails(String firstname, String middlename, String lastname, String sex, String dob,
-			String Address, String Email, String Phone, String DL_Number, String DL_Expiry, String Reg_Number,
-			String uta_Id) {
-		setFirstName(firstname);
-		setMiddleName(middlename);
-		setLastName(lastname);
+	public void setUpdatedUserDetails(String firstName, String middleName, String lastName, String userName, String sex,
+			String dob, String address, String email, String phone, String dlNumber, String dlExpiry, String regNumber,
+			String utaId, String hashPass, String confirmPass, String role, String permitType) {
+		setFirstName(firstName);
+		setMiddleName(middleName);
+		setLastName(lastName);
+		setUserName(userName);
 		setSex(sex);
 		setBirthDate(dob);
-		setAddress(Address);
-		setEmail(Email);
-		setPhone(Phone);
-		setDrivingLicenseNo(DL_Number);
-		setDrivingLicenseExpiry(DL_Expiry);
-		setRegistrationNumber(Reg_Number);
-		setUta_Id(uta_Id);
+		setAddress(address);
+		setEmail(email);
+		setPhone(phone);
+		setDrivingLicenseNo(dlNumber);
+		setDrivingLicenseExpiry(dlExpiry);
+		setRegistrationNumber(regNumber);
+		setUta_Id(utaId);
+		setHashedPassword(hashPass);
+		setConfirmPassword(confirmPass);
+		setRole(role);
+		setPermitType(permitType);
+	}
+
+	public String getHashedPassword() {
+		return HashedPassword;
+	}
+
+	public void setHashedPassword(String hashedPassword) {
+		HashedPassword = hashedPassword;
+	}
+
+	public String getConfirmPassword() {
+		return ConfirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		ConfirmPassword = confirmPassword;
+	}
+
+	public String getRole() {
+		return Role;
+	}
+
+	public void setRole(String role) {
+		Role = role;
+	}
+
+	public String getPermitType() {
+		return PermitType;
+	}
+
+	public void setPermitType(String permitType) {
+		PermitType = permitType;
 	}
 
 	public String getDrivingLicenseNo() {
@@ -56,7 +99,15 @@ public class UserDetails {
 	}
 
 	public void setDrivingLicenseExpiry(String drivingLicenseExpiry) {
-		this.DrivingLicenseExpiry = drivingLicenseExpiry;
+		DrivingLicenseExpiry = drivingLicenseExpiry;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getRegistrationNumber() {
@@ -67,11 +118,11 @@ public class UserDetails {
 		RegistrationNumber = registrationNumber;
 	}
 
-	public String getUsername() {
+	public String getUserName() {
 		return username;
 	}
 
-	public void setUsername(String username) {
+	public void setUserName(String username) {
 		this.username = username;
 	}
 
@@ -155,11 +206,14 @@ public class UserDetails {
 		this.uta_Id = uta_Id;
 	}
 
-	public void validateUserDetails(String action, UserDetails UserDetail, UserDetailsErrorMsgs errorMsgs) {
-		if (action.equals("saveUserDetails")) {
+	public void validateUserDetails(String action, UpdatedUserDetails UserDetail,
+			UpdatedUserDetailsErrorMsgs errorMsgs) {
+		LOG.info("VALIDATING.........");
+		LOG.info("USERNAME: "+UserDetail.getUserName());
+		if (action.equals("update")) {
 			errorMsgs.setFirstNameError(validateName(action, UserDetail.getFirstName()));
 			String middleName = UserDetail.getMiddleName();
-			if (!middleName.isEmpty()) {
+			if (middleName != null && !middleName.isEmpty()) {
 				errorMsgs.setMiddleNameError(validateName(action, UserDetail.getMiddleName()));
 			}
 			errorMsgs.setLastNameError(validateName(action, UserDetail.getLastName()));
@@ -171,9 +225,16 @@ public class UserDetails {
 			errorMsgs.setRegNumberError(validateRegNo(6, 10, UserDetail.getRegistrationNumber()));
 			errorMsgs.setUtaIdError(validateUTAId(UserDetail.getUta_Id()));
 			errorMsgs.setDrivingLicenseExpiry(validateMandatory(UserDetail.getDrivingLicenseExpiry()));
+			errorMsgs.setUsernameError(validateUsername(action, UserDetail.getUserName()));
+			errorMsgs.setHashedPasswordError(validatePassword(UserDetail.getHashedPassword()));
+			errorMsgs.setConfirmPasswordError(
+					validateConfirmPassword(UserDetail.getHashedPassword(), UserDetail.getConfirmPassword()));
+			errorMsgs.setRoleError(validateRole(UserDetail.getRole()));
+			errorMsgs.setPermitTypeError(validatePermitType(UserDetail.getPermitType(), UserDetail.getRole()));
 
 			errorMsgs.setErrorMsg(action);
 		}
+		LOG.info("ACTION: "+action);
 	}
 
 	private String validateUTAId(String utaID) {
@@ -198,7 +259,7 @@ public class UserDetails {
 	private String validateName(String action, String name) {
 		if (name != null && !name.isEmpty()) {
 			String result = "";
-			if (action.equals("saveUserDetails")) {
+			if (action.equals("update")) {
 				String regex = "(.)*(\\d)(.)*";
 				Pattern pattern = Pattern.compile(regex);
 				boolean containsNumber = pattern.matcher(name).matches();
@@ -250,13 +311,12 @@ public class UserDetails {
 		}
 	}
 
-
 	private String validateDOB(String DOB) {
 		String result = "";
+		Date date = new Date();
 		if (DOB != null && !DOB.isEmpty()) {
 			try {
-				
-				Date date;
+
 				date = new SimpleDateFormat("yyyy-MM-dd").parse(DOB);
 				Calendar cal = Calendar.getInstance();
 
@@ -267,7 +327,6 @@ public class UserDetails {
 			} catch (java.text.ParseException e) {
 				LOG.log(Level.SEVERE, "Date Error: ", e);
 			}
-
 		} else
 			result = "The field is mandatory.";
 		return result;
@@ -306,6 +365,78 @@ public class UserDetails {
 		} else {
 			return "The field is mandatory.";
 		}
+	}
+
+	private String validateUsername(String action, String username) {
+		String result = "";
+		if (action.equals("update")) {
+			if (!stringSize(username, 4, 10))
+				result = "Your username must between 4 and 10 characters";
+			else if (!UsersDAO.Usernameunique(username))
+				result = "Username is already in database";
+		}
+		return result;
+	}
+
+	private String validatePassword(String password) {
+		String result = "";
+		if (!stringSize(password, 4, 10))
+			result = "Your password must between 4 and 10 characters.";
+		else {
+			char ch;
+			boolean capitalFlag = false;
+			boolean numberFlag = false;
+			for (int i = 0; i < password.length(); i++) {
+				ch = password.charAt(i);
+				if (Character.isDigit(ch)) {
+					numberFlag = true;
+					result = "";
+				} else {
+					if (!numberFlag)
+						result = "Password must contain at least one number.";
+				}
+				if (Character.isUpperCase(ch)) {
+					capitalFlag = true;
+					result = "";
+
+				} else {
+					if (!capitalFlag)
+						result = "Password must contain at least one uppercase.";
+				}
+				if (!numberFlag && !capitalFlag)
+					result = "Password must contain at least one uppercase and one number.";
+			}
+		}
+		return result;
+	}
+
+	private String validateConfirmPassword(String password, String confirmPassword) {
+		String result = "";
+		if (!password.contentEquals(confirmPassword))
+			result = "Passwords do not match.";
+		else
+			result = "";
+		return result;
+	}
+
+	private String validateRole(String role) {
+		String result = "";
+		if (role.contentEquals("Select User Role"))
+			result = "Select the role of the user.";
+		else
+			result = "";
+		return result;
+	}
+
+	private String validatePermitType(String permitType, String role) {
+		String result = "";
+		if (role.contentEquals("ParkingUser")) {
+			if (permitType.contentEquals("Select Permit Type"))
+				result = "Permit type is mandatory for Parking User.";
+			else
+				result = "";
+		}
+		return result;
 	}
 
 }

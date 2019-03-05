@@ -210,8 +210,6 @@ public class MakeReservationsDOA{
 	 Connection conn = SQLConnection.getDBConnection();
 	 try{
 		 	
-
-		 	
 			stmt=conn.createStatement();
 			String queryString="update reservations set NoShow=1 where Reservation_Id="+reservationID+";";
 			stmt.executeUpdate(queryString);
@@ -348,6 +346,50 @@ public class MakeReservationsDOA{
 		}
 	}
 	return ReservationsById;
+}
+
+public static ArrayList<ReservationsHelper> GetReservationsViolations (String current_date, Integer user_id) {
+	ArrayList<ReservationsHelper> ReservationsViolations = new ArrayList<ReservationsHelper>();
+	Statement stmt = null;
+	Connection conn = SQLConnection.getDBConnection();
+	try{
+		stmt=conn.createStatement();
+		String queryString="SELECT r.Reservation_Id,s.UserName,s_u.LastName,p_a.Area_Name, p.Floor_Number,p.Spot_Id,r.Start_Time,r.End_Time,r.NoShow,r.OverStay "
+						+"from reservations as r "
+						+"Inner join system_users as s on r.User_ID=s.User_ID "
+						+"Inner join user_details as s_u on r.User_ID=s_u.User_ID "
+						+"Inner join parking_spots as p on r.Spot_UID=p.Spot_UID "
+						+"Inner join parking_area as p_a on p.Area_Id=p_a.Area_Id "
+						+"where r.End_Time <='"+current_date+"' "
+						+ "And (r.NoShow=1 or r.OverStay=1) "
+						+"And s.User_Id="+user_id+";";
+		ResultSet reservationList = stmt.executeQuery(queryString);
+		while (reservationList.next()) {
+			ReservationsHelper reservation = new ReservationsHelper();
+			reservation.setReservationID(reservationList.getInt("Reservation_Id"));
+			reservation.setUserName(reservationList.getString("UserName"));
+			reservation.setLastName(reservationList.getString("LastName"));
+			reservation.setAreaName(reservationList.getString("Area_Name"));
+			reservation.setFloor_Number(reservationList.getInt("Floor_Number"));
+			reservation.setSpot_Id(reservationList.getInt("Spot_Id"));
+			reservation.setStart_Time(reservationList.getString("Start_Time"));
+			reservation.setEnd_Time(reservationList.getString("End_Time"));
+			reservation.setisNoShow(reservationList.getInt("NoShow"));
+			reservation.setisOverDue(reservationList.getInt("OverStay"));
+			ReservationsViolations.add(reservation);
+		
+		}
+	}catch (SQLException e) {
+		e.printStackTrace();
+	} finally {
+		try {
+			conn.close();
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	return ReservationsViolations;
 }
  
 	public static Integer CountReservationsInDay(Integer user_id){

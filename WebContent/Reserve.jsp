@@ -5,9 +5,10 @@
 	<jsp:attribute name="header">
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+		<script type="text/javascript" src="bootstrap/js/datepicker.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />
-		<link href="https://opensource.keycdn.com/fontawesome/4.7.0/font-awesome.min.css" rel="stylesheet"/>
+		<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     </jsp:attribute>
 	<jsp:attribute name="footer">
     </jsp:attribute>
@@ -23,7 +24,7 @@
 					<label for="start_time">Start Time</label>
 					<div class="col">
 					    <div class="input-group date" id="datetimepicker" data-target-input="nearest">
-		                    <input type="text" name="start_time" class="form-control datetimepicker-input" data-target="#datetimepicker"/>
+		                    <input id="starttime" type="text" name="start_time" class="form-control datetimepicker-input" data-target="#datetimepicker"/>
 		                    <div class="input-group-append" data-target="#datetimepicker" data-toggle="datetimepicker">
 		                        <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
 		                    </div>
@@ -32,7 +33,7 @@
 				    <label for="end_time">End Time</label>
 					<div class="col">
 					    <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-		                    <input type="text" name="end_time" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>
+		                    <input id="endtime" type="text" name="end_time" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>
 		                    <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
 		                        <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
 		                    </div>
@@ -62,17 +63,5 @@
 			</form>
 		</div>
 	</div>	
-		<script type="text/javascript">
-            $(function () {
-                $('#datetimepicker').datetimepicker({
-                    format: 'YYYY-MM-DD HH:mm:ss'
-                });
-            });
-            $(function () {
-                $('#datetimepicker1').datetimepicker({
-                	format: 'YYYY-MM-DD HH:mm:ss'
-                });
-            });
-        </script>
     </jsp:body>
 </t:_layout>
