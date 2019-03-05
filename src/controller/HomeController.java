@@ -37,7 +37,7 @@ public class HomeController extends HttpServlet {
 		url="/parkingUserHomePage.jsp";
 		}
 		else if (user.getRole().equals("ParkingManager")){
-			url="/parkingManagerHomePage.jsp";
+			url="/parkingManagementHomePage.jsp";
 		}
 		else if (user.getRole().equals("Admin")){
 			url="/adminHomePage.jsp";
