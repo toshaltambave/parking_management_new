@@ -4,7 +4,8 @@
 <t:_layout>
 	<jsp:attribute name="header">
 
-  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" /> 
+  <link rel="stylesheet"
+			href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" /> 
   <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
   <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>     
   <link rel="stylesheet" href="/resources/demos/style.css" />   
@@ -14,10 +15,8 @@
 }
 
 input[type="text"] {
-width:300px
+	width: 300px
 }
-
-
 </style>
   <script>
 			$(function() {
@@ -93,8 +92,7 @@ width:300px
     	<select name="sex" id="sex">
     	 <c:forEach var="sexValue" items="${allSex}">
 			   <option value="${sexValue}"
-			           <c:if test="${sexValue eq selectedsex}">selected="selected"</c:if>
-			     >
+										<c:if test="${sexValue eq selectedsex}">selected="selected"</c:if>>
 			        ${sexValue}
 			    </option>
      	</c:forEach>
