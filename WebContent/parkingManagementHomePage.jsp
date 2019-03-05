@@ -17,7 +17,7 @@
 <br><div class="col"><a class="btn btn-info"href="#" onclick="return false;">Update profile</a></div>  <!-- TODO JOEL -->
 <br><div class="col"><a class="btn btn-info"href="userSearch.jsp">Search for User</a></div> 
 <br><div class="col"><a class="btn btn-info"href="#" onclick="return false;">View spaces by type and time</a></div> <!-- TODO SHEHZAD -->
-<br><div class="col"><a class="btn btn-info"href="#" onclick="return false;">View parking spot details</a></div> <!-- TODO SHEHZAD -->
+<br><div class="col"><a class="btn btn-info"href="${pageContext.request.contextPath}/SpotSearchController" >View parking spot details</a></div> <!-- TODO SHEHZAD -->
 <br><div class="col"><a class="btn btn-info"href="#" onclick="return false;">View parking user details</a></div> <!-- TODO JOEL -->
 <br><div class="col"><a class="btn btn-info"href="#" onclick="return false;">Delete a reservation</a></div> <!-- TODO TOSHAL -->
 <br><div class="col"><a class="btn btn-info"href="#" onclick="return false;">Edit a reservation</a></div> <!-- TODO TOSHAL -->

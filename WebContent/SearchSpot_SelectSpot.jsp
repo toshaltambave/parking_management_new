@@ -16,18 +16,20 @@
 			        <h3>Floor: ${selectedFloorNumber} </h3>
 			        <h3>Permit Type: ${selectedPermitType} </h3>
 			        <label>Select Spot to Reserve </label>
-						<table>
+						<table class="table table-bordered center_div">
 							<tr>
 								<th>Spot ID</th>
+								<th>Floor Number</th>
+								<th>Blocked</th>
 							</tr>
 							<c:forEach items="${spotsList}" var="ParkingSpots" begin="0" end="${fn:length(spotsList)}">
 								<tr>
-									<td><input class="btn btn-secondary" type="submit" value="${ParkingSpots.spot_Id}" /></td>
+									<td>${ParkingSpots.spot_Id}</td>
+									<td>${ParkingSpots.floor_Number}</td>
+									<td>${ParkingSpots.isBlocked}</td>
 								</tr>
-								<input type="hidden" name="selectedSpotId" value="${ParkingSpots.spot_Id}">
 							</c:forEach>
 						</table>
-						<input name="action" value="" type="hidden">
 			    </form>
 			</div>
 			<button class="btn btn-secondary" type="button" name="back" onclick="history.back()">Back</button>			

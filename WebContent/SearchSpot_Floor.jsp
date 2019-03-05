@@ -12,7 +12,7 @@
 			<div align="center">
 			    <h2>${selectedArea.area_Name}</h2>
 			    <form action="${pageContext.request.contextPath}/SpotSearchController?getSpotsForFloor" method="post">
-					<table>
+					<table class="table table-bordered center_div">
 						<tr>
 							<th>Floor Number</th>
 							<th>Permit Type</th>
