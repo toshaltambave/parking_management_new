@@ -22,24 +22,24 @@
 						<div class="form-group">
 							<h6>Need Cart ? Adds $${cartPrice} </h6>
 							<label class="radio-inline"><input type="radio" name="cart" value="true">Yes</label>
-							<label class="radio-inline"><input type="radio" name="cart" value="false">No</label>
+							<label class="radio-inline"><input type="radio" name="cart" value="false" checked>No</label>
 						</div>
 						<div class="form-group">
 							<h6>Select Camera ? Adds $${cameraPrice}</h6>
 							<label class="radio-inline"><input type="radio" name="camera" value="true">Yes</label>
-							<label class="radio-inline"><input type="radio" name="camera" value="false">No</label>
+							<label class="radio-inline"><input type="radio" name="camera" value="false" checked>No</label>
 						</div>
 						<div class="form-group">
 							<h6>Select History ? Adds $${historyPrice}</h6>
 							<label class="radio-inline"><input type="radio" name="history" value="true">Yes</label>
-							<label class="radio-inline"><input type="radio" name="history" value="false">No</label>
+							<label class="radio-inline"><input type="radio" name="history" value="false" checked>No</label>
 						</div>
 						<input type="hidden" name="cart_price" value="${cartPrice}">
-						<input name="action" value="checkout" type="hidden">
+						<input class="btn btn-secondary" name="action" value="checkout" type="hidden">
 						<input type="submit" value="Finish">
 			    </form>
 			</div>
-			<button type="button" name="back" onclick="history.back()">Back</button>			
+			<button class="btn btn-secondary" type="button" name="back" onclick="history.back()">Back</button>			
 				
 		</div>
     </jsp:body>

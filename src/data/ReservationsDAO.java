@@ -147,7 +147,7 @@ static SQLConnection DBMgr = SQLConnection.getInstance();
 		return parkingSpotsInDb;
 	}
 
-	public static void StoreReservationsInDB (Reservation reservations) {
+	public static Boolean StoreReservationsInDB (Reservation reservations) {
 		Statement stmt = null;
 		Connection conn = SQLConnection.getDBConnection();  
 		try {
@@ -167,13 +167,16 @@ static SQLConnection DBMgr = SQLConnection.getInstance();
 			conn.commit(); 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return false;
 		} finally {
 			try {
 				conn.close();
 				stmt.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
+				return false;
 			}};
+			return true;
 	}
 	
 	

@@ -13,7 +13,7 @@
 			    <h2>${selectedArea.area_Name}</h2>
 			    <h3>From: ${startTime} To:  ${endTime}</h3>
 			    
-					<table>
+					<table class="table table-bordered center_div">
 						<tr>
 							<th>Floor Number</th>
 							<th>Permit Type</th>
@@ -25,7 +25,7 @@
 								<td>${ParkingAreaFloors.floor_Number}</td>
 								<td>${ParkingAreaFloors.permitType}</td>
 								<td>${ParkingAreaFloors.no_Spots}</td>
-								<td><input type="submit" value="Select" /></td>
+								<td><input class="btn btn-secondary" type="submit" value="Select" /></td>
 							</tr>
 							<input type="hidden" name="selectedAreaId" value="${selectedArea.area_Id}">
 							<input type="hidden" name="selectedFloorNumber" value="${ParkingAreaFloors.floor_Number}">
@@ -37,7 +37,7 @@
 						</c:forEach>
 					</table>
 			</div>
-			<button type="button" name="back" onclick="history.back()">Back</button>
+			<button class="btn btn-secondary" type="button" name="back" onclick="history.back()">Back</button>
 				
 		</div>
     </jsp:body>

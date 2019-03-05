@@ -1,6 +1,7 @@
 package data;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -125,6 +126,57 @@ public class FetchParkingSpotsDAO {
 		}
 		return filteredFloors;
 	}
+	
+	
+	public static ArrayList<ParkingAreaFloors> getFilteredFloorsbyParkingAreaId(int areaId, String permitType){
+		ArrayList<ParkingAreaFloors> filteredFloors = new ArrayList<ParkingAreaFloors>();
+		Iterator <ParkingAreaFloors> floorsList = FetchParkingSpotsDAO.getFilteredParkingAreaFloors().iterator();
+		while (floorsList.hasNext()) {
+			ParkingAreaFloors currentFloor = floorsList.next();
+				if(currentFloor.getArea_Id().equals(areaId))
+				{
+					filteredFloors.add(currentFloor);
+				}
+		}
+		return filteredFloors;
+	}
+
+	public static ArrayList<ParkingAreaFloors> getFilteredParkingAreaFloors () {
+
+		ArrayList<ParkingAreaFloors> parkingAreaFloorsInDb = new ArrayList<ParkingAreaFloors>();
+		
+			Statement stmt = null;
+			Connection conn = SQLConnection.getDBConnection();  
+		try {
+			stmt = conn.createStatement();
+			String query = "SELECT ps.Area_Id as Area_Id,ps.Floor_Number AS Floor_Number, ps.PermitType AS PermitType, Count(ps.Spot_Id) AS No_Spots FROM parking_area_floors AS paf " + 
+" JOIN parking_spots ps ON ps.Area_Id = paf.Area_Id AND ps.PermitType= paf.PermitType"+
+" AND ps.Floor_Number = paf.Floor_Number AND ps.IsBlocked= 0" +
+" group by ps.Area_Id,ps.Floor_Number, ps.PermitType;";
+			ResultSet floorList = stmt.executeQuery(query);
+			while (floorList.next()) {
+				ParkingAreaFloors floor = new ParkingAreaFloors(); 
+				floor.setArea_Id(floorList.getInt("Area_Id"));
+				floor.setFloor_Number(floorList.getInt("Floor_Number"));
+				floor.setNo_Spots(floorList.getInt("No_Spots"));
+				floor.setPermitType(floorList.getString("PermitType"));
+				parkingAreaFloorsInDb.add(floor);					
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			};
+		}
+		return parkingAreaFloorsInDb;
+	}
+
+	
+	
 
 //	public static ArrayList<ParkingAreaFloors> getFloorsbyAvailability(int areaId, String permitType, String start_time, String end_time){
 //		ArrayList<ParkingAreaFloors> filteredFloors = new ArrayList<ParkingAreaFloors>();
@@ -190,6 +242,7 @@ public class FetchParkingSpotsDAO {
 				spot.setIsBlocked(spotsList.getBoolean("isBlocked"));
 				spot.setPermitType(spotsList.getString("permitType"));
 				spot.setSpot_Id(spotsList.getInt("Spot_Id"));
+				spot.setSpot_UID(spotsList.getInt("Spot_UID"));
 				parkingSpotsInDb.add(spot);					
 			}
 		} catch (SQLException e) {
@@ -216,5 +269,40 @@ public class FetchParkingSpotsDAO {
 			}
 		}
 		return filteredSpots;
+	}
+
+	public static Boolean blockSpot(int spotUID, int isBlocked) {
+		 Connection conn = SQLConnection.getDBConnection();
+		 try{
+			 if(isBlocked == 1)
+			 {
+				 isBlocked=0;
+			 }
+			 else
+			 {
+				 isBlocked=1;
+			 }
+			 	PreparedStatement pst3 = null;
+				String queryString="UPDATE `parking_spots` SET `IsBlocked` = ? WHERE `Spot_UID` = ?";
+				pst3 = conn.prepareStatement(queryString);
+				pst3.setInt(1, isBlocked);
+				pst3.setInt(2, spotUID);
+				pst3.executeUpdate();
+				conn.commit();
+				
+		 }catch (SQLException e) {
+			 e.printStackTrace();
+			 return false;
+		 } finally {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					return false;
+				}
+			}
+		 
+		 return true;
+
 	}
 }

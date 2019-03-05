@@ -15,6 +15,11 @@
 <br>
 <div class="row">
 <div class="form-group">
+					<div class="col">
+						<c:if test="${isReservationSuccessful eq true}">
+							<div class="alert alert-success" role="alert"> Reservation has been made successfully.</div>
+						</c:if>
+					</div><br>
 <div class="col"><a class="btn btn-info"href="#" onclick="return false;">Update profile</a> </div> <br> <!-- TODO JOEL -->
 <div class="col"><a class="btn btn-info"href="#" onclick="return false;">View a reservation</a> </div> <br> <!-- TODO ADITYA -->
 <div class="col"><a class="btn btn-info"href="${pageContext.request.contextPath}/ReservationsController">Request a reservation</a> </div> <br>
