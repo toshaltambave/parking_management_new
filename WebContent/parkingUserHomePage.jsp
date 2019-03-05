@@ -15,14 +15,15 @@
 <br>
 <div class="row">
 <div class="form-group">
-<div class="col"><a class="btn btn-info"href="#" onclick="return false;">Update profile</a> </div> <br> <!-- TODO JOEL -->
-<div class="col"><a class="btn btn-info"href="#" onclick="return false;">View a reservation</a> </div> <br> <!-- TODO ADITYA -->
-<div class="col"><a class="btn btn-info"href="${pageContext.request.contextPath}/ReservationsController">Request a reservation</a> </div> <br>
-<div class="col"><a class="btn btn-info" href="#" onclick="return false;">Edit a reservation</a> </div> <br> <!-- TODO TOSHAL -->
-<!-- <div class="col"><a class="btn btn-info" href="#" onclick="return false;">View reservation status</a> </div> <br> -->
-<div class="col"><a class="btn btn-info" href="#" onclick="return false;">Cancel a reservation</a> </div> <br> <!-- TODO TOSHAL -->
-<div class="col"><a class="btn btn-info" href="#" onclick="return false;">View no-shows and violations</a> </div> <br> <!-- TODO ADITYA -->
-<%-- <div class="col"><a class="btn btn-info" href="${pageContext.request.contextPath}/SpotSearchController">View parking spots</a> </div> --%>
+<div class="col"><a class="btn btn-info"href="#" onclick="return false;">Create profile</a> </div> <br>
+<div class="col"><a class="btn btn-info"href="#" onclick="return false;">Update profile</a> </div> <br>
+<div class="col"><a class="btn btn-info"href="#" onclick="return false;">View a reservation</a> </div> <br>
+<div class="col"><a class="btn btn-info"href="#" onclick="return false;">Request a reservation</a> </div> <br>
+<div class="col"><a class="btn btn-info" href="#" onclick="return false;">Edit a reservation</a> </div> <br>
+<div class="col"><a class="btn btn-info" href="#" onclick="return false;">View reservation status</a> </div> <br>
+<div class="col"><a class="btn btn-info" href="#" onclick="return false;">Cancel a reservation</a> </div> <br>
+<div class="col"><a class="btn btn-info" href="#" onclick="return false;">View no-shows and violations</a> </div> <br>
+<div class="col"><a class="btn btn-info" href="${pageContext.request.contextPath}/SpotSearchController">View parking spots</a> </div>
 </div>
 </div>
 <form action="${pageContext.request.contextPath}/UsersController?logout" method="post">
