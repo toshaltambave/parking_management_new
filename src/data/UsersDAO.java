@@ -160,5 +160,41 @@ public class UsersDAO {
 		}
 		return userListInDB;
 	}
+	
+	public static Integer getUserIdbyUsername(String userName) {
+		Integer user_Id = 0;
+		Statement stmt = null;
+		Connection conn = SQLConnection.getDBConnection();
+		try {
+			stmt = conn.createStatement();
+			PreparedStatement pst = null;
+			String sql = "SELECT * FROM parking_management.system_users where username=?";
+			pst = conn.prepareStatement(sql);
+			pst.setString(1, userName);
+			ResultSet rs = pst.executeQuery();
+
+			if (!rs.isBeforeFirst()) {
+				System.out.println("No data");
+			} 
+			else{
+				rs.next();
+				user_Id = rs.getInt("User_Id");
+				
+				}
+					
+				
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return user_Id;
+	}
 
 }

@@ -11,13 +11,13 @@
             	        mm='0'+mm
             	    } 
 
-            	today = yyyy+'-'+dd+'-'+mm+' 00:00:00';
-            	end = yyyy+'-'+dd+'-'+mm+' 23:23:59';
-            	var dateFormat = "YYYY-DD-MM HH:mm:ss";
+            	today = yyyy+'-'+mm+'-'+dd+' 00:00:00';
+            	end = yyyy+'-'+mm+'-'+dd+' 23:23:59';
+            	var dateFormat = "YYYY-MM-DD HH:mm:ss";
           	    var CurrDate = today;
           	    var MinDate = today;
           	    var MaxDate = end;
-          	    var selected = document.getElementById('starttime').value
+          	    
             	  dateCurr = moment(CurrDate, dateFormat);
             	  dateMin = moment(MinDate, dateFormat);
             	  dateMax = moment(MaxDate, dateFormat);

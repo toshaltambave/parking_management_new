@@ -49,6 +49,7 @@
 								<td><input class="btn btn-secondary" type="submit" value="Select" /></td>
 								<input name="action" value="setOverDue" type="hidden">
 								<input type="hidden" name="reservationID" value="${AllReservation.reservationID}">
+								<input type="hidden" name="selectedUsername" value="${AllReservation.userName}">
 							 </form>
 							</tr>
 						</c:forEach>

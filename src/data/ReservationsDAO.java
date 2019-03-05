@@ -26,11 +26,11 @@ static SQLConnection DBMgr = SQLConnection.getInstance();
 			String query = "SELECT paf.Area_Id AS Area_Id,paf.Floor_Number AS Floor_Number ,paf.PermitType AS PermitType,(paf.No_Spots-Count(res.Spot_UID)) AS AvailableSpots "
 							+"FROM parking_area_floors AS paf "
 							+"LEFT JOIN parking_spots AS ps ON paf.Area_Id = ps.Area_Id and ps.Floor_Number = paf.Floor_number and paf.PermitType = ps.PermitType "
-							+"LEFT JOIN reservations res ON ps.Spot_UID = res.Spot_UID AND res.Start_Time >= ? AND res.Start_Time < ? "
+							+"LEFT JOIN reservations res ON ps.Spot_UID = res.Spot_UID AND ? >= res.Start_Time AND ? < res.End_Time "
 							+"where paf.Area_Id = ? GROUP BY paf.Area_Id,paf.Floor_Number,paf.PermitType ";
 			ps = conn.prepareStatement(query);
 			ps.setString(1, start_time);
-			ps.setString(2, end_time);
+			ps.setString(2, start_time);
 			ps.setInt(3, area_id);
 			ResultSet floorList = ps.executeQuery();
 			if (!floorList.isBeforeFirst()) {
@@ -111,12 +111,12 @@ static SQLConnection DBMgr = SQLConnection.getInstance();
 			PreparedStatement ps = null;
 			String query = "SELECT ps.Spot_Id AS Spot_Id, ps.Spot_UID AS Spot_UID from parking_spots AS ps "
 							+"where ps.Spot_Id NOT IN( SELECT psn.Spot_Id AS Spot_Id FROM parking_spots AS psn "
-							+"JOIN reservations res ON psn.Spot_UID = res.Spot_UID AND res.Start_Time >= ? AND res.End_Time <= ? "
+							+"JOIN reservations res ON psn.Spot_UID = res.Spot_UID AND ? >= res.Start_Time AND ? < res.End_Time "
 							+"where psn.Area_Id = ? AND psn.Floor_Number = ? AND psn.PermitType = ?) "
 							+"AND ps.Area_Id = ? AND ps.Floor_Number = ? AND ps.PermitType = ? ";
 			ps = conn.prepareStatement(query);
 			ps.setString(1, startTime);
-			ps.setString(2, endTime);
+			ps.setString(2, startTime);
 			ps.setInt(3, areaId);
 			ps.setInt(4, floorNumber);
 			ps.setString(5, permitType);

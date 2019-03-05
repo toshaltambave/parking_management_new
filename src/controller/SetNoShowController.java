@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import data.MakeReservationsDOA;
+import data.UsersDAO;
 import model.*;
 
 @WebServlet("/SetNoShowController")
@@ -30,8 +31,10 @@ public class SetNoShowController extends HttpServlet {
         String action = request.getParameter("action");
         if (action.equalsIgnoreCase("setNoshow") ) { 
         	int reservation_ID = Integer.parseInt(request.getParameter("reservationID"));
+        	String username = request.getParameter("selectedUsername");
+        	Integer userId = UsersDAO.getUserIdbyUsername(username);
         	Users user = (Users)session.getAttribute("User");
-        	Boolean Result = MakeReservationsDOA.SetNoShow(reservation_ID, user.getUserID());
+        	Boolean Result = MakeReservationsDOA.SetNoShow(reservation_ID, userId);
         	request.setAttribute("isNoShow", Result);
         	listReservations(request, response);	
         }
