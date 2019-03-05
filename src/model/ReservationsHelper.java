@@ -47,6 +47,7 @@ public class ReservationsHelper
 			this.isNoShow=false;
 		}
 	}
+
 	public Integer getReservationID() {
 		return ReservationID;
 	}
