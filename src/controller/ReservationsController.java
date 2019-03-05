@@ -127,10 +127,7 @@ public class ReservationsController extends HttpServlet {
 			reserve.setOverStay(false);
 			reserve.setSpotUID((Integer)session.getAttribute("resspotUID"));
 			reserve.setUserID(user.getUserID());
-			ReservationsDAO.StoreReservationsInDB(reserve);
-			
-			Integer intnt = Integer.parseInt((String)session.getAttribute("resspotUID"));
-			
+			ReservationsDAO.StoreReservationsInDB(reserve);					
 
 		}
 
