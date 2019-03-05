@@ -65,12 +65,12 @@
 		<script type="text/javascript">
             $(function () {
                 $('#datetimepicker').datetimepicker({
-                    format: 'YYYY-DD-MM HH:mm:ss'
+                    format: 'YYYY-MM-DD HH:mm:ss'
                 });
             });
             $(function () {
                 $('#datetimepicker1').datetimepicker({
-                	format: 'YYYY-DD-MM HH:mm:ss'
+                	format: 'YYYY-MM-DD HH:mm:ss'
                 });
             });
         </script>

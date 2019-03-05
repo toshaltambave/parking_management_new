@@ -127,13 +127,13 @@ public class MakeReservationsDOA{
 		Connection conn = SQLConnection.getDBConnection();
 		try{
 			stmt=conn.createStatement();
-			String queryString="SELECT r.Reservation_Id,s.UserName,s_u.LastName,p_a.Area_Name, p.Floor_Number,p.Spot_Id,r.Start_Time,r.End_Time"
-							+"from reservations as r"
-							+"Inner join system_users as s on r.User_ID=s.User_ID"
-							+"Inner join user_details as s_u on r.User_ID=s_u.User_ID"
-							+"Inner join parking_spots as p on r.Spot_UID=p.Spot_UID"
-							+"Inner join parking_area as p_a on p.Area_Id=p_a.Area_Id"
-							+"where r.Start_Time >="+current_date+";";
+			String queryString="SELECT r.Reservation_Id,s.UserName,s_u.LastName,p_a.Area_Name, p.Floor_Number,p.Spot_Id,r.Start_Time,r.End_Time, r.NoShow, r.OverStay "
+							+"from reservations as r "
+							+"Inner join system_users as s on r.User_ID=s.User_ID "
+							+"Inner join user_details as s_u on r.User_ID=s_u.User_ID "
+							+"Inner join parking_spots as p on r.Spot_UID=p.Spot_UID "
+							+"Inner join parking_area as p_a on p.Area_Id=p_a.Area_Id;";
+							//+"where r.Start_Time >="+current_date+";";
 			ResultSet reservationList = stmt.executeQuery(queryString);
 			while (reservationList.next()) {
 				ReservationsHelper reservation = new ReservationsHelper();
@@ -145,6 +145,8 @@ public class MakeReservationsDOA{
 				reservation.setSpot_Id(reservationList.getInt("Spot_Id"));
 				reservation.setStart_Time(reservationList.getString("Start_Time"));
 				reservation.setEnd_Time(reservationList.getString("End_Time"));
+				reservation.setisNoShow(reservationList.getInt("NoShow"));
+				reservation.setisOverDue(reservationList.getInt("OverStay"));
 				ReservationsByDate.add(reservation);
 			
 			}
@@ -161,7 +163,7 @@ public class MakeReservationsDOA{
 		return ReservationsByDate;
 	}
 	
- public static ArrayList<ReservationsHelper> GetReservationsByReservationNoShow (String current_date) {
+	public static ArrayList<ReservationsHelper> GetReservationsByReservationNoShow (String current_date) {
 		ArrayList<ReservationsHelper> ReservationsNoShow = new ArrayList<ReservationsHelper>();
 		Statement stmt = null;
 		Connection conn = SQLConnection.getDBConnection();
@@ -203,13 +205,13 @@ public class MakeReservationsDOA{
 		return ReservationsNoShow;
 	}
  
- public static Boolean SetNoShow(Integer reservationID, Integer user_id){
+	public static Boolean SetNoShow(Integer reservationID, Integer user_id){
 	 Statement stmt = null;
 	 Connection conn = SQLConnection.getDBConnection();
 	 try{
 		 	
 
-		 	user_id=1;
+		 	
 			stmt=conn.createStatement();
 			String queryString="update reservations set NoShow=1 where Reservation_Id="+reservationID+";";
 			stmt.executeUpdate(queryString);
@@ -240,11 +242,10 @@ public class MakeReservationsDOA{
 	 
  }
  
-public static Boolean SetOverdue(Integer reservationID, Integer user_id) {
+	public static Boolean SetOverdue(Integer reservationID, Integer user_id) {
 	 Statement stmt = null;
 	 Connection conn = SQLConnection.getDBConnection();
 	 try{
-		 	user_id=1;
 			stmt=conn.createStatement();
 			String queryString="update reservations set OverStay=1 where Reservation_Id="+reservationID+";";
 			stmt.executeUpdate(queryString);
@@ -274,8 +275,40 @@ public static Boolean SetOverdue(Integer reservationID, Integer user_id) {
 	 
 	 return true;
 }
-
-public static ArrayList<ReservationsHelper> GetReservationsByUserId (Integer user_id) {
+	
+	public static Boolean CheckRevoked(Integer user_id) {
+		 Statement stmt = null;
+		 Connection conn = SQLConnection.getDBConnection();
+		 try{
+				stmt=conn.createStatement();
+				String queryString="select IsRevoked AS Count from system_users where User_Id ="+user_id+";";
+				ResultSet count=stmt.executeQuery(queryString);
+				count.next();
+				Integer isRevoked = count.getInt("Count");
+				if(isRevoked == 0){
+					return false;
+				}
+				else if (isRevoked == 1){
+					return true;
+				}
+				
+				
+		 }catch (SQLException e) {
+			 e.printStackTrace();
+			 return false;
+		 } finally {
+				try {
+					conn.close();
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					return false;
+				}
+			}
+		 
+		 return true;
+	}
+	public static ArrayList<ReservationsHelper> GetReservationsByUserId (Integer user_id) {
 	ArrayList<ReservationsHelper> ReservationsById = new ArrayList<ReservationsHelper>();
 	Statement stmt = null;
 	Connection conn = SQLConnection.getDBConnection();
@@ -317,4 +350,39 @@ public static ArrayList<ReservationsHelper> GetReservationsByUserId (Integer use
 	return ReservationsById;
 }
  
+	public static Integer CountReservationsInDay(Integer user_id){
+		 Statement stmt = null;
+		 Connection conn = SQLConnection.getDBConnection();
+		 Integer totalCount=0;
+		 try{
+			 	
+				stmt=conn.createStatement();
+				java.util.Date dt = new java.util.Date();
+
+				java.text.SimpleDateFormat sdf = 
+				     new java.text.SimpleDateFormat("yyyy-MM-dd");
+				String currentTime = sdf.format(dt);
+				String queryString="select count(*) as Count " 
+						+"from reservations " 
+						+"where Start_Time>='"+currentTime+"%' "
+						+"and User_Id="+user_id+";";
+		
+				ResultSet count=stmt.executeQuery(queryString);
+				count.next();
+				totalCount = count.getInt("Count");
+				
+		 }catch (SQLException e) {
+			 e.printStackTrace();
+			} finally {
+				try {
+					conn.close();
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		return totalCount;
+		 
+	}
+
 }

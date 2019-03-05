@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;  
 import java.util.Date;  
-import data.FetchParkingSpotsDAO;
+import data.*;
 import data.ReservationsDAO;
 import model.*;
 
@@ -152,10 +152,26 @@ public class ReservationsController extends HttpServlet {
 	{
 		try 
 		{
-			ArrayList<ParkingArea> allAreas = FetchParkingSpotsDAO.getAllParkingAreas();
-			request.setAttribute("Areas", allAreas);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/Reserve.jsp");
-            dispatcher.forward(request, response);
+			HttpSession session = request.getSession();
+			Users user = (Users) session.getAttribute("User");
+			Boolean isRevoked = MakeReservationsDOA.CheckRevoked(user.getUserID());
+			Integer numberOfReservations = MakeReservationsDOA.CountReservationsInDay(user.getUserID());
+			if(isRevoked == true){
+				request.setAttribute("isRevoked", isRevoked );
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/parkingUserHomePage.jsp");
+	            dispatcher.forward(request, response);
+			}
+			else if(numberOfReservations >= 3){
+				request.setAttribute("isMax", true );
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/parkingUserHomePage.jsp");
+	            dispatcher.forward(request, response);
+			}
+			else{
+				ArrayList<ParkingArea> allAreas = FetchParkingSpotsDAO.getAllParkingAreas();
+				request.setAttribute("Areas", allAreas);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/Reserve.jsp");
+	            dispatcher.forward(request, response);
+			}
 		}
 		catch (Exception e) 
 		{
@@ -239,7 +255,7 @@ public class ReservationsController extends HttpServlet {
 			session.setAttribute("resselectedStartTime", startTime);
 			session.setAttribute("resselectedEndTime", endTime);
 			  
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-dd-MM HH:mm:ss");
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			Date startdate = formatter.parse(startTime);
 			Date enddate = formatter.parse(endTime);
 			double cartPrice = 15.95;

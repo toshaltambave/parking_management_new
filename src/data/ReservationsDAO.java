@@ -26,7 +26,7 @@ static SQLConnection DBMgr = SQLConnection.getInstance();
 			String query = "SELECT paf.Area_Id AS Area_Id,paf.Floor_Number AS Floor_Number ,paf.PermitType AS PermitType,(paf.No_Spots-Count(res.Spot_UID)) AS AvailableSpots "
 							+"FROM parking_area_floors AS paf "
 							+"LEFT JOIN parking_spots AS ps ON paf.Area_Id = ps.Area_Id and ps.Floor_Number = paf.Floor_number and paf.PermitType = ps.PermitType "
-							+"LEFT JOIN reservations res ON ps.Spot_UID = res.Spot_UID AND res.Start_Time >= ? AND res.End_Time <= ? "
+							+"LEFT JOIN reservations res ON ps.Spot_UID = res.Spot_UID AND res.Start_Time >= ? AND res.Start_Time < ? "
 							+"where paf.Area_Id = ? GROUP BY paf.Area_Id,paf.Floor_Number,paf.PermitType ";
 			ps = conn.prepareStatement(query);
 			ps.setString(1, start_time);
@@ -176,6 +176,26 @@ static SQLConnection DBMgr = SQLConnection.getInstance();
 			}};
 	}
 	
+	public static Boolean deleteReservationbyResId(Integer resId){
+		Statement stmt = null;
+		Connection conn = SQLConnection.getDBConnection();  
+		try {
+			stmt = conn.createStatement();
+			String delete = "Delete from parking_management.reservations Where Reservation_id ="+resId+";";
+			stmt.executeUpdate(delete);	
+			conn.commit(); 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			try {
+				conn.close();
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}}
+		return true;
+	}
 	
 	public static ArrayList<ReservationsHelper> GetReservationsByName (String firstName, String lastName) {
 		ArrayList<ReservationsHelper> ReservationsByName = new ArrayList<ReservationsHelper>();

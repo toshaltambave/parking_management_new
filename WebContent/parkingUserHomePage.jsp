@@ -13,12 +13,18 @@
 <h2>PARKING USER HOMEPAGE</h2>
 
 <br>
+<c:if test="${isRevoked eq true}">
+<div class="alert alert-error" role="alert"> Your Account has been revoked Please Contact Manager.</div>
+</c:if>
+<c:if test="${isMax eq true}">
+<div class="alert alert-error" role="alert"> Only 3 Reservations allowed in a day.</div>
+</c:if>
 <div class="row">
 <div class="form-group">
 <div class="col"><a class="btn btn-info"href="#" onclick="return false;">Update profile</a> </div> <br> <!-- TODO JOEL -->
 <div class="col"><a class="btn btn-info"href="#" onclick="return false;">View a reservation</a> </div> <br> <!-- TODO ADITYA -->
 <div class="col"><a class="btn btn-info"href="${pageContext.request.contextPath}/ReservationsController">Request a reservation</a> </div> <br>
-<div class="col"><a class="btn btn-info" href="#" onclick="return false;">Edit a reservation</a> </div> <br> <!-- TODO TOSHAL -->
+<div class="col"><a class="btn btn-info" href="${pageContext.request.contextPath}/ModifyReservationController">Edit a reservation</a> </div> <br> <!-- TODO TOSHAL -->
 <!-- <div class="col"><a class="btn btn-info" href="#" onclick="return false;">View reservation status</a> </div> <br> -->
 <div class="col"><a class="btn btn-info" href="#" onclick="return false;">Cancel a reservation</a> </div> <br> <!-- TODO TOSHAL -->
 <div class="col"><a class="btn btn-info" href="#" onclick="return false;">View no-shows and violations</a> </div> <br> <!-- TODO ADITYA -->
