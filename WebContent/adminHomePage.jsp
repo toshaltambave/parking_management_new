@@ -15,7 +15,7 @@
 <div class="form-group">
 <br><div class="col"><a class="btn btn-info"href="UpdateSelect.jsp">Edit user profile</a></div>
 <br><div class="col"><a class="btn btn-info"href="ChangeUserRole.jsp">Change user role</a></div>
-<br><div class="col"><a class="btn btn-info"href="UserSearch.jsp">Search for user</a></div>
+<br><div class="col"><a class="btn btn-info"href="userSearch.jsp">Search for user</a></div>
 <br><div class="col"><a class="btn btn-info"href="RevokeUser.jsp">Revoke user</a></div>
 <br><div class="col"><a class="btn btn-info"href="UnrevokeUser.jsp">Unrevoke user</a></div>
 </div>
@@ -23,7 +23,7 @@
 <div class="col">
 	<c:if test="${isSuccessful eq true}">
 		<div class="alert alert-success" role="alert">
-			User:${request.getParameter("username")} profile has been updated.
+			Users profile has been updated.
 		</div>
 	</c:if>
 </div>

@@ -1,16 +1,19 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<t:_layout>
+	<jsp:attribute name="header">
 <title>Revoke Users</title>
-</head>
-<body>
-	<center>
-		<h1>Select User/s to Revoke</h1>
-	</center>
+</jsp:attribute>
+	<jsp:attribute name="footer">
+    </jsp:attribute>
+	<jsp:body>
+        <t:Navbar></t:Navbar>
+	<div class="container center_div">
+	<div class="row">
+	<div class="form-group">
+	<div class="col">
+		<h2>Select User(s) to Revoke</h2>
 	<form
 		action="${pageContext.request.contextPath}/UserDetailsController?revoke"
 		method="GET">
@@ -27,22 +30,55 @@
 				xhttp.send();
 			}
 		</script>
-		<h1>Search by</h1>
+		<h2>Search by</h2>
+		<div class ="form-group">
+		<div class="row">
+		<div class="col">
+		<label> Select the user by the following:</label>
 		<select id="one" name=type onchange="chg()">
-			<option value="" disabled selected style="display: none;">Select</option>
+			<option value="" disabled selected style="display: none;">Select Search Users by</option>
 			<option value="UserName">UserName</option>
-		</select> <br></br>
-		<div>
-			<select name=value id="two">
-			</select>
+		</select>
 		</div>
-		<br></br> <input name="action" value="revoke" type="hidden"> <input
-			type="submit" value="Revoke" />
+		</div>
+		<div class="row">
+		<div class="col">
+		<label> Users:</label>
+		<select name=value  id="two">
+		</select>
+		</div>
+		</div>
+		</div>
+		<input name="revokeError"
+			   value="<c:out value='${revokeError}'/>" type="text"
+			   style="background-color: white; color: red; border: none;"
+			 disabled="disabled" maxlength="60" class="form-control">
+		<div class="row">
+		<div class="form-group">
+		<div class="col">
+		<input name="action" value="revoke" type="hidden">
+		 <input class="btn btn-secondary" type="submit" value="Revoke" />
+		</div>
+		</div>
+		</div>
+		<div class="col">
+			<c:if test="${isSuccess eq true}">
+			<div class="alert alert-success" role="alert">User has Been Revoked.</div>
+			</c:if>
+		</div>	
 	</form>
-	<div class="col">
-		<c:if test="${isSuccess eq true}">
-			<div class="alert alert-success" role="alert">User: <%= request.getParameter("value")%> has Been Revoked.</div>
-		</c:if>
 	</div>
-</body>
-</html>
+	</div>
+	</div>
+	</div>
+	
+			<div class="row">
+		<div class="form-group">
+		<div class="col">
+<button class="btn btn-secondary" type="button" name="back" onclick="history.back()">Back</button>
+    	</div>
+		</div>
+		</div>
+	
+    </jsp:body>
+</t:_layout>

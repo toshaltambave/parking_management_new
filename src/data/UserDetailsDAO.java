@@ -20,32 +20,33 @@ public class UserDetailsDAO {
 
 	private static final Logger LOG = Logger.getLogger(UserDetailsDAO.class.getName(), UserDetailsDAO.class);
 	static SQLConnection DBMgr = SQLConnection.getInstance();
-
-	private static ArrayList<UserDetails> ReturnMatchingUsers(String queryString) {
+	
+	private static ArrayList<UserDetails> ReturnMatchingUsers (String queryString) {
 		ArrayList<UserDetails> userListInDB = new ArrayList<UserDetails>();
-
-		Statement stmt = null;
-		Connection conn = SQLConnection.getDBConnection();
+		
+			Statement stmt = null;
+			Connection conn = SQLConnection.getDBConnection();  
 		try {
 			stmt = conn.createStatement();
 			ResultSet usersList = stmt.executeQuery(queryString);
-			while (usersList.next()) {
-				UserDetails userDetails = new UserDetails();
+			while (usersList.next())
+			{
+				UserDetails userDetails = new UserDetails(); 
 				userDetails.setUserID(usersList.getInt("User_Id"));
 				userDetails.setFirstName(usersList.getString("FirstName"));
 				userDetails.setMiddleName(usersList.getString("MiddleName"));
-				userDetails.setLastName(usersList.getString("LastName"));
+				userDetails.setLastName(usersList.getString("LastName"));  
 				userDetails.setAddress(usersList.getString("Address"));
 				userDetails.setDrivingLicenseExpiry(usersList.getDate("DL_Expiry").toString());
 				userDetails.setDrivingLicenseNo(usersList.getString("DL_Number"));
 				userDetails.setEmail(usersList.getString("Email"));
-				userDetails.setBirthDate(usersList.getDate("DOB").toString());
+				userDetails.setBirthDate(usersList.getDate("DOB").toString());  
 				userDetails.setSex(usersList.getString("Sex"));
 				userDetails.setRegistrationNumber(usersList.getString("Reg_Number"));
 				userDetails.setPhone(usersList.getString("Phone"));
 				userDetails.setUta_Id(usersList.getString("uta_Id"));
-
-				userListInDB.add(userDetails);
+				
+				userListInDB.add(userDetails);					
 			}
 		} catch (SQLException e) {
 			LOG.log(Level.SEVERE, "Sql Error: ", e);
@@ -56,31 +57,43 @@ public class UserDetailsDAO {
 			} catch (SQLException e) {
 				LOG.log(Level.SEVERE, "Sql Error: ", e);
 			}
-			;
 		}
 		return userListInDB;
 	}
-
-	private static Boolean StoreListinDB(UserDetails userDetails, String queryString) {
+	
+	private static Boolean StoreListinDB (UserDetails userDetails,String queryString) {
 		Statement stmt = null;
 		Boolean isSuccess = false;
-		Connection conn = SQLConnection.getDBConnection();
+		Connection conn = SQLConnection.getDBConnection();  
 		try {
 			stmt = conn.createStatement();
-			String insertUserDetails = queryString + " VALUES ('" + userDetails.getUserID() + "','"
-					+ userDetails.getFirstName() + "','" + userDetails.getMiddleName() + "','"
-					+ userDetails.getLastName() + "','" + userDetails.getSex() + "','" + userDetails.getBirthDate()
-					+ "','" + userDetails.getAddress() + "','" + userDetails.getEmail() + "','" + userDetails.getPhone()
-					+ "','" + userDetails.getDrivingLicenseNo() + "','" + userDetails.getDrivingLicenseExpiry() + "','"
-					+ userDetails.getRegistrationNumber() + "','" + userDetails.getUta_Id() + "'" + ')';
-			stmt.executeUpdate(insertUserDetails);
-			conn.commit();
-			isSuccess = true;
-		} catch (SQLException e) {
-			LOG.log(Level.SEVERE, "Sql Error: ", e);
+			String insertUserDetails = queryString + " VALUES ('"  
+					+ userDetails.getUserID()  + "','"
+					+ userDetails.getFirstName() + "','"	
+					+ userDetails.getMiddleName() + "','"	
+					+ userDetails.getLastName() + "','"	
+					+ userDetails.getSex() + "','" 
+					+ userDetails.getBirthDate() + "','"
+					+ userDetails.getAddress() + "','"
+					+ userDetails.getEmail() + "','"
+					+ userDetails.getPhone() + "','"
+					+ userDetails.getDrivingLicenseNo() + "','"
+					+ userDetails.getDrivingLicenseExpiry() + "','"
+					+ userDetails.getRegistrationNumber() + "','"
+					+ userDetails.getUta_Id() + "'"
+					+ ')';
+			stmt.executeUpdate(insertUserDetails);	
+			conn.commit(); 
+			isSuccess  = true;
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
 			isSuccess = false;
-		} finally {
-			try {
+		} 
+		finally 
+		{
+			try 
+			{
 				conn.close();
 				stmt.close();
 				isSuccess = true;
@@ -93,31 +106,34 @@ public class UserDetailsDAO {
 		return isSuccess;
 	}
 
-	public static Boolean insertUserDetails(UserDetails userDetails) {
+	public static Boolean insertUserDetails(UserDetails userDetails) 	
+	{  
 		Boolean isSuccess = false;
-		try {
+		try
+		{
 
 			userDetails.setUserID(ReturnUserID(userDetails.getUsername()));
-			isSuccess = StoreListinDB(userDetails,
-					"INSERT INTO user_details (User_Id,FirstName,MiddleName,LastName,Sex,DOB, Address, Email, Phone, DL_Number,DL_Expiry,Reg_Number,uta_Id)");
+			isSuccess = StoreListinDB(userDetails,"INSERT INTO user_details (User_Id,FirstName,MiddleName,LastName,Sex,DOB, Address, Email, Phone, DL_Number,DL_Expiry,Reg_Number,uta_Id)");	
 			return isSuccess;
 		} catch (Exception ex) {
 			LOG.log(Level.SEVERE, "Sql Error: ", ex);
 			return isSuccess;
 		}
 	}
-
-	public static ArrayList<UserDetails> listUsers() {
+	public static ArrayList<UserDetails>  listUsers() 
+	{  
 		return ReturnMatchingUsers(" SELECT * from user_details ORDER BY User_Id");
 	}
-
-	// determine if companyID is unique
-	public static Integer ReturnUserID(String username) {
+	
+	//determine if companyID is unique
+	public static Integer ReturnUserID(String username)  
+	{  	
 		int userID = 1;
 		Statement stmt = null;
-		Connection conn = SQLConnection.getDBConnection();
-		String queryString = "SELECT User_Id,UserName from system_users WHERE UserName ='" + username + "'";
-		try {
+		Connection conn = SQLConnection.getDBConnection(); 
+		String queryString =  "SELECT User_Id,UserName from system_users WHERE UserName ='" + username +"'";
+		try 
+		{
 			stmt = conn.createStatement();
 			ResultSet result = stmt.executeQuery(queryString);
 			result.next();
@@ -131,12 +147,12 @@ public class UserDetailsDAO {
 			} catch (SQLException e) {
 				LOG.log(Level.SEVERE, "Sql Error: ", e);
 			}
+
 		}
 		return userID;
 	}
-
+	
 	public static List<UserDetails> searchByUsername(String userName) {
-
 		List<UserDetails> userListInDB = new ArrayList<UserDetails>();
 		Statement stmt = null;
 		Connection conn = SQLConnection.getDBConnection();
@@ -164,6 +180,7 @@ public class UserDetailsDAO {
 				if (!rs2.isBeforeFirst()) {
 					LOG.info("No Data Available");
 				} else if (rs2.next()) {
+
 
 					UserDetails userDetails = new UserDetails();
 					userDetails.setAddress(rs2.getString("Address"));
@@ -196,8 +213,8 @@ public class UserDetailsDAO {
 			}
 		}
 		return userListInDB;
-	}
-
+	}	
+	
 	public static List<UserDetails> getLastNames() {
 		List<UserDetails> userListInDB = new ArrayList<UserDetails>();
 		Statement stmt = null;
@@ -474,5 +491,5 @@ public class UserDetailsDAO {
 		}
 		return userListInDB;
 	}
-
+	
 }

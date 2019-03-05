@@ -35,13 +35,20 @@ public class UsersController extends HttpServlet {
 		listPermitTypes(request,response);
 		listRoles(request,response);
 		// List users
+		if(action != null)
+		{
+			if (action.equalsIgnoreCase("listUsers")) {
+				ArrayList<Users> usersInDB = new ArrayList<Users>();
+				usersInDB = UsersDAO.listUsers();
+				getServletContext().getRequestDispatcher("/RevokeUser.jsp").forward(request, response);
+			}
+			else if(action.equalsIgnoreCase("search")){
+				searchuserdetails(request);
+			} 
+			else // redirect all other gets to post
+				doPost(request, response);
+		}
 
-		if (action.equalsIgnoreCase("listUsers")) {
-			ArrayList<Users> usersInDB = new ArrayList<Users>();
-			usersInDB = UsersDAO.listUsers();
-			getServletContext().getRequestDispatcher("/RevokeUser.jsp").forward(request, response);
-		} else // redirect all other gets to post
-			doPost(request, response);
 	}
 private void searchuserdetails(HttpServletRequest request) {
 	String type = request.getParameter("type");
@@ -60,6 +67,7 @@ private void searchuserdetails(HttpServletRequest request) {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
 		String action = request.getParameter("action"), url = "";
 		String userName = request.getParameter("username");
 		

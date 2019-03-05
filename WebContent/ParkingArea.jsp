@@ -10,8 +10,8 @@
         <t:Navbar></t:Navbar>
     	<div class="container">
 			<div align="center">
-			    <h2>Select a area</h2>
-			    <form action="${pageContext.request.contextPath}/SpotSearchController?getSelectedArea" method="post">
+			    <h2>Select area</h2>
+			    <form action="${pageContext.request.contextPath}/ParkingSpotsController?getSelectedArea" method="post">
 			        Available Areas:&nbsp;
 			        <select name="areaDropDrown">
 			            <c:forEach items="${Areas}" var="ParkingArea">

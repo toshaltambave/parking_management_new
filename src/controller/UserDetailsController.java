@@ -23,36 +23,31 @@ import model.*;
 public class UserDetailsController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	private static final Logger LOG = Logger.getLogger(UserDetailsController.class.getName(),UserDetailsController.class);
-
+	private static final Logger LOG = Logger.getLogger(UserDetailsController.class.getName(),
+			UserDetailsController.class);
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		String action = request.getParameter("action");
-		listSex(request, response);	
 		if (action.equalsIgnoreCase("listUsers")) {
 			handleListUser(request, response, session);
 		} else if (action.equalsIgnoreCase("search")) {
 			handleSearch(request, response);
-
 		} else // redirect all other gets to post
 			doPost(request, response);
 	}
-	
-	protected void listSex(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
-	{
-		try 
-		{
+
+	protected void listSex(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
 			ArrayList<Sex> listSex = new ArrayList<Sex>(Arrays.asList(Sex.values()));
 			request.setAttribute("allSex", listSex);
-		}
-		catch (Exception e) 
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ServletException(e);
 		}
-    }
+	}
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -63,8 +58,7 @@ public class UserDetailsController extends HttpServlet {
 		UserDetails userdetails = new UserDetails();
 		UserDetailsErrorMsgs errorMsgs = new UserDetailsErrorMsgs();
 
-
-		switch(action){
+		switch (action) {
 		case "saveUserDetails":
 			url = handleSaveUserDetails(request, action, url, session, userdetails, errorMsgs);
 			getServletContext().getRequestDispatcher(url).forward(request, response);
@@ -88,11 +82,11 @@ public class UserDetailsController extends HttpServlet {
 			handleByUserName(response);
 			break;
 		default:
-			LOG.log(Level.WARNING, "Action Unknown: "+action);
+			LOG.log(Level.WARNING, "Action Unknown: " + action);
 		}
-		
+
 	}
-	
+
 	private void getUserDetailsParam(HttpServletRequest request, UserDetails userdetails) {
 		userdetails.setUserDetails(request.getParameter("firstname"), request.getParameter("middlename"),
 				request.getParameter("lastname"), request.getParameter("sex"), request.getParameter("dob"),
@@ -100,7 +94,7 @@ public class UserDetailsController extends HttpServlet {
 				request.getParameter("dlno"), request.getParameter("dlexpirydte"), request.getParameter("regno"),
 				request.getParameter("utaid"));
 	}
-	
+
 	private void handleListUser(HttpServletRequest request, HttpServletResponse response, HttpSession session)
 			throws ServletException, IOException {
 		ArrayList<Users> usersInDB = new ArrayList<Users>();
@@ -183,7 +177,7 @@ public class UserDetailsController extends HttpServlet {
 			response.getWriter().println("<option>" + userDetail.getLastName() + "</option>");
 		}
 	}
-	
+
 	private void handleSearch(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String type = request.getParameter("type");
@@ -205,6 +199,7 @@ public class UserDetailsController extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/UserSearch.jsp");
 			dispatcher.forward(request, response);
 		}
+
 	}
 
 }
