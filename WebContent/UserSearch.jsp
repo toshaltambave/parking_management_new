@@ -1,18 +1,22 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"
-	type="text/css" />
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<t:_layout>
+	<jsp:attribute name="header">
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+		<script type="text/javascript" src="bootstrap/js/datepicker.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />
+		<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 <title>User Search</title>
-</head>
-<body>
-	<center>
-		<h1>User Search</h1>
-	</center>
+</jsp:attribute>
+	<jsp:attribute name="footer">
+    </jsp:attribute>
+	<jsp:body>
+        <t:Navbar></t:Navbar>
+    	<div class="container center_div">
+    	<h1> User Search</h1>
 	<form
 		action="${pageContext.request.contextPath}/UserDetailsController?search"
 		method="GET">
@@ -50,7 +54,7 @@
 		<h2>Users Information</h2>
 	</div>
 	<div align="center">
-		<table border="1" cellpadding="5">
+		<table class="table table-bordered center_div" border="1" cellpadding="5">
 			<tr>
 				<th>First Name</th>
 				<th>Middle Name</th>
@@ -86,5 +90,6 @@
 		</table>
 	</div>
 	<button type="button" name="back" onclick="history.back()">Back</button>
-</body>
-</html>
+</div>
+    </jsp:body>
+</t:_layout>
