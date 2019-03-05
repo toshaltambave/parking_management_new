@@ -15,16 +15,14 @@
 <div class="form-group">
 <br><div class="col"><a class="btn btn-info"href="UpdateSelect.jsp">Update profile</a></div>
 <br><div class="col"><a class="btn btn-info"href="UserSearch.jsp">Search for User</a></div> 
-<!-- <br><div class="col"><a class="btn btn-info"href="#" onclick="return false;">View spaces by type and time</a></div> -->
 <br><div class="col"><a class="btn btn-info"href="#" onclick="return false;">View parking spot details</a></div> 
-<br><div class="col"><a class="btn btn-info"href="UserSearch.jsp">View parking user details</a></div><!-- TODO SHEHZAD -->
+<br><div class="col"><a class="btn btn-info"href="UserSearch.jsp">View parking user details</a></div>
 <br><div class="col"><a class="btn btn-info"href="#" onclick="return false;">Delete a reservation</a></div> <!-- TODO TOSHAL -->
 <br><div class="col"><a class="btn btn-info"href="#" onclick="return false;">Edit a reservation</a></div> <!-- TODO TOSHAL -->
-<br><div class="col"><a class="btn btn-info"href="${pageContext.request.contextPath}/SetNoShowController">Set no-show</a></div
+<br><div class="col"><a class="btn btn-info"href="${pageContext.request.contextPath}/SetNoShowController">Set no-show</a></div>
 <br><div class="col"><a class="btn btn-info"href="${pageContext.request.contextPath}/SetOverdueController">Set overdue</a></div>
 <br><div class="col"><a class="btn btn-info"href="${pageContext.request.contextPath}/ParkingSpotsController">Make spot unavailable</a></div>
 <br><div class="col"><a class="btn btn-info"href="${pageContext.request.contextPath}/ParkingAreaController">Add parking area</a></div>
-<!-- <br><div class="col"><a class="btn btn-info"href="#" onclick="return false;">Edit parking area</a></div> -->
 </div>
 </div>
 <form action="${pageContext.request.contextPath}/UsersController?logout" method="post">
