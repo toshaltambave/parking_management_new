@@ -13,22 +13,32 @@ import javax.servlet.http.HttpSession;
 import data.MakeReservationsDOA;
 import model.*;
 
-@WebServlet("/GetReservationByUser")
-public class GetReservationByUser extends HttpServlet {
+@WebServlet("/UserViolationsController")
+public class UserViolationsController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		listReservations(request, response);	
 	}
+
 	private void listReservations(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
+		java.util.Date dt = new java.util.Date();
+
+		java.text.SimpleDateFormat sdf = 
+		     new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		String currentTime = sdf.format(dt);
 		HttpSession session = request.getSession();
 		try 
 		{
 			Users user = (Users)session.getAttribute("User");
-			ArrayList<ReservationsHelper> allReservations = MakeReservationsDOA.GetReservationsByUserId(user.getUserID());
+			ArrayList<ReservationsHelper> allReservations = MakeReservationsDOA.GetReservationsViolations(currentTime,user.getUserID());
+			Integer count=allReservations.size();
 			request.setAttribute("allreservations", allReservations);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/ReservationsByUserId.jsp");
+			request.setAttribute("count", count);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/UserViolations.jsp");
             dispatcher.forward(request, response);
 		}
 		catch (Exception e) 
@@ -37,4 +47,6 @@ public class GetReservationByUser extends HttpServlet {
 			throw new ServletException(e);
 		}
     }
+
+
 }
