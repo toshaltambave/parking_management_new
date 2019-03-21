@@ -12,6 +12,7 @@ public class Users
 	private String Role = "";
 	private Integer IsRevoked = 0;
 	private String PermitType = "";
+	private UsersDAO usersDAO = new UsersDAO();
 	
 	public void setUser (String username,String hashedPassword, 
 			String confirmPassword, String role, String permitType, Boolean isRevoked)
@@ -114,7 +115,7 @@ public class Users
 			if (!stringSize(username,4,10))
 				result= "Your username must between 4 and 10 characters";
 			else
-				if (!UsersDAO.Usernameunique(username))
+				if (!usersDAO.Usernameunique(username))
 					result="Username is already in database";
 		}
 		else if(action.equals("Login")){

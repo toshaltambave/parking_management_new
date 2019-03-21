@@ -30,7 +30,7 @@ public class UpdatedUserDetailsTest {
 		return attribute;
 	}
 
-	@Test(expected=java.text.ParseException.class )
+	@Test
 	@FileParameters("src/updatedUserDetailsTest.csv")
 	public void test(String action, String firstName, String middleName, String lastName, String dob, String address, String email, String phone, String dlNumber, String dlExpiry, String utaId, String userName, String hashedPass, String confirmPass, String role, String permitType, String regNumber, String sex, String expectedError, boolean mockBoolean) {
 		int userId = 1;
@@ -47,7 +47,7 @@ public class UpdatedUserDetailsTest {
 		
 		updatedUserDetail.validateUserDetails(action, updatedUserDetail, errorMsgs);
 		assertEquals(expectedError ,errorMsgs.getErrorMsg());
-		assertEquals(sex, updatedUserDetail.getSex());
+		assertEquals(checkForNull(sex), updatedUserDetail.getSex());
 		assertEquals((Integer) userId, updatedUserDetail.getUserID());
 	}
 }
