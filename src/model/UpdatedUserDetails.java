@@ -31,6 +31,13 @@ public class UpdatedUserDetails {
 	private String ConfirmPassword = "";
 	private String Role = "";
 	private String PermitType = "";
+	
+	private UsersDAO usersDAO;
+	
+	public UpdatedUserDetails(UsersDAO usersDAO){
+		this.usersDAO = usersDAO;
+	}
+
 
 	public void setUpdatedUserDetails(String firstName, String middleName, String lastName, String userName, String sex,
 			String dob, String address, String email, String phone, String dlNumber, String dlExpiry, String regNumber,
@@ -102,13 +109,6 @@ public class UpdatedUserDetails {
 		DrivingLicenseExpiry = drivingLicenseExpiry;
 	}
 
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
 
 	public String getRegistrationNumber() {
 		return RegistrationNumber;
@@ -372,7 +372,7 @@ public class UpdatedUserDetails {
 		if (action.equals("update")) {
 			if (!stringSize(username, 4, 10))
 				result = "Your username must between 4 and 10 characters";
-			else if (!UsersDAO.Usernameunique(username))
+			else if (!usersDAO.Usernameunique(username))
 				result = "Username is already in database";
 		}
 		return result;
@@ -389,6 +389,8 @@ public class UpdatedUserDetails {
 			for (int i = 0; i < password.length(); i++) {
 				ch = password.charAt(i);
 				if (Character.isDigit(ch)) {
+					LOG.info("password: "+ password);
+					LOG.info("ch: "+ ch);
 					numberFlag = true;
 					result = "";
 				} else {
