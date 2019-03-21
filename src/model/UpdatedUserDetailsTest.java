@@ -22,21 +22,32 @@ public class UpdatedUserDetailsTest {
 		updatedUserDetails = new UpdatedUserDetails(mockUsersDAO);
 		mockUsersDAO = EasyMock.createMock(UsersDAO.class);
 	}
+	
+	public String checkForNull(String attribute){
+		if("null".equals(attribute)){
+			return null;
+		}
+		return attribute;
+	}
 
-	@Test
+	@Test(expected=java.text.ParseException.class )
 	@FileParameters("src/updatedUserDetailsTest.csv")
-	public void test(String action, String firstName, String middleName, String lastName, String dob, String address, String email, String phone, String dlNumber, String dlExpiry, String utaId, String userName, String hashedPass, String confirmPass, String role, String permitType, String regNumber, String sex, String expectedError) {
+	public void test(String action, String firstName, String middleName, String lastName, String dob, String address, String email, String phone, String dlNumber, String dlExpiry, String utaId, String userName, String hashedPass, String confirmPass, String role, String permitType, String regNumber, String sex, String expectedError, boolean mockBoolean) {
+		int userId = 1;
+		
 		UpdatedUserDetails updatedUserDetail = new UpdatedUserDetails(mockUsersDAO);
-		updatedUserDetail.setUpdatedUserDetails(firstName, middleName, lastName, userName, sex, dob, address, email, phone, dlNumber, dlExpiry, regNumber, utaId, hashedPass, confirmPass, role, permitType);
+		updatedUserDetail.setUpdatedUserDetails(checkForNull(firstName), checkForNull(middleName), checkForNull(lastName), checkForNull(userName), checkForNull(sex), checkForNull(dob), checkForNull(address), checkForNull(email), checkForNull(phone), checkForNull(dlNumber), checkForNull(dlExpiry), checkForNull(regNumber), checkForNull(utaId), checkForNull(hashedPass), checkForNull(confirmPass), checkForNull(role), checkForNull(permitType));
 		updatedUserDetail.setUserName(userName);
-		updatedUserDetail.setUserID(1);
+		updatedUserDetail.setUserID(userId);
 		
 		UpdatedUserDetailsErrorMsgs errorMsgs = new UpdatedUserDetailsErrorMsgs();
 		
-		EasyMock.expect(mockUsersDAO.Usernameunique(userName)).andReturn(true);
+		EasyMock.expect(mockUsersDAO.Usernameunique(userName)).andReturn(mockBoolean);
 		EasyMock.replay(mockUsersDAO);
 		
 		updatedUserDetail.validateUserDetails(action, updatedUserDetail, errorMsgs);
 		assertEquals(expectedError ,errorMsgs.getErrorMsg());
+		assertEquals(sex, updatedUserDetail.getSex());
+		assertEquals((Integer) userId, updatedUserDetail.getUserID());
 	}
 }

@@ -31,13 +31,12 @@ public class UpdatedUserDetails {
 	private String ConfirmPassword = "";
 	private String Role = "";
 	private String PermitType = "";
-	
+
 	private UsersDAO usersDAO;
-	
-	public UpdatedUserDetails(UsersDAO usersDAO){
+
+	public UpdatedUserDetails(UsersDAO usersDAO) {
 		this.usersDAO = usersDAO;
 	}
-
 
 	public void setUpdatedUserDetails(String firstName, String middleName, String lastName, String userName, String sex,
 			String dob, String address, String email, String phone, String dlNumber, String dlExpiry, String regNumber,
@@ -108,7 +107,6 @@ public class UpdatedUserDetails {
 	public void setDrivingLicenseExpiry(String drivingLicenseExpiry) {
 		DrivingLicenseExpiry = drivingLicenseExpiry;
 	}
-
 
 	public String getRegistrationNumber() {
 		return RegistrationNumber;
@@ -209,14 +207,14 @@ public class UpdatedUserDetails {
 	public void validateUserDetails(String action, UpdatedUserDetails UserDetail,
 			UpdatedUserDetailsErrorMsgs errorMsgs) {
 		LOG.info("VALIDATING.........");
-		LOG.info("USERNAME: "+UserDetail.getUserName());
+		LOG.info("USERNAME: " + UserDetail.getUserName());
 		if (action.equals("update")) {
-			errorMsgs.setFirstNameError(validateName(action, UserDetail.getFirstName()));
+			errorMsgs.setFirstNameError(validateName(UserDetail.getFirstName()));
 			String middleName = UserDetail.getMiddleName();
 			if (middleName != null && !middleName.isEmpty()) {
-				errorMsgs.setMiddleNameError(validateName(action, UserDetail.getMiddleName()));
+				errorMsgs.setMiddleNameError(validateName(UserDetail.getMiddleName()));
 			}
-			errorMsgs.setLastNameError(validateName(action, UserDetail.getLastName()));
+			errorMsgs.setLastNameError(validateName(UserDetail.getLastName()));
 			errorMsgs.setBirthDateError(validateDOB(UserDetail.getBirthDate()));
 			errorMsgs.setAddressError(validateMandatory(UserDetail.getAddress()));
 			errorMsgs.setEmailError(validateEmail(UserDetail.getEmail()));
@@ -225,7 +223,7 @@ public class UpdatedUserDetails {
 			errorMsgs.setRegNumberError(validateRegNo(6, 10, UserDetail.getRegistrationNumber()));
 			errorMsgs.setUtaIdError(validateUTAId(UserDetail.getUta_Id()));
 			errorMsgs.setDrivingLicenseExpiry(validateMandatory(UserDetail.getDrivingLicenseExpiry()));
-			errorMsgs.setUsernameError(validateUsername(action, UserDetail.getUserName()));
+			errorMsgs.setUsernameError(validateUsername(UserDetail.getUserName()));
 			errorMsgs.setHashedPasswordError(validatePassword(UserDetail.getHashedPassword()));
 			errorMsgs.setConfirmPasswordError(
 					validateConfirmPassword(UserDetail.getHashedPassword(), UserDetail.getConfirmPassword()));
@@ -234,7 +232,7 @@ public class UpdatedUserDetails {
 
 			errorMsgs.setErrorMsg(action);
 		}
-		LOG.info("ACTION: "+action);
+		LOG.info("ACTION: " + action);
 	}
 
 	private String validateUTAId(String utaID) {
@@ -256,18 +254,16 @@ public class UpdatedUserDetails {
 		}
 	}
 
-	private String validateName(String action, String name) {
+	private String validateName(String name) {
 		if (name != null && !name.isEmpty()) {
 			String result = "";
-			if (action.equals("update")) {
-				String regex = "(.)*(\\d)(.)*";
-				Pattern pattern = Pattern.compile(regex);
-				boolean containsNumber = pattern.matcher(name).matches();
-				if (containsNumber)
-					result = "Your name must only contain alphabets.";
-				else
-					result = "";
-			}
+			String regex = "(.)*(\\d)(.)*";
+			Pattern pattern = Pattern.compile(regex);
+			boolean containsNumber = pattern.matcher(name).matches();
+			if (containsNumber)
+				result = "Your name must only contain alphabets.";
+			else
+				result = "";
 			return result;
 		} else {
 			return "The field is mandatory.";
@@ -367,14 +363,12 @@ public class UpdatedUserDetails {
 		}
 	}
 
-	private String validateUsername(String action, String username) {
+	private String validateUsername(String username) {
 		String result = "";
-		if (action.equals("update")) {
-			if (!stringSize(username, 4, 10))
-				result = "Your username must between 4 and 10 characters";
-			else if (!usersDAO.Usernameunique(username))
-				result = "Username is already in database";
-		}
+		if (!stringSize(username, 4, 10))
+			result = "Your username must between 4 and 10 characters";
+		else if (!usersDAO.Usernameunique(username))
+			result = "Username is already in database";
 		return result;
 	}
 
@@ -389,8 +383,8 @@ public class UpdatedUserDetails {
 			for (int i = 0; i < password.length(); i++) {
 				ch = password.charAt(i);
 				if (Character.isDigit(ch)) {
-					LOG.info("password: "+ password);
-					LOG.info("ch: "+ ch);
+					LOG.info("password: " + password);
+					LOG.info("ch: " + ch);
 					numberFlag = true;
 					result = "";
 				} else {

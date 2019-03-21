@@ -178,7 +178,7 @@ public class UpdatedUserDetailsErrorMsgs {
 	public void setErrorMsg(String action) {
 		if (action.equals("update")) {
 			if (!FirstNameError.equals("") || !MiddleNameError.equals("") || !LastNameError.equals("")
-					|| !SexError.equals("") || !BirthDateError.equals("") || !AddressError.equals("")
+					|| !BirthDateError.equals("") || !AddressError.equals("")
 					|| !EmailError.equals("") || !PhoneError.equals("") || !DrivingLicenseError.equals("")
 					|| !DrivingLicenseExpiry.equals("") || !RegNumberError.equals("") || !utaIdError.equals("")
 					|| !usernameError.equals("") || !HashedPasswordError.equals("") || !ConfirmPasswordError.equals("")
