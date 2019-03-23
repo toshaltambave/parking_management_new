@@ -17,12 +17,7 @@ public class ReservationsHelper
 		return isOverStay;
 	}
 	public void setisOverDue(Integer isOverStay) {
-		if (isOverStay==1){
-			this.isOverStay=true;
-		}
-		else{
-			this.isOverStay=false;
-		}
+		this.isOverStay = isOverStay == 0 ? false : true;
 	}
 	public Boolean getIsNoShow() {
 		return isNoShow;
@@ -40,12 +35,7 @@ public class ReservationsHelper
 		return isNoShow;
 	}
 	public void setisNoShow(Integer isNoShow) {
-		if (isNoShow==1){
-			this.isNoShow=true;
-		}
-		else{
-			this.isNoShow=false;
-		}
+		this.isNoShow = isNoShow == 0 ? false : true;
 	}
 
 	public Integer getReservationID() {

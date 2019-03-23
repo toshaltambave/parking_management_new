@@ -4,9 +4,9 @@
 public class ParkingAreaHelper implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String areaname;
-	private String permittype = "";
-	private Integer floornumber = 1;
-	private Integer numberofspots = 1;
+	private String permittype;
+	private Integer floornumber;
+	private Integer numberofspots;
 	
 	public String getAreaname() {
 		return areaname;
