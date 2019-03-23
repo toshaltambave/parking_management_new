@@ -1,4 +1,4 @@
-package model;
+package tests;
 
 import static org.junit.Assert.*;
 
@@ -13,6 +13,9 @@ import org.junit.runner.RunWith;
 import controller.ReservationsController;
 import junitparams.FileParameters;
 import junitparams.JUnitParamsRunner;
+import model.CreditCard;
+import model.CreditCardError;
+import model.CreditCardTypes;
 
 @RunWith(JUnitParamsRunner.class)
 public class CreditCardTest {
@@ -31,7 +34,7 @@ public class CreditCardTest {
 
 
 	@Test
-	@FileParameters("src/CreditCardTest.csv")
+	@FileParameters("src/tests/CreditCardTest.csv")
 	public void test(String cardNumber, String creditCardType, String cvv, String month, String year,
 			String excpetedErrorMsg, String exceptedCardNumError, String cvvError, String expectedMonthError, String expectedYearError) {
 		creditCard.setCardNumber(cardNumber);
