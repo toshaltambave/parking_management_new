@@ -14,23 +14,23 @@ public class UpdatedUserDetails {
 	private static final Logger LOG = Logger.getLogger(UpdatedUserDetails.class.getName(), UpdatedUserDetails.class);
 	// private static final long serialVersionUID = 3L;
 	private Integer UserID;
-	private String FirstName = "";
-	private String MiddleName = "";
-	private String LastName = "";
-	private String Sex = "";
+	private String FirstName;
+	private String MiddleName;
+	private String LastName;
+	private String Sex;
 	private String birthDate;
-	private String Address = "";
-	private String Email = "";
-	private String Phone = "";
-	private String DrivingLicenseNo = "";
+	private String Address;
+	private String Email;
+	private String Phone;
+	private String DrivingLicenseNo;
 	private String DrivingLicenseExpiry;
-	private String RegistrationNumber = "";
-	private String uta_Id = "";
-	private String username = "";
-	private String HashedPassword = "";
-	private String ConfirmPassword = "";
-	private String Role = "";
-	private String PermitType = "";
+	private String RegistrationNumber;
+	private String uta_Id;
+	private String username;
+	private String HashedPassword;
+	private String ConfirmPassword;
+	private String Role;
+	private String PermitType;
 
 	private UsersDAO usersDAO;
 
@@ -309,11 +309,9 @@ public class UpdatedUserDetails {
 
 	private String validateDOB(String DOB) {
 		String result = "";
-		Date date = new Date();
 		if (DOB != null && !DOB.isEmpty()) {
 			try {
-
-				date = new SimpleDateFormat("yyyy-MM-dd").parse(DOB);
+				Date date = new SimpleDateFormat("yyyy-MM-dd").parse(DOB);
 				Calendar cal = Calendar.getInstance();
 
 				if (date.after(cal.getTime())) {
@@ -377,32 +375,24 @@ public class UpdatedUserDetails {
 		if (!stringSize(password, 4, 10))
 			result = "Your password must between 4 and 10 characters.";
 		else {
-			char ch;
-			boolean capitalFlag = false;
-			boolean numberFlag = false;
-			for (int i = 0; i < password.length(); i++) {
-				ch = password.charAt(i);
-				if (Character.isDigit(ch)) {
-					LOG.info("password: " + password);
-					LOG.info("ch: " + ch);
-					numberFlag = true;
-					result = "";
-				} else {
-					if (!numberFlag)
-						result = "Password must contain at least one number.";
-				}
-				if (Character.isUpperCase(ch)) {
-					capitalFlag = true;
-					result = "";
+			// boolean isCorrect =
+			// password.matches("^(?=.*[A-Z])(?=.*[0-9])[A-Z0-9]+$");
+			boolean hasUpper = password.matches(".*[A-Z].*");
+			boolean hasNums = password.matches(".*[0-9].*");
 
-				} else {
-					if (!capitalFlag)
-						result = "Password must contain at least one uppercase.";
-				}
-				if (!numberFlag && !capitalFlag)
-					result = "Password must contain at least one uppercase and one number.";
+			if (!hasNums) {
+				result = "Password must contain at least one number.";
+			}
+
+			if (!hasUpper) {
+				result = "Password must contain at least one uppercase.";
+			}
+
+			if (!hasUpper && !hasNums) {
+				result = "Password must contain at least one uppercase and one number.";
 			}
 		}
+
 		return result;
 	}
 
@@ -426,11 +416,8 @@ public class UpdatedUserDetails {
 
 	private String validatePermitType(String permitType, String role) {
 		String result = "";
-		if (role.contentEquals("ParkingUser")) {
-			if (permitType.contentEquals("Select Permit Type"))
-				result = "Permit type is mandatory for Parking User.";
-			else
-				result = "";
+		if (role.contentEquals("ParkingUser") && permitType.contentEquals("Select Permit Type")) {
+			result = "Permit type is mandatory for Parking User.";
 		}
 		return result;
 	}

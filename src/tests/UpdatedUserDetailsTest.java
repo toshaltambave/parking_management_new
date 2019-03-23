@@ -54,7 +54,6 @@ public class UpdatedUserDetailsTest {
 		updatedUserDetail.setUserID(userId);
 
 		UpdatedUserDetailsErrorMsgs errorMsgs = new UpdatedUserDetailsErrorMsgs();
-		errorMsgs.setSexError("");
 
 		EasyMock.expect(mockUsersDAO.Usernameunique(userName)).andReturn(mockBoolean);
 		EasyMock.replay(mockUsersDAO);
@@ -81,6 +80,5 @@ public class UpdatedUserDetailsTest {
 		assertEquals(expectedDlError, errorMsgs.getDrivingLicenseError());
 		assertEquals(expectedDlExpiryError, errorMsgs.getDrivingLicenseExpiry());
 		assertEquals(expectedDobError, errorMsgs.getBirthDateError());
-		assertEquals("", errorMsgs.getSexError());
 	}
 }

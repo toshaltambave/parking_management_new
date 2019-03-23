@@ -6,7 +6,6 @@ public class UpdatedUserDetailsErrorMsgs {
 	private String FirstNameError = "";
 	private String MiddleNameError = "";
 	private String LastNameError = "";
-	private String SexError = "";
 	private String BirthDateError = "";
 	private String AddressError = "";
 	private String EmailError = "";
@@ -21,26 +20,6 @@ public class UpdatedUserDetailsErrorMsgs {
 	private String RoleError = "";
 	private String PermitTypeError = "";
 
-	public UpdatedUserDetailsErrorMsgs() {
-		this.errorMsg = "";
-		this.FirstNameError = "";
-		this.MiddleNameError = "";
-		this.LastNameError = "";
-		this.SexError = "";
-		this.BirthDateError = "";
-		this.AddressError = "";
-		this.EmailError = "";
-		this.PhoneError = "";
-		this.DrivingLicenseError = "";
-		this.DrivingLicenseExpiry = "";
-		this.RegNumberError = "";
-		this.utaIdError = "";
-		this.usernameError = "";
-		this.HashedPasswordError = "";
-		this.ConfirmPasswordError = "";
-		this.RoleError = "";
-		this.PermitTypeError = "";
-	}
 
 	public String getRoleError() {
 		return RoleError;
@@ -80,14 +59,6 @@ public class UpdatedUserDetailsErrorMsgs {
 
 	public void setLastNameError(String lastNameError) {
 		LastNameError = lastNameError;
-	}
-
-	public String getSexError() {
-		return SexError;
-	}
-
-	public void setSexError(String sexError) {
-		SexError = sexError;
 	}
 
 	public String getAddressError() {
@@ -187,7 +158,9 @@ public class UpdatedUserDetailsErrorMsgs {
 				|| !BirthDateError.equals("") || !AddressError.equals("") || !EmailError.equals("")
 				|| !PhoneError.equals("") || !DrivingLicenseError.equals("") || !DrivingLicenseExpiry.equals("")
 				|| !RegNumberError.equals("") || !utaIdError.equals("") || !usernameError.equals("")
-				|| !HashedPasswordError.equals("") || !ConfirmPasswordError.equals("") || !RoleError.equals("")
+				|| !HashedPasswordError.equals("") 
+				|| !ConfirmPasswordError.equals("") 
+				|| !RoleError.equals("")
 				|| !PermitTypeError.equals(""))
 			this.errorMsg = "Please correct the following errors";
 	}
