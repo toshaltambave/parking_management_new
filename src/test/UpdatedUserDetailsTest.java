@@ -1,4 +1,4 @@
-package model;
+package test;
 
 import static org.junit.Assert.*;
 
@@ -12,6 +12,10 @@ import org.junit.runner.RunWith;
 import data.UsersDAO;
 import junitparams.FileParameters;
 import junitparams.JUnitParamsRunner;
+import model.Role;
+import model.Sex;
+import model.UpdatedUserDetails;
+import model.UpdatedUserDetailsErrorMsgs;
 
 @RunWith(JUnitParamsRunner.class)
 public class UpdatedUserDetailsTest {
@@ -49,7 +53,7 @@ public class UpdatedUserDetailsTest {
 	}
 
 	@Test
-	@FileParameters("src/updatedUserDetailsTest.csv")
+	@FileParameters("src/test/updatedUserDetailsTest.csv")
 	public void test(String action, String firstName, String middleName, String lastName, String dob, String address,
 			String email, String phone, String dlNumber, String dlExpiry, String utaId, String userName,
 			String hashedPass, String confirmPass, String role, String permitType, String regNumber, String sex,

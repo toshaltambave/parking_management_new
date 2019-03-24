@@ -1,4 +1,4 @@
-package model;
+package test;
 
 import static org.junit.Assert.*;
 
@@ -10,6 +10,8 @@ import org.junit.runner.RunWith;
 import data.UsersDAO;
 import junitparams.FileParameters;
 import junitparams.JUnitParamsRunner;
+import model.Users;
+import model.UsersErrorMsgs;
 
 @RunWith(JUnitParamsRunner.class)
 public class UsersTest {
@@ -36,7 +38,7 @@ public class UsersTest {
 	}
 
 	@Test
-	@FileParameters("src/UsersTest.csv")
+	@FileParameters("src/test/UsersTest.csv")
 	public void test(Integer userId, String action, String userName, String hashedPassword, String confirmPassword,
 			String role, String permitType, boolean isRevoked, boolean mockBoolean, String expectedErrorMsg,
 			String expectedUserNameError, String expectedHashPasswordError, String expectedConfirmPasswordError,
