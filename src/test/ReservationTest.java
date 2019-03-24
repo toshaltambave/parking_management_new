@@ -1,4 +1,4 @@
-package model;
+package test;
 
 import static org.junit.Assert.*;
 
@@ -8,6 +8,9 @@ import org.junit.runner.RunWith;
 
 import junitparams.FileParameters;
 import junitparams.JUnitParamsRunner;
+import model.Reservation;
+import model.Reservations;
+import model.ReservationsHelper;
 
 @RunWith(JUnitParamsRunner.class)
 public class ReservationTest {
@@ -24,7 +27,7 @@ public class ReservationTest {
 	}
 
 	@Test
-	@FileParameters("src/ReservationTest.csv")
+	@FileParameters("src/test/ReservationTest.csv")
 	public void test(Integer userId, Integer spotUID, String startTime, String endTime, boolean noShow,
 			boolean overStay, boolean cart, boolean camera, boolean history, Double total, Integer reservationId,
 			Integer floorNumber, Integer noShowNum, Integer overDue, Integer spotId, String areaName, String lastName,
