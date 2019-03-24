@@ -17,7 +17,7 @@ import junitparams.JUnitParamsRunner;
 public class UpdatedUserDetailsTest {
 
 	private UpdatedUserDetails updatedUserDetails;
-	UsersDAO mockUsersDAO;
+	private UsersDAO mockUsersDAO;
 
 	@Before
 	public void setUp() throws Exception {
