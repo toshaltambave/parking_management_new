@@ -22,7 +22,7 @@ public class UsersController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	
-	Users user = new Users();
+	Users user = new Users(new UsersDAO());
 	private void getUserParam(HttpServletRequest request) {
 		user.setUser(request.getParameter("username"), request.getParameter("hashedPassword"),
 				 request.getParameter("confirmPassword"),request.getParameter("role"),
@@ -169,7 +169,7 @@ private void searchuserdetails(HttpServletRequest request) {
 		String url;
 		url = "/index.jsp";
 		try {
-			user = new Users();
+			user = new Users(new UsersDAO());
 			request.logout();	
 			request.getSession().setAttribute("User", null);
 			request.getSession().invalidate();

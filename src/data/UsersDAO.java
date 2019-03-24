@@ -25,7 +25,7 @@ public class UsersDAO {
 			stmt = conn.createStatement();
 			ResultSet usersList = stmt.executeQuery(queryString);
 			while (usersList.next()) {
-				Users user = new Users(); 
+				Users user = new Users(new UsersDAO()); 
 				user.setUsername(usersList.getString("UserName"));
 				user.setHashedPassword(usersList.getString("HashedPassword"));
 				user.setRole(usersList.getString("Role"));
@@ -139,7 +139,7 @@ public class UsersDAO {
 			} else
 
 				while (rs.next()) {
-					Users user = new Users();
+					Users user = new Users(new UsersDAO());
 					user.setUsername(rs.getString("UserName"));
 					user.setHashedPassword(rs.getString("HashedPassword"));
 					user.setRole(rs.getString("Role"));

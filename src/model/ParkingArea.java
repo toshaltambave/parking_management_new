@@ -6,7 +6,7 @@ public class ParkingArea implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Integer Area_Id;
-	private String Area_Name = "";
+	private String Area_Name;
 	public Integer getArea_Id() {
 		return Area_Id;
 	}

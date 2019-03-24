@@ -8,75 +8,66 @@ public class UsersErrorMsgs {
 	private String confirmpasswordError;
 	private String roleError;
 	private String permitTypeError;
-	
-	public UsersErrorMsgs () {
-		this.errorMsg="";
-		this.usernameError="";
-		this.passwordError="";
-		this.confirmpasswordError="";
-		this.roleError="";
-		this.permitTypeError="";
+
+	public UsersErrorMsgs() {
+		this.errorMsg = "";
+		this.usernameError = "";
+		this.passwordError = "";
+		this.confirmpasswordError = "";
+		this.roleError = "";
+		this.permitTypeError = "";
 	}
-	
+
 	public String getErrorMsg() {
 		return errorMsg;
 	}
+
 	public void setErrorMsg(String action) {
 		if (action.equals("saveUser")) {
-			if (!usernameError.equals("") || !passwordError.equals("") 
-					|| !confirmpasswordError.equals("") || !roleError.equals("")
-					|| !permitTypeError.equals(""))
-				this.errorMsg="Please correct the following errors.";
-		}
-		else if (action.equals("Login"))
-		{
-			if (!usernameError.equals("") || !passwordError.equals("")) 
-			{
-				this.errorMsg="Login Failed.";
-			}
-		}
-		else
-		{
-			if (action.equals("searchUser")) 
-			{
-				if (!usernameError.equals("")) 
-					this.errorMsg="Please correct the following errors.";
-			}
-			else // action=listEmployee
-				if (!usernameError.equals("")) 
-					this.errorMsg="Please correct the following errors.";
+			if (!usernameError.equals("") || !passwordError.equals("") || !confirmpasswordError.equals("")
+					|| !roleError.equals("") || !permitTypeError.equals(""))
+				this.errorMsg = "Please correct the following errors.";
+		} else if (action.equals("Login")) {
+			this.errorMsg = "Login Failed.";
 		}
 	}
+
 	public String getusernameError() {
 		return usernameError;
 	}
+
 	public void setusernameError(String usernameError) {
 		this.usernameError = usernameError;
 	}
+
 	public String getpasswordError() {
 		return passwordError;
 	}
+
 	public void setpasswordError(String passwordError) {
 		this.passwordError = passwordError;
 	}
-	
+
 	public String getconfirmpasswordError() {
 		return confirmpasswordError;
 	}
+
 	public void setconfirmpasswordError(String confirmpasswordError) {
 		this.confirmpasswordError = confirmpasswordError;
 	}
-	
+
 	public String getroleError() {
 		return roleError;
 	}
+
 	public void setroleError(String roleError) {
 		this.roleError = roleError;
 	}
-	
+
 	public String getpermitTypeError() {
 		return permitTypeError;
 	}
+
 	public void setpermitTypeError(String permitTypeError) {
 		this.permitTypeError = permitTypeError;
 	}

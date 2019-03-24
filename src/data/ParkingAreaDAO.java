@@ -95,11 +95,4 @@ public class ParkingAreaDAO {
 		}
 	}
 	
-	public static void validateAreaDetails (String action, ParkingAreaHelperError errorMsgs) {
-		if (action.equals("addtoList")) 
-		{
-			errorMsgs.setErrorMsg(action);
-		}
-	}	
-
 }

@@ -208,30 +208,30 @@ public class UpdatedUserDetails {
 			UpdatedUserDetailsErrorMsgs errorMsgs) {
 		LOG.info("VALIDATING.........");
 		LOG.info("USERNAME: " + UserDetail.getUserName());
-		if (action.equals("update")) {
-			errorMsgs.setFirstNameError(validateName(UserDetail.getFirstName()));
-			String middleName = UserDetail.getMiddleName();
-			if (middleName != null && !middleName.isEmpty()) {
-				errorMsgs.setMiddleNameError(validateName(UserDetail.getMiddleName()));
-			}
-			errorMsgs.setLastNameError(validateName(UserDetail.getLastName()));
-			errorMsgs.setBirthDateError(validateDOB(UserDetail.getBirthDate()));
-			errorMsgs.setAddressError(validateMandatory(UserDetail.getAddress()));
-			errorMsgs.setEmailError(validateEmail(UserDetail.getEmail()));
-			errorMsgs.setPhoneError(validateNumber(10, UserDetail.getPhone(), "PhoneNo"));
-			errorMsgs.setDrivingLicenseError(validateNumber(8, UserDetail.getDrivingLicenseNo(), "DLNumber"));
-			errorMsgs.setRegNumberError(validateRegNo(6, 10, UserDetail.getRegistrationNumber()));
-			errorMsgs.setUtaIdError(validateUTAId(UserDetail.getUta_Id()));
-			errorMsgs.setDrivingLicenseExpiry(validateMandatory(UserDetail.getDrivingLicenseExpiry()));
-			errorMsgs.setUsernameError(validateUsername(UserDetail.getUserName()));
-			errorMsgs.setHashedPasswordError(validatePassword(UserDetail.getHashedPassword()));
-			errorMsgs.setConfirmPasswordError(
-					validateConfirmPassword(UserDetail.getHashedPassword(), UserDetail.getConfirmPassword()));
-			errorMsgs.setRoleError(validateRole(UserDetail.getRole()));
-			errorMsgs.setPermitTypeError(validatePermitType(UserDetail.getPermitType(), UserDetail.getRole()));
 
-			errorMsgs.setErrorMsg(action);
+		errorMsgs.setFirstNameError(validateName(UserDetail.getFirstName()));
+		String middleName = UserDetail.getMiddleName();
+		if (middleName != null && !middleName.isEmpty()) {
+			errorMsgs.setMiddleNameError(validateName(UserDetail.getMiddleName()));
 		}
+		errorMsgs.setLastNameError(validateName(UserDetail.getLastName()));
+		errorMsgs.setBirthDateError(validateDOB(UserDetail.getBirthDate()));
+		errorMsgs.setAddressError(validateMandatory(UserDetail.getAddress()));
+		errorMsgs.setEmailError(validateEmail(UserDetail.getEmail()));
+		errorMsgs.setPhoneError(validateNumber(10, UserDetail.getPhone(), "PhoneNo"));
+		errorMsgs.setDrivingLicenseError(validateNumber(8, UserDetail.getDrivingLicenseNo(), "DLNumber"));
+		errorMsgs.setRegNumberError(validateRegNo(6, 10, UserDetail.getRegistrationNumber()));
+		errorMsgs.setUtaIdError(validateUTAId(UserDetail.getUta_Id()));
+		errorMsgs.setDrivingLicenseExpiry(validateMandatory(UserDetail.getDrivingLicenseExpiry()));
+		errorMsgs.setUsernameError(validateUsername(UserDetail.getUserName()));
+		errorMsgs.setHashedPasswordError(validatePassword(UserDetail.getHashedPassword()));
+		errorMsgs.setConfirmPasswordError(
+				validateConfirmPassword(UserDetail.getHashedPassword(), UserDetail.getConfirmPassword()));
+		errorMsgs.setRoleError(validateRole(UserDetail.getRole()));
+		errorMsgs.setPermitTypeError(validatePermitType(UserDetail.getPermitType(), UserDetail.getRole()));
+
+		errorMsgs.setErrorMsg(action);
+
 		LOG.info("ACTION: " + action);
 	}
 
@@ -375,8 +375,6 @@ public class UpdatedUserDetails {
 		if (!stringSize(password, 4, 10))
 			result = "Your password must between 4 and 10 characters.";
 		else {
-			// boolean isCorrect =
-			// password.matches("^(?=.*[A-Z])(?=.*[0-9])[A-Z0-9]+$");
 			boolean hasUpper = password.matches(".*[A-Z].*");
 			boolean hasNums = password.matches(".*[0-9].*");
 
