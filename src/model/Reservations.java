@@ -7,14 +7,14 @@ public class Reservations
 	private Integer ReservationID;
 	private Integer UserID;
 	private Integer SpotUID;
-	private String 	StartTime="";
-	private String 	EndTime="";
-	private Boolean NoShow=false;
-	private Boolean	OverStay=false;
-	private Boolean Cart=false;
-	private Boolean Camera=false;
-	private Boolean History=false;
-	private Double Total=0.0;
+	private String 	StartTime;
+	private String 	EndTime;
+	private Boolean NoShow;
+	private Boolean	OverStay;
+	private Boolean Cart;
+	private Boolean Camera;
+	private Boolean History;
+	private Double Total;
 	
 	public void makeReservations (Integer userID,Integer spotUID,String startTime, 
 			String endTime, Boolean noShow, Boolean overStay, Boolean cart,Boolean camera,Boolean history)
@@ -92,15 +92,4 @@ public class Reservations
 		History = history;
 	}
 	
-	public void calculateTotal() {
-		if (Cart==true){
-			Total+=15.95;
-		}
-		if (Camera==true){
-			Total+=2.95;
-		}	
-		if(History==true){
-			Total+=1.95;
-		}
-	}
 }

@@ -4,8 +4,8 @@ public class ParkingSpots {
 	
 	private Integer Floor_Number;
 	private Integer Spot_Id;
-	private Boolean isBlocked = false;
-	private String PermitType = "";
+	private Boolean isBlocked;
+	private String PermitType;
 	private Integer Area_Id;
 	private Integer Spot_UID;
 	
