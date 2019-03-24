@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
 import data.UpdatedUserDetailsDAO;
+import data.UsersDAO;
 import model.UpdatedUserDetails;
 import model.UpdatedUserDetailsErrorMsgs;
 import model.UserDetailsErrorMsgs;
@@ -43,7 +44,7 @@ public class UpdateUserController extends HttpServlet {
 			throws ServletException, IOException {
 
 		HttpSession session = request.getSession();
-		UpdatedUserDetails userdetails = new UpdatedUserDetails();
+		UpdatedUserDetails userdetails = new UpdatedUserDetails(new UsersDAO());
 		UpdatedUserDetailsErrorMsgs errorMsgs = new UpdatedUserDetailsErrorMsgs();
 		String action = request.getParameter("action"), url = "";
 

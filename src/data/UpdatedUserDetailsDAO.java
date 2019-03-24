@@ -48,7 +48,7 @@ public class UpdatedUserDetailsDAO {
 					LOG.info("No Data Available");
 				} else if (rs2.next()) {
 
-					UpdatedUserDetails userDetails = new UpdatedUserDetails();
+					UpdatedUserDetails userDetails = new UpdatedUserDetails(new UsersDAO());
 					userDetails.setAddress(rs2.getString("Address"));
 					userDetails.setDrivingLicenseExpiry(df.format(rs2.getDate("DL_Expiry")));
 					userDetails.setBirthDate(df.format(rs2.getDate("DOB")));

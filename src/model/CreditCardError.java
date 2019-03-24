@@ -2,13 +2,20 @@ package model;
 
 public class CreditCardError {
 	
+	private String CardNumberError;
+	private String MonthError;
+	private String YearError;
+	private String cvvError;
 	private String errorMsg = "";
+	
+	
 	/**
 	 * @return the errorMsg
 	 */
 	public String getErrorMsg() {
 		return errorMsg;
 	}
+	
 	/**
 	 * @param errorMsg the errorMsg to set
 	 */
@@ -18,11 +25,7 @@ public class CreditCardError {
 				|| !YearError.equals("") || !cvvError.equals(""))
 			this.errorMsg="Please correct the following errors.";		
 	}
-	private String CardNumberError = "";
-	private String MonthError = "";
-	private String YearError = "";
-	private String cvvError = "";
-	private String CardTypeError = "";
+
 	/**
 	 * @return the cardNumberError
 	 */
@@ -71,16 +74,5 @@ public class CreditCardError {
 	public void setCvvError(String cvvError) {
 		this.cvvError = cvvError;
 	}
-	/**
-	 * @return the cardTypeError
-	 */
-	public String getCardTypeError() {
-		return CardTypeError;
-	}
-	/**
-	 * @param cardTypeError the cardTypeError to set
-	 */
-	public void setCardTypeError(String cardTypeError) {
-		CardTypeError = cardTypeError;
-	}
+
 }

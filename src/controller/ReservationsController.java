@@ -295,7 +295,7 @@ public class ReservationsController extends HttpServlet {
 			return "";
 	}
 
-	private CreditCardError validatecreditcarddetails(String cardNumber, String expMonth, String expYear, String cardType,
+	public CreditCardError validatecreditcarddetails(String cardNumber, String expMonth, String expYear, String cardType,
 			String cvv,CreditCardError errorMsgs) {
 		errorMsgs.setCardNumberError(validateCardNumber(cardNumber,cardType));
 		errorMsgs.setCvvError(validateCVV(cvv));
