@@ -53,7 +53,7 @@ public class UpdatedUserDetailsTest {
 	}
 
 	@Test
-	@FileParameters("src/test/updatedUserDetailsTest.csv")
+	@FileParameters("src/test/UpdatedUserDetailsTest.csv")
 	public void test(String action, String firstName, String middleName, String lastName, String dob, String address,
 			String email, String phone, String dlNumber, String dlExpiry, String utaId, String userName,
 			String hashedPass, String confirmPass, String role, String permitType, String regNumber, String sex,
