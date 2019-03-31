@@ -18,7 +18,7 @@
 <br><div class="col"><a class="btn btn-info"href="${pageContext.request.contextPath}/SpotSearchController" >View parking spot details</a></div>
 <br><div class="col"><a class="btn btn-info"href="UserSearch.jsp">View parking user details</a></div>
 <br><div class="col"><a class="btn btn-info"href="${pageContext.request.contextPath}/ModifyReservationController">Delete a reservation</a></div> <!-- TODO TOSHAL -->
-<br><div class="col"><a class="btn btn-info"href="${pageContext.request.contextPath}/ModifyReservationController">Edit a reservation</a></div> <!-- TODO TOSHAL -->
+<br><div class="col"><a class="btn btn-info"href="${pageContext.request.contextPath}/ModifyReservationController?action=editReservation"">Edit a reservation</a></div> <!-- TODO TOSHAL -->
 <br><div class="col"><a class="btn btn-info"href="${pageContext.request.contextPath}/SetNoShowController">Set no-show</a></div>
 <br><div class="col"><a class="btn btn-info"href="${pageContext.request.contextPath}/SetOverdueController">Set overdue</a></div>
 <br><div class="col"><a class="btn btn-info"href="${pageContext.request.contextPath}/ParkingSpotsController">Make spot unavailable</a></div>
