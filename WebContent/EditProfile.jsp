@@ -92,7 +92,7 @@ input[type="text"] {
     
     <tr>
     <td> Username (*): </td>
-    <td> <input name="username" value="<c:out value='${updatedUserDetails.username}'/>" type="text" maxlength="45">  </td>
+    <td> <input name="username" value="<c:out value='${updatedUserDetails.userName}'/>" type="text" maxlength="45">  </td>
  	<td> <input name="usernameError"  value="<c:out value='${updatedUserDetailsErrorMsgs.usernameError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"   disabled="disabled" maxlength="60"> </td>
     </tr>
     
@@ -106,11 +106,7 @@ input[type="text"] {
     		<option value="Other">Other</option>
 		</select>	
     </td>
-  	<td> <input name="sexError"
-							value="<c:out value='${updatedUserDetailsErrorMsgs.sexError}'/>"
-							type="text"
-							style="background-color: white; color: red; border: none; width: 800px"
-							disabled="disabled" maxlength="60"> </td>
+
     </tr>
     
     <tr>

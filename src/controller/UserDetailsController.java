@@ -39,17 +39,6 @@ public class UserDetailsController extends HttpServlet {
 			doPost(request, response);
 	}
 
-	protected void listSex(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		try {
-			ArrayList<Sex> listSex = new ArrayList<Sex>(Arrays.asList(Sex.values()));
-			request.setAttribute("allSex", listSex);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new ServletException(e);
-		}
-	}
-
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -88,6 +77,18 @@ public class UserDetailsController extends HttpServlet {
 		}
 
 	}
+	
+	protected void listSex(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
+			ArrayList<Sex> listSex = new ArrayList<Sex>(Arrays.asList(Sex.values()));
+			request.setAttribute("allSex", listSex);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ServletException(e);
+		}
+	}
+
 
 	private void getUserDetailsParam(HttpServletRequest request, UserDetails userdetails) {
 		userdetails.setUserDetails(request.getParameter("firstname"), request.getParameter("middlename"),

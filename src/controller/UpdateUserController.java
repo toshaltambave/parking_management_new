@@ -43,6 +43,7 @@ public class UpdateUserController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		boolean isDispatch = false;
 		HttpSession session = request.getSession();
 		UpdatedUserDetails userdetails = new UpdatedUserDetails(new UsersDAO());
 		UpdatedUserDetailsErrorMsgs errorMsgs = new UpdatedUserDetailsErrorMsgs();
@@ -50,7 +51,7 @@ public class UpdateUserController extends HttpServlet {
 
 		if (action.equalsIgnoreCase("update")) {
 			String userName = request.getParameter("username");
-			if (request.getParameter("userId") != "") {
+			if (request.getParameter("userId") != null && !request.getParameter("userId").isEmpty()) {
 				Integer userId = Integer.valueOf(request.getParameter("userId"));
 
 				userdetails.setUserID(userId);
@@ -63,7 +64,7 @@ public class UpdateUserController extends HttpServlet {
 		} else {
 			String type = request.getParameter("type");
 			if (type != null) {
-
+				isDispatch = true;
 				String value = request.getParameter("value");
 				java.util.List<UpdatedUserDetails> userList = UpdatedUserDetailsDAO.searchByUsername(value);
 				UpdatedUserDetails updatedUserDetails = userList.get(0);
@@ -76,8 +77,9 @@ public class UpdateUserController extends HttpServlet {
 				url = "/UpdateSelect.jsp";
 			}
 		}
-
-		getServletContext().getRequestDispatcher(url).forward(request, response);
+		if (!isDispatch) {
+			getServletContext().getRequestDispatcher(url).forward(request, response);
+		}
 	}
 
 	private void getUpdatedUserDetailsParam(HttpServletRequest request, UpdatedUserDetails updatedUserdetails) {

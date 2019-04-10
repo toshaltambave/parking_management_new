@@ -31,6 +31,7 @@ public class UsersDAO {
 				user.setRole(usersList.getString("Role"));
 				user.setisRevoked(usersList.getBoolean("IsRevoked"));  
 				user.setPermitType(usersList.getString("PermitType"));
+				user.setUserID(usersList.getInt("User_Id"));
 	
 				userListInDB.add(user);					
 			}
@@ -120,6 +121,11 @@ public class UsersDAO {
 	//determine if username is unique
 	public Boolean Usernameunique(String username)  {  
 			return (ReturnMatchingUsers(" SELECT * from system_users WHERE UserName = '"+username+"' ORDER BY UserName").isEmpty());
+	}
+	
+	//determine if username is unique
+	public ArrayList<Users> UsernameuniqueList(String username)  {  
+			return ReturnMatchingUsers(" SELECT * from system_users WHERE UserName = '"+username+"' ORDER BY UserName");
 	}
 
 	public static List<Users> searchByUsername(String userName) {
