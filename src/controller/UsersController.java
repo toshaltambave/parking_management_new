@@ -22,12 +22,7 @@ public class UsersController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	
-	Users user = new Users();
-	private void getUserParam(HttpServletRequest request) {
-		user.setUser(request.getParameter("username"), request.getParameter("hashedPassword"),
-				 request.getParameter("confirmPassword"),request.getParameter("role"),
-				 request.getParameter("permitType"), false);
-	}
+	Users user = new Users(new UsersDAO());
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -50,27 +45,13 @@ public class UsersController extends HttpServlet {
 		}
 
 	}
-private void searchuserdetails(HttpServletRequest request) {
-	String type = request.getParameter("type");
-	String query = request.getParameter("query");
 	
-	if ("UserName".equals(type)) {
-		List<Users> userList = new ArrayList<Users>();
-		userList = UsersDAO.searchByUsername(query);
-		for(Users user: userList){
-			System.out.println(user.getUsername());
-		}
-	} else if ("LastName".equals(type)) {
-		System.out.println("Search by LastName");
-	}
-}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 		String action = request.getParameter("action"), url = "";
 		String userName = request.getParameter("username");
-		
 		HttpSession session = request.getSession();
 		
 		UsersErrorMsgs errorMsgs = new UsersErrorMsgs();
@@ -92,6 +73,27 @@ private void searchuserdetails(HttpServletRequest request) {
 			}
 		}
 		getServletContext().getRequestDispatcher(url).forward(request, response);
+	}
+	
+	private void searchuserdetails(HttpServletRequest request) {
+		String type = request.getParameter("type");
+		String query = request.getParameter("query");
+		
+		if ("UserName".equals(type)) {
+			List<Users> userList = new ArrayList<Users>();
+			userList = UsersDAO.searchByUsername(query);
+			for(Users user: userList){
+				System.out.println(user.getUsername());
+			}
+		} else if ("LastName".equals(type)) {
+			System.out.println("Search by LastName");
+		}
+	}
+	
+	private void getUserParam(HttpServletRequest request) {
+		user.setUser(request.getParameter("username"), request.getParameter("hashedPassword"),
+				 request.getParameter("confirmPassword"),request.getParameter("role"),
+				 request.getParameter("permitType"), false);
 	}
 	
 	protected void listSex(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
@@ -126,8 +128,10 @@ private void searchuserdetails(HttpServletRequest request) {
 	{
 		try 
 		{
+			request.getSession().invalidate();
 			ArrayList<Role> listRoles = new ArrayList<Role>(Arrays.asList(Role.values()));
 			request.setAttribute("allRoles", listRoles);
+			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/formRegistration.jsp");
             dispatcher.forward(request, response);
 		}
@@ -169,7 +173,7 @@ private void searchuserdetails(HttpServletRequest request) {
 		String url;
 		url = "/index.jsp";
 		try {
-			user = new Users();
+			user = new Users(new UsersDAO());
 			request.logout();	
 			request.getSession().setAttribute("User", null);
 			request.getSession().invalidate();

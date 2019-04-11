@@ -12,19 +12,19 @@ public class UserDetails {
 	private static final Logger LOG = Logger.getLogger(UserDetails.class.getName(), UserDetails.class);
 	// private static final long serialVersionUID = 3L;
 	private Integer UserID;
-	private String FirstName = "";
-	private String MiddleName = "";
-	private String LastName = "";
-	private String Sex = "";
-	private String birthDate = "";
-	private String Address = "";
-	private String Email = "";
-	private String Phone = "";
-	private String DrivingLicenseNo = "";
-	private String DrivingLicenseExpiry = "";
-	private String RegistrationNumber = "";
-	private String uta_Id = "";
-	private String username = "";
+	private String FirstName;
+	private String MiddleName;
+	private String LastName;
+	private String Sex;
+	private String birthDate;
+	private String Address;
+	private String Email;
+	private String Phone;
+	private String DrivingLicenseNo;
+	private String DrivingLicenseExpiry;
+	private String RegistrationNumber;
+	private String uta_Id;
+	private String username;
 
 	public void setUserDetails(String firstname, String middlename, String lastname, String sex, String dob,
 			String Address, String Email, String Phone, String DL_Number, String DL_Expiry, String Reg_Number,
@@ -157,12 +157,12 @@ public class UserDetails {
 
 	public void validateUserDetails(String action, UserDetails UserDetail, UserDetailsErrorMsgs errorMsgs) {
 		if (action.equals("saveUserDetails")) {
-			errorMsgs.setFirstNameError(validateName(action, UserDetail.getFirstName()));
+			errorMsgs.setFirstNameError(validateName(UserDetail.getFirstName()));
 			String middleName = UserDetail.getMiddleName();
 			if (!middleName.isEmpty()) {
-				errorMsgs.setMiddleNameError(validateName(action, UserDetail.getMiddleName()));
+				errorMsgs.setMiddleNameError(validateName(UserDetail.getMiddleName()));
 			}
-			errorMsgs.setLastNameError(validateName(action, UserDetail.getLastName()));
+			errorMsgs.setLastNameError(validateName(UserDetail.getLastName()));
 			errorMsgs.setBirthDateError(validateDOB(UserDetail.getBirthDate()));
 			errorMsgs.setAddressError(validateMandatory(UserDetail.getAddress()));
 			errorMsgs.setEmailError(validateEmail(UserDetail.getEmail()));
@@ -195,18 +195,18 @@ public class UserDetails {
 		}
 	}
 
-	private String validateName(String action, String name) {
+	private String validateName(String name) {
 		if (name != null && !name.isEmpty()) {
 			String result = "";
-			if (action.equals("saveUserDetails")) {
-				String regex = "(.)*(\\d)(.)*";
-				Pattern pattern = Pattern.compile(regex);
-				boolean containsNumber = pattern.matcher(name).matches();
-				if (containsNumber)
-					result = "Your name must only contain alphabets.";
-				else
-					result = "";
-			}
+
+			String regex = "(.)*(\\d)(.)*";
+			Pattern pattern = Pattern.compile(regex);
+			boolean containsNumber = pattern.matcher(name).matches();
+			if (containsNumber)
+				result = "Your name must only contain alphabets.";
+			else
+				result = "";
+
 			return result;
 		} else {
 			return "The field is mandatory.";
@@ -250,12 +250,11 @@ public class UserDetails {
 		}
 	}
 
-
 	private String validateDOB(String DOB) {
 		String result = "";
 		if (DOB != null && !DOB.isEmpty()) {
 			try {
-				
+
 				Date date;
 				date = new SimpleDateFormat("yyyy-MM-dd").parse(DOB);
 				Calendar cal = Calendar.getInstance();
@@ -296,7 +295,7 @@ public class UserDetails {
 				if (type.equals("PhoneNo"))
 					result = "Your phone number should be " + size + " digits. eg: 7283334567";
 				else
-					result = "This should be of length " + size + "digits.";
+					result = "This should be of length " + size + " digits.";
 			else if (!isTextAnInteger(value))
 				if (type.equals("PhoneNo"))
 					result = "Phone number can only contain digits.";

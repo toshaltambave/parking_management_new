@@ -1,6 +1,8 @@
-package tests;
+package test;
 
 import static org.junit.Assert.*;
+
+import java.util.Arrays;
 
 import org.easymock.EasyMock;
 import org.junit.Before;
@@ -10,6 +12,8 @@ import org.junit.runner.RunWith;
 import data.UsersDAO;
 import junitparams.FileParameters;
 import junitparams.JUnitParamsRunner;
+import model.Role;
+import model.Sex;
 import model.UpdatedUserDetails;
 import model.UpdatedUserDetailsErrorMsgs;
 
@@ -17,7 +21,7 @@ import model.UpdatedUserDetailsErrorMsgs;
 public class UpdatedUserDetailsTest {
 
 	private UpdatedUserDetails updatedUserDetails;
-	UsersDAO mockUsersDAO;
+	private UsersDAO mockUsersDAO;
 
 	@Before
 	public void setUp() throws Exception {
@@ -31,9 +35,25 @@ public class UpdatedUserDetailsTest {
 		}
 		return attribute;
 	}
+	
+	public String checkSexEnum(String enumName){
+		String[] enumArray = Arrays.stream(Sex.values()).map(Enum::name).toArray(String[]::new);
+		if(Arrays.asList(enumArray).contains(enumName)){
+			return Sex.valueOf(enumName).toString();
+		}
+		return enumName;
+	}
+	
+	public String checkRoleEnum(String enumName){
+		String[] enumArray = Arrays.stream(Role.values()).map(Enum::name).toArray(String[]::new);
+		if(Arrays.asList(enumArray).contains(enumName)){
+			return Role.valueOf(enumName).toString();
+		}
+		return enumName;
+	}
 
 	@Test
-	@FileParameters("src/tests/updatedUserDetailsTest.csv")
+	@FileParameters("src/test/UpdatedUserDetailsTest.csv")
 	public void test(String action, String firstName, String middleName, String lastName, String dob, String address,
 			String email, String phone, String dlNumber, String dlExpiry, String utaId, String userName,
 			String hashedPass, String confirmPass, String role, String permitType, String regNumber, String sex,
@@ -46,10 +66,10 @@ public class UpdatedUserDetailsTest {
 
 		UpdatedUserDetails updatedUserDetail = new UpdatedUserDetails(mockUsersDAO);
 		updatedUserDetail.setUpdatedUserDetails(checkForNull(firstName), checkForNull(middleName),
-				checkForNull(lastName), checkForNull(userName), checkForNull(sex), checkForNull(dob),
+				checkForNull(lastName), checkForNull(userName), checkForNull(checkSexEnum(sex)), checkForNull(dob),
 				checkForNull(address), checkForNull(email), checkForNull(phone), checkForNull(dlNumber),
 				checkForNull(dlExpiry), checkForNull(regNumber), checkForNull(utaId), checkForNull(hashedPass),
-				checkForNull(confirmPass), checkForNull(role), checkForNull(permitType));
+				checkForNull(confirmPass), checkForNull(checkRoleEnum(role)), checkForNull(permitType));
 
 		updatedUserDetail.setUserID(userId);
 

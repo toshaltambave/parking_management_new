@@ -3,22 +3,22 @@ package model;
 public class UpdatedUserDetailsErrorMsgs {
 
 	private String errorMsg = "";
-	private String FirstNameError = "";
+	private String FirstNameError;
 	private String MiddleNameError = "";
-	private String LastNameError = "";
-	private String BirthDateError = "";
-	private String AddressError = "";
-	private String EmailError = "";
-	private String PhoneError = "";
-	private String DrivingLicenseError = "";
-	private String DrivingLicenseExpiry = "";
-	private String RegNumberError = "";
-	private String utaIdError = "";
-	private String usernameError = "";
-	private String HashedPasswordError = "";
-	private String ConfirmPasswordError = "";
-	private String RoleError = "";
-	private String PermitTypeError = "";
+	private String LastNameError;
+	private String BirthDateError;
+	private String AddressError;
+	private String EmailError;
+	private String PhoneError;
+	private String DrivingLicenseError;
+	private String DrivingLicenseExpiry;
+	private String RegNumberError;
+	private String utaIdError;
+	private String usernameError;
+	private String HashedPasswordError;
+	private String ConfirmPasswordError;
+	private String RoleError;
+	private String PermitTypeError;
 
 
 	public String getRoleError() {

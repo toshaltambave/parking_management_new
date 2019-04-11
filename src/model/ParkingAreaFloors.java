@@ -6,7 +6,7 @@ public class ParkingAreaFloors implements Serializable {
 	private static final long serialVersionUID = 3L;
 	private Integer Area_Id;
 	private Integer Floor_Number;
-	private String PermitType = "";
+	private String PermitType;
 	private Integer No_Spots;
 	
 	public Integer getArea_Id() {

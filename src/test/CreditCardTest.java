@@ -1,4 +1,4 @@
-package tests;
+package test;
 
 import static org.junit.Assert.*;
 
@@ -34,7 +34,7 @@ public class CreditCardTest {
 
 
 	@Test
-	@FileParameters("src/tests/CreditCardTest.csv")
+	@FileParameters("src/test/CreditCardTest.csv")
 	public void test(String cardNumber, String creditCardType, String cvv, String month, String year,
 			String excpetedErrorMsg, String exceptedCardNumError, String cvvError, String expectedMonthError, String expectedYearError) {
 		creditCard.setCardNumber(cardNumber);
@@ -42,7 +42,7 @@ public class CreditCardTest {
 		creditCard.setCvv(cvv);
 		creditCard.setMonth(month);
 		creditCard.setYear(year);
-
+		
 		errorMsgs = controller.validatecreditcarddetails(creditCard.getCardNumber(), creditCard.getMonth(),
 				creditCard.getYear(), creditCard.getCardType(), creditCard.getCvv(), errorMsgs);
 		creditCardTypes = Arrays.stream(CreditCardTypes.values()).map(Enum::name).toArray(String[]::new);
