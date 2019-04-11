@@ -111,7 +111,7 @@ input[type="text"] {
     
     <tr>
     <td> Date of Birth (*): </td>
-    <td> <input name="dob"
+    <td> <input name="dob" id="dob"
 							value="<c:out value='${updatedUserDetails.birthDate}'/>" type="text"
 							class="datepicker" maxlength="16" readonly>  </td>
   	<td> <input name="birthDateError"

@@ -98,11 +98,6 @@ input[type="text"] {
      	</c:forEach>
 		</select>	
     </td>
-  	<td> <input name="sexError"
-							value="<c:out value='${userDetailsErrorMsgs.sexError}'/>"
-							type="text"
-							style="background-color: white; color: red; border: none; width: 800px"
-							disabled="disabled" maxlength="60"> </td>
     </tr>
     
     <tr>

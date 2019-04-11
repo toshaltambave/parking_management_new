@@ -29,7 +29,7 @@
 </div>
 <form action="${pageContext.request.contextPath}/UsersController?logout" method="post">
 	<input name="action" value="logout" type="hidden">
-    <input class="btn btn-secondary" type="submit" value="Logout" />
+    <input class="btn btn-secondary" name="logout" type="submit" value="Logout" />
 </form>
 </div>
 </jsp:body>
