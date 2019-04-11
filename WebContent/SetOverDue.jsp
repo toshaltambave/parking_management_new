@@ -12,10 +12,10 @@
 			<div align="center">
 					<div class="col">
 						<c:if test="${isOverDue eq true}">
-							<div class="alert alert-success" role="alert"> Marked No Show Successfully.</div>
+							<div id="msgOverdue" class="alert alert-success" role="alert"> Marked Overdue Successfully.</div>
 						</c:if>
 						<c:if test="${isOverDue eq false}">
-							<div class="alert alert-error" role="alert"> Marked No Show Failed.</div>
+							<div id="msgOverdueFailed" class="alert alert-error" role="alert"> Marked Overdue Failed.</div>
 						</c:if>
 												
 					</div>	
@@ -46,7 +46,7 @@
 								<td>${AllReservation.end_Time}</td>
 								<td>${AllReservation.isNoShow}</td>
 								<td>${AllReservation.isOverStay}</td>
-								<td><input class="btn btn-secondary" type="submit" value="Select" /></td>
+								<td><input id="btnOverdue" class="btn btn-secondary" type="submit" value="Select" /></td>
 								<input name="action" value="setOverDue" type="hidden">
 								<input type="hidden" name="reservationID" value="${AllReservation.reservationID}">
 								<input type="hidden" name="selectedUsername" value="${AllReservation.userName}">

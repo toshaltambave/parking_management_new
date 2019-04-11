@@ -12,10 +12,10 @@
 			<div align="center">
 					<div class="col">
 						<c:if test="${isNoShow eq true}">
-							<div class="alert alert-success" role="alert"> Deleted Successfully.</div>
+							<div id="msgResDelSuccess" class="alert alert-success" role="alert"> Deleted Successfully.</div>
 						</c:if>
 						<c:if test="${isNoShow eq false}">
-							<div class="alert alert-error" role="alert"> Could not delete Reservation.</div>
+							<div id="msgResDelFailure" class="alert alert-error" role="alert"> Could not delete Reservation.</div>
 						</c:if>
 												
 					</div>	
@@ -46,7 +46,7 @@
 								<td>${AllReservation.end_Time}</td>
 								<td>${AllReservation.isNoShow}</td>
 								<td>${AllReservation.isOverStay}</td>
-								<td><input class="btn btn-secondary" type="submit" value="Delete" /></td>
+								<td><input id="btnDelete" class="btn btn-secondary" type="submit" value="Delete" /></td>
 								<input name="action" value="deleteReservation" type="hidden">
 								<input type="hidden" name="reservationID" value="${AllReservation.reservationID}">
 							 </form>
@@ -55,7 +55,7 @@
 					</table>
 
 			</div>
-			<button class="btn btn-secondary" type="button" name="back" onclick="history.back()">Back</button>
+<!-- 			<button id="btnBack" class="btn btn-secondary" type="button" name="back" onclick="history.back()">Back</button> -->
 				
 		</div>
     </jsp:body>

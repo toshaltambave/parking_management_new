@@ -23,7 +23,7 @@
 								<td>${ParkingAreaFloors.floor_Number}</td>
 								<td>${ParkingAreaFloors.permitType}</td>
 								<td>${ParkingAreaFloors.no_Spots}</td>
-								<td><input class="btn btn-secondary" type="submit" value="Select" /></td>
+								<td><input id="btnSearchSpotFloor" class="btn btn-secondary" type="submit" value="Select" /></td>
 							</tr>
 							<input type="hidden" name="selectedAreaId" value="${selectedArea.area_Id}">
 							<input type="hidden" name="selectedFloorNumber" value="${ParkingAreaFloors.floor_Number}">
@@ -33,7 +33,7 @@
 					<input name="action" value="getSpotsForFloor" type="hidden">
 			    </form>
 			</div>
-			<button class="btn btn-secondary" type="button" name="back" onclick="history.back()">Back</button>
+<!-- 			<button class="btn btn-secondary" type="button" name="back" onclick="history.back()">Back</button> -->
 				
 		</div>
     </jsp:body>

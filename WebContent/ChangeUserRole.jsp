@@ -51,7 +51,7 @@
 		<div class="row">
 		<div class="col">
 		<label> Set to the following roles</label>
-			<select name=role>
+			<select name="role" id="role">
 				<option>Select Role</option>
 				<option value="Admin">Admin</option>
 				<option value="ParkingUser">ParkingUser</option>
@@ -60,7 +60,7 @@
 		</div>
 		</div>
 		</div>
-		<input name="roleupdError"
+		<input name="roleupdError" id="roleupdError"
 			  value="<c:out value='${roleupdError}'/>" type="text"
 			 style="background-color: white; color: red; border: none;"
 			 disabled="disabled" maxlength="60" class="form-control">
@@ -68,13 +68,13 @@
 		<div class="form-group">
 		<div class="col">
 		<input name="action" value="role" type="hidden"> 
-		<input class="btn btn-secondary" type="submit" value="Submit" />
+		<input id="btnupdateuserRole" class="btn btn-secondary" type="submit" value="Submit" />
 		</div>
 		</div>
 		</div>
 		<div class="col">
 			<c:if test="${isSuccess eq true}">
-			<div class="alert alert-success" role="alert">Role has changed for User.</div>
+			<div id="msgupdroleSuccess" class="alert alert-success" role="alert">Role has changed for User.</div>
 			</c:if>
 		</div>	
 	</form>
@@ -82,13 +82,13 @@
 	</div>
 	</div>
 	</div>
-			<div class="row">
-		<div class="form-group">
-		<div class="col">
-<button class="btn btn-secondary" type="button" name="back" onclick="history.back()">Back</button>
-    	</div>
-		</div>
-		</div>
+<!-- 			<div class="row"> -->
+<!-- 		<div class="form-group"> -->
+<!-- 		<div class="col"> -->
+<!-- <button id="btnBack" class="btn btn-secondary" type="button" name="back" onclick="history.back()">Back</button> -->
+<!--     	</div> -->
+<!-- 		</div> -->
+<!-- 		</div> -->
 	
     </jsp:body>
 </t:_layout>

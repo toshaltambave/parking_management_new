@@ -78,8 +78,8 @@
 				                        <tr>
 				                            <td class="col-md-4"><em>Card Number</em></h4></td>
 				                            <td class="col-md-8">
-				                            <input type="number" class="form-control" name="cardNumber" placeholder="Valid Card Number" autofocus value="<c:out value='${creditcard.cardNumber}'/>" />
-				                        	<input class="form-control center_div" name="cardNumberError"  value="<c:out value='${creditcarderrorMsgs.cardNumberError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"  disabled="disabled" maxlength="60">
+				                            <input type="number" class="form-control" name="cardNumber" id="cardNumber" placeholder="Valid Card Number" autofocus value="<c:out value='${creditcard.cardNumber}'/>" />
+				                        	<input class="form-control center_div" name="cardNumberError" id="cardNumberError" value="<c:out value='${creditcarderrorMsgs.cardNumberError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"  disabled="disabled" maxlength="60">
 				                        </td>
 				                        </tr>
 				                        <tr>
@@ -100,24 +100,24 @@
 				                            <td class="col-md-9"><em>Expiry Date</em></h4></td>
 				                            <td class="col-md-1 text-center">
 				                            <div class="col-xs-6 col-lg-6 pl-ziro">
-                                    			<input type="number" class="form-control" name="expiryMonth" placeholder="MM" value="<c:out value='${creditcard.month}'/>"  />
-                                    			<input class="form-control center_div" name="monthError"  value="<c:out value='${creditcarderrorMsgs.monthError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"  disabled="disabled" maxlength="60">
-                                    			<input type="number" class="form-control" name="expiryYear" placeholder="YYYY" value="<c:out value='${creditcard.year}'/>" />
-                                    			<input class="form-control center_div" name="yearError"  value="<c:out value='${creditcarderrorMsgs.yearError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"  disabled="disabled" maxlength="60">
+                                    			<input type="number" class="form-control" name="expiryMonth" id="expiryMonth" placeholder="MM" value="<c:out value='${creditcard.month}'/>"  />
+                                    			<input class="form-control center_div" name="monthError" id="monthError"  value="<c:out value='${creditcarderrorMsgs.monthError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"  disabled="disabled" maxlength="60">
+                                    			<input type="number" class="form-control" name="expiryYear" id="expiryYear" placeholder="YYYY" value="<c:out value='${creditcard.year}'/>" />
+                                    			<input class="form-control center_div" name="yearError" id="yearError"  value="<c:out value='${creditcarderrorMsgs.yearError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"  disabled="disabled" maxlength="60">
                                 			</div>
                                     		</td>
 				                        </tr>
 				                        <tr>
 				                            <td class="col-md-9">CVV</td>
 				                            <td class="col-md-1 text-center">
-				                            <input type="password" class="form-control" name="cvvCode" placeholder="CVV" value="<c:out value='${creditcard.cvv}'/>" />
-				                            <input class="form-control center_div" name="cvvError"  value="<c:out value='${creditcarderrorMsgs.cvvError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"  disabled="disabled" maxlength="60">                                 			
+				                            <input type="password" class="form-control" name="cvvCode" id="cvvCode" placeholder="CVV" value="<c:out value='${creditcard.cvv}'/>" />
+				                            <input class="form-control center_div" name="cvvError" id="cvvError"  value="<c:out value='${creditcarderrorMsgs.cvvError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"  disabled="disabled" maxlength="60">                                 			
 				                        	</td>
 				                        </tr>
 				                    </tbody>
 				                </table>
 				                
-				                <input type="submit" class="btn btn-success btn-lg btn-block" value="Pay & Reserve">
+				                <input id="btnPayReserve" type="submit" class="btn btn-success btn-lg btn-block" value="Pay & Reserve">
 				                       <span class="glyphicon glyphicon-chevron-right"></span>
 				                <input name="action" value="makeReservation" type="hidden">
 				                <input name="total" value="${finalTotal}" type="hidden">
@@ -127,7 +127,7 @@
 					
 		    </form>
 			</div>
-			<button class="btn btn-secondary" type="button" name="back" onclick="history.back()">Back</button>			
+<!-- 			<button class="btn btn-secondary" type="button" name="back" onclick="history.back()">Back</button>			 -->
 				
 		</div>
 		

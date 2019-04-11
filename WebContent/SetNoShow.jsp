@@ -12,10 +12,10 @@
 			<div align="center">
 					<div class="col">
 						<c:if test="${isNoShow eq true}">
-							<div class="alert alert-success" role="alert"> Marked No Show Successfully.</div>
+							<div id="msgNoShow" class="alert alert-success" role="alert"> Marked No Show Successfully.</div>
 						</c:if>
 						<c:if test="${isNoShow eq false}">
-							<div class="alert alert-error" role="alert"> Marked No Show Failed.</div>
+							<div id="msgNoShowFailed" class="alert alert-error" role="alert"> Marked No Show Failed.</div>
 						</c:if>
 												
 					</div>	
@@ -46,7 +46,7 @@
 								<td>${AllReservation.end_Time}</td>
 								<td>${AllReservation.isNoShow}</td>
 								<td>${AllReservation.isOverStay}</td>
-								<td><input class="btn btn-secondary" type="submit" value="Select" /></td>
+								<td><input id="btnNoShow" class="btn btn-secondary" type="submit" value="Select" /></td>
 								<input name="action" value="setNoshow" type="hidden">
 								<input type="hidden" name="reservationID" value="${AllReservation.reservationID}">
 								<input type="hidden" name="selectedUsername" value="${AllReservation.userName}">
@@ -56,7 +56,7 @@
 					</table>
 
 			</div>
-			<button class="btn btn-secondary" type="button" name="back" onclick="history.back()">Back</button>
+<!-- 			<button class="btn btn-secondary" type="button" name="back" onclick="history.back()">Back</button> -->
 				
 		</div>
     </jsp:body>

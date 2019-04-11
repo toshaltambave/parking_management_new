@@ -36,8 +36,8 @@
 			<select name=value id="two">
 			</select>
 		</div>
-		<br></br> <input name="action" value="updateSelect" type="hidden"> <input
-			type="submit" value="Submit" />
+		<br></br> <input name="action" value="updateSelect" type="hidden"> 
+		<input id="btnUpdateUser" type="submit" value="Submit" />
 	</form>
 </body>
 </html>
