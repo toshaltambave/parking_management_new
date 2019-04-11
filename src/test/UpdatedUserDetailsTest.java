@@ -1,4 +1,4 @@
-package tests;
+package test;
 
 import static org.junit.Assert.*;
 
@@ -12,6 +12,8 @@ import org.junit.runner.RunWith;
 import data.UsersDAO;
 import junitparams.FileParameters;
 import junitparams.JUnitParamsRunner;
+import model.Role;
+import model.Sex;
 import model.UpdatedUserDetails;
 import model.UpdatedUserDetailsErrorMsgs;
 
@@ -19,7 +21,7 @@ import model.UpdatedUserDetailsErrorMsgs;
 public class UpdatedUserDetailsTest {
 
 	private UpdatedUserDetails updatedUserDetails;
-	UsersDAO mockUsersDAO;
+	private UsersDAO mockUsersDAO;
 
 	@Before
 	public void setUp() throws Exception {
@@ -51,7 +53,7 @@ public class UpdatedUserDetailsTest {
 	}
 
 	@Test
-	@FileParameters("src/tests/updatedUserDetailsTest.csv")
+	@FileParameters("src/test/UpdatedUserDetailsTest.csv")
 	public void test(String action, String firstName, String middleName, String lastName, String dob, String address,
 			String email, String phone, String dlNumber, String dlExpiry, String utaId, String userName,
 			String hashedPass, String confirmPass, String role, String permitType, String regNumber, String sex,

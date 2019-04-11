@@ -1,4 +1,4 @@
-package model;
+package test;
 
 import static org.junit.Assert.*;
 
@@ -13,6 +13,12 @@ import org.junit.runner.RunWith;
 import controller.ParkingAreaController;
 import junitparams.FileParameters;
 import junitparams.JUnitParamsRunner;
+import model.ParkingArea;
+import model.ParkingAreaFloors;
+import model.ParkingAreaHelper;
+import model.ParkingAreaHelperError;
+import model.ParkingSpots;
+import model.PermitType;
 
 @RunWith(JUnitParamsRunner.class)
 public class ParkingAreaHelperTest {
@@ -46,7 +52,7 @@ public class ParkingAreaHelperTest {
 	}
 
 	@Test
-	@FileParameters("src/ParkingAreaHelperTest.csv")
+	@FileParameters("src/test/ParkingAreaHelperTest.csv")
 	public void test(String action, String areaName, String permitType, String numberofSpots, String floorNumber,
 			String expectedErrorMsg, String expectedAreaNameError, String expectedPermitTypeError,
 			String expectedFloorNumberError, String expectedNumOfSpotsError) {

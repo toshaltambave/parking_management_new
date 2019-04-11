@@ -25,12 +25,13 @@ public class UsersDAO {
 			stmt = conn.createStatement();
 			ResultSet usersList = stmt.executeQuery(queryString);
 			while (usersList.next()) {
-				Users user = new Users(); 
+				Users user = new Users(new UsersDAO()); 
 				user.setUsername(usersList.getString("UserName"));
 				user.setHashedPassword(usersList.getString("HashedPassword"));
 				user.setRole(usersList.getString("Role"));
 				user.setisRevoked(usersList.getBoolean("IsRevoked"));  
 				user.setPermitType(usersList.getString("PermitType"));
+				user.setUserID(usersList.getInt("User_Id"));
 	
 				userListInDB.add(user);					
 			}
@@ -121,6 +122,11 @@ public class UsersDAO {
 	public Boolean Usernameunique(String username)  {  
 			return (ReturnMatchingUsers(" SELECT * from system_users WHERE UserName = '"+username+"' ORDER BY UserName").isEmpty());
 	}
+	
+	//determine if username is unique
+	public ArrayList<Users> UsernameuniqueList(String username)  {  
+			return ReturnMatchingUsers(" SELECT * from system_users WHERE UserName = '"+username+"' ORDER BY UserName");
+	}
 
 	public static List<Users> searchByUsername(String userName) {
 		ArrayList<Users> userListInDB = new ArrayList<Users>();
@@ -139,7 +145,7 @@ public class UsersDAO {
 			} else
 
 				while (rs.next()) {
-					Users user = new Users();
+					Users user = new Users(new UsersDAO());
 					user.setUsername(rs.getString("UserName"));
 					user.setHashedPassword(rs.getString("HashedPassword"));
 					user.setRole(rs.getString("Role"));

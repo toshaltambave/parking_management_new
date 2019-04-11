@@ -12,6 +12,7 @@ import java.util.List;
 
 import com.sun.istack.internal.logging.Logger;
 import model.UpdatedUserDetails;
+import util.PasswordUtility;
 import util.SQLConnection;
 
 public class UpdatedUserDetailsDAO {
@@ -123,8 +124,9 @@ public class UpdatedUserDetailsDAO {
 					+ "SET UserName=?, HashedPassword=?, Role=?, PermitType=? " 
 					+ "WHERE User_Id=?";
 			pst = conn.prepareStatement(sql2);
+			String mySecurePassword = PasswordUtility.generatePassword(userDetails.getHashedPassword());
 			pst.setString(1, userDetails.getUserName());
-			pst.setString(2, userDetails.getHashedPassword());
+			pst.setString(2, mySecurePassword);
 			pst.setString(3, userDetails.getRole());
 			pst.setString(4, userDetails.getPermitType());
 			pst.setInt(5, userDetails.getUserID());
