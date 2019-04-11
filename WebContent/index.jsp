@@ -28,7 +28,7 @@ width:300px
 					<div class="col">
 					<label for="Username">Username</label>
 					<input class="form-control" placeholder="Enter Username"
-							name="username" value="<c:out value='${Users.Username}'/>"
+							name="username" id="username" value="<c:out value='${Users.Username}'/>"
 							type="text" maxlength="45">
 					<input name="usernameError" class="form-control"
 							value="<c:out value='${loginerrorMsgs.usernameError}'/>" type="text"
@@ -37,7 +37,7 @@ width:300px
 					</div>
 					<div class="col">
 					<label for="Password">Password</label>
-					<input name="hashedPassword" placeholder="Enter Password"
+					<input name="hashedPassword" id="password" placeholder="Enter Password"
 						value="<c:out value='${Users.HashedPassword}'/>" type="password"
 						maxlength="16" class="form-control">
 					<input name="passwordError"
