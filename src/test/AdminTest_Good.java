@@ -8,6 +8,7 @@ import org.junit.*;
 import static org.junit.Assert.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
 import functions.BusinessFunctions;
@@ -24,8 +25,11 @@ public class AdminTest_Good extends BusinessFunctions {
   @Before
   public void setUp() throws Exception {
 	//Change to FireFoxDriver if using FireFox browser
-	System.setProperty("webdriver.chrome.driver", "C:\\ChromeDriver\\chromedriver.exe");
-    driver = new ChromeDriver();
+//	System.setProperty("webdriver.chrome.driver", "C:\\ChromeDriver\\chromedriver.exe");
+//    driver = new ChromeDriver();
+	  //FireFox Driver
+    System.setProperty("webdriver.firefox.marionette", "C:\\GeckoSelenium\\geckodriver.exe");
+    driver = new FirefoxDriver();
     driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     prop = new Properties();
     prop.load(new FileInputStream("./Configuration/Configuration.properties"));
@@ -37,17 +41,46 @@ public class AdminTest_Good extends BusinessFunctions {
   @Test
   public void testAdminTestGood() throws Exception {
     driver.get(appUrl);
-    functions.Register(driver, "User7", "User7", "User7", "Admin");    
-    functions.RegisterUserDetails(driver, "Lex", "Luthor", "Male", "1", "LexCorp", "Lex@aol.com", "4693332514", "14412552", "30", "12332147", "1000212003");
+    //functions.Register(driver, "User7", "User7", "User7", "Admin");    
+    //functions.RegisterUserDetails(driver, "Lex", "Luthor", "Male", "1", "LexCorp", "Lex@aol.com", "4693332514", "14412552", "30", "12332147", "1000212003");
     functions.Login(driver, "User7", "User7");
-    functions.searchUserbyUserName(driver, "User6");
-    driver.findElement(By.name("back")).click();
-    driver.findElement(By.name("back")).click();
-    functions.revokeUser(driver, "User6");
-    driver.findElement(By.name("back")).click();
-    driver.findElement(By.name("back")).click();
-    driver.findElement(By.name("logout")).click();
+    functions.searchUserbyUserName(driver, "adi1");
+    driver.findElement(By.id("homebutton")).click();
+    functions.revokeUser(driver, "adi1");
+    driver.findElement(By.id("homebutton")).click();
+    driver.findElement(By.id("btnLogout")).click();
   }
+  @Test
+  public void testReservation() throws Exception {
+	    driver.get(appUrl);
+	    driver.findElement(By.id("username")).clear();
+	    driver.findElement(By.id("username")).sendKeys("toshal11");
+	    driver.findElement(By.id("password")).clear();
+	    driver.findElement(By.id("password")).sendKeys("Toshal123.");
+	    driver.findElement(By.id("btnLogin")).click();
+	    driver.findElement(By.id("lnkRequestReservation")).click();
+	    driver.findElement(By.id("starttime")).clear();
+		driver.findElement(By.id("starttime")).sendKeys("2019-04-12 18:00:00");
+		driver.findElement(By.id("endtime")).clear();
+		driver.findElement(By.id("endtime")).sendKeys("2019-04-12 19:00:00");
+	    driver.findElement(By.id("btnSearch")).click();
+	    driver.findElement(By.id("btnReserveFloor")).click();
+	    driver.findElement(By.xpath("(//input[@id='btnReserveSpotID'])[2]")).click();
+	    driver.findElement(By.id("cart")).click();
+	    driver.findElement(By.id("camera")).click();
+	    driver.findElement(By.id("history")).click();
+	    driver.findElement(By.id("btnOptions")).click();
+	    driver.findElement(By.id("cardNumber")).clear();
+	    driver.findElement(By.id("cardNumber")).sendKeys("4238000023456780");
+	    driver.findElement(By.id("expiryMonth")).clear();
+	    driver.findElement(By.id("expiryMonth")).sendKeys("12");
+	    driver.findElement(By.id("expiryYear")).clear();
+	    driver.findElement(By.id("expiryYear")).sendKeys("2020");
+	    driver.findElement(By.id("cvvCode")).clear();
+	    driver.findElement(By.id("cvvCode")).sendKeys("213");
+	    driver.findElement(By.id("btnPayReserve")).click();
+	    driver.findElement(By.id("btnLogout")).click();
+	  }
 
   @After
   public void tearDown() throws Exception {

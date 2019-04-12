@@ -9,7 +9,7 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="${pageContext.request.contextPath}/HomeController">Home
+            <a class="nav-link" id="homebutton" href="${pageContext.request.contextPath}/HomeController">Home
               <span class="sr-only">(current)</span>
             </a>
           </li>

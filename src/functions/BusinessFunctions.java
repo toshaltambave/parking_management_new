@@ -66,7 +66,7 @@ public class BusinessFunctions {
 	    driver.findElement(By.linkText("Search for user")).click();
 	    new Select(driver.findElement(By.id("type"))).selectByVisibleText("UserName");
 	    new Select(driver.findElement(By.id("two"))).selectByVisibleText(userName);
-	    driver.findElement(By.cssSelector("input[type=\"submit\"]")).click();
+	    driver.findElement(By.id("btnUserSearch")).click();
 	}
 	
 	public void revokeUser(WebDriver driver, String userName){
@@ -75,6 +75,36 @@ public class BusinessFunctions {
 	    driver.findElement(By.cssSelector("option[value=\"UserName\"]")).click();
 	    new Select(driver.findElement(By.id("two"))).selectByVisibleText(userName);
 	    driver.findElement(By.cssSelector("input[type=\"submit\"]")).click();
+	}
+	
+	public void makeReservation(WebDriver driver, String username, String password, String start, String end, Integer spot, String card, String month, String year, String cvv ){
+		driver.findElement(By.id("username")).clear();
+	    driver.findElement(By.id("username")).sendKeys(username);
+	    driver.findElement(By.id("password")).clear();
+	    driver.findElement(By.id("password")).sendKeys(password);
+	    driver.findElement(By.id("btnLogin")).click();
+	    driver.findElement(By.id("lnkRequestReservation")).click();
+	    driver.findElement(By.id("starttime")).clear();
+		driver.findElement(By.id("starttime")).sendKeys(start);
+		driver.findElement(By.id("endtime")).clear();
+		driver.findElement(By.id("endtime")).sendKeys(end);
+	    driver.findElement(By.id("btnSearch")).click();
+	    driver.findElement(By.id("btnReserveFloor")).click();
+	    driver.findElement(By.xpath("(//input[@id='btnReserveSpotID'])[2]")).click();
+	    driver.findElement(By.id("cart")).click();
+	    driver.findElement(By.id("camera")).click();
+	    driver.findElement(By.id("history")).click();
+	    driver.findElement(By.id("btnOptions")).click();
+	    driver.findElement(By.id("cardNumber")).clear();
+	    driver.findElement(By.id("cardNumber")).sendKeys(card);
+	    driver.findElement(By.id("expiryMonth")).clear();
+	    driver.findElement(By.id("expiryMonth")).sendKeys(month);
+	    driver.findElement(By.id("expiryYear")).clear();
+	    driver.findElement(By.id("expiryYear")).sendKeys(year);
+	    driver.findElement(By.id("cvvCode")).clear();
+	    driver.findElement(By.id("cvvCode")).sendKeys(cvv);
+	    driver.findElement(By.id("btnPayReserve")).click();
+	    driver.findElement(By.id("btnLogout")).click();
 	}
 
 }
