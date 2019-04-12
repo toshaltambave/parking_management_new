@@ -13,21 +13,21 @@
 <h2>PARKING MANAGEMENT HOMEPAGE</h2>
 <div class="row">
 <div class="form-group">
-<br><div class="col"><a class="btn btn-info"href="UpdateSelect.jsp">Update profile</a></div>
-<br><div class="col"><a class="btn btn-info"href="UserSearch.jsp">Search for User</a></div> 
-<br><div class="col"><a class="btn btn-info"href="${pageContext.request.contextPath}/SpotSearchController" >View parking spot details</a></div>
-<br><div class="col"><a class="btn btn-info"href="UserSearch.jsp">View parking user details</a></div>
-<br><div class="col"><a class="btn btn-info"href="${pageContext.request.contextPath}/ModifyReservationController">Delete a reservation</a></div> <!-- TODO TOSHAL -->
-<br><div class="col"><a class="btn btn-info"href="${pageContext.request.contextPath}/ModifyReservationController?action=editReservation"">Edit a reservation</a></div> <!-- TODO TOSHAL -->
-<br><div class="col"><a class="btn btn-info"href="${pageContext.request.contextPath}/SetNoShowController">Set no-show</a></div>
-<br><div class="col"><a class="btn btn-info"href="${pageContext.request.contextPath}/SetOverdueController">Set overdue</a></div>
-<br><div class="col"><a class="btn btn-info"href="${pageContext.request.contextPath}/ParkingSpotsController">Make spot unavailable</a></div>
-<br><div class="col"><a class="btn btn-info"href="${pageContext.request.contextPath}/ParkingAreaController">Add parking area</a></div>
+<br><div class="col"><a id="lnkUpdateProfile" class="btn btn-info"href="UpdateSelect.jsp">Update profile</a></div>
+<br><div class="col"><a id="lnkSearchUser" class="btn btn-info"href="UserSearch.jsp">Search for User</a></div> 
+<br><div class="col"><a id="lnkViewParkingSpotDetails" class="btn btn-info"href="${pageContext.request.contextPath}/SpotSearchController" >View parking spot details</a></div>
+<br><div class="col"><a id="lnkViewParkingUserDetails" class="btn btn-info"href="UserSearch.jsp">View parking user details</a></div>
+<br><div class="col"><a id="lnkDeleteReservation" class="btn btn-info"href="${pageContext.request.contextPath}/ModifyReservationController">Delete a reservation</a></div> <!-- TODO TOSHAL -->
+<br><div class="col"><a id="lnkModifyReservation" class="btn btn-info"href="${pageContext.request.contextPath}/ModifyReservationController?action=editReservation"">Edit a reservation</a></div> <!-- TODO TOSHAL -->
+<br><div class="col"><a id="lnkSetNoShow" class="btn btn-info"href="${pageContext.request.contextPath}/SetNoShowController">Set no-show</a></div>
+<br><div class="col"><a id="lnkSetOverdue" class="btn btn-info"href="${pageContext.request.contextPath}/SetOverdueController">Set overdue</a></div>
+<br><div class="col"><a id="lnkSetSpotUnavailable" class="btn btn-info"href="${pageContext.request.contextPath}/ParkingSpotsController">Make spot unavailable</a></div>
+<br><div class="col"><a id="lnkAddParkingArea" class="btn btn-info"href="${pageContext.request.contextPath}/ParkingAreaController">Add parking area</a></div>
 </div>
 </div>
 <form action="${pageContext.request.contextPath}/UsersController?logout" method="post">
 	<input name="action" value="logout" type="hidden">
-    <input class="btn btn-secondary" type="submit" value="Logout" />
+    <input id="btnLogout" class="btn btn-secondary" type="submit" value="Logout" />
 </form>
 </div>
 </jsp:body>

@@ -16,11 +16,11 @@
 <div class="row">    
 <div class="form-group">
 <div class="col">	
-<div class="row"><input class="form-control" name="errorMsg"  value="<c:out value='${parkingAreaError.errorMsg}'/>" type="text"  style ="background-color: white; color: red; border: none; width:800px" disabled="disabled"></div>
+<div class="row"><input id="errorMsg" class="form-control" name="errorMsg"  value="<c:out value='${parkingAreaError.errorMsg}'/>" type="text"  style ="background-color: white; color: red; border: none; width:800px" ></div>
 
 <div class="row"><label> Parking Area Name (*):</label></div> 
-<div class="row"><input type="text" class="form-control" name="parkingareaname" value="<c:out value='${parkingArea.areaname}'/>"  maxlength="20" ></div>
-<div class="row"><input class="form-control center_div" name="parkingareanameError"  value="<c:out value='${parkingAreaError.areaNameError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"  disabled="disabled" maxlength="60"></div>    
+<div class="row"><input id="parkingareaname" type="text" class="form-control" name="parkingareaname" value="<c:out value='${parkingArea.areaname}'/>"  maxlength="20" ></div>
+<div class="row"><input id="parkingareanameError" class="form-control center_div" name="parkingareanameError"  value="<c:out value='${parkingAreaError.areaNameError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"   maxlength="60"></div>    
 
 <div class="row"><label> Permit Type: </label>
 </div>
@@ -37,20 +37,20 @@
 
 <div class="row"><label> Floor Number (*): </label></div>
 <div class="row">
-<input class="form-control" type="number" pattern="\d*" maxlength="2" name="floornumber" value="<c:out value='${parkingArea.floornumber}'/>">
+<input id="floornumber" class="form-control" type="number" pattern="\d*" maxlength="2" name="floornumber" value="<c:out value='${parkingArea.floornumber}'/>">
 </div>
-<div class="row"><input class="form-control" name="floornumberError"  value="<c:out value='${parkingAreaError.floorNumberError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"   disabled="disabled" maxlength="60"></div>
+<div class="row"><input id="floornumberError" class="form-control" name="floornumberError"  value="<c:out value='${parkingAreaError.floorNumberError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"    maxlength="60"></div>
  
 		
 <div class="row"><label> No. of Spots (*): </label></div>
 <div class="row">
 <input class="form-control" type="number" pattern="\d*" maxlength="3" name="numberofSpots" value="<c:out value='${parkingArea.numberofspots}'/>">
 </div>
-<div class="row"><input class="form-control" name="numberofSpotsError"  value="<c:out value='${parkingAreaError.numberofSpotsError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"   disabled="disabled" maxlength="60"></div>
+<div class="row"><input id="numberofSpotsError" class="form-control" name="numberofSpotsError"  value="<c:out value='${parkingAreaError.numberofSpotsError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"    maxlength="60"></div>
  
 <div class="row"><label> Mandatory fields (*)</label></div>
 <input name="action" value="addtoList" type="hidden">
-<div class="row"><input class="btn btn-secondary" type="submit" value="Add Area to lists."></div>
+<div class="row"><input id="btnAddAreaList" class="btn btn-secondary" type="submit" value="Add Area to lists."></div>
 
 
 <table class="table table-bordered center_div">
@@ -78,29 +78,29 @@
  
 <form name="formSaveParkingArea" action="${pageContext.request.contextPath}/ParkingAreaController?saveArea" method="post">
 <input name="action" value="saveArea" type="hidden">
-<div class="row"><input class="btn btn-secondary" type="submit" value="Save Area"></div>
+<div class="row"><input id="btnSaveArea" class="btn btn-secondary" type="submit" value="Save Area"></div>
 					<div class="col">
 						<c:if test="${isAreaAdded eq true}">
-							<div class="alert alert-success" role="alert"> Area(s) added successfully.</div>
+							<div id="msgAreaSuccess" class="alert alert-success" role="alert"> Area(s) added successfully.</div>
 						</c:if>
 					</div>	
 					
 					<div class="col">
 						<c:if test="${isAreaListEmpty eq true}">
-							<div class="alert alert-danger" role="alert"> Add Area(s) to the list.</div>
+							<div id="msgAreaException" class="alert alert-danger" role="alert"> Add Area(s) to the list.</div>
 						</c:if>
 					</div>	
 
 </form>
 
 
-<div class="row">
-<div class="form-group">
-<div class="col">
-<button class="btn btn-secondary" type="button" name="back" onclick="history.back()">Back</button>
-</div>
-</div>
-</div>
+<!-- <div class="row"> -->
+<!-- <div class="form-group"> -->
+<!-- <div class="col"> -->
+<!-- <button id="btnBack" class="btn btn-secondary" type="button" name="back" onclick="history.back()">Back</button> -->
+<!-- </div> -->
+<!-- </div> -->
+<!-- </div> -->
 </div>
 </jsp:body>
 </t:_layout>

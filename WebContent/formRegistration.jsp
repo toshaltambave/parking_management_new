@@ -30,19 +30,19 @@ width:300px
 <div class="row">    
 <div class="form-group">
 <div class="col">	
-<div class="row"><input class="form-control" name="errorMsg"  value="<c:out value='${registererrorMsgs.errorMsg}'/>" type="text"  style ="background-color: white; color: red; border: none; width:800px" disabled="disabled"></div>
+<div class="row"><input id="errorMsg" class="form-control" name="errorMsg"  value="<c:out value='${registererrorMsgs.errorMsg}'/>" type="text"  style ="background-color: white; color: red; border: none; width:800px" ></div>
 
 <div class="row"><label> Username (*):</label></div> 
-<div class="row"><input type="text" class="form-control" name="username" value="<c:out value='${user.username}'/>"  maxlength="45" ></div>
-<div class="row"><input class="form-control center_div" name="usernameError"  value="<c:out value='${registererrorMsgs.usernameError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"  disabled="disabled" maxlength="60"></div>    
+<div class="row"><input id="username" type="text" class="form-control" name="username" value="<c:out value='${user.username}'/>"  maxlength="45" ></div>
+<div class="row"><input id="usernameError" class="form-control center_div" name="usernameError"  value="<c:out value='${registererrorMsgs.usernameError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px" maxlength="60"></div>    
 
 <div class="row"><label> Password (*): </label></div>
-<div class="row"><input class="form-control" name="hashedPassword" value="<c:out value='${user.hashedPassword}'/>" type="password" maxlength="16"></div>
-<div class="row"><input class="form-control" name="passwordError"  value="<c:out value='${registererrorMsgs.passwordError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"   disabled="disabled" maxlength="60"></div>
+<div class="row"><input id="hashedPassword" class="form-control" name="hashedPassword" value="<c:out value='${user.hashedPassword}'/>" type="password" maxlength="16"></div>
+<div class="row"><input id="passwordError" class="form-control" name="passwordError"  value="<c:out value='${registererrorMsgs.passwordError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"  maxlength="60"></div>
 
 <div class="row"><label> Confirm Password (*): </label></div>
-<div class="row"><input class="form-control" name="confirmPassword" value="<c:out value='${user.confirmPassword}'/>" type="password" maxlength="16"></div>
-<div class="row"><input class="form-control" name="confirmPasswordError"  value="<c:out value='${registererrorMsgs.confirmpasswordError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"   disabled="disabled" maxlength="60"></div>
+<div class="row"><input id="confirmPassword" class="form-control" name="confirmPassword" value="<c:out value='${user.confirmPassword}'/>" type="password" maxlength="16"></div>
+<div class="row"><input id="confirmPasswordError" class="form-control" name="confirmPasswordError"  value="<c:out value='${registererrorMsgs.confirmpasswordError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"  maxlength="60"></div>
  
 <div class="row"><label> Role (*): </label></div>
     	<div class="row"><select class="form-control style-select" name="role" id="role">
@@ -54,7 +54,7 @@ width:300px
 			    </option>
      	</c:forEach>
 		</select></div>	
-<div class="row"><input class="form-control" name="roleError"  value="<c:out value='${registererrorMsgs.roleError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"   disabled="disabled" maxlength="60"></div>
+<div class="row"><input class="form-control" id="roleError" name="roleError"  value="<c:out value='${registererrorMsgs.roleError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"   disabled="disabled" maxlength="60"></div>
 	
 <div class="row"><label> Permit Type: </label></div>
 		<div class="row"><select class="form-control style-select" name="permitType" id="permitType">
@@ -66,11 +66,11 @@ width:300px
 			    </option>
      	</c:forEach>
 		</select></div>	
-<div class="row"><input class="form-control" name="permitTypeError"  value="<c:out value='${registererrorMsgs.permitTypeError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"   disabled="disabled" maxlength="60"> </div>
+<div class="row"><input class="form-control" id="permitTypeError" name="permitTypeError"  value="<c:out value='${registererrorMsgs.permitTypeError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"   disabled="disabled" maxlength="60"> </div>
 
 <div class="row"><label> Mandatory fields (*)</label></div>
     <input name="action" value="saveUser" type="hidden">
-<div class="row"><input class="btn btn-secondary" type="submit" value="Register"></div>
+<div class="row"><input id="btnRegister" name="btnRegister" class="btn btn-secondary" type="submit" value="Register"></div>
 </div>
 </div>
 </div>

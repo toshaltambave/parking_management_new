@@ -26,7 +26,7 @@
 								<form action="${pageContext.request.contextPath}/ParkingSpotsController?toggleBlock" method="post">
 									<td>${ParkingSpots.spot_Id}</td>
 									<td>${ParkingSpots.isBlocked}</td>
-									<td><input class="btn btn-secondary" type="submit" value="Block/Unblock" /></td>
+									<td><input id="btnBlockUnblock" class="btn btn-secondary" type="submit" value="Block/Unblock" /></td>
 								</tr>
 								<input type="hidden" name="selectedSpotUId" value="${ParkingSpots.spot_UID}">
 								<input type="hidden" name="isBlocked" value="${ParkingSpots.isBlocked}">
@@ -37,12 +37,12 @@
 
 						<div class="col">
 						<c:if test="${isblocksuccess eq true}">
-							<div class="alert alert-success" role="alert"> spot (un)blocked successfully.</div>
+							<div id="msgblocksuccess" class="alert alert-success" role="alert"> spot (un)blocked successfully.</div>
 						</c:if>
 					</div>	
 
 			</div>
-			<button class="btn btn-secondary" type="button" name="back" onclick="history.back()">Back</button>			
+<!-- 			<button class="btn btn-secondary" type="button" name="back" onclick="history.back()">Back</button>			 -->
 		</div>
     </jsp:body>
 </t:_layout>

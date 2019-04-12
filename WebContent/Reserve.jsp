@@ -40,28 +40,28 @@
 	
 		                </div>
 				    </div>
-				    		                    <div><input name="starttimeError"
+				    		                    <div><input name="starttimeError" id="starttimeError"
 								value="<c:out value='${startTimeError}'/>"
 								type="text"
 								style="background-color: white; color: red; border: none; width: 800px"
-								disabled="disabled" maxlength="60">
+								 maxlength="60">
 							</div>
-								                    <div><input name="endtimeError"
+								                    <div><input name="endtimeError" id="endtimeError"
 								value="<c:out value='${endTimeError}'/>"
 								type="text"
 								style="background-color: white; color: red; border: none; width: 800px"
-								disabled="disabled" maxlength="60">
+								 maxlength="60">
 							</div>
-				    <div><input name="compareError"
+				    <div><input name="compareError" id="compareError"
 							value="<c:out value='${compareError}'/>"
 							type="text"
 							style="background-color: white; color: red; border: none; width: 800px"
-							disabled="disabled" maxlength="60">
+							 maxlength="60">
 					</div>
 					<div class="col">
 						<div align="center">
 				    		<h2>Select an Area to Park</h2>
-					        <select name="areaDropDrown">
+					        <select name="areaDropDrown" id="areaDropDrown">
 					            <c:forEach items="${Areas}" var="ParkingArea">
 					                <option value="${ParkingArea.area_Id}"
 					                <c:if test="${ParkingArea.area_Id eq selectedAreaId}">selected="selected"</c:if>
@@ -73,7 +73,7 @@
 			        
 						</div>
 						<input name="action" value="Search" type="hidden">
-						<input class="btn btn-secondary" type="submit" value="Search">
+						<input id="btnSearch" class="btn btn-secondary" type="submit" value="Search">
 					</div>
 			        <script type="text/javascript">
 			            $('#timepicker1').timepicker();

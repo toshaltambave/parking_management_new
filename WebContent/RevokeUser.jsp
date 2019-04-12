@@ -52,18 +52,18 @@
 		<input name="revokeError"
 			   value="<c:out value='${revokeError}'/>" type="text"
 			   style="background-color: white; color: red; border: none;"
-			 disabled="disabled" maxlength="60" class="form-control">
+			  maxlength="60" class="form-control">
 		<div class="row">
 		<div class="form-group">
 		<div class="col">
 		<input name="action" value="revoke" type="hidden">
-		 <input class="btn btn-secondary" type="submit" value="Revoke" />
+		 <input id="btnRevoke" class="btn btn-secondary" type="submit" value="Revoke" />
 		</div>
 		</div>
 		</div>
 		<div class="col">
 			<c:if test="${isSuccess eq true}">
-			<div class="alert alert-success" role="alert">User has Been Revoked.</div>
+			<div id="msgRevSuccess" class="alert alert-success" role="alert">User has Been Revoked.</div>
 			</c:if>
 		</div>	
 	</form>
@@ -72,13 +72,13 @@
 	</div>
 	</div>
 	
-			<div class="row">
-		<div class="form-group">
-		<div class="col">
-<button class="btn btn-secondary" type="button" name="back" onclick="history.back()">Back</button>
-    	</div>
-		</div>
-		</div>
+<!-- 			<div class="row"> -->
+<!-- 		<div class="form-group"> -->
+<!-- 		<div class="col"> -->
+<!-- <button class="btn btn-secondary" type="button" name="back" onclick="history.back()">Back</button> -->
+<!--     	</div> -->
+<!-- 		</div> -->
+<!-- 		</div> -->
 	
     </jsp:body>
 </t:_layout>

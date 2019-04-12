@@ -45,8 +45,8 @@
 			<select name=query id="two">
 			</select>
 		</div>
-		<br></br> <input name="action" value="search" type="hidden"> <input
-			type="submit" value="Submit" />
+		<br></br> <input name="action" value="search" type="hidden">
+		 <input id="btnUserSearch" type="submit" value="Submit" />
 	</form>
 	<br>
 	<br>

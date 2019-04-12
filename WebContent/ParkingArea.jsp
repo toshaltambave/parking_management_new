@@ -13,7 +13,7 @@
 			    <h2>Select area</h2>
 			    <form action="${pageContext.request.contextPath}/ParkingSpotsController?getSelectedArea" method="post">
 			        Available Areas:&nbsp;
-			        <select name="areaDropDrown">
+			        <select name="areaDropDrown" id="areaDropDown">
 			            <c:forEach items="${Areas}" var="ParkingArea">
 			                <option value="${ParkingArea.area_Id}"
 			                <c:if test="${ParkingArea.area_Id eq selectedAreaId}">selected="selected"</c:if>
@@ -23,10 +23,10 @@
 			            </c:forEach>
 			        </select>
 			        <input name="action" value="getSelectedArea" type="hidden">
-			        <input class="btn btn-secondary" type="submit" value="Submit" />
+			        <input id="btnSubmit" class="btn btn-secondary" type="submit" value="Submit" />
 			    </form>
 			</div>
-			<button class="btn btn-secondary" type="button" name="back" onclick="history.back()">Back</button>
+<!-- 			<button class="btn btn-secondary" type="button" name="back" onclick="history.back()">Back</button> -->
 		</div>
     </jsp:body>
 </t:_layout>

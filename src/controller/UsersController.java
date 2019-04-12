@@ -128,7 +128,7 @@ public class UsersController extends HttpServlet {
 	{
 		try 
 		{
-			request.getSession().invalidate();
+			//request.getSession().invalidate();
 			ArrayList<Role> listRoles = new ArrayList<Role>(Arrays.asList(Role.values()));
 			request.setAttribute("allRoles", listRoles);
 			
@@ -152,7 +152,7 @@ public class UsersController extends HttpServlet {
 		if (!errorMsgs.getErrorMsg().equals(""))
 		{// if error messages
 			getUserParam(request);
-			session.setAttribute("registererrorMsgs", errorMsgs);
+			request.setAttribute("registererrorMsgs", errorMsgs);
 			String role = request.getParameter("role");
 	        request.setAttribute("selectedrole", role);
 			String permitType = request.getParameter("permitType");
@@ -163,7 +163,7 @@ public class UsersController extends HttpServlet {
 		{// if no error messages
 			UsersDAO.insertUser(user);
 			UsersErrorMsgs errorMsgsuser = new UsersErrorMsgs();
-			session.setAttribute("registererrorMsgs", errorMsgsuser);
+			request.setAttribute("registererrorMsgs", errorMsgsuser);
 			url = "/formUserDetails.jsp";
 		}
 		return url;

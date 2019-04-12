@@ -49,18 +49,18 @@
 		<input name="unrevokeError"
 			   value="<c:out value='${unrevokeError}'/>" type="text"
 			   style="background-color: white; color: red; border: none;"
-			 disabled="disabled" maxlength="60" class="form-control">
+			  maxlength="60" class="form-control">
 		<div class="row">
 		<div class="form-group">
 		<div class="col">
 		<input name="action" value="unrevoke" type="hidden"> 
-		<input class="btn btn-secondary" type="submit" value="Unrevoke" />
+		<input id="btnUnrevoke" class="btn btn-secondary" type="submit" value="Unrevoke" />
 		</div>
 		</div>
 		</div>
 		<div class="col">
 			<c:if test="${isSuccess eq true}">
-			<div class="alert alert-success" role="alert">User has Been UnRevoked.</div>
+			<div id="msgUnrevoke" class="alert alert-success" role="alert">User has Been UnRevoked.</div>
 			</c:if>
 		</div>	
 	</form>
@@ -68,13 +68,13 @@
 	</div>
 	</div>
 	
-			<div class="row">
-		<div class="form-group">
-		<div class="col">
-<button class="btn btn-secondary" type="button" name="back" onclick="history.back()">Back</button>
-    	</div>
-		</div>
-		</div>
+<!-- 			<div class="row"> -->
+<!-- 		<div class="form-group"> -->
+<!-- 		<div class="col"> -->
+<!-- <button class="btn btn-secondary" type="button" name="back" onclick="history.back()">Back</button> -->
+<!--     	</div> -->
+<!-- 		</div> -->
+<!-- 		</div> -->
 		</div>
     </jsp:body>
 </t:_layout>
