@@ -26,7 +26,7 @@
 			        <input id="btnGetAreaFloors" class="btn btn-secondary" type="submit" value="Submit" />
 			    </form>
 			</div>
-			<button class="btn btn-secondary" type="button" name="back" onclick="history.back()">Back</button>
+<!-- 			<button class="btn btn-secondary" type="button" name="back" onclick="history.back()">Back</button> -->
 		</div>
     </jsp:body>
 </t:_layout>
