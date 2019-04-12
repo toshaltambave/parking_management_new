@@ -44,19 +44,19 @@
 								value="<c:out value='${startTimeError}'/>"
 								type="text"
 								style="background-color: white; color: red; border: none; width: 800px"
-								disabled="disabled" maxlength="60">
+								 maxlength="60">
 							</div>
 								                    <div><input name="endtimeError" id="endtimeError"
 								value="<c:out value='${endTimeError}'/>"
 								type="text"
 								style="background-color: white; color: red; border: none; width: 800px"
-								disabled="disabled" maxlength="60">
+								 maxlength="60">
 							</div>
 				    <div><input name="compareError" id="compareError"
 							value="<c:out value='${compareError}'/>"
 							type="text"
 							style="background-color: white; color: red; border: none; width: 800px"
-							disabled="disabled" maxlength="60">
+							 maxlength="60">
 					</div>
 					<div class="col">
 						<div align="center">

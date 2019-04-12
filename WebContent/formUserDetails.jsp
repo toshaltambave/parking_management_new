@@ -43,7 +43,7 @@ input[type="text"] {
 								value="<c:out value='${userDetailsErrorMsgs.errorMsg}'/>"
 								type="text"
 								style="background-color: white; color: red; border: none; width: 800px"
-								disabled="disabled">
+								  >
  </div>
  </div>
  </div>
@@ -59,7 +59,7 @@ input[type="text"] {
 							value="<c:out value='${userDetailsErrorMsgs.firstNameError}'/>"
 							type="text"
 							style="background-color: white; color: red; border: none; width: 800px"
-							disabled="disabled" maxlength="60"> </td>
+							   maxlength="60"> </td>
     </tr>
     
     <tr>
@@ -71,7 +71,7 @@ input[type="text"] {
 							value="<c:out value='${userDetailsErrorMsgs.middleNameError}'/>"
 							type="text"
 							style="background-color: white; color: red; border: none; width: 800px"
-							disabled="disabled" maxlength="60"> </td>
+							   maxlength="60"> </td>
     </tr>
 
     <tr>
@@ -83,7 +83,7 @@ input[type="text"] {
 							value="<c:out value='${userDetailsErrorMsgs.lastNameError}'/>"
 							type="text"
 							style="background-color: white; color: red; border: none; width: 800px"
-							disabled="disabled" maxlength="60"> </td>
+							   maxlength="60"> </td>
     </tr>
     
     <tr>
@@ -109,7 +109,7 @@ input[type="text"] {
 							value="<c:out value='${userDetailsErrorMsgs.birthDateError}'/>"
 							type="text"
 							style="background-color: white; color: red; border: none; width: 800px"
-							disabled="disabled" maxlength="60"> </td>
+							   maxlength="60"> </td>
    </tr>
     
     <tr>
@@ -121,7 +121,7 @@ input[type="text"] {
 							value="<c:out value='${userDetailsErrorMsgs.addressError}'/>"
 							type="text"
 							style="background-color: white; color: red; border: none; width: 800px"
-							disabled="disabled" maxlength="60"> </td>
+							   maxlength="60"> </td>
     </tr>
     
     <tr>
@@ -133,7 +133,7 @@ input[type="text"] {
 							value="<c:out value='${userDetailsErrorMsgs.emailError}'/>"
 							type="text"
 							style="background-color: white; color: red; border: none; width: 800px"
-							disabled="disabled" maxlength="60"> </td>
+							   maxlength="60"> </td>
     </tr>
     
     <tr>
@@ -145,7 +145,7 @@ input[type="text"] {
 							value="<c:out value='${userDetailsErrorMsgs.phoneError}'/>"
 							type="text"
 							style="background-color: white; color: red; border: none; width: 800px"
-							disabled="disabled" maxlength="60"> </td>
+							   maxlength="60"> </td>
     </tr>
     
     <tr>
@@ -157,7 +157,7 @@ input[type="text"] {
 							value="<c:out value='${userDetailsErrorMsgs.drivingLicenseError}'/>"
 							type="text"
 							style="background-color: white; color: red; border: none; width: 800px"
-							disabled="disabled" maxlength="60"> </td>
+							   maxlength="60"> </td>
     </tr>
     
     
@@ -170,7 +170,7 @@ input[type="text"] {
 							value="<c:out value='${userDetailsErrorMsgs.drivingLicenseExpiry}'/>"
 							type="text"
 							style="background-color: white; color: red; border: none; width: 800px"
-							disabled="disabled" maxlength="60"> </td>
+							   maxlength="60"> </td>
     </tr>
     
     <tr>
@@ -182,7 +182,7 @@ input[type="text"] {
 							value="<c:out value='${userDetailsErrorMsgs.regNumberError}'/>"
 							type="text"
 							style="background-color: white; color: red; border: none; width: 800px"
-							disabled="disabled" maxlength="60"> </td>
+							   maxlength="60"> </td>
     </tr>
     
     <tr>
@@ -194,7 +194,7 @@ input[type="text"] {
 							value="<c:out value='${userDetailsErrorMsgs.utaIdError}'/>"
 							type="text"
 							style="background-color: white; color: red; border: none; width: 800px"
-							disabled="disabled" maxlength="60"> </td>
+							   maxlength="60"> </td>
     </tr>
     
 

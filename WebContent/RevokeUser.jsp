@@ -52,7 +52,7 @@
 		<input name="revokeError"
 			   value="<c:out value='${revokeError}'/>" type="text"
 			   style="background-color: white; color: red; border: none;"
-			 disabled="disabled" maxlength="60" class="form-control">
+			  maxlength="60" class="form-control">
 		<div class="row">
 		<div class="form-group">
 		<div class="col">
