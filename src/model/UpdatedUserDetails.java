@@ -3,7 +3,6 @@ package model;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
@@ -224,7 +223,7 @@ public class UpdatedUserDetails {
 		errorMsgs.setRegNumberError(validateRegNo(6, 10, UserDetail.getRegistrationNumber()));
 		errorMsgs.setUtaIdError(validateUTAId(UserDetail.getUta_Id()));
 		errorMsgs.setDrivingLicenseExpiry(validateMandatory(UserDetail.getDrivingLicenseExpiry()));
-		errorMsgs.setUsernameError(validateUsername(UserDetail.getUserName(), UserDetail.getUserID()));
+		errorMsgs.setUsernameError(validateUsername(UserDetail.getUserName()));
 		errorMsgs.setHashedPasswordError(validatePassword(UserDetail.getHashedPassword()));
 		errorMsgs.setConfirmPasswordError(
 				validateConfirmPassword(UserDetail.getHashedPassword(), UserDetail.getConfirmPassword()));
@@ -362,14 +361,12 @@ public class UpdatedUserDetails {
 		}
 	}
 
-	private String validateUsername(String username, int userId) {
+	private String validateUsername(String username) {
 		String result = "";
-		List<Users> userList = usersDAO.UsernameuniqueList(username);
 		if (!stringSize(username, 4, 10))
 			result = "Your username must between 4 and 10 characters";
-		else if (!userList.isEmpty() && !userList.get(0).getUserID().equals(userId)){
+		else if (!usersDAO.Usernameunique(username))
 			result = "Username is already in database";
-		}
 		return result;
 	}
 

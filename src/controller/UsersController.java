@@ -128,7 +128,7 @@ public class UsersController extends HttpServlet {
 	{
 		try 
 		{
-			request.getSession().invalidate();
+			//request.getSession().invalidate();
 			ArrayList<Role> listRoles = new ArrayList<Role>(Arrays.asList(Role.values()));
 			request.setAttribute("allRoles", listRoles);
 			
