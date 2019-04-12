@@ -16,11 +16,12 @@ public class BusinessFunctions {
 		driver.findElement(By.id("username")).sendKeys(userName);
 		driver.findElement(By.id("password")).clear();
 		driver.findElement(By.id("password")).sendKeys(password);
-		driver.findElement(By.cssSelector("input.btn.btn-secondary")).click();
+		driver.findElement(By.id("btnLogin")).click();
 	}
 
 	public void Register(WebDriver driver, String userName, String password, String confirmPassword, String role) {
-		driver.findElement(By.cssSelector("a.btn.btn-info > span")).click();
+		//driver.findElement(By.cssSelector("a.btn.btn-info > span")).click();registeruser
+		driver.findElement(By.id("registeruser")).click();
 		driver.findElement(By.name("username")).clear();
 		driver.findElement(By.name("username")).sendKeys(userName);
 		driver.findElement(By.name("hashedPassword")).clear();
@@ -28,7 +29,7 @@ public class BusinessFunctions {
 		driver.findElement(By.name("confirmPassword")).clear();
 		driver.findElement(By.name("confirmPassword")).sendKeys(confirmPassword);
 		new Select(driver.findElement(By.id("role"))).selectByVisibleText(role);
-		driver.findElement(By.cssSelector("input.btn.btn-secondary")).click();
+		driver.findElement(By.id("btnRegister")).click();
 	}
 
 	public void RegisterUserDetails(WebDriver driver, String firstName, String lastName, String sex, String dayOfBirth,
@@ -59,7 +60,7 @@ public class BusinessFunctions {
 		driver.findElement(By.name("regno")).sendKeys(regNum);
 		driver.findElement(By.name("utaid")).clear();
 		driver.findElement(By.name("utaid")).sendKeys(utaId);
-		driver.findElement(By.cssSelector("input.btn.btn-secondary")).click();
+		driver.findElement(By.id("btnuserdetailssubmit")).click();
 	}
 	
 	public void searchUserbyUserName(WebDriver driver, String userName){
@@ -74,7 +75,7 @@ public class BusinessFunctions {
 	    new Select(driver.findElement(By.id("one"))).selectByVisibleText("UserName");
 	    driver.findElement(By.cssSelector("option[value=\"UserName\"]")).click();
 	    new Select(driver.findElement(By.id("two"))).selectByVisibleText(userName);
-	    driver.findElement(By.cssSelector("input[type=\"submit\"]")).click();
+	    driver.findElement(By.id("btnRevoke")).click();
 	}
 	
 	public void makeReservation(WebDriver driver, String username, String password, String start, String end, Integer spot, String card, String month, String year, String cvv ){
@@ -90,7 +91,7 @@ public class BusinessFunctions {
 		driver.findElement(By.id("endtime")).sendKeys(end);
 	    driver.findElement(By.id("btnSearch")).click();
 	    driver.findElement(By.id("btnReserveFloor")).click();
-	    driver.findElement(By.xpath("(//input[@id='btnReserveSpotID'])[2]")).click();
+	    driver.findElement(By.xpath("(//input[@id='btnReserveSpotID'])["+spot+"]")).click();
 	    driver.findElement(By.id("cart")).click();
 	    driver.findElement(By.id("camera")).click();
 	    driver.findElement(By.id("history")).click();

@@ -40,9 +40,12 @@ public class ParkingUserTest_Good extends BusinessFunctions {
   
   @Test
   public void testReservation() throws Exception {
-	    driver.get(appUrl);
-	    functions.makeReservation(driver, "toshal11", "Toshal123.", "2019-04-12 19:00:00", "2019-04-12 20:00:00", 2, "4238000023456780", "12", "2020", "213");
-	  }
+	driver.get(appUrl);
+  	//functions.Register(driver, "tosh120", "Toshal123.", "Toshal123.", "ParkingUser");    
+    //functions.RegisterUserDetails(driver, "Toshal", "Tam", "Male", "1", "LexCorp", "Lex@aol.com", "4693332514", "14412552", "30", "12332147", "1000212003");
+    driver.get(appUrl);
+    functions.makeReservation(driver, "toshal11", "Toshal123.", "2019-04-12 20:00:00", "2019-04-12 21:00:00", 3, "4238000023456780", "12", "2020", "213");
+  }
 
   @After
   public void tearDown() throws Exception {
