@@ -18,7 +18,7 @@ public class BusinessFunctions {
 		driver.findElement(By.id("password")).sendKeys(password);
 		driver.findElement(By.id("btnLogin")).click();
 	}
-
+	
 	public void Register(WebDriver driver, String userName, String password, String confirmPassword, String role) {
 		//driver.findElement(By.cssSelector("a.btn.btn-info > span")).click();registeruser
 		driver.findElement(By.id("registeruser")).click();
@@ -102,5 +102,6 @@ public class BusinessFunctions {
 	    driver.findElement(By.id("btnPayReserve")).click();
 	    driver.findElement(By.id("btnLogout")).click();
 	}
+	
 
 }
