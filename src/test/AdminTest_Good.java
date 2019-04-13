@@ -41,7 +41,7 @@ public class AdminTest_Good extends BusinessFunctions {
   @Test
   public void testAdminTestGood() throws Exception {
     driver.get(appUrl);
-    //functions.Register(driver, "User7", "User7", "User7", "Admin");    
+    //functions.Register(driver, "User7", "User7", "User7", "Admin","Basic");    
     //functions.RegisterUserDetails(driver, "Lex", "Luthor", "Male", "1", "LexCorp", "Lex@aol.com", "4693332514", "14412552", "30", "12332147", "1000212003");
     functions.Login(driver, "User7", "User7");
     functions.searchUserbyUserName(driver, "adi1");

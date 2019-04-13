@@ -43,14 +43,14 @@ public class ParkingUserTest_Good extends BusinessFunctions {
   public void testReservation() throws Exception {
 	driver.get(appUrl);
   	
-  	if(!UsersDAO.Usernameunique("tosh120")){
-  		functions.Register(driver, "tosh120", "Toshal123.", "Toshal123.", "ParkingUser");
+  	if(!UsersDAO.Usernameunique("tosh121")){
+  		functions.Register(driver, "tosh121", "Toshal123.", "Toshal123.", "ParkingUser","Basic");
   		assertEquals("Username is already in database", driver.findElement(By.id("usernameError")).getAttribute("value"));
   	}
   	else
   	{
-  		functions.Register(driver, "tosh120", "Toshal123.", "Toshal123.", "ParkingUser");
-  		functions.RegisterUserDetails(driver, "Toshal", "Tam", "Male", "1", "LexCorp", "Lex@aol.com", "4693332514", "14412552", "30", "12332147", "1000212003");
+  		functions.Register(driver, "tosh121", "Toshal123.", "Toshal123.", "ParkingUser","Basic");
+  		functions.RegisterUserDetails(driver, "Toshal","Toshal", "Tam", "Male", "1", "LexCorp", "Lex@aol.com", "4693332514", "14412552", "30", "12332147", "1000212003");
   	}
     driver.get(appUrl);
     functions.Login(driver, "toshal11", "Toshal123");

@@ -19,8 +19,8 @@ public class BusinessFunctions {
 		driver.findElement(By.id("btnLogin")).click();
 	}
 
-	public void Register(WebDriver driver, String userName, String password, String confirmPassword, String role) {
-		//driver.findElement(By.cssSelector("a.btn.btn-info > span")).click();registeruser
+	public void Register(WebDriver driver, String userName, String password, String confirmPassword, String role,String permitType) {
+		//driver.findElement(By.cssSelector("a.btn.btn-info > span")).click();
 		driver.findElement(By.id("registeruser")).click();
 		driver.findElement(By.name("username")).clear();
 		driver.findElement(By.name("username")).sendKeys(userName);
@@ -29,21 +29,34 @@ public class BusinessFunctions {
 		driver.findElement(By.name("confirmPassword")).clear();
 		driver.findElement(By.name("confirmPassword")).sendKeys(confirmPassword);
 		new Select(driver.findElement(By.id("role"))).selectByVisibleText(role);
+		new Select(driver.findElement(By.id("permitType"))).selectByVisibleText(permitType);
+//	    driver.findElement(By.id(prop.getProperty("Txt_Register_Username"))).clear();
+//	    driver.findElement(By.id(prop.getProperty("Txt_Register_Username"))).sendKeys(userName);
+//	    driver.findElement(By.id(prop.getProperty("Txt_Register_Password"))).clear();
+//	    driver.findElement(By.id(prop.getProperty("Txt_Register_Password"))).sendKeys(password);
+//	    driver.findElement(By.id(prop.getProperty("Txt_Register_ConfirmPassword"))).clear();
+//	    driver.findElement(By.id(prop.getProperty("Txt_Register_ConfirmPassword"))).sendKeys(confirmPassword);
+//	    new Select(driver.findElement(By.id(prop.getProperty("Txt_Register_Role")))).selectByVisibleText(role);
+//	    new Select(driver.findElement(By.id(prop.getProperty("Txt_Register_PermitType")))).selectByVisibleText(permitType);
 		driver.findElement(By.id("btnRegister")).click();
 	}
 
-	public void RegisterUserDetails(WebDriver driver, String firstName, String lastName, String sex, String dayOfBirth,
+	public void RegisterUserDetails(WebDriver driver, String firstName,String middleName, String lastName, String sex, String dayOfBirth,
 			String address, String email, String phone, String dlNum, String dayOfExpiry, String regNum, String utaId) {
 		driver.findElement(By.name("firstname")).clear();
 		driver.findElement(By.name("firstname")).sendKeys(firstName);
+		driver.findElement(By.name("middlename")).clear();
+		driver.findElement(By.name("middlename")).sendKeys(middleName);
 		driver.findElement(By.name("lastname")).clear();
 		driver.findElement(By.name("lastname")).sendKeys(lastName);
 		Select sexSelect = new Select(driver.findElement(By.id("sex")));
 		sexSelect.selectByVisibleText(sex);
-		WebElement datePicker = driver.findElement(By.name("dob"));
-		datePicker.click();
-		By calendarXpath = By.xpath("//td[not(contains(@class,'ui-datepicker-other-month'))]/a[text()="+ dayOfBirth +"]");
-		driver.findElement(calendarXpath).click();
+	    driver.findElement(By.id("dob")).clear();
+		driver.findElement(By.id("dob")).sendKeys(dayOfBirth);
+////		WebElement datePicker = driver.findElement(By.name("dob"));
+////		datePicker.click();
+////		By calendarXpath = By.xpath("//td[not(contains(@class,'ui-datepicker-other-month'))]/a[text()="+ dayOfBirth +"]");
+//		driver.findElement(calendarXpath).click();
 		driver.findElement(By.name("address")).clear();
 		driver.findElement(By.name("address")).sendKeys(address);
 		driver.findElement(By.name("email")).clear();
@@ -52,10 +65,12 @@ public class BusinessFunctions {
 		driver.findElement(By.name("phone")).sendKeys(phone);
 		driver.findElement(By.name("dlno")).clear();
 		driver.findElement(By.name("dlno")).sendKeys(dlNum);
-		WebElement datePicker2 = driver.findElement(By.name("dlexpirydte"));
-		datePicker2.click();
-		By calendarXpath2 = By.xpath("//td[not(contains(@class,'ui-datepicker-other-month'))]/a[text()="+ dayOfExpiry +"]");
-		driver.findElement(calendarXpath2).click();
+	    driver.findElement(By.id("dlexpirydte")).clear();
+		driver.findElement(By.id("dlexpirydte")).sendKeys(dayOfExpiry);
+//		WebElement datePicker2 = driver.findElement(By.name("dlexpirydte"));
+//		datePicker2.click();
+//		By calendarXpath2 = By.xpath("//td[not(contains(@class,'ui-datepicker-other-month'))]/a[text()="+ dayOfExpiry +"]");
+//		driver.findElement(calendarXpath2).click();
 		driver.findElement(By.name("regno")).clear();
 		driver.findElement(By.name("regno")).sendKeys(regNum);
 		driver.findElement(By.name("utaid")).clear();

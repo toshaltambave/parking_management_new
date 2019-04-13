@@ -104,7 +104,7 @@ input[type="text"] {
     <td> Date of Birth (*): </td>
     <td> <input name="dob" id= "dob"
 							value="<c:out value='${userdetails.birthDate}'/>" type="text"
-							class="datepicker" maxlength="16" readonly>  </td>
+							class="datepicker" maxlength="16">  </td>
   	<td> <input name="birthDateError" id="birthDateError"
 							value="<c:out value='${userDetailsErrorMsgs.birthDateError}'/>"
 							type="text"
@@ -165,7 +165,7 @@ input[type="text"] {
     <td> Driving License Expiry Date (*): </td>
     <td> <input name="dlexpirydte" id="dlexpirydte"
 							value="<c:out value='${userdetails.drivingLicenseExpiry}'/>"
-							type="text" class="datepicker" maxlength="16" readonly>  </td>
+							type="text" class="datepicker" maxlength="16">  </td>
   	<td> <input name="dlexpirydteError" id="dlexpirydteError"
 							value="<c:out value='${userDetailsErrorMsgs.drivingLicenseExpiry}'/>"
 							type="text"
@@ -203,7 +203,7 @@ input[type="text"] {
     </tr>
     </table>
     <input name="action" value="saveUserDetails" type="hidden">
-    <input id="btnuserdetailssubmit" name="btnuserdetailssubmit" class="btn btn-secondary" type="submit" value="Submit">
+    <input id="btnuserdetailssubmit" class="btn btn-secondary" type="submit" value="Submit">
 
     </form>
 		</div>
