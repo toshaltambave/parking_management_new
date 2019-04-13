@@ -10,6 +10,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
+import data.UsersDAO;
 import functions.BusinessFunctions;
 
 public class ParkingUserTest_Good extends BusinessFunctions {
@@ -41,10 +42,19 @@ public class ParkingUserTest_Good extends BusinessFunctions {
   @Test
   public void testReservation() throws Exception {
 	driver.get(appUrl);
-  	//functions.Register(driver, "tosh120", "Toshal123.", "Toshal123.", "ParkingUser");    
-    //functions.RegisterUserDetails(driver, "Toshal", "Tam", "Male", "1", "LexCorp", "Lex@aol.com", "4693332514", "14412552", "30", "12332147", "1000212003");
+  	
+  	if(!UsersDAO.Usernameunique("tosh120")){
+  		functions.Register(driver, "tosh120", "Toshal123.", "Toshal123.", "ParkingUser");
+  		assertEquals("Username is already in database", driver.findElement(By.id("usernameError")).getAttribute("value"));
+  	}
+  	else
+  	{
+  		functions.Register(driver, "tosh120", "Toshal123.", "Toshal123.", "ParkingUser");
+  		functions.RegisterUserDetails(driver, "Toshal", "Tam", "Male", "1", "LexCorp", "Lex@aol.com", "4693332514", "14412552", "30", "12332147", "1000212003");
+  	}
     driver.get(appUrl);
-    functions.makeReservation(driver, "toshal11", "Toshal123.", "2019-04-12 20:00:00", "2019-04-12 21:00:00", 3, "4238000023456780", "12", "2020", "213");
+    functions.Login(driver, "toshal11", "Toshal123");
+    functions.makeReservation(driver, "2019-04-12 20:00:00", "2019-04-12 21:00:00", 3, "4238000023456780", "12", "2020", "213");
   }
 
   @After

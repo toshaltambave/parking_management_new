@@ -119,7 +119,7 @@ public class UsersDAO {
 	}
 	
 	//determine if username is unique
-	public Boolean Usernameunique(String username)  {  
+	public static Boolean Usernameunique(String username)  {  
 			return (ReturnMatchingUsers(" SELECT * from system_users WHERE UserName = '"+username+"' ORDER BY UserName").isEmpty());
 	}
 	

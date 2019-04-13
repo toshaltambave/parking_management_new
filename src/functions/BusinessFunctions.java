@@ -78,12 +78,7 @@ public class BusinessFunctions {
 	    driver.findElement(By.id("btnRevoke")).click();
 	}
 	
-	public void makeReservation(WebDriver driver, String username, String password, String start, String end, Integer spot, String card, String month, String year, String cvv ){
-		driver.findElement(By.id("username")).clear();
-	    driver.findElement(By.id("username")).sendKeys(username);
-	    driver.findElement(By.id("password")).clear();
-	    driver.findElement(By.id("password")).sendKeys(password);
-	    driver.findElement(By.id("btnLogin")).click();
+	public void makeReservation(WebDriver driver, String start, String end, Integer spot, String card, String month, String year, String cvv ){
 	    driver.findElement(By.id("lnkRequestReservation")).click();
 	    driver.findElement(By.id("starttime")).clear();
 		driver.findElement(By.id("starttime")).sendKeys(start);
