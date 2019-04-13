@@ -8,10 +8,10 @@ import org.junit.*;
 import static org.junit.Assert.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
 import functions.BusinessFunctions;
+import test.Data.TestDAO;
 
 public class AdminTest_Good extends BusinessFunctions {
   private WebDriver driver;
@@ -25,32 +25,34 @@ public class AdminTest_Good extends BusinessFunctions {
   @Before
   public void setUp() throws Exception {
 	//Change to FireFoxDriver if using FireFox browser
-	//	System.setProperty("webdriver.chrome.driver", "C:\\ChromeDriver\\chromedriver.exe");
-	//    driver = new ChromeDriver();
-	  //FireFox Driver
-    System.setProperty("webdriver.firefox.marionette", "C:\\GeckoSelenium\\geckodriver.exe");
-    driver = new FirefoxDriver();
+	System.setProperty("webdriver.chrome.driver", "C:\\ChromeDriver\\chromedriver.exe");
+    driver = new ChromeDriver();
     driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     prop = new Properties();
     prop.load(new FileInputStream("./Configuration/Configuration.properties"));
     appUrl = prop.getProperty("AppUrl");
     sharedUIMapPath = prop.getProperty("SharedUIMapPath");
     prop.load(new FileInputStream(sharedUIMapPath));
+    
+    if(TestDAO.userExists("User7")){
+    	TestDAO.deleteUser("User7");
+    }
   }
 
   @Test
   public void testAdminTestGood() throws Exception {
     driver.get(appUrl);
-    //functions.Register(driver, "User7", "User7", "User7", "Admin","Basic");    
-    //functions.RegisterUserDetails(driver, "Lex", "Luthor", "Male", "1", "LexCorp", "Lex@aol.com", "4693332514", "14412552", "30", "12332147", "1000212003");
+    assertTrue(!isElementPresent(driver, "msgRegSuccess"));
+    functions.Register(driver, "User7", "User7", "User7", "Admin", "Basic");    
+    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "1", "LexCorp", "Lex@aol.com", "4693332514", "14412552", "30", "12332147", "1000212003");
+    assertTrue(driver.findElement(By.id("msgRegSuccess")).getText().equals("Registered Successfully."));
     functions.Login(driver, "User7", "User7");
-    functions.searchUserbyUserName(driver, "adi1");
-    driver.findElement(By.id("homebutton")).click();
-    functions.revokeUser(driver, "adi1");
-    driver.findElement(By.id("homebutton")).click();
-    driver.findElement(By.id("btnLogout")).click();
+    functions.searchUserbyUserName(driver, "User6");
+    driver.findElement(By.name("back")).click();
+    driver.findElement(By.name("back")).click();
+    functions.revokeUser(driver, "User6");
+    driver.findElement(By.name("logout")).click();
   }
- 
 
   @After
   public void tearDown() throws Exception {
