@@ -49,7 +49,7 @@
 		</div>
 		</div>
 		</div>
-		<input name="revokeError"
+		<input disabled name="revokeError"
 			   value="<c:out value='${revokeError}'/>" type="text"
 			   style="background-color: white; color: red; border: none;"
 			  maxlength="60" class="form-control">

@@ -1,0 +1,12 @@
+p01,12,23,ParkingUser,Basic,admin1,admin2,3,Male,2019-04-25,1,admin,123,11,2019-04-25,22,233
+user1,Admin12,Admin12,ParkingUser,Basic,admin1,admin2,3,Male,2019-04-25,,admin,123,11,,22,233
+userbas2,Admin12,Admin12,ParkingUser,Basic,parkinguser,parkinguser,parkinguser,Female,1990-01-01,UTA,usercorr@core.com,1010101010,10112222,2020-04-25,112233,1001333689
+userprm2,Admin12,Admin12,ParkingUser,Premium,parkinguser,parkinguser,parkinguser,Male,1990-01-01,UTA,usercorr@core.com,1010101010,10112222,2020-04-25,112233,1001333689
+useracc2,Admin12,Admin12,ParkingUser,Access,parkinguser,parkinguser,parkinguser,Male,1990-01-01,UTA,usercorr@core.com,1010101010,10112222,2020-04-25,112233,1001333689
+usermid2,Admin12,Admin12,ParkingUser,Midrange,parkinguser,parkinguser,parkinguser,Male,1990-01-01,UTA,usercorr@core.com,1010101010,10112222,2020-04-25,112233,1001333689
+p01,12,23,Admin,Basic,admin1,admin2,3,Male,2019-04-25,1,admin,123,11,2019-04-25,22,233
+admin1,Admin12,Admin12,Admin,Basic,admin1,admin2,3,Male,2019-04-25,,admin,123,11,,22,233
+admintest4,Admin12,Admin12,Admin,Basic,Admin,Admin,Admin,Female,1990-01-01,UTA,admin@core.com,1010101010,10112222,2020-04-25,112233,1001333689
+p01,12,23,ParkingManager,Basic,admin1,admin2,3,Male,2019-04-25,1,admin,123,11,2019-04-25,22,233
+parkm1,Admin12,Admin12,ParkingManager,Basic,admin1,admin2,3,Male,2019-04-25,,admin,123,11,,22,233
+parkmtest2,Admin12,Admin12,ParkingManager,Basic,ParkingManager,ParkingManager,ParkingManager,Female,1990-01-01,UTA,parkingm@core.com,1010101010,10112222,2020-04-25,112233,1001333689
