@@ -101,29 +101,29 @@ public class BusinessFunctions {
 	
 	
 	public void makeReservation(WebDriver driver, String start, String end, String area, String permitType, Integer floor, Integer spot, String card, String month, String year, String cvv ){
-	    driver.findElement(By.id("lnkRequestReservation")).click();
-	    driver.findElement(By.id("starttime")).clear();
-		driver.findElement(By.id("starttime")).sendKeys(start);
-		driver.findElement(By.id("endtime")).clear();
-		driver.findElement(By.id("endtime")).sendKeys(end);
-		new Select(driver.findElement(By.id("areaDropDrown"))).selectByVisibleText(area);
-	    driver.findElement(By.id("btnSearch")).click();
+	    driver.findElement(By.id(prop.getProperty("Btn_Reservation_Reserve"))).click();
+	    driver.findElement(By.id(prop.getProperty("Txt_Reservation_StartTime"))).clear();
+		driver.findElement(By.id(prop.getProperty("Txt_Reservation_StartTime"))).sendKeys(start);
+		driver.findElement(By.id(prop.getProperty("Txt_Reservation_EndTime"))).clear();
+		driver.findElement(By.id(prop.getProperty("Txt_Reservation_EndTime"))).sendKeys(end);
+		new Select(driver.findElement(By.id(prop.getProperty("Txt_Reservation_AreaDropDown")))).selectByVisibleText(area);
+	    driver.findElement(By.id(prop.getProperty("Btn_Reservation_Search"))).click();
 	    driver.findElement(By.id("btnReserveFloor"+floor+""+permitType)).click();
 	    driver.findElement(By.xpath("(//input[@id='btnReserveSpotID'])["+spot+"]")).click();
-	    driver.findElement(By.id("cart")).click();
-	    driver.findElement(By.id("camera")).click();
-	    driver.findElement(By.id("history")).click();
-	    driver.findElement(By.id("btnOptions")).click();
-	    driver.findElement(By.id("cardNumber")).clear();
-	    driver.findElement(By.id("cardNumber")).sendKeys(card);
-	    driver.findElement(By.id("expiryMonth")).clear();
-	    driver.findElement(By.id("expiryMonth")).sendKeys(month);
-	    driver.findElement(By.id("expiryYear")).clear();
-	    driver.findElement(By.id("expiryYear")).sendKeys(year);
-	    driver.findElement(By.id("cvvCode")).clear();
-	    driver.findElement(By.id("cvvCode")).sendKeys(cvv);
-	    driver.findElement(By.id("btnPayReserve")).click();
-	    driver.findElement(By.id("btnLogout")).click();
+	    driver.findElement(By.id(prop.getProperty("Btn_Reservation_Cart"))).click();
+	    driver.findElement(By.id(prop.getProperty("Btn_Reservation_Camera"))).click();
+	    driver.findElement(By.id(prop.getProperty("Btn_Reservation_History"))).click();
+	    driver.findElement(By.id(prop.getProperty("Btn_Reservation_Options"))).click();
+	    driver.findElement(By.id(prop.getProperty("Txt_Reservation_CardNumber"))).clear();
+	    driver.findElement(By.id(prop.getProperty("Txt_Reservation_CardNumber"))).sendKeys(card);
+	    driver.findElement(By.id(prop.getProperty("Txt_Reservation_ExMonth"))).clear();
+	    driver.findElement(By.id(prop.getProperty("Txt_Reservation_ExMonth"))).sendKeys(month);
+	    driver.findElement(By.id(prop.getProperty("Txt_Reservation_ExYear"))).clear();
+	    driver.findElement(By.id(prop.getProperty("Txt_Reservation_ExYear"))).sendKeys(year);
+	    driver.findElement(By.id(prop.getProperty("Txt_Reservation_CVV"))).clear();
+	    driver.findElement(By.id(prop.getProperty("Txt_Reservation_CVV"))).sendKeys(cvv);
+	    driver.findElement(By.id(prop.getProperty("Btn_Reservation_PayReserve"))).click();
+		driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
 		if (prop.getProperty("test_delay").equals("delay"))
 		{	
 			try {
@@ -153,6 +153,26 @@ public class BusinessFunctions {
 	    driver.findElement(By.id(prop.getProperty("Btn_Revoke"))).click();
 	    assertTrue(driver.findElement(By.id("msgRevSuccess")).getText().equals("User has Been Revoked."));
 	    driver.manage().window().setSize(new Dimension(1936,1056));
+	    driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page_Revoke"))).click();
+		if (prop.getProperty("test_delay").equals("delay"))
+		{	
+			try {
+				Thread.sleep((Integer.parseInt(prop.getProperty("thread_sleep"))));
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void setNoShow(WebDriver driver, String userName){
+	    driver.findElement(By.id(prop.getProperty("Btn_ParkingManagement_NoShow"))).click();
+	    assertTrue(!isElementPresent(driver, "Txt_NoShow_msg"));
+	    driver.findElement(By.id("btnNoShow")).click();
+	    assertTrue(driver.findElement(By.id("msgNoShow")).getText().equals("Marked No Show Successfully."));
 	    driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page_Revoke"))).click();
 		if (prop.getProperty("test_delay").equals("delay"))
 		{	
