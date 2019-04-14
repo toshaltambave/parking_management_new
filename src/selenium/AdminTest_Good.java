@@ -42,47 +42,36 @@ public class AdminTest_Good extends BusinessFunctions {
 		sharedUIMapPath = prop.getProperty("SharedUIMapPath");
 		prop.load(new FileInputStream(sharedUIMapPath));
 
+		if (!TestDAO.userExists("User6")) {
+			registerUser("User6");
+		}
+
 		if (TestDAO.userExists("User7")) {
 			TestDAO.deleteUser("User7");
 		}
+
 	}
 
 	@Test
 	@FileParameters("src/Excel/AdminGoodTest.csv")
 	public void testAdminTestGood(String userName, String password, String confirmPassword, String role,
 			String permitType, String firstName, String middleName, String lastName, String sex, String dayOfBirth,
-			String address, String email, String phoneNum, String dlNum, String dayOfExpiry, String regNum, String utaId, String userToRevoke) throws Exception {
+			String address, String email, String phoneNum, String dlNum, String dayOfExpiry, String regNum,
+			String utaId, String userToRevoke) throws Exception {
 		driver.get(appUrl);
 		assertTrue(!isElementPresent(driver, "Txt_Register_Success"));
-		
-	  	if(!UsersDAO.Usernameunique(userName)){
-			driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
-	  		functions.Register(driver, userName, password, confirmPassword, role, permitType);
-	  		assertEquals("Username is already in database", driver.findElement(By.id("usernameError")).getAttribute("value"));
-	  		driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
-	  		functions.Login(driver, userName, password);
-			functions.searchUserbyUserName(driver, userToRevoke);
-			driver.manage().window().setSize(new Dimension(1936, 1056));
-			driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
-			functions.revokeUser(driver, userToRevoke);
-			driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
-	  	}
-	  	else
-	  	{
-			driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
-			functions.Register(driver, userName, password, confirmPassword, role, permitType);
-			functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dayOfBirth, address, email, phoneNum,
-					dlNum, dayOfExpiry, regNum, utaId);
-			assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Register_Success"))).getText()
-					.equals("Registered Successfully."));		
-		  	functions.Login(driver, userName, password);
-			functions.searchUserbyUserName(driver, userToRevoke);
-			driver.manage().window().setSize(new Dimension(1936, 1056));
-			driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
-			functions.revokeUser(driver, userToRevoke);
-			driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
-	  	}
-
+		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
+		functions.Register(driver, userName, password, confirmPassword, role, permitType);
+		functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dayOfBirth, address, email,
+				phoneNum, dlNum, dayOfExpiry, regNum, utaId);
+		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Register_Success"))).getText()
+				.equals("Registered Successfully."));
+		functions.Login(driver, userName, password);
+		functions.searchUserbyUserName(driver, userToRevoke);
+		driver.manage().window().setSize(new Dimension(1936, 1056));
+		driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
+		functions.revokeUser(driver, userToRevoke);
+		driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
 	}
 
 	@After
@@ -125,5 +114,15 @@ public class AdminTest_Good extends BusinessFunctions {
 		} finally {
 			acceptNextAlert = true;
 		}
+	}
+
+	private void registerUser(String userName) {
+		driver.get(appUrl);
+		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
+		functions.Register(driver, userName, userName, userName, "ParkingUser", "Basic");
+		functions.RegisterUserDetails(driver, "Clark", "", "Kent", "Male", "1", "SmallVille", "Supes@aol.com",
+				"4693332544", "14412553", "30", "12332148", "1000212013");
+		functions.Login(driver, "User6", "User6");
+		driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
 	}
 }
