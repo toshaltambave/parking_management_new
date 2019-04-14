@@ -23,7 +23,7 @@
 								<td>${ParkingAreaFloors.floor_Number}</td>
 								<td>${ParkingAreaFloors.permitType}</td>
 								<td>${ParkingAreaFloors.no_Spots}</td>
-								<td><input id="btnSearchSpotFloor" class="btn btn-secondary" type="submit" value="Select" /></td>
+								<td><input id="btnSearchSpotFloor${ParkingAreaFloors.floor_Number}${ParkingAreaFloors.permitType}" class="btn btn-secondary" type="submit" value="Select" /></td>
 							</tr>
 							<input type="hidden" name="selectedAreaId" value="${selectedArea.area_Id}">
 							<input type="hidden" name="selectedFloorNumber" value="${ParkingAreaFloors.floor_Number}">

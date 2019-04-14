@@ -74,14 +74,30 @@ public class BusinessFunctions {
 		driver.findElement(By.id(prop.getProperty("Btn_UserDetails_Submit"))).click();
 	}
 	
-	public void makeReservation(WebDriver driver, String start, String end, Integer spot, String card, String month, String year, String cvv ){
+	public void searchUserbyUserName(WebDriver driver, String userName){
+	    driver.findElement(By.linkText("Search for user")).click();
+	    new Select(driver.findElement(By.id("type"))).selectByVisibleText("UserName");
+	    new Select(driver.findElement(By.id("two"))).selectByVisibleText(userName);
+	    driver.findElement(By.id("btnUserSearch")).click();
+	}
+	
+	public void revokeUser(WebDriver driver, String userName){
+	    driver.findElement(By.linkText("Revoke user")).click();
+	    new Select(driver.findElement(By.id("one"))).selectByVisibleText("UserName");
+	    driver.findElement(By.cssSelector("option[value=\"UserName\"]")).click();
+	    new Select(driver.findElement(By.id("two"))).selectByVisibleText(userName);
+	    driver.findElement(By.id("btnRevoke")).click();
+	}
+	
+	public void makeReservation(WebDriver driver, String start, String end, String area, String permitType, Integer floor, Integer spot, String card, String month, String year, String cvv ){
 	    driver.findElement(By.id("lnkRequestReservation")).click();
 	    driver.findElement(By.id("starttime")).clear();
 		driver.findElement(By.id("starttime")).sendKeys(start);
 		driver.findElement(By.id("endtime")).clear();
 		driver.findElement(By.id("endtime")).sendKeys(end);
+		new Select(driver.findElement(By.id("areaDropDrown"))).selectByVisibleText(area);
 	    driver.findElement(By.id("btnSearch")).click();
-	    driver.findElement(By.id("btnReserveFloor")).click();
+	    driver.findElement(By.id("btnReserveFloor"+floor+""+permitType)).click();
 	    driver.findElement(By.xpath("(//input[@id='btnReserveSpotID'])["+spot+"]")).click();
 	    driver.findElement(By.id("cart")).click();
 	    driver.findElement(By.id("camera")).click();

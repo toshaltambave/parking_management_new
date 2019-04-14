@@ -25,11 +25,11 @@ public class ParkingUserTest_Good extends BusinessFunctions {
   @Before
   public void setUp() throws Exception {
 //	Change to FireFoxDriver if using FireFox browser
-	System.setProperty("webdriver.chrome.driver", "C:\\ChromeDriver\\chromedriver.exe");
-    driver = new ChromeDriver();
+	// System.setProperty("webdriver.chrome.driver", "C:\\ChromeDriver\\chromedriver.exe");
+ //    driver = new ChromeDriver();
 	//FireFox Driver
-//    System.setProperty("webdriver.firefox.marionette", "C:\\GeckoSelenium\\geckodriver.exe");
-//    driver = new FirefoxDriver();
+   System.setProperty("webdriver.firefox.marionette", "C:\\GeckoSelenium\\geckodriver.exe");
+   driver = new FirefoxDriver();
     driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
     prop = new Properties();
     prop.load(new FileInputStream("./Configuration/Configuration.properties"));
@@ -43,18 +43,18 @@ public class ParkingUserTest_Good extends BusinessFunctions {
   public void testReservation() throws Exception {
 	driver.get(appUrl);
   	
-  	if(!UsersDAO.Usernameunique("tosh121")){
-  		functions.Register(driver, "tosh121", "Toshal123.", "Toshal123.", "ParkingUser","Basic");
+  	if(!UsersDAO.Usernameunique("tosh555")){
+  		functions.Register(driver, "tosh555", "Toshal123.", "Toshal123.", "ParkingUser","Basic");
   		assertEquals("Username is already in database", driver.findElement(By.id("usernameError")).getAttribute("value"));
   	}
   	else
   	{
-  		functions.Register(driver, "tosh121", "Toshal123.", "Toshal123.", "ParkingUser","Basic");
-  		functions.RegisterUserDetails(driver, "Toshal","Toshal", "Tam", "Male", "1", "LexCorp", "Lex@aol.com", "4693332514", "14412552", "30", "12332147", "1000212003");
+  		functions.Register(driver, "tosh555", "Toshal123.", "Toshal123.", "ParkingUser");
+  		functions.RegisterUserDetails(driver, "Toshal", "Tam", "Male", "1", "LexCorp", "Lex@aol.com", "4693332514", "14412552", "30", "12332147", "1000212003");
   	}
     driver.get(appUrl);
-    functions.Login(driver, "tosh121", "Toshal123.");
-    functions.makeReservation(driver, "2019-04-13 20:00:00", "2019-04-13 21:00:00", 3, "4238000023456780", "12", "2020", "213");
+    functions.Login(driver, "toshaltest", "Toshal123.");
+    functions.makeReservation(driver, "2019-04-13 21:00:00", "2019-04-13 22:00:00", "Nedderman", "Basic", 1 , 3, "4238000023456780", "12", "2020", "213");
   }
 
   @After
