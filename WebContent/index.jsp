@@ -23,7 +23,7 @@ width:300px
 				action="${pageContext.request.contextPath}/UsersController?Login"
 				method="post">
 				
-				<div class="row"><input class="form-control" name="errorMsg" id="errorMsg"  value="<c:out value='${loginerrorMsgs.errorMsg}'/>" type="text"  style ="background-color: white; color: red; border: none; width:800px" ></div>				
+				<div class="row"><input class="form-control" name="errorMsg" id="errorMsg"  value="<c:out value='${loginerrorMsgs.errorMsg}'/>" type="text"  style ="background-color: white; color: red; border: none; width:800px" disabled></div>				
 				<div class="row">
 					<div class="col">
 					<label for="Username">Username</label>
@@ -33,17 +33,17 @@ width:300px
 					<input name="usernameError" id="usernameError" class="form-control"
 							value="<c:out value='${loginerrorMsgs.usernameError}'/>" type="text"
 							style="background-color: white; color: red; border: none;"
-							 maxlength="60">
+							 maxlength="60" disabled>
 					</div>
 					<div class="col">
 					<label for="Password">Password</label>
 					<input name="hashedPassword" id="password" placeholder="Enter Password"
 						value="<c:out value='${Users.HashedPassword}'/>" type="password"
 						maxlength="16" class="form-control">
-					<input name="passwordError" id="passwordError"
-						value="<c:out value='${loginerrorMsgs.passwordError}'/>" type="text"
-						style="background-color: white; color: red; border: none;"
-						 maxlength="60" class="form-control">
+<!-- 					<input name="passwordError" id="passwordError" -->
+<%-- 						value="<c:out value='${loginerrorMsgs.passwordError}'/>" type="text" --%>
+<!-- 						style="background-color: white; color: red; border: none;" -->
+<!-- 						 maxlength="60" class="form-control" disabled> -->
 					</div>
 				</div>
 				<div class="row">

@@ -21,10 +21,21 @@ public class BusinessFunctions {
 		driver.findElement(By.id(prop.getProperty("Txt_Login_Password"))).clear();
 		driver.findElement(By.id(prop.getProperty("Txt_Login_Password"))).sendKeys(password);
 		driver.findElement(By.id(prop.getProperty("Btn_Login_Login"))).click();
+		if (prop.getProperty("test_delay").equals("delay"))
+		{	
+			try {
+				Thread.sleep((Integer.parseInt(prop.getProperty("thread_sleep"))));
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public void Register(WebDriver driver, String userName, String password, String confirmPassword, String role, String permitType) {
-		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
 		driver.findElement(By.name(prop.getProperty("Txt_Register_Username"))).clear();
 		driver.findElement(By.name(prop.getProperty("Txt_Register_Username"))).sendKeys(userName);
 		driver.findElement(By.name(prop.getProperty("Txt_Register_Password"))).clear();
@@ -34,6 +45,18 @@ public class BusinessFunctions {
 		new Select(driver.findElement(By.id(prop.getProperty("Txt_Register_Role")))).selectByVisibleText(role);
 		new Select(driver.findElement(By.id(prop.getProperty("Txt_Register_PermitType")))).selectByVisibleText(permitType);
 		driver.findElement(By.id(prop.getProperty("Btn_Register_Register"))).click();
+		if (prop.getProperty("test_delay").equals("delay"))
+		{	
+			try {
+				Thread.sleep((Integer.parseInt(prop.getProperty("thread_sleep"))));
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
 
@@ -72,22 +95,20 @@ public class BusinessFunctions {
 		driver.findElement(By.id(prop.getProperty("Txt_UserDetails_UTAID"))).clear();
 		driver.findElement(By.id(prop.getProperty("Txt_UserDetails_UTAID"))).sendKeys(utaId);
 		driver.findElement(By.id(prop.getProperty("Btn_UserDetails_Submit"))).click();
+		if (prop.getProperty("test_delay").equals("delay"))
+		{	
+			try {
+				Thread.sleep((Integer.parseInt(prop.getProperty("thread_sleep"))));
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
-	public void searchUserbyUserName(WebDriver driver, String userName){
-	    driver.findElement(By.linkText("Search for user")).click();
-	    new Select(driver.findElement(By.id("type"))).selectByVisibleText("UserName");
-	    new Select(driver.findElement(By.id("two"))).selectByVisibleText(userName);
-	    driver.findElement(By.id("btnUserSearch")).click();
-	}
-	
-	public void revokeUser(WebDriver driver, String userName){
-	    driver.findElement(By.linkText("Revoke user")).click();
-	    new Select(driver.findElement(By.id("one"))).selectByVisibleText("UserName");
-	    driver.findElement(By.cssSelector("option[value=\"UserName\"]")).click();
-	    new Select(driver.findElement(By.id("two"))).selectByVisibleText(userName);
-	    driver.findElement(By.id("btnRevoke")).click();
-	}
 	
 	public void makeReservation(WebDriver driver, String start, String end, String area, String permitType, Integer floor, Integer spot, String card, String month, String year, String cvv ){
 	    driver.findElement(By.id("lnkRequestReservation")).click();
@@ -113,6 +134,18 @@ public class BusinessFunctions {
 	    driver.findElement(By.id("cvvCode")).sendKeys(cvv);
 	    driver.findElement(By.id("btnPayReserve")).click();
 	    driver.findElement(By.id("btnLogout")).click();
+		if (prop.getProperty("test_delay").equals("delay"))
+		{	
+			try {
+				Thread.sleep((Integer.parseInt(prop.getProperty("thread_sleep"))));
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public void searchUserbyUserName(WebDriver driver, String userName){
@@ -131,6 +164,18 @@ public class BusinessFunctions {
 	    assertTrue(driver.findElement(By.id("msgRevSuccess")).getText().equals("User has Been Revoked."));
 	    driver.manage().window().setSize(new Dimension(1936,1056));
 	    driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page_Revoke"))).click();
+		if (prop.getProperty("test_delay").equals("delay"))
+		{	
+			try {
+				Thread.sleep((Integer.parseInt(prop.getProperty("thread_sleep"))));
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public boolean isElementPresent(WebDriver driver, String id) {

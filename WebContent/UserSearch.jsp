@@ -89,7 +89,7 @@
 			</c:forEach>
 		</table>
 	</div>
-	<button type="button" name="back" onclick="history.back()">Back</button>
+<!-- 	<button type="button" name="back" onclick="history.back()">Back</button> -->
 </div>
     </jsp:body>
 </t:_layout>

@@ -39,7 +39,7 @@ input[type="text"] {
 <div class="row">
 <div class="form-group">
 <div class="col">					      	
-<input id="errorMsg" name="errorMsg"
+<input disabled id="errorMsg" name="errorMsg"
 								value="<c:out value='${userDetailsErrorMsgs.errorMsg}'/>"
 								type="text"
 								style="background-color: white; color: red; border: none; width: 800px"
@@ -55,7 +55,7 @@ input[type="text"] {
     <td> <input id="firstname" name="firstname"
 							value="<c:out value='${userdetails.firstName}'/>" type="text"
 							maxlength="45">  </td>
- 	<td> <input id="firstnameError" name="firstnameError"
+ 	<td> <input disabled id="firstnameError" name="firstnameError"
 							value="<c:out value='${userDetailsErrorMsgs.firstNameError}'/>"
 							type="text"
 							style="background-color: white; color: red; border: none; width: 800px"
@@ -67,7 +67,7 @@ input[type="text"] {
     <td> <input id="middlename" name="middlename"
 							value="<c:out value='${userdetails.middleName}'/>" type="text"
 							maxlength="45">  </td>
-  	<td> <input id="middlenameError" name="middlenameError"
+  	<td> <input disabled id="middlenameError" name="middlenameError"
 							value="<c:out value='${userDetailsErrorMsgs.middleNameError}'/>"
 							type="text"
 							style="background-color: white; color: red; border: none; width: 800px"
@@ -79,7 +79,7 @@ input[type="text"] {
     <td> <input id="lastname" name="lastname"
 							value="<c:out value='${userdetails.lastName}'/>" type="text"
 							maxlength="45">  </td>
-  	<td> <input id="lastnameError" name="lastnameError"
+  	<td> <input disabled id="lastnameError" name="lastnameError"
 							value="<c:out value='${userDetailsErrorMsgs.lastNameError}'/>"
 							type="text"
 							style="background-color: white; color: red; border: none; width: 800px"
@@ -105,7 +105,7 @@ input[type="text"] {
     <td> <input name="dob" id= "dob"
 							value="<c:out value='${userdetails.birthDate}'/>" type="text"
 							class="datepicker" maxlength="16">  </td>
-  	<td> <input name="birthDateError" id="birthDateError"
+  	<td> <input disabled name="birthDateError" id="birthDateError"
 							value="<c:out value='${userDetailsErrorMsgs.birthDateError}'/>"
 							type="text"
 							style="background-color: white; color: red; border: none; width: 800px"
@@ -117,7 +117,7 @@ input[type="text"] {
     <td> <input name="address" id="address"
 							value="<c:out value='${userdetails.address}'/>" type="text"
 							maxlength="45">  </td>
-  	<td> <input name="addressError" id="addressError"
+  	<td> <input disabled name="addressError" id="addressError"
 							value="<c:out value='${userDetailsErrorMsgs.addressError}'/>"
 							type="text"
 							style="background-color: white; color: red; border: none; width: 800px"
@@ -129,7 +129,7 @@ input[type="text"] {
     <td> <input name="email" id="email"
 							value="<c:out value='${userdetails.email}'/>" type="text"
 							maxlength="45">  </td>
-  	<td> <input name="emailError" id="emailError"
+  	<td> <input disabled name="emailError" id="emailError"
 							value="<c:out value='${userDetailsErrorMsgs.emailError}'/>"
 							type="text"
 							style="background-color: white; color: red; border: none; width: 800px"
@@ -141,7 +141,7 @@ input[type="text"] {
     <td> <input name="phone" id="phone"
 							value="<c:out value='${userdetails.phone}'/>" type="text"
 							maxlength="16">  </td>
-  	<td> <input name="phoneError" id= "phoneError"
+  	<td> <input disabled name="phoneError" id= "phoneError"
 							value="<c:out value='${userDetailsErrorMsgs.phoneError}'/>"
 							type="text"
 							style="background-color: white; color: red; border: none; width: 800px"
@@ -153,7 +153,7 @@ input[type="text"] {
     <td> <input name="dlno" id="dlno"
 							value="<c:out value='${userdetails.drivingLicenseNo}'/>"
 							type="text" maxlength="16">  </td>
-  	<td> <input name="dlnoError" id="dlnoError"
+  	<td> <input disabled name="dlnoError" id="dlnoError"
 							value="<c:out value='${userDetailsErrorMsgs.drivingLicenseError}'/>"
 							type="text"
 							style="background-color: white; color: red; border: none; width: 800px"
@@ -166,7 +166,7 @@ input[type="text"] {
     <td> <input name="dlexpirydte" id="dlexpirydte"
 							value="<c:out value='${userdetails.drivingLicenseExpiry}'/>"
 							type="text" class="datepicker" maxlength="16">  </td>
-  	<td> <input name="dlexpirydteError" id="dlexpirydteError"
+  	<td> <input disabled name="dlexpirydteError" id="dlexpirydteError"
 							value="<c:out value='${userDetailsErrorMsgs.drivingLicenseExpiry}'/>"
 							type="text"
 							style="background-color: white; color: red; border: none; width: 800px"
@@ -178,7 +178,7 @@ input[type="text"] {
     <td> <input name="regno" id="regno"
 							value="<c:out value='${userdetails.registrationNumber}'/>"
 							type="text" maxlength="45">  </td>
-  	<td> <input name="regnoError" id="regnoError"
+  	<td> <input disabled name="regnoError" id="regnoError"
 							value="<c:out value='${userDetailsErrorMsgs.regNumberError}'/>"
 							type="text"
 							style="background-color: white; color: red; border: none; width: 800px"
@@ -190,7 +190,7 @@ input[type="text"] {
     <td> <input name="utaid" id="utaid"
 							value="<c:out value='${userdetails.uta_Id}'/>" type="text"
 							maxlength="16">  </td>
-  	<td> <input name="utaidError" id="utaidError"
+  	<td> <input disabled name="utaidError" id="utaidError"
 							value="<c:out value='${userDetailsErrorMsgs.utaIdError}'/>"
 							type="text"
 							style="background-color: white; color: red; border: none; width: 800px"

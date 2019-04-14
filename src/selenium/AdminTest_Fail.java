@@ -1,4 +1,4 @@
-package test;
+package selenium;
 
 
 import java.io.FileInputStream;
@@ -8,6 +8,7 @@ import org.junit.*;
 import static org.junit.Assert.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
 import functions.BusinessFunctions;
@@ -25,8 +26,11 @@ public class AdminTest_Fail extends BusinessFunctions {
   @Before
   public void setUp() throws Exception {
 	//Change to FireFoxDriver if using FireFox browser
-	System.setProperty("webdriver.chrome.driver", "C:\\ChromeDriver\\chromedriver.exe");
-    driver = new ChromeDriver();
+		//FireFox Driver
+	   System.setProperty("webdriver.firefox.marionette", "C:\\GeckoSelenium\\geckodriver.exe");
+	   driver = new FirefoxDriver();
+//	System.setProperty("webdriver.chrome.driver", "C:\\ChromeDriver\\chromedriver.exe");
+//    driver = new ChromeDriver();
     driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     prop = new Properties();
     prop.load(new FileInputStream("./Configuration/Configuration.properties"));
@@ -47,14 +51,14 @@ public class AdminTest_Fail extends BusinessFunctions {
   @Test
   public void testAdminTestFail() throws Exception {
     driver.get(appUrl);
-    driver.findElement(By.id("registeruser")).click();
+	driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
     assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals(""));
     assertTrue(driver.findElement(By.id("usernameError")).getAttribute("value").equals(""));
     assertTrue(driver.findElement(By.id("passwordError")).getAttribute("value").equals(""));
     assertTrue(driver.findElement(By.id("confirmPasswordError")).getAttribute("value").equals(""));
     
     //Nothing entered - all errors present
-    driver.findElement(By.cssSelector("input.btn.btn-secondary")).click();
+	driver.findElement(By.id(prop.getProperty("Btn_Register_Register"))).click();
     assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors."));
     assertTrue(driver.findElement(By.id("usernameError")).getAttribute("value").equals("Your username must between 4 and 10 characters"));
     assertTrue(driver.findElement(By.id("passwordError")).getAttribute("value").equals("Your password must between 4 and 10 characters."));
@@ -98,7 +102,7 @@ public class AdminTest_Fail extends BusinessFunctions {
     assertTrue(driver.findElement(By.id("usernameError")).getAttribute("value").equals(""));
     assertTrue(driver.findElement(By.id("passwordError")).getAttribute("value").equals("Your password must between 4 and 10 characters."));
     assertTrue(driver.findElement(By.id("confirmPasswordError")).getAttribute("value").equals("Passwords do not match."));
-    Thread.sleep(1000);
+//    Thread.sleep(1000);
     
     //Good password but doesn't match the confirmation password
     functions.Register(driver, "User7", "User7", "", "Admin", "Basic"); 
@@ -141,7 +145,7 @@ public class AdminTest_Fail extends BusinessFunctions {
     Thread.sleep(1000); 
     
     //Numbers enter for first name
-    functions.RegisterUserDetails(driver, "123", "", "", "Male", "1", "", "", "", "", "30", "", "");
+    functions.RegisterUserDetails(driver, "123", "", "", "Male", "2019-04-13", "", "", "", "", "2019-04-30", "", "");
     assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
     assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals("Your name must only contain alphabets."));
     assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
@@ -157,7 +161,7 @@ public class AdminTest_Fail extends BusinessFunctions {
     Thread.sleep(1000); 
     
     //Good first name 
-    functions.RegisterUserDetails(driver, "Lex", "", "", "Male", "1", "", "", "", "", "30", "", "");
+    functions.RegisterUserDetails(driver, "Lex", "", "", "Male", "2019-04-13", "", "", "", "", "2019-04-30", "", "");
     assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
     assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
     assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
@@ -173,7 +177,7 @@ public class AdminTest_Fail extends BusinessFunctions {
     Thread.sleep(1000); 
     
     //numbers entered for middle name 
-    functions.RegisterUserDetails(driver, "Lex", "123", "", "Male", "1", "", "", "", "", "30", "", "");
+    functions.RegisterUserDetails(driver, "Lex", "123", "", "Male", "2019-04-13", "", "", "", "", "2019-04-30", "", "");
     assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
     assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
     assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals("Your name must only contain alphabets."));
@@ -189,7 +193,7 @@ public class AdminTest_Fail extends BusinessFunctions {
     Thread.sleep(1000); 
     
     //numbers entered for last name 
-    functions.RegisterUserDetails(driver, "Lex", "", "123", "Male", "1", "", "", "", "", "30", "", "");
+    functions.RegisterUserDetails(driver, "Lex", "", "123", "Male", "2019-04-13", "", "", "", "", "2019-04-30", "", "");
     assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
     assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
     assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
@@ -205,7 +209,7 @@ public class AdminTest_Fail extends BusinessFunctions {
     Thread.sleep(1000); 
     
     //Correct Lastname 
-    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "1", "", "", "", "", "30", "", "");
+    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "2019-04-13", "", "", "", "", "2019-04-30", "", "");
     assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
     assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
     assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
@@ -221,7 +225,7 @@ public class AdminTest_Fail extends BusinessFunctions {
     Thread.sleep(1000); 
     
     //Bad dob entered
-    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "30", "", "", "", "", "30", "", "");
+    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "2019-04-25", "", "", "", "", "2019-04-30", "", "");
     assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
     assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
     assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
@@ -237,7 +241,7 @@ public class AdminTest_Fail extends BusinessFunctions {
     Thread.sleep(1000); 
     
     //Good dob entered
-    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "1", "", "", "", "", "30", "", "");
+    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "2019-04-13", "", "", "", "", "2019-04-30", "", "");
     assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
     assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
     assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
@@ -253,7 +257,7 @@ public class AdminTest_Fail extends BusinessFunctions {
     Thread.sleep(1000); 
     
     //Address entered
-    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "1", "LexCorp", "", "", "", "30", "", "");
+    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "2019-04-13", "LexCorp", "", "", "", "2019-04-30", "", "");
     assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
     assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
     assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
@@ -269,7 +273,7 @@ public class AdminTest_Fail extends BusinessFunctions {
     Thread.sleep(1000);
     
     //Bad email no @, domain, and short
-    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "1", "LexCorp", "Lex", "", "", "30", "", "");
+    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "2019-04-13", "LexCorp", "Lex", "", "", "2019-04-30", "", "");
     assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
     assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
     assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
@@ -285,7 +289,7 @@ public class AdminTest_Fail extends BusinessFunctions {
     Thread.sleep(1000);
     
     //Bad email short
-    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "1", "LexCorp", "Lex@", "", "", "30", "", "");
+    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "2019-04-13", "LexCorp", "Lex@", "", "", "2019-04-30", "", "");
     assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
     assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
     assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
@@ -301,7 +305,7 @@ public class AdminTest_Fail extends BusinessFunctions {
     Thread.sleep(1000);
     
     //bad domain
-    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "1", "LexCorp", "Lexxxx@", "", "", "30", "", "");
+    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "2019-04-13", "LexCorp", "Lexxxx@", "", "", "2019-04-30", "", "");
     assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
     assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
     assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
@@ -317,7 +321,7 @@ public class AdminTest_Fail extends BusinessFunctions {
     Thread.sleep(1000);
     
     //Good email
-    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "1", "LexCorp", "Lex@aol.com", "", "", "30", "", "");
+    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "2019-04-13", "LexCorp", "Lex@aol.com", "", "", "2019-04-30", "", "");
     assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
     assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
     assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
@@ -333,7 +337,7 @@ public class AdminTest_Fail extends BusinessFunctions {
     Thread.sleep(1000);
     
      //Short phone
-    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "1", "LexCorp", "Lex@aol.com", "469", "", "30", "", "");
+    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "2019-04-13", "LexCorp", "Lex@aol.com", "469", "", "2019-04-30", "", "");
     assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
     assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
     assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
@@ -349,7 +353,7 @@ public class AdminTest_Fail extends BusinessFunctions {
     Thread.sleep(1000);
     
     //Letters entered for phone number
-    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "1", "LexCorp", "Lex@aol.com", "abcdefghij", "", "30", "", "");
+    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "2019-04-13", "LexCorp", "Lex@aol.com", "abcdefghij", "", "2019-04-30", "", "");
     assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
     assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
     assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
@@ -365,7 +369,7 @@ public class AdminTest_Fail extends BusinessFunctions {
     Thread.sleep(1000);
     
     //Good Phone number
-    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "1", "LexCorp", "Lex@aol.com", "4693332514", "", "30", "", "");
+    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "2019-04-13", "LexCorp", "Lex@aol.com", "4693332514", "", "2019-04-30", "", "");
     assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
     assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
     assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
@@ -381,7 +385,7 @@ public class AdminTest_Fail extends BusinessFunctions {
     Thread.sleep(1000);
     
     //Short DL number
-    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "1", "LexCorp", "Lex@aol.com", "4693332514", "144", "30", "", "");
+    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "2019-04-13", "LexCorp", "Lex@aol.com", "4693332514", "144", "2019-04-30", "", "");
     assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
     assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
     assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
@@ -397,7 +401,7 @@ public class AdminTest_Fail extends BusinessFunctions {
     Thread.sleep(1000);
     
     //DL has numbers 
-    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "1", "LexCorp", "Lex@aol.com", "4693332514", "1441255a", "30", "", "");
+    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "2019-04-13", "LexCorp", "Lex@aol.com", "4693332514", "1441255a", "2019-04-30", "", "");
     assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
     assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
     assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
@@ -413,7 +417,7 @@ public class AdminTest_Fail extends BusinessFunctions {
     Thread.sleep(1000);
     
     //Good DL number and short regNum
-    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "1", "LexCorp", "Lex@aol.com", "4693332514", "14412552", "30", "123", "");
+    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "2019-04-13", "LexCorp", "Lex@aol.com", "4693332514", "14412552", "2019-04-30", "123", "");
     assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
     assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
     assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
@@ -429,7 +433,7 @@ public class AdminTest_Fail extends BusinessFunctions {
     Thread.sleep(1000);
     
     //Good RegNum
-    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "1", "LexCorp", "Lex@aol.com", "4693332514", "14412552", "30", "12332147", "");
+    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "2019-04-13", "LexCorp", "Lex@aol.com", "4693332514", "14412552", "2019-04-30", "12332147", "");
     assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
     assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
     assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
@@ -445,7 +449,7 @@ public class AdminTest_Fail extends BusinessFunctions {
     Thread.sleep(1000);
 
     //Short UtaId
-    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "1", "LexCorp", "Lex@aol.com", "4693332514", "14412552", "30", "12332147", "123");
+    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "2019-04-13", "LexCorp", "Lex@aol.com", "4693332514", "14412552", "2019-04-30", "12332147", "123");
     assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
     assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
     assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
@@ -461,7 +465,7 @@ public class AdminTest_Fail extends BusinessFunctions {
     Thread.sleep(1000);
     
     //UtaId doesn't start with 100
-    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "1", "LexCorp", "Lex@aol.com", "4693332514", "14412552", "30", "12332147", "1011212003");
+    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "2019-04-13", "LexCorp", "Lex@aol.com", "4693332514", "14412552", "2019-04-30", "12332147", "1011212003");
     assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
     assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
     assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
@@ -477,7 +481,7 @@ public class AdminTest_Fail extends BusinessFunctions {
     Thread.sleep(1000);
     
     //UtaId contains letters
-    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "1", "LexCorp", "Lex@aol.com", "4693332514", "14412552", "30", "12332147", "100021200a");
+    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "2019-04-13", "LexCorp", "Lex@aol.com", "4693332514", "14412552", "2019-04-30", "12332147", "100021200a");
     assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
     assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
     assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
@@ -493,29 +497,29 @@ public class AdminTest_Fail extends BusinessFunctions {
     Thread.sleep(1000);
     
     //Good Everything
-    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "1", "LexCorp", "Lex@aol.com", "4693332514", "14412552", "30", "12332147", "1000212003");
+    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "2019-04-13", "LexCorp", "Lex@aol.com", "4693332514", "14412552", "2019-04-30", "12332147", "1000212003");
     
     assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals(""));
     assertTrue(driver.findElement(By.id("usernameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("passwordError")).getAttribute("value").equals(""));
+//    assertTrue(driver.findElement(By.id("passwordError")).getAttribute("value").equals(""));
     
     //Bad Login - Nothing Entered
     functions.Login(driver, "", "");
     assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Login Failed."));
     assertTrue(driver.findElement(By.id("usernameError")).getAttribute("value").equals("username or password is incorrect."));
-    assertTrue(driver.findElement(By.id("passwordError")).getAttribute("value").equals("username or password is incorrect."));
+//    assertTrue(driver.findElement(By.id("passwordError")).getAttribute("value").equals("username or password is incorrect."));
     
     //No Password Given
     functions.Login(driver, "User7", "");
     assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Login Failed."));
     assertTrue(driver.findElement(By.id("usernameError")).getAttribute("value").equals("username or password is incorrect."));
-    assertTrue(driver.findElement(By.id("passwordError")).getAttribute("value").equals("username or password is incorrect."));
+//    assertTrue(driver.findElement(By.id("passwordError")).getAttribute("value").equals("username or password is incorrect."));
     
     //Wrong Password
     functions.Login(driver, "User7", "Random");
     assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Login Failed."));
     assertTrue(driver.findElement(By.id("usernameError")).getAttribute("value").equals("username or password is incorrect."));
-    assertTrue(driver.findElement(By.id("passwordError")).getAttribute("value").equals("username or password is incorrect."));
+//    assertTrue(driver.findElement(By.id("passwordError")).getAttribute("value").equals("username or password is incorrect."));
     
     //Good Login
     functions.Login(driver, "User7", "User7");
@@ -525,8 +529,9 @@ public class AdminTest_Fail extends BusinessFunctions {
   
   private void registerUser(String userName){
 	  	driver.get(appUrl);
+		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
 	    functions.Register(driver, userName, userName, userName, "Admin", "Basic");    
-	    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "1", "LexCorp", "Lex@aol.com", "4693332514", "14412552", "30", "12332147", "1000212003");
+	    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "1", "LexCorp", "Lex@aol.com", "4693332514", "14412552", "2019-04-30", "12332147", "1000212003");
 	    functions.Login(driver, "User7", "User7");
 	    driver.findElement(By.name("logout")).click();
   }
