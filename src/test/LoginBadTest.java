@@ -5,14 +5,21 @@ import java.io.FileInputStream;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import org.junit.*;
+import org.junit.runner.RunWith;
+
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
+import data.UsersDAO;
 import functions.BusinessFunctions;
-
+import junitparams.FileParameters;
+import junitparams.JUnitParamsRunner;
+import model.Users;
+import util.PasswordUtility;
+@RunWith(JUnitParamsRunner.class)
 public class LoginBadTest extends BusinessFunctions{
 	private WebDriver driver;
 	  private boolean acceptNextAlert = true;
@@ -33,19 +40,34 @@ public class LoginBadTest extends BusinessFunctions{
 	    sharedUIMapPath = prop.getProperty("SharedUIMapPath");
 	    prop.load(new FileInputStream(sharedUIMapPath));
   }
-
+  
   @Test
-  public void testLoginBad() throws Exception {
+  @FileParameters("src/Excel/Login.csv")
+  public void testLoginBad(String username, String password) throws Exception {
     driver.get(appUrl);
-//    driver.findElement(By.id("username")).clear();
-//    driver.findElement(By.id("username")).sendKeys("T");
-//    driver.findElement(By.id("btnLogin")).click();
-    functions.Login(driver, "T", "");
-    assertEquals("username or password is incorrect.", driver.findElement(By.id("usernameError")).getAttribute("value"));
-    functions.Login(driver, "Tester123", "Tes");
-    assertEquals("username or password is incorrect.", driver.findElement(By.id("usernameError")).getAttribute("value"));
-    functions.Login(driver, "Tester123", "Tester123");
+    functions.Login(driver, username, password);
+    Users checkUser = new Users(new UsersDAO());
+    String mySecurePassword = PasswordUtility.generatePassword(password);
+    UsersDAO.userExists(username, mySecurePassword, checkUser);
+    if(checkUser.getUserID() == null){
+    	assertEquals("username or password is incorrect.", driver.findElement(By.id("usernameError")).getAttribute("value"));
+    }
+    else{
+    	try {
+          assertEquals("PARKING USER HOMEPAGE", driver.findElement(By.cssSelector("h2")).getText());
+        } catch (Error e) {
+          verificationErrors.append(e.toString());
+        }
+    	
+    }
+ 
+//    assertEquals("username or password is incorrect.", driver.findElement(By.id("passwordError")).getAttribute("value"));
 //    try {
+//        assertEquals("PARKING USER HOMEPAGE", driver.findElement(By.cssSelector("h2")).getText());
+//      } catch (Error e) {
+//        verificationErrors.append(e.toString());
+//      }
+    //    try {
 //      assertEquals("username or password is incorrect.", driver.findElement(By.id("usernameError")).getAttribute("value"));
 //    } catch (Error e) {
 //      verificationErrors.append(e.toString());
