@@ -1,10 +1,11 @@
 package selenium;
 
-
 import java.io.FileInputStream;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import org.junit.*;
+import org.junit.runner.RunWith;
+
 import static org.junit.Assert.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -12,570 +13,184 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
 import functions.BusinessFunctions;
+import junitparams.FileParameters;
+import junitparams.JUnitParamsRunner;
 import test.Data.TestDAO;
 
+@RunWith(JUnitParamsRunner.class)
 public class AdminTest_Fail extends BusinessFunctions {
-  private WebDriver driver;
-  private boolean acceptNextAlert = true;
-  private StringBuffer verificationErrors = new StringBuffer();
-  private BusinessFunctions functions = new BusinessFunctions();
-  
-  private String appUrl;
-  private String sharedUIMapPath;
+	private WebDriver driver;
+	private boolean acceptNextAlert = true;
+	private StringBuffer verificationErrors = new StringBuffer();
+	private BusinessFunctions functions = new BusinessFunctions();
 
-  @Before
-  public void setUp() throws Exception {
-	//Change to FireFoxDriver if using FireFox browser
-		//FireFox Driver
-	   System.setProperty("webdriver.firefox.marionette", "C:\\GeckoSelenium\\geckodriver.exe");
-	   driver = new FirefoxDriver();
-//	System.setProperty("webdriver.chrome.driver", "C:\\ChromeDriver\\chromedriver.exe");
-//    driver = new ChromeDriver();
-    driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-    prop = new Properties();
-    prop.load(new FileInputStream("./Configuration/Configuration.properties"));
-    appUrl = prop.getProperty("AppUrl");
-    sharedUIMapPath = prop.getProperty("SharedUIMapPath");
-    prop.load(new FileInputStream(sharedUIMapPath));
-  
-    if(!TestDAO.userExists("User7")){
-    	registerUser("User7");
-    }
-  }
+	private String appUrl;
+	private String sharedUIMapPath;
 
-  /**
-   * This Test all combinations of validation errors a user can see in the login and registration screens.
-   * 
-   * @throws Exception
-   */
-  @Test
-  public void testAdminTestFail() throws Exception {
-    driver.get(appUrl);
-	driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
-    assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("usernameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("passwordError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("confirmPasswordError")).getAttribute("value").equals(""));
-    
-    //Nothing entered - all errors present
-	driver.findElement(By.id(prop.getProperty("Btn_Register_Register"))).click();
-    assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors."));
-    assertTrue(driver.findElement(By.id("usernameError")).getAttribute("value").equals("Your username must between 4 and 10 characters"));
-    assertTrue(driver.findElement(By.id("passwordError")).getAttribute("value").equals("Your password must between 4 and 10 characters."));
-    assertTrue(driver.findElement(By.id("confirmPasswordError")).getAttribute("value").equals(""));
-    
-    //UserName all ready in DataBase
-    functions.Register(driver, "User7", "", "", "Admin", "Basic"); 
-    assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors."));
-    assertTrue(driver.findElement(By.id("usernameError")).getAttribute("value").equals("Username is already in database"));
-    assertTrue(driver.findElement(By.id("passwordError")).getAttribute("value").equals("Your password must between 4 and 10 characters."));
-    assertTrue(driver.findElement(By.id("confirmPasswordError")).getAttribute("value").equals(""));
-    TestDAO.deleteUser("User7");
-    
-    //Good username entered - All other errors still present
-    functions.Register(driver, "User7", "", "", "Admin", "Basic"); 
-    assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors."));
-    assertTrue(driver.findElement(By.id("usernameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("passwordError")).getAttribute("value").equals("Your password must between 4 and 10 characters."));
-    assertTrue(driver.findElement(By.id("confirmPasswordError")).getAttribute("value").equals(""));
-    Thread.sleep(1000);
-    
-    //All number password
-    functions.Register(driver, "User7", "1234", "", "Admin", "Basic"); 
-    assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors."));
-    assertTrue(driver.findElement(By.id("usernameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("passwordError")).getAttribute("value").equals("Password must contain at least one uppercase."));
-    assertTrue(driver.findElement(By.id("confirmPasswordError")).getAttribute("value").equals("Passwords do not match."));
-    Thread.sleep(1000);
-    
-    //All letter password
-    functions.Register(driver, "User7", "Abcd", "", "Admin", "Basic"); 
-    assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors."));
-    assertTrue(driver.findElement(By.id("usernameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("passwordError")).getAttribute("value").equals("Password must contain at least one number."));
-    assertTrue(driver.findElement(By.id("confirmPasswordError")).getAttribute("value").equals("Passwords do not match."));
-    Thread.sleep(1000);
-    
-    //eleven character password
-    functions.Register(driver, "User7", "12345678901", "", "Admin", "Basic"); 
-    assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors."));
-    assertTrue(driver.findElement(By.id("usernameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("passwordError")).getAttribute("value").equals("Your password must between 4 and 10 characters."));
-    assertTrue(driver.findElement(By.id("confirmPasswordError")).getAttribute("value").equals("Passwords do not match."));
-//    Thread.sleep(1000);
-    
-    //Good password but doesn't match the confirmation password
-    functions.Register(driver, "User7", "User7", "", "Admin", "Basic"); 
-    assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors."));
-    assertTrue(driver.findElement(By.id("usernameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("passwordError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("confirmPasswordError")).getAttribute("value").equals("Passwords do not match."));
-    Thread.sleep(1000);
-    
-    //All Good
-    functions.Register(driver, "User7", "User7", "User7", "Admin", "Basic");
-    
-    assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("lastnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("birthDateError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("addressError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("emailError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("phoneError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("dlnoError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("dlexpirydteError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("regnoError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("utaidError")).getAttribute("value").equals(""));
-    
-    //Nothing Entered all errors present
-    driver.findElement(By.cssSelector("input.btn.btn-secondary")).click();
-    assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
-    assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("lastnameError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("birthDateError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("addressError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("emailError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("phoneError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("dlnoError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("dlexpirydteError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("regnoError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("utaidError")).getAttribute("value").equals("The field is mandatory."));    
-    Thread.sleep(1000); 
-    
-    //Numbers enter for first name
-    functions.RegisterUserDetails(driver, "123", "", "", "Male", "2019-04-13", "", "", "", "", "2019-04-30", "", "");
-    assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
-    assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals("Your name must only contain alphabets."));
-    assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("lastnameError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("birthDateError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("addressError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("emailError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("phoneError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("dlnoError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("dlexpirydteError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("regnoError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("utaidError")).getAttribute("value").equals("The field is mandatory."));  
-    Thread.sleep(1000); 
-    
-    //Good first name 
-    functions.RegisterUserDetails(driver, "Lex", "", "", "Male", "2019-04-13", "", "", "", "", "2019-04-30", "", "");
-    assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
-    assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("lastnameError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("birthDateError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("addressError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("emailError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("phoneError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("dlnoError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("dlexpirydteError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("regnoError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("utaidError")).getAttribute("value").equals("The field is mandatory."));
-    Thread.sleep(1000); 
-    
-    //numbers entered for middle name 
-    functions.RegisterUserDetails(driver, "Lex", "123", "", "Male", "2019-04-13", "", "", "", "", "2019-04-30", "", "");
-    assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
-    assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals("Your name must only contain alphabets."));
-    assertTrue(driver.findElement(By.id("lastnameError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("birthDateError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("addressError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("emailError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("phoneError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("dlnoError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("dlexpirydteError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("regnoError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("utaidError")).getAttribute("value").equals("The field is mandatory."));
-    Thread.sleep(1000); 
-    
-    //numbers entered for last name 
-    functions.RegisterUserDetails(driver, "Lex", "", "123", "Male", "2019-04-13", "", "", "", "", "2019-04-30", "", "");
-    assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
-    assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("lastnameError")).getAttribute("value").equals("Your name must only contain alphabets."));
-    assertTrue(driver.findElement(By.id("birthDateError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("addressError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("emailError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("phoneError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("dlnoError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("dlexpirydteError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("regnoError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("utaidError")).getAttribute("value").equals("The field is mandatory."));
-    Thread.sleep(1000); 
-    
-    //Correct Lastname 
-    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "2019-04-13", "", "", "", "", "2019-04-30", "", "");
-    assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
-    assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("lastnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("birthDateError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("addressError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("emailError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("phoneError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("dlnoError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("dlexpirydteError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("regnoError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("utaidError")).getAttribute("value").equals("The field is mandatory."));
-    Thread.sleep(1000); 
-    
-    //Bad dob entered
-    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "2019-04-25", "", "", "", "", "2019-04-30", "", "");
-    assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
-    assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("lastnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("birthDateError")).getAttribute("value").equals("Date of birth can't be after the current date."));
-    assertTrue(driver.findElement(By.id("addressError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("emailError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("phoneError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("dlnoError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("dlexpirydteError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("regnoError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("utaidError")).getAttribute("value").equals("The field is mandatory."));
-    Thread.sleep(1000); 
-    
-    //Good dob entered
-    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "2019-04-13", "", "", "", "", "2019-04-30", "", "");
-    assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
-    assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("lastnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("birthDateError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("addressError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("emailError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("phoneError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("dlnoError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("dlexpirydteError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("regnoError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("utaidError")).getAttribute("value").equals("The field is mandatory."));
-    Thread.sleep(1000); 
-    
-    //Address entered
-    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "2019-04-13", "LexCorp", "", "", "", "2019-04-30", "", "");
-    assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
-    assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("lastnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("birthDateError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("addressError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("emailError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("phoneError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("dlnoError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("dlexpirydteError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("regnoError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("utaidError")).getAttribute("value").equals("The field is mandatory."));
-    Thread.sleep(1000);
-    
-    //Bad email no @, domain, and short
-    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "2019-04-13", "LexCorp", "Lex", "", "", "2019-04-30", "", "");
-    assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
-    assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("lastnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("birthDateError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("addressError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("emailError")).getAttribute("value").equals("Email address needs to contain @"));
-    assertTrue(driver.findElement(By.id("phoneError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("dlnoError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("dlexpirydteError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("regnoError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("utaidError")).getAttribute("value").equals("The field is mandatory."));
-    Thread.sleep(1000);
-    
-    //Bad email short
-    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "2019-04-13", "LexCorp", "Lex@", "", "", "2019-04-30", "", "");
-    assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
-    assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("lastnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("birthDateError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("addressError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("emailError")).getAttribute("value").equals("Email address must be between 7 and 45 characters long"));
-    assertTrue(driver.findElement(By.id("phoneError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("dlnoError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("dlexpirydteError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("regnoError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("utaidError")).getAttribute("value").equals("The field is mandatory."));
-    Thread.sleep(1000);
-    
-    //bad domain
-    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "2019-04-13", "LexCorp", "Lexxxx@", "", "", "2019-04-30", "", "");
-    assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
-    assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("lastnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("birthDateError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("addressError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("emailError")).getAttribute("value").equals("Invalid domain name"));
-    assertTrue(driver.findElement(By.id("phoneError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("dlnoError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("dlexpirydteError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("regnoError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("utaidError")).getAttribute("value").equals("The field is mandatory."));
-    Thread.sleep(1000);
-    
-    //Good email
-    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "2019-04-13", "LexCorp", "Lex@aol.com", "", "", "2019-04-30", "", "");
-    assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
-    assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("lastnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("birthDateError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("addressError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("emailError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("phoneError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("dlnoError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("dlexpirydteError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("regnoError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("utaidError")).getAttribute("value").equals("The field is mandatory."));
-    Thread.sleep(1000);
-    
-     //Short phone
-    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "2019-04-13", "LexCorp", "Lex@aol.com", "469", "", "2019-04-30", "", "");
-    assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
-    assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("lastnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("birthDateError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("addressError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("emailError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("phoneError")).getAttribute("value").equals("Your phone number should be 10 digits. eg: 7283334567"));
-    assertTrue(driver.findElement(By.id("dlnoError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("dlexpirydteError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("regnoError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("utaidError")).getAttribute("value").equals("The field is mandatory."));
-    Thread.sleep(1000);
-    
-    //Letters entered for phone number
-    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "2019-04-13", "LexCorp", "Lex@aol.com", "abcdefghij", "", "2019-04-30", "", "");
-    assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
-    assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("lastnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("birthDateError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("addressError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("emailError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("phoneError")).getAttribute("value").equals("Phone number can only contain digits."));
-    assertTrue(driver.findElement(By.id("dlnoError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("dlexpirydteError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("regnoError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("utaidError")).getAttribute("value").equals("The field is mandatory."));
-    Thread.sleep(1000);
-    
-    //Good Phone number
-    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "2019-04-13", "LexCorp", "Lex@aol.com", "4693332514", "", "2019-04-30", "", "");
-    assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
-    assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("lastnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("birthDateError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("addressError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("emailError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("phoneError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("dlnoError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("dlexpirydteError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("regnoError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("utaidError")).getAttribute("value").equals("The field is mandatory."));
-    Thread.sleep(1000);
-    
-    //Short DL number
-    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "2019-04-13", "LexCorp", "Lex@aol.com", "4693332514", "144", "2019-04-30", "", "");
-    assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
-    assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("lastnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("birthDateError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("addressError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("emailError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("phoneError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("dlnoError")).getAttribute("value").equals("This should be of length 8 digits."));
-    assertTrue(driver.findElement(By.id("dlexpirydteError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("regnoError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("utaidError")).getAttribute("value").equals("The field is mandatory."));
-    Thread.sleep(1000);
-    
-    //DL has numbers 
-    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "2019-04-13", "LexCorp", "Lex@aol.com", "4693332514", "1441255a", "2019-04-30", "", "");
-    assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
-    assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("lastnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("birthDateError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("addressError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("emailError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("phoneError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("dlnoError")).getAttribute("value").equals("It can only contain digits."));
-    assertTrue(driver.findElement(By.id("dlexpirydteError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("regnoError")).getAttribute("value").equals("The field is mandatory."));
-    assertTrue(driver.findElement(By.id("utaidError")).getAttribute("value").equals("The field is mandatory."));
-    Thread.sleep(1000);
-    
-    //Good DL number and short regNum
-    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "2019-04-13", "LexCorp", "Lex@aol.com", "4693332514", "14412552", "2019-04-30", "123", "");
-    assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
-    assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("lastnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("birthDateError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("addressError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("emailError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("phoneError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("dlnoError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("dlexpirydteError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("regnoError")).getAttribute("value").equals("Registration number should be between 6 and 10 characters."));
-    assertTrue(driver.findElement(By.id("utaidError")).getAttribute("value").equals("The field is mandatory."));
-    Thread.sleep(1000);
-    
-    //Good RegNum
-    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "2019-04-13", "LexCorp", "Lex@aol.com", "4693332514", "14412552", "2019-04-30", "12332147", "");
-    assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
-    assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("lastnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("birthDateError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("addressError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("emailError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("phoneError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("dlnoError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("dlexpirydteError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("regnoError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("utaidError")).getAttribute("value").equals("The field is mandatory."));
-    Thread.sleep(1000);
+	@Before
+	public void setUp() throws Exception {
+		// Change to FireFoxDriver if using FireFox browser
+		System.setProperty("webdriver.chrome.driver", "C:\\ChromeDriver\\chromedriver.exe");
+		driver = new ChromeDriver();
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		prop = new Properties();
+		prop.load(new FileInputStream("./Configuration/Configuration.properties"));
+		appUrl = prop.getProperty("AppUrl");
+		sharedUIMapPath = prop.getProperty("SharedUIMapPath");
+		prop.load(new FileInputStream(sharedUIMapPath));
 
-    //Short UtaId
-    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "2019-04-13", "LexCorp", "Lex@aol.com", "4693332514", "14412552", "2019-04-30", "12332147", "123");
-    assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
-    assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("lastnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("birthDateError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("addressError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("emailError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("phoneError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("dlnoError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("dlexpirydteError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("regnoError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("utaidError")).getAttribute("value").equals("UTA ID must be 10 digits long."));
-    Thread.sleep(1000);
-    
-    //UtaId doesn't start with 100
-    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "2019-04-13", "LexCorp", "Lex@aol.com", "4693332514", "14412552", "2019-04-30", "12332147", "1011212003");
-    assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
-    assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("lastnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("birthDateError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("addressError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("emailError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("phoneError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("dlnoError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("dlexpirydteError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("regnoError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("utaidError")).getAttribute("value").equals("UTA ID must start with 100."));
-    Thread.sleep(1000);
-    
-    //UtaId contains letters
-    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "2019-04-13", "LexCorp", "Lex@aol.com", "4693332514", "14412552", "2019-04-30", "12332147", "100021200a");
-    assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors"));
-    assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("middlenameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("lastnameError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("birthDateError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("addressError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("emailError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("phoneError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("dlnoError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("dlexpirydteError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("regnoError")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("utaidError")).getAttribute("value").equals("UTA ID must contain digits only."));
-    Thread.sleep(1000);
-    
-    //Good Everything
-    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "2019-04-13", "LexCorp", "Lex@aol.com", "4693332514", "14412552", "2019-04-30", "12332147", "1000212003");
-    
-    assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals(""));
-    assertTrue(driver.findElement(By.id("usernameError")).getAttribute("value").equals(""));
-//    assertTrue(driver.findElement(By.id("passwordError")).getAttribute("value").equals(""));
-    
-    //Bad Login - Nothing Entered
-    functions.Login(driver, "", "");
-    assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Login Failed."));
-    assertTrue(driver.findElement(By.id("usernameError")).getAttribute("value").equals("username or password is incorrect."));
-//    assertTrue(driver.findElement(By.id("passwordError")).getAttribute("value").equals("username or password is incorrect."));
-    
-    //No Password Given
-    functions.Login(driver, "User7", "");
-    assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Login Failed."));
-    assertTrue(driver.findElement(By.id("usernameError")).getAttribute("value").equals("username or password is incorrect."));
-//    assertTrue(driver.findElement(By.id("passwordError")).getAttribute("value").equals("username or password is incorrect."));
-    
-    //Wrong Password
-    functions.Login(driver, "User7", "Random");
-    assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Login Failed."));
-    assertTrue(driver.findElement(By.id("usernameError")).getAttribute("value").equals("username or password is incorrect."));
-//    assertTrue(driver.findElement(By.id("passwordError")).getAttribute("value").equals("username or password is incorrect."));
-    
-    //Good Login
-    functions.Login(driver, "User7", "User7");
-    
-    driver.findElement(By.name("logout")).click();
-  }
-  
-  private void registerUser(String userName){
-	  	driver.get(appUrl);
+		driver.get(appUrl);
+	}
+
+	/**
+	 * This Test all combinations of validation errors a user can see in the
+	 * login and registration screens.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	@FileParameters("src/test/AdminRegisterFailures.csv")
+	public void testAdminTestFail(String userName, String password, String confirmPassword, String role,
+			String permitType, String exceptedErrorMsg, String expectedUsernameError, String expectedPasswordError,
+			String expectedConfirmPaswordError) throws Exception {
 		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
-	    functions.Register(driver, userName, userName, userName, "Admin", "Basic");    
-	    functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "1", "LexCorp", "Lex@aol.com", "4693332514", "14412552", "2019-04-30", "12332147", "1000212003");
-	    functions.Login(driver, "User7", "User7");
-	    driver.findElement(By.name("logout")).click();
-  }
+		
+		if ("Username is already in database".equals(expectedUsernameError) && !TestDAO.userExists("User7")) {
+				registerUser("User7");
+		}
+		
+		if ("None".equals(userName)) {
+			// Nothing entered - all errors present
+			driver.findElement(By.id(prop.getProperty("Btn_Register_Register"))).click();
+		} else {
+			// UserName all ready in DataBase
+			functions.Register(driver, userName, password, confirmPassword, role, permitType);
+			if ("Username is already in database".equals(expectedUsernameError)) {
+				TestDAO.deleteUser("User7");
+			}
+		}
+		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Login_CommonError"))).getAttribute("value")
+				.equals(exceptedErrorMsg));
+		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Register_UsernameError"))).getAttribute("value")
+				.equals(expectedUsernameError));
+		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Register_PasswordError"))).getAttribute("value")
+				.equals(expectedPasswordError));
+		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Register_ConfirmPasswordError")))
+				.getAttribute("value").equals(expectedConfirmPaswordError));
 
-  @After
-  public void tearDown() throws Exception {
-    driver.quit();
-    TestDAO.deleteUser("User7");
-    String verificationErrorString = verificationErrors.toString();
-    if (!"".equals(verificationErrorString)) {
-      fail(verificationErrorString);
-    }
-  }
+	}
 
-  private boolean isElementPresent(By by) {
-    try {
-      driver.findElement(by);
-      return true;
-    } catch (NoSuchElementException e) {
-      return false;
-    }
-  }
+	@Test
+	@FileParameters("src/test/AdminRegisterUserDetailsFailures.csv")
+	public void testAdminTestUserDetailFails(String firstName, String middleName, String lastName, String sex,
+			String dob, String address, String email, String phoneNum, String dlNum, String expiryDate, String regNum,
+			String utaId, String expectedErrorMsg, String expectedFirstNameError, String expectedMiddleNameError,
+			String expectedLastNameError, String expectedDobError, String expectedAddressError,
+			String expectedEmailError, String expectedPhoneNumError, String expectedDlNumError,
+			String expectedDlExpiryError, String RegNumError, String utaIdError) throws Exception {
+		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
+		
+		if (TestDAO.userExists("User7")) {
+			TestDAO.deleteUser("User7");
+		}
+		
+		functions.Register(driver, "User7", "User7", "User7", "Admin", "Basic");
 
-  private boolean isAlertPresent() {
-    try {
-      driver.switchTo().alert();
-      return true;
-    } catch (NoAlertPresentException e) {
-      return false;
-    }
-  }
 
-  private String closeAlertAndGetItsText() {
-    try {
-      Alert alert = driver.switchTo().alert();
-      String alertText = alert.getText();
-      if (acceptNextAlert) {
-        alert.accept();
-      } else {
-        alert.dismiss();
-      }
-      return alertText;
-    } finally {
-      acceptNextAlert = true;
-    }
-  }
+		if("None".equals(firstName)){
+			 //Nothing Entered all errors present
+			 driver.findElement(By.id(prop.getProperty("Btn_UserDetails_Submit"))).click();
+		}else{
+			 functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dob, address, email, phoneNum, dlNum, expiryDate, regNum, utaId);
+		}
+		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_UserDetails_CommonError"))).getAttribute("value").equals(expectedErrorMsg));
+		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_UserDetails_FirstnameError"))).getAttribute("value").equals(expectedFirstNameError));
+		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_UserDetails_MiddlenameError"))).getAttribute("value").equals(expectedMiddleNameError));
+		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_UserDetails_LastnameError"))).getAttribute("value").equals(expectedLastNameError));
+		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_UserDetails_DOBError"))).getAttribute("value").equals(expectedDobError));
+		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_UserDetails_AddressError"))).getAttribute("value").equals(expectedAddressError));
+		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_UserDetails_EmailError"))).getAttribute("value").equals(expectedEmailError));
+		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_UserDetails_PhoneError"))).getAttribute("value").equals(expectedPhoneNumError));
+		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_UserDetails_DLNOError"))).getAttribute("value").equals(expectedDlNumError));
+		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_UserDetails_DLExpiryDteError"))).getAttribute("value").equals(expectedDlExpiryError));
+		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_UserDetails_REGNOError"))).getAttribute("value").equals(RegNumError));
+		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_UserDetails_UTAIDError"))).getAttribute("value").equals(utaIdError));
+
+	}
+	
+	@Test
+	@FileParameters("src/test/AdminRegisterLoginFailures.csv")
+	public void AdminLoginFail(String userName, String password, String expectedErrorMsg, String expectedUserNameError, String expectedPasswordError){
+		
+		if (TestDAO.userExists("User7")) {
+			TestDAO.deleteUser("User7");
+		}
+		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
+		
+		functions.Register(driver, "User7", "User7", "User7", "Admin", "Basic");
+		functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "1", "LexCorp", "Lex@aol.com", "4693332514", "14412552", "30", "12332147", "1000212003");
+		
+		if("None".equals(userName)){
+			functions.Login(driver, "", "");
+		}else{
+			functions.Login(driver, userName, password);
+		}
+		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Login_CommonError"))).getAttribute("value").equals(expectedErrorMsg));
+		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Login_UsernameError"))).getAttribute("value").equals(expectedUserNameError));
+		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Login_PasswordError"))).getAttribute("value").equals(expectedPasswordError));
+		
+	}
+	
+
+	private void registerUser(String userName) {
+		driver.get(appUrl);
+		functions.Register(driver, userName, userName, userName, "Admin", "Basic");
+		functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "1", "LexCorp", "Lex@aol.com", "4693332514",
+				"14412552", "30", "12332147", "1000212003");
+		functions.Login(driver, "User7", "User7");
+		driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		driver.quit();
+		TestDAO.deleteUser("User7");
+		String verificationErrorString = verificationErrors.toString();
+		if (!"".equals(verificationErrorString)) {
+			fail(verificationErrorString);
+		}
+	}
+
+	private boolean isElementPresent(By by) {
+		try {
+			driver.findElement(by);
+			return true;
+		} catch (NoSuchElementException e) {
+			return false;
+		}
+	}
+
+	private boolean isAlertPresent() {
+		try {
+			driver.switchTo().alert();
+			return true;
+		} catch (NoAlertPresentException e) {
+			return false;
+		}
+	}
+
+	private String closeAlertAndGetItsText() {
+		try {
+			Alert alert = driver.switchTo().alert();
+			String alertText = alert.getText();
+			if (acceptNextAlert) {
+				alert.accept();
+			} else {
+				alert.dismiss();
+			}
+			return alertText;
+		} finally {
+			acceptNextAlert = true;
+		}
+	}
 }
