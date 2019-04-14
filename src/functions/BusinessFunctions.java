@@ -34,13 +34,13 @@ public class BusinessFunctions {
 
 	public void RegisterUserDetails(WebDriver driver, String firstName, String lastName, String sex, String dayOfBirth,
 			String address, String email, String phone, String dlNum, String dayOfExpiry, String regNum, String utaId) {
-		driver.findElement(By.name("firstname")).clear();
+		driver.findElement(By.name("firstname")).clear();  
 		driver.findElement(By.name("firstname")).sendKeys(firstName);
 		driver.findElement(By.name("lastname")).clear();
 		driver.findElement(By.name("lastname")).sendKeys(lastName);
 		Select sexSelect = new Select(driver.findElement(By.id("sex")));
 		sexSelect.selectByVisibleText(sex);
-		WebElement datePicker = driver.findElement(By.name("dob"));
+		WebElement datePicker = driver.findElement(By.name("dob"));  
 		datePicker.click();
 		By calendarXpath = By.xpath("//td[not(contains(@class,'ui-datepicker-other-month'))]/a[text()="+ dayOfBirth +"]");
 		driver.findElement(calendarXpath).click();
@@ -78,14 +78,15 @@ public class BusinessFunctions {
 	    driver.findElement(By.id("btnRevoke")).click();
 	}
 	
-	public void makeReservation(WebDriver driver, String start, String end, Integer spot, String card, String month, String year, String cvv ){
+	public void makeReservation(WebDriver driver, String start, String end, String area, String permitType, Integer floor, Integer spot, String card, String month, String year, String cvv ){
 	    driver.findElement(By.id("lnkRequestReservation")).click();
 	    driver.findElement(By.id("starttime")).clear();
 		driver.findElement(By.id("starttime")).sendKeys(start);
 		driver.findElement(By.id("endtime")).clear();
 		driver.findElement(By.id("endtime")).sendKeys(end);
+		new Select(driver.findElement(By.id("areaDropDrown"))).selectByVisibleText(area);
 	    driver.findElement(By.id("btnSearch")).click();
-	    driver.findElement(By.id("btnReserveFloor")).click();
+	    driver.findElement(By.id("btnReserveFloor"+floor+""+permitType)).click();
 	    driver.findElement(By.xpath("(//input[@id='btnReserveSpotID'])["+spot+"]")).click();
 	    driver.findElement(By.id("cart")).click();
 	    driver.findElement(By.id("camera")).click();
