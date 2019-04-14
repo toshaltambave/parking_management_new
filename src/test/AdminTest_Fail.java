@@ -33,7 +33,7 @@ public class AdminTest_Fail extends BusinessFunctions {
     appUrl = prop.getProperty("AppUrl");
     sharedUIMapPath = prop.getProperty("SharedUIMapPath");
     prop.load(new FileInputStream(sharedUIMapPath));
-    
+  
     if(!TestDAO.userExists("User7")){
     	registerUser("User7");
     }
@@ -61,7 +61,7 @@ public class AdminTest_Fail extends BusinessFunctions {
     assertTrue(driver.findElement(By.id("confirmPasswordError")).getAttribute("value").equals(""));
     
     //UserName all ready in DataBase
-    functions.RegisterFail(driver, "User7", "", "", "Admin", "Basic"); 
+    functions.Register(driver, "User7", "", "", "Admin", "Basic"); 
     assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors."));
     assertTrue(driver.findElement(By.id("usernameError")).getAttribute("value").equals("Username is already in database"));
     assertTrue(driver.findElement(By.id("passwordError")).getAttribute("value").equals("Your password must between 4 and 10 characters."));
@@ -69,7 +69,7 @@ public class AdminTest_Fail extends BusinessFunctions {
     TestDAO.deleteUser("User7");
     
     //Good username entered - All other errors still present
-    functions.RegisterFail(driver, "User7", "", "", "Admin", "Basic"); 
+    functions.Register(driver, "User7", "", "", "Admin", "Basic"); 
     assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors."));
     assertTrue(driver.findElement(By.id("usernameError")).getAttribute("value").equals(""));
     assertTrue(driver.findElement(By.id("passwordError")).getAttribute("value").equals("Your password must between 4 and 10 characters."));
@@ -77,7 +77,7 @@ public class AdminTest_Fail extends BusinessFunctions {
     Thread.sleep(1000);
     
     //All number password
-    functions.RegisterFail(driver, "User7", "1234", "", "Admin", "Basic"); 
+    functions.Register(driver, "User7", "1234", "", "Admin", "Basic"); 
     assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors."));
     assertTrue(driver.findElement(By.id("usernameError")).getAttribute("value").equals(""));
     assertTrue(driver.findElement(By.id("passwordError")).getAttribute("value").equals("Password must contain at least one uppercase."));
@@ -85,7 +85,7 @@ public class AdminTest_Fail extends BusinessFunctions {
     Thread.sleep(1000);
     
     //All letter password
-    functions.RegisterFail(driver, "User7", "Abcd", "", "Admin", "Basic"); 
+    functions.Register(driver, "User7", "Abcd", "", "Admin", "Basic"); 
     assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors."));
     assertTrue(driver.findElement(By.id("usernameError")).getAttribute("value").equals(""));
     assertTrue(driver.findElement(By.id("passwordError")).getAttribute("value").equals("Password must contain at least one number."));
@@ -93,7 +93,7 @@ public class AdminTest_Fail extends BusinessFunctions {
     Thread.sleep(1000);
     
     //eleven character password
-    functions.RegisterFail(driver, "User7", "12345678901", "", "Admin", "Basic"); 
+    functions.Register(driver, "User7", "12345678901", "", "Admin", "Basic"); 
     assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors."));
     assertTrue(driver.findElement(By.id("usernameError")).getAttribute("value").equals(""));
     assertTrue(driver.findElement(By.id("passwordError")).getAttribute("value").equals("Your password must between 4 and 10 characters."));
@@ -101,7 +101,7 @@ public class AdminTest_Fail extends BusinessFunctions {
     Thread.sleep(1000);
     
     //Good password but doesn't match the confirmation password
-    functions.RegisterFail(driver, "User7", "User7", "", "Admin", "Basic"); 
+    functions.Register(driver, "User7", "User7", "", "Admin", "Basic"); 
     assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals("Please correct the following errors."));
     assertTrue(driver.findElement(By.id("usernameError")).getAttribute("value").equals(""));
     assertTrue(driver.findElement(By.id("passwordError")).getAttribute("value").equals(""));
@@ -109,7 +109,7 @@ public class AdminTest_Fail extends BusinessFunctions {
     Thread.sleep(1000);
     
     //All Good
-    functions.RegisterFail(driver, "User7", "User7", "User7", "Admin", "Basic");
+    functions.Register(driver, "User7", "User7", "User7", "Admin", "Basic");
     
     assertTrue(driver.findElement(By.id("errorMsg")).getAttribute("value").equals(""));
     assertTrue(driver.findElement(By.id("firstnameError")).getAttribute("value").equals(""));
