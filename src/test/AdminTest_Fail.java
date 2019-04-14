@@ -123,6 +123,7 @@ public class AdminTest_Fail extends BusinessFunctions {
 		if (TestDAO.userExists("User7")) {
 			TestDAO.deleteUser("User7");
 		}
+		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
 		
 		functions.Register(driver, "User7", "User7", "User7", "Admin", "Basic");
 		functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "1", "LexCorp", "Lex@aol.com", "4693332514", "14412552", "30", "12332147", "1000212003");
