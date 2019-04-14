@@ -116,6 +116,7 @@ public class ReservationsController extends HttpServlet {
 			HttpSession session = request.getSession();		
 			double totalAmount = Double.parseDouble(request.getParameter("total"));
 			request.setAttribute("finalTotal", totalAmount );
+			session.setAttribute("finalTotal", totalAmount );
 			Users user = (Users)session.getAttribute("User");
 			
 			if(totalAmount > 0.0)
@@ -482,6 +483,7 @@ public class ReservationsController extends HttpServlet {
 		reserve.setUserID(user.getUserID());
 		Integer resIdForEdit = (Integer) session.getAttribute("editReservationId");
 		Boolean previousReservationDeleted = false;
+		reserve.setTotal((Double)(session.getAttribute("finalTotal")));
 		if(resIdForEdit != null){
 			previousReservationDeleted = ReservationsDAO.deleteReservationbyResId(resIdForEdit);
 		}

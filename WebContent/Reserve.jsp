@@ -40,19 +40,19 @@
 	
 		                </div>
 				    </div>
-				    		                    <div><input name="starttimeError" id="starttimeError"
+				    		                    <div><input disabled name="starttimeError" id="starttimeError"
 								value="<c:out value='${startTimeError}'/>"
 								type="text"
 								style="background-color: white; color: red; border: none; width: 800px"
 								 maxlength="60">
 							</div>
-								                    <div><input name="endtimeError" id="endtimeError"
+								                    <div><input disabled name="endtimeError" id="endtimeError"
 								value="<c:out value='${endTimeError}'/>"
 								type="text"
 								style="background-color: white; color: red; border: none; width: 800px"
 								 maxlength="60">
 							</div>
-				    <div><input name="compareError" id="compareError"
+				    <div><input disabled name="compareError" id="compareError"
 							value="<c:out value='${compareError}'/>"
 							type="text"
 							style="background-color: white; color: red; border: none; width: 800px"

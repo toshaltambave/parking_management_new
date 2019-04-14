@@ -20,7 +20,7 @@
 
 <div class="row"><label> Parking Area Name (*):</label></div> 
 <div class="row"><input id="parkingareaname" type="text" class="form-control" name="parkingareaname" value="<c:out value='${parkingArea.areaname}'/>"  maxlength="20" ></div>
-<div class="row"><input id="parkingareanameError" class="form-control center_div" name="parkingareanameError"  value="<c:out value='${parkingAreaError.areaNameError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"   maxlength="60"></div>    
+<div class="row"><input disabled id="parkingareanameError" class="form-control center_div" name="parkingareanameError"  value="<c:out value='${parkingAreaError.areaNameError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"   maxlength="60"></div>    
 
 <div class="row"><label> Permit Type: </label>
 </div>
@@ -39,14 +39,14 @@
 <div class="row">
 <input id="floornumber" class="form-control" type="number" pattern="\d*" maxlength="2" name="floornumber" value="<c:out value='${parkingArea.floornumber}'/>">
 </div>
-<div class="row"><input id="floornumberError" class="form-control" name="floornumberError"  value="<c:out value='${parkingAreaError.floorNumberError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"    maxlength="60"></div>
+<div class="row"><input disabled id="floornumberError" class="form-control" name="floornumberError"  value="<c:out value='${parkingAreaError.floorNumberError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"    maxlength="60"></div>
  
 		
 <div class="row"><label> No. of Spots (*): </label></div>
 <div class="row">
 <input class="form-control" type="number" pattern="\d*" maxlength="3" name="numberofSpots" value="<c:out value='${parkingArea.numberofspots}'/>">
 </div>
-<div class="row"><input id="numberofSpotsError" class="form-control" name="numberofSpotsError"  value="<c:out value='${parkingAreaError.numberofSpotsError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"    maxlength="60"></div>
+<div class="row"><input disabled id="numberofSpotsError" class="form-control" name="numberofSpotsError"  value="<c:out value='${parkingAreaError.numberofSpotsError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"    maxlength="60"></div>
  
 <div class="row"><label> Mandatory fields (*)</label></div>
 <input name="action" value="addtoList" type="hidden">
