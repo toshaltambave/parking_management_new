@@ -118,10 +118,11 @@ public class AdminTest_Good extends BusinessFunctions {
 
 	private void registerUser(String userName) {
 		driver.get(appUrl);
+		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
 		functions.Register(driver, userName, userName, userName, "ParkingUser", "Basic");
 		functions.RegisterUserDetails(driver, "Clark", "", "Kent", "Male", "1", "SmallVille", "Supes@aol.com",
 				"4693332544", "14412553", "30", "12332148", "1000212013");
 		functions.Login(driver, "User6", "User6");
-		driver.findElement(By.name("logout")).click();
+		driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
 	}
 }

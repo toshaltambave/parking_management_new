@@ -30,8 +30,11 @@ public class AdminTest_Fail extends BusinessFunctions {
 	@Before
 	public void setUp() throws Exception {
 		// Change to FireFoxDriver if using FireFox browser
-		System.setProperty("webdriver.chrome.driver", "C:\\ChromeDriver\\chromedriver.exe");
-		driver = new ChromeDriver();
+		//FireFox Driver
+		   System.setProperty("webdriver.firefox.marionette", "C:\\GeckoSelenium\\geckodriver.exe");
+		   driver = new FirefoxDriver();
+//		System.setProperty("webdriver.chrome.driver", "C:\\ChromeDriver\\chromedriver.exe");
+//		driver = new ChromeDriver();
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		prop = new Properties();
 		prop.load(new FileInputStream("./Configuration/Configuration.properties"));
@@ -49,7 +52,7 @@ public class AdminTest_Fail extends BusinessFunctions {
 	 * @throws Exception
 	 */
 	@Test
-	@FileParameters("src/test/AdminRegisterFailures.csv")
+	@FileParameters("src/Excel/AdminRegisterFailures.csv")
 	public void testAdminTestFail(String userName, String password, String confirmPassword, String role,
 			String permitType, String exceptedErrorMsg, String expectedUsernameError, String expectedPasswordError,
 			String expectedConfirmPaswordError) throws Exception {
@@ -81,7 +84,7 @@ public class AdminTest_Fail extends BusinessFunctions {
 	}
 
 	@Test
-	@FileParameters("src/test/AdminRegisterUserDetailsFailures.csv")
+	@FileParameters("src/Excel/AdminRegisterUserDetailsFailures.csv")
 	public void testAdminTestUserDetailFails(String firstName, String middleName, String lastName, String sex,
 			String dob, String address, String email, String phoneNum, String dlNum, String expiryDate, String regNum,
 			String utaId, String expectedErrorMsg, String expectedFirstNameError, String expectedMiddleNameError,
@@ -119,7 +122,7 @@ public class AdminTest_Fail extends BusinessFunctions {
 	}
 	
 	@Test
-	@FileParameters("src/test/AdminRegisterLoginFailures.csv")
+	@FileParameters("src/Excel/AdminRegisterLoginFailures.csv")
 	public void AdminLoginFail(String userName, String password, String expectedErrorMsg, String expectedUserNameError, String expectedPasswordError){
 		
 		if (TestDAO.userExists("User7")) {

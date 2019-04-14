@@ -20,6 +20,7 @@ public class ParkingUserTest_Good extends BusinessFunctions {
   private boolean acceptNextAlert = true;
   private StringBuffer verificationErrors = new StringBuffer();
   private BusinessFunctions functions = new BusinessFunctions();
+  private UsersDAO UsersDAO;
   
   private String appUrl;
   private String sharedUIMapPath;
@@ -38,6 +39,7 @@ public class ParkingUserTest_Good extends BusinessFunctions {
     appUrl = prop.getProperty("AppUrl");
     sharedUIMapPath = prop.getProperty("SharedUIMapPath");
     prop.load(new FileInputStream(sharedUIMapPath));
+    UsersDAO = new UsersDAO();
   }
 
   
@@ -128,8 +130,7 @@ public class ParkingUserTest_Good extends BusinessFunctions {
     	
     }
     //functions.Login(driver, "toshaltest", "Toshal123.");
-    functions.makeReservation(driver, "2019-04-13 23:00:00", "2019-04-13 23:15:00", "Nedderman", "Basic", 1 , 3, "4238000023456780", "12", "2020", "213");
-
+    functions.makeReservation(driver, "2019-04-14 03:00:00", "2019-04-14 03:15:00", "Hello", "Basic", 2 , 4, "4238000023456780", "12", "2020", "213");
   }
 
   @After
