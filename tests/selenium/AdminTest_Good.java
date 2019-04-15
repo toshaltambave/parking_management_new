@@ -35,13 +35,16 @@ public class AdminTest_Good extends BusinessFunctions {
 		   driver = new FirefoxDriver();
 //		System.setProperty("webdriver.chrome.driver", "C:\\ChromeDriver\\chromedriver.exe");
 //		driver = new ChromeDriver();
-		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		prop = new Properties();
 		prop.load(new FileInputStream("./Configuration/Configuration.properties"));
+		int timewait = (Integer.parseInt(prop.getProperty("wait_time")));
+		driver.manage().timeouts().implicitlyWait(timewait, TimeUnit.SECONDS);
 		appUrl = prop.getProperty("AppUrl");
 		sharedUIMapPath = prop.getProperty("SharedUIMapPath");
 		prop.load(new FileInputStream(sharedUIMapPath));
-
+		if (TestDAO.userExists("User6")) {
+			TestDAO.deleteUser("User6");
+		}
 		if (!TestDAO.userExists("User6")) {
 			registerUser("User6");
 		}
@@ -53,7 +56,7 @@ public class AdminTest_Good extends BusinessFunctions {
 	}
 
 	@Test
-	@FileParameters("src/Excel/AdminGoodTest.csv")
+	@FileParameters("tests/Excel/AdminGoodTest.csv")
 	public void testAdminTestGood(String userName, String password, String confirmPassword, String role,
 			String permitType, String firstName, String middleName, String lastName, String sex, String dayOfBirth,
 			String address, String email, String phoneNum, String dlNum, String dayOfExpiry, String regNum,
@@ -83,38 +86,38 @@ public class AdminTest_Good extends BusinessFunctions {
 		}
 	}
 
-	private boolean isElementPresent(By by) {
-		try {
-			driver.findElement(by);
-			return true;
-		} catch (NoSuchElementException e) {
-			return false;
-		}
-	}
-
-	private boolean isAlertPresent() {
-		try {
-			driver.switchTo().alert();
-			return true;
-		} catch (NoAlertPresentException e) {
-			return false;
-		}
-	}
-
-	private String closeAlertAndGetItsText() {
-		try {
-			Alert alert = driver.switchTo().alert();
-			String alertText = alert.getText();
-			if (acceptNextAlert) {
-				alert.accept();
-			} else {
-				alert.dismiss();
-			}
-			return alertText;
-		} finally {
-			acceptNextAlert = true;
-		}
-	}
+//	private boolean isElementPresent(By by) {
+//		try {
+//			driver.findElement(by);
+//			return true;
+//		} catch (NoSuchElementException e) {
+//			return false;
+//		}
+//	}
+//
+//	private boolean isAlertPresent() {
+//		try {
+//			driver.switchTo().alert();
+//			return true;
+//		} catch (NoAlertPresentException e) {
+//			return false;
+//		}
+//	}
+//
+//	private String closeAlertAndGetItsText() {
+//		try {
+//			Alert alert = driver.switchTo().alert();
+//			String alertText = alert.getText();
+//			if (acceptNextAlert) {
+//				alert.accept();
+//			} else {
+//				alert.dismiss();
+//			}
+//			return alertText;
+//		} finally {
+//			acceptNextAlert = true;
+//		}
+//	}
 
 	private void registerUser(String userName) {
 		driver.get(appUrl);

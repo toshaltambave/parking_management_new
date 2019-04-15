@@ -38,7 +38,7 @@ public class UsersTest {
 	}
 
 	@Test
-	@FileParameters("src/test/UsersTest.csv")
+	@FileParameters("tests/test/UsersTest.csv")
 	public void test(Integer userId, String action, String userName, String hashedPassword, String confirmPassword,
 			String role, String permitType, boolean isRevoked, boolean mockBoolean, String expectedErrorMsg,
 			String expectedUserNameError, String expectedHashPasswordError, String expectedConfirmPasswordError,

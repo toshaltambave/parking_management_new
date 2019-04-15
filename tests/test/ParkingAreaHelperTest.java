@@ -52,7 +52,7 @@ public class ParkingAreaHelperTest {
 	}
 
 	@Test
-	@FileParameters("src/test/ParkingAreaHelperTest.csv")
+	@FileParameters("tests/test/ParkingAreaHelperTest.csv")
 	public void test(String action, String areaName, String permitType, String numberofSpots, String floorNumber,
 			String expectedErrorMsg, String expectedAreaNameError, String expectedPermitTypeError,
 			String expectedFloorNumberError, String expectedNumOfSpotsError) {

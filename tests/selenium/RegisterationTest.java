@@ -42,16 +42,18 @@ public class RegisterationTest extends BusinessFunctions {
 		  //FireFox Driver
 	    System.setProperty("webdriver.firefox.marionette", "C:\\GeckoSelenium\\geckodriver.exe");
 	    driver = new FirefoxDriver();
-	    driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+//	    driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	    prop = new Properties();
 	    prop.load(new FileInputStream("./Configuration/Configuration.properties"));
+		int timewait = (Integer.parseInt(prop.getProperty("wait_time")));
+		driver.manage().timeouts().implicitlyWait(timewait, TimeUnit.SECONDS);
 	    appUrl = prop.getProperty("AppUrl");
 	    sharedUIMapPath = prop.getProperty("SharedUIMapPath");
 	    prop.load(new FileInputStream(sharedUIMapPath));
   }
   
   @Test
-  @FileParameters("src/Excel/Registration.csv")
+  @FileParameters("tests/Excel/Registration.csv")
   public void testParkingUserError(String username, String password, String confirmpassword, String role, String permitType, 
 		  String firstname, String middlename, String lastname, String sex, String dob, String address, String email, String phone, String dlno, String dateofexpiry, String regno, String UTAID) throws Exception { 
 	driver.get(appUrl);

@@ -35,9 +35,11 @@ public class ParkingManagerTest_Good extends BusinessFunctions {
 		   driver = new FirefoxDriver();
 //		System.setProperty("webdriver.chrome.driver", "C:\\ChromeDriver\\chromedriver.exe");
 //		driver = new ChromeDriver();
-		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+//		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		prop = new Properties();
 		prop.load(new FileInputStream("./Configuration/Configuration.properties"));
+		int timewait = (Integer.parseInt(prop.getProperty("wait_time")));
+		driver.manage().timeouts().implicitlyWait(timewait, TimeUnit.SECONDS);
 		appUrl = prop.getProperty("AppUrl");
 		sharedUIMapPath = prop.getProperty("SharedUIMapPath");
 		prop.load(new FileInputStream(sharedUIMapPath));
@@ -53,7 +55,7 @@ public class ParkingManagerTest_Good extends BusinessFunctions {
 	}
 
 	@Test
-	@FileParameters("src/Excel/ParkingManagerGoodTest.csv")
+	@FileParameters("tests/Excel/ParkingManagerGoodTest.csv")
 	public void testParkingManagerTestGood(String userName, String password, String confirmPassword, String role,
 			String permitType, String firstName, String middleName, String lastName, String sex, String dayOfBirth,
 			String address, String email, String phoneNum, String dlNum, String dayOfExpiry, String regNum,
