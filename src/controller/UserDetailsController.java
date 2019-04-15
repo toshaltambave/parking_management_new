@@ -31,9 +31,10 @@ public class UserDetailsController extends HttpServlet {
 		HttpSession session = request.getSession();
 		listSex(request,response);
 		String action = request.getParameter("action");
-		if (action.equalsIgnoreCase("listUsers")) {
-			handleListUser(request, response, session);
-		} else if (action.equalsIgnoreCase("search")) {
+//		if (action.equalsIgnoreCase("listUsers")) {
+//			handleListUser(request, response, session);
+//		} 
+		if (action.equalsIgnoreCase("search")) {
 			handleSearch(request, response);
 		} else // redirect all other gets to post
 			doPost(request, response);
@@ -98,13 +99,13 @@ public class UserDetailsController extends HttpServlet {
 				request.getParameter("utaid"));
 	}
 
-	private void handleListUser(HttpServletRequest request, HttpServletResponse response, HttpSession session)
-			throws ServletException, IOException {
-		ArrayList<Users> usersInDB = new ArrayList<Users>();
-		usersInDB = UsersDAO.listUsers();
-		session.setAttribute("USERS", usersInDB);
-		getServletContext().getRequestDispatcher("/listUser.jsp").forward(request, response);
-	}
+//	private void handleListUser(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+//			throws ServletException, IOException {
+//		ArrayList<Users> usersInDB = new ArrayList<Users>();
+//		usersInDB = UsersDAO.listUsers();
+//		session.setAttribute("USERS", usersInDB);
+//		getServletContext().getRequestDispatcher("/listUser.jsp").forward(request, response);
+//	}
 
 	private String handleSaveUserDetails(HttpServletRequest request, String action, String url, HttpSession session,
 			UserDetails userdetails, UserDetailsErrorMsgs errorMsgs) {

@@ -55,7 +55,7 @@ public class AdminTest_Fail extends BusinessFunctions {
 	 */
 	@Test
 	@FileParameters("tests/Excel/AdminRegisterFailures.csv")
-	public void testAdminTestFail(String userName, String password, String confirmPassword, String role,
+	public void testAdminRegisterTestFail(String userName, String password, String confirmPassword, String role,
 			String permitType, String exceptedErrorMsg, String expectedUsernameError, String expectedPasswordError,
 			String expectedConfirmPaswordError) throws Exception {
 		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
@@ -151,7 +151,7 @@ public class AdminTest_Fail extends BusinessFunctions {
 	public void testAdminTestLoginGood(String userName, String password, String confirmPassword, String role,
 			String permitType, String firstName, String middleName, String lastName, String sex, String dayOfBirth,
 			String address, String email, String phoneNum, String dlNum, String dayOfExpiry, String regNum,
-			String utaId, String userToRevoke,String lastNameSearch) throws Exception {
+			String utaId, String userToRevoke,String lastNameSearch,String userRoleChange,String chgRole) throws Exception {
 		driver.get(appUrl);
 		assertTrue(!isElementPresent(driver, "Txt_Register_Success"));
 		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
@@ -170,6 +170,8 @@ public class AdminTest_Fail extends BusinessFunctions {
 		functions.revokeUser(driver, userToRevoke);
 		driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
 		functions.unrevokeUser(driver, userToRevoke);
+		driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
+		functions.setRole(driver, userRoleChange, chgRole);
 		driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
 		driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
 	}
