@@ -1,4 +1,4 @@
-CREATE DATABASE  IF NOT EXISTS `parking_management` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */;
+CREATE DATABASE  IF NOT EXISTS `parking_management` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci */;
 USE `parking_management`;
 -- MySQL dump 10.13  Distrib 8.0.14, for Win64 (x86_64)
 --
@@ -23,13 +23,13 @@ USE `parking_management`;
 
 DROP TABLE IF EXISTS `parking_area`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `parking_area` (
   `Area_Id` int(11) NOT NULL AUTO_INCREMENT,
   `Area_Name` varchar(45) NOT NULL,
   PRIMARY KEY (`Area_Id`),
   UNIQUE KEY `Area_Name_UNIQUE` (`Area_Name`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -48,7 +48,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `parking_area_floors`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `parking_area_floors` (
   `Area_Id` int(11) NOT NULL,
   `Floor_Number` int(11) NOT NULL,
@@ -58,7 +58,7 @@ CREATE TABLE `parking_area_floors` (
   KEY `floor_index` (`Floor_Number`),
   KEY `permit_index` (`PermitType`),
   CONSTRAINT `parking_area_floor_FK` FOREIGN KEY (`Area_Id`) REFERENCES `parking_area` (`Area_Id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -77,7 +77,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `parking_spots`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `parking_spots` (
   `Area_Id` int(11) NOT NULL,
   `Floor_Number` int(11) NOT NULL,
@@ -92,7 +92,7 @@ CREATE TABLE `parking_spots` (
   CONSTRAINT `parking_permit_type_FK` FOREIGN KEY (`PermitType`) REFERENCES `parking_area_floors` (`PermitType`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `parking_slot_area_FK` FOREIGN KEY (`Area_Id`) REFERENCES `parking_area` (`Area_Id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `parking_slot_floor_FK` FOREIGN KEY (`Floor_Number`) REFERENCES `parking_area_floors` (`Floor_Number`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2034 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2034 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -111,7 +111,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `reservations`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `reservations` (
   `Reservation_Id` int(11) NOT NULL AUTO_INCREMENT,
   `Spot_UID` int(11) NOT NULL,
@@ -130,7 +130,7 @@ CREATE TABLE `reservations` (
   KEY `reservations_systems_users_FK` (`User_Id`),
   CONSTRAINT `Fk_Spot_UID` FOREIGN KEY (`Spot_UID`) REFERENCES `parking_spots` (`Spot_UID`),
   CONSTRAINT `reservations_systems_users_FK` FOREIGN KEY (`User_Id`) REFERENCES `system_users` (`User_Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -149,7 +149,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `system_users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `system_users` (
   `User_Id` int(11) NOT NULL AUTO_INCREMENT,
   `UserName` varchar(10) NOT NULL,
@@ -159,7 +159,7 @@ CREATE TABLE `system_users` (
   `PermitType` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`User_Id`),
   UNIQUE KEY `UserName_UNIQUE` (`UserName`)
-) ENGINE=InnoDB AUTO_INCREMENT=127 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=127 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -178,7 +178,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `user_details`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `user_details` (
   `User_Id` int(11) NOT NULL,
   `FirstName` varchar(45) NOT NULL,
@@ -195,7 +195,7 @@ CREATE TABLE `user_details` (
   `uta_Id` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`User_Id`),
   CONSTRAINT `User_Id_FK` FOREIGN KEY (`User_Id`) REFERENCES `system_users` (`User_Id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
