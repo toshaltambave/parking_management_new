@@ -20,7 +20,7 @@ import test.Data.TestDAO;
 @RunWith(JUnitParamsRunner.class)
 public class AdminTest_Fail extends BusinessFunctions {
 	private WebDriver driver;
-	private boolean acceptNextAlert = true;
+//	private boolean acceptNextAlert = true;
 	private StringBuffer verificationErrors = new StringBuffer();
 	private BusinessFunctions functions = new BusinessFunctions();
 
@@ -125,7 +125,7 @@ public class AdminTest_Fail extends BusinessFunctions {
 	
 	@Test
 	@FileParameters("tests/Excel/AdminRegisterLoginFailures.csv")
-	public void AdminLoginFail(String userName, String password, String expectedErrorMsg, String expectedUserNameError, String expectedPasswordError){
+	public void testAdminLoginFail(String userName, String password, String expectedErrorMsg, String expectedUserNameError, String expectedPasswordError){
 		
 		if (TestDAO.userExists("User7")) {
 			TestDAO.deleteUser("User7");
@@ -148,7 +148,7 @@ public class AdminTest_Fail extends BusinessFunctions {
 
 	@Test
 	@FileParameters("tests/Excel/AdminGoodTest.csv")
-	public void testAdminTestGood(String userName, String password, String confirmPassword, String role,
+	public void testAdminTestLoginGood(String userName, String password, String confirmPassword, String role,
 			String permitType, String firstName, String middleName, String lastName, String sex, String dayOfBirth,
 			String address, String email, String phoneNum, String dlNum, String dayOfExpiry, String regNum,
 			String utaId, String userToRevoke) throws Exception {
@@ -188,36 +188,36 @@ public class AdminTest_Fail extends BusinessFunctions {
 		}
 	}
 
-	private boolean isElementPresent(By by) {
-		try {
-			driver.findElement(by);
-			return true;
-		} catch (NoSuchElementException e) {
-			return false;
-		}
-	}
-
-	private boolean isAlertPresent() {
-		try {
-			driver.switchTo().alert();
-			return true;
-		} catch (NoAlertPresentException e) {
-			return false;
-		}
-	}
-
-	private String closeAlertAndGetItsText() {
-		try {
-			Alert alert = driver.switchTo().alert();
-			String alertText = alert.getText();
-			if (acceptNextAlert) {
-				alert.accept();
-			} else {
-				alert.dismiss();
-			}
-			return alertText;
-		} finally {
-			acceptNextAlert = true;
-		}
-	}
+//	private boolean isElementPresent(By by) {
+//		try {
+//			driver.findElement(by);
+//			return true;
+//		} catch (NoSuchElementException e) {
+//			return false;
+//		}
+//	}
+//
+//	private boolean isAlertPresent() {
+//		try {
+//			driver.switchTo().alert();
+//			return true;
+//		} catch (NoAlertPresentException e) {
+//			return false;
+//		}
+//	}
+//
+//	private String closeAlertAndGetItsText() {
+//		try {
+//			Alert alert = driver.switchTo().alert();
+//			String alertText = alert.getText();
+//			if (acceptNextAlert) {
+//				alert.accept();
+//			} else {
+//				alert.dismiss();
+//			}
+//			return alertText;
+//		} finally {
+//			acceptNextAlert = true;
+//		}
+//	}
 }

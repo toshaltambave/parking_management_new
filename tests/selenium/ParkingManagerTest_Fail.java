@@ -20,7 +20,7 @@ import test.Data.TestDAO;
 @RunWith(JUnitParamsRunner.class)
 public class ParkingManagerTest_Fail extends BusinessFunctions {
 	private WebDriver driver;
-	private boolean acceptNextAlert = true;
+//	private boolean acceptNextAlert = true;
 	private StringBuffer verificationErrors = new StringBuffer();
 	private BusinessFunctions functions = new BusinessFunctions();
 
@@ -147,7 +147,7 @@ public class ParkingManagerTest_Fail extends BusinessFunctions {
 	
 	@Test
 	@FileParameters("tests/Excel/ParkingManagerGoodTest.csv")
-	public void testParkingManagerTestGood(String userName, String password, String confirmPassword, String role,
+	public void testParkingManagerLoginHappy(String userName, String password, String confirmPassword, String role,
 			String permitType, String firstName, String middleName, String lastName, String sex, String dayOfBirth,
 			String address, String email, String phoneNum, String dlNum, String dayOfExpiry, String regNum,
 			String utaId, String userToSearch) throws Exception {
@@ -188,36 +188,36 @@ public class ParkingManagerTest_Fail extends BusinessFunctions {
 		}
 	}
 
-	private boolean isElementPresent(By by) {
-		try {
-			driver.findElement(by);
-			return true;
-		} catch (NoSuchElementException e) {
-			return false;
-		}
-	}
+//	private boolean isElementPresent(By by) {
+//		try {
+//			driver.findElement(by);
+//			return true;
+//		} catch (NoSuchElementException e) {
+//			return false;
+//		}
+//	}
 
-	private boolean isAlertPresent() {
-		try {
-			driver.switchTo().alert();
-			return true;
-		} catch (NoAlertPresentException e) {
-			return false;
-		}
-	}
-
-	private String closeAlertAndGetItsText() {
-		try {
-			Alert alert = driver.switchTo().alert();
-			String alertText = alert.getText();
-			if (acceptNextAlert) {
-				alert.accept();
-			} else {
-				alert.dismiss();
-			}
-			return alertText;
-		} finally {
-			acceptNextAlert = true;
-		}
-	}
+//	private boolean isAlertPresent() {
+//		try {
+//			driver.switchTo().alert();
+//			return true;
+//		} catch (NoAlertPresentException e) {
+//			return false;
+//		}
+//	}
+//
+//	private String closeAlertAndGetItsText() {
+//		try {
+//			Alert alert = driver.switchTo().alert();
+//			String alertText = alert.getText();
+//			if (acceptNextAlert) {
+//				alert.accept();
+//			} else {
+//				alert.dismiss();
+//			}
+//			return alertText;
+//		} finally {
+//			acceptNextAlert = true;
+//		}
+//	}
 }
