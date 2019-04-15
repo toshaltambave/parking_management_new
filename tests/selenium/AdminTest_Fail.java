@@ -151,7 +151,7 @@ public class AdminTest_Fail extends BusinessFunctions {
 	public void testAdminTestLoginGood(String userName, String password, String confirmPassword, String role,
 			String permitType, String firstName, String middleName, String lastName, String sex, String dayOfBirth,
 			String address, String email, String phoneNum, String dlNum, String dayOfExpiry, String regNum,
-			String utaId, String userToRevoke) throws Exception {
+			String utaId, String userToRevoke,String lastNameSearch) throws Exception {
 		driver.get(appUrl);
 		assertTrue(!isElementPresent(driver, "Txt_Register_Success"));
 		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
@@ -164,7 +164,13 @@ public class AdminTest_Fail extends BusinessFunctions {
 		functions.searchUserbyUserName(driver, userToRevoke);
 		driver.manage().window().setSize(new Dimension(1936, 1056));
 		driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
+		functions.searchUserbyLastName(driver, lastNameSearch);
+		driver.manage().window().setSize(new Dimension(1936, 1056));
+		driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
 		functions.revokeUser(driver, userToRevoke);
+		driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
+		functions.unrevokeUser(driver, userToRevoke);
+		driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
 		driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
 	}
 	

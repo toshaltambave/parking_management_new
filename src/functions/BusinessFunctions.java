@@ -145,6 +145,13 @@ public class BusinessFunctions {
 	    driver.findElement(By.id(prop.getProperty("Btn_Search"))).click();
 	}
 	
+	public void searchUserbyLastName(WebDriver driver, String lastName){
+	    driver.findElement(By.id(prop.getProperty("Btn_Search_For_User"))).click();
+	    new Select(driver.findElement(By.id(prop.getProperty("Drp_Dwn_Select_Search_Type")))).selectByVisibleText("LastName");
+	    new Select(driver.findElement(By.id(prop.getProperty("Drp_Dwn_Select_User")))).selectByVisibleText(lastName);
+	    driver.findElement(By.id(prop.getProperty("Btn_Search"))).click();
+	}
+	
 	public void revokeUser(WebDriver driver, String userName){
 	    driver.findElement(By.id(prop.getProperty("Btn_Revoke_User"))).click();
 	    assertTrue(!isElementPresent(driver, "Text_Revoke_Success"));
@@ -154,6 +161,29 @@ public class BusinessFunctions {
 	    assertTrue(driver.findElement(By.id("msgRevSuccess")).getText().equals("User has Been Revoked."));
 	    driver.manage().window().setSize(new Dimension(1936,1056));
 	    driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page_Revoke"))).click();
+		if (prop.getProperty("test_delay").equals("delay"))
+		{	
+			try {
+				Thread.sleep((Integer.parseInt(prop.getProperty("thread_sleep"))));
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void unrevokeUser(WebDriver driver, String userName){
+	    driver.findElement(By.id(prop.getProperty("Btn_UnRevoke_User"))).click();
+	    assertTrue(!isElementPresent(driver, "Text_UnRevoke_Success"));
+	    new Select(driver.findElement(By.id(prop.getProperty("Drp_Dwn_Select_Search_Type_UnRevoke")))).selectByVisibleText("UserName");
+	    new Select(driver.findElement(By.id(prop.getProperty("Drp_Dwn_Select_User_UnRevoke")))).selectByVisibleText(userName);
+	    driver.findElement(By.id(prop.getProperty("Btn_UnRevoke"))).click();
+	    assertTrue(driver.findElement(By.id(prop.getProperty("Text_UnRevoke_Success"))).getText().equals("User has Been UnRevoked."));
+	    driver.manage().window().setSize(new Dimension(1936,1056));
+	    driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page_UnRevoke"))).click();
 		if (prop.getProperty("test_delay").equals("delay"))
 		{	
 			try {
