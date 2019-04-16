@@ -30,8 +30,8 @@ public class UsersController extends HttpServlet {
 		listPermitTypes(request,response);
 		listRoles(request,response);
 		// List users
-		if(action != null)
-		{
+//		if(action != null)
+//		{
 //			if (action.equalsIgnoreCase("listUsers")) {
 //				ArrayList<Users> usersInDB = new ArrayList<Users>();
 //				usersInDB = UsersDAO.listUsers();
@@ -42,7 +42,7 @@ public class UsersController extends HttpServlet {
 //			} 
 //			else // redirect all other gets to post
 				doPost(request, response);
-		}
+//		}
 
 	}
 	
@@ -206,10 +206,10 @@ public class UsersController extends HttpServlet {
 			{
 				url = "/parkingUserHomePage.jsp";				
 			}
-			else
-			{
-				url = "/index.jsp";
-			}
+//			else
+//			{
+//				url = "/index.jsp";
+//			}
 		}
 		//Login Failed
 		else
@@ -220,10 +220,10 @@ public class UsersController extends HttpServlet {
 				session.setAttribute("loginerrorMsgs", errorMsgs);
 				url = "/index.jsp";
 			}
-			else
-			{
-				System.out.println("Login Failed.");
-			}
+//			else
+//			{
+//				System.out.println("Login Failed.");
+//			}
 		}
 
 		return url;

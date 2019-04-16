@@ -68,4 +68,28 @@ public class TestDAO {
 		}
 		return false;
 	}
+	
+	public static void deleteReservation(String username) {
+		Statement stmt = null;
+		Connection conn = SQLConnection.getDBConnection();
+
+		try {
+			stmt = conn.createStatement();
+			PreparedStatement pst = null;
+			String sql = "DELETE FROM parking_management.reservations WHERE User_Id = (SELECT User_Id FROM parking_management.system_users where username=?)";
+			pst = conn.prepareStatement(sql);
+			pst.setString(1, username);
+			pst.executeUpdate();
+			conn.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

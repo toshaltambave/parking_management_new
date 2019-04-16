@@ -1,10 +1,14 @@
 package selenium;
 
 import java.io.FileInputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import org.junit.*;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 
 import static org.junit.Assert.*;
 import org.openqa.selenium.*;
@@ -21,7 +25,8 @@ import test.Data.TestDAO;
 import util.PasswordUtility;
 
 @RunWith(JUnitParamsRunner.class)
-public class ParkingUserTest_Fail extends BusinessFunctions {
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+public class SeleniumTC03 extends BusinessFunctions {
 	private WebDriver driver;
 //	private boolean acceptNextAlert = true;
 	private StringBuffer verificationErrors = new StringBuffer();
@@ -54,6 +59,7 @@ public class ParkingUserTest_Fail extends BusinessFunctions {
 		prop.load(new FileInputStream(sharedUIMapPath));
 	    UsersDAO = new UsersDAO();
 		driver.get(appUrl);
+		driver.manage().window().setSize(new Dimension(1440,850));
 	}
 
 
@@ -65,7 +71,7 @@ public class ParkingUserTest_Fail extends BusinessFunctions {
 	 */
 	@Test
 	@FileParameters("tests/Excel/ParkingUserRegisterFailures.csv")
-	public void testParkingUserTestFail(String userName, String password, String confirmPassword, String role,
+	public void aParkingUserRegistration(String userName, String password, String confirmPassword, String role,
 			String permitType, String exceptedErrorMsg, String expectedUsernameError, String expectedPasswordError,
 			String expectedConfirmPaswordError) throws Exception {
 		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
@@ -97,7 +103,7 @@ public class ParkingUserTest_Fail extends BusinessFunctions {
 
 	@Test
 	@FileParameters("tests/Excel/ParkingUserRegisterUserDetailsFailures.csv")
-	public void testParkingUserTestUserDetailFails(String firstName, String middleName, String lastName, String sex,
+	public void bParkingUserDetails(String firstName, String middleName, String lastName, String sex,
 			String dob, String address, String email, String phoneNum, String dlNum, String expiryDate, String regNum,
 			String utaId, String expectedErrorMsg, String expectedFirstNameError, String expectedMiddleNameError,
 			String expectedLastNameError, String expectedDobError, String expectedAddressError,
@@ -135,7 +141,7 @@ public class ParkingUserTest_Fail extends BusinessFunctions {
 	
 	@Test
 	@FileParameters("tests/Excel/ParkingUserRegisterLoginFailures.csv")
-	public void ParkingUserLoginFail(String userName, String password, String expectedErrorMsg, String expectedUserNameError, String expectedPasswordError){
+	public void cParkingUserLogin(String userName, String password, String expectedErrorMsg, String expectedUserNameError, String expectedPasswordError){
 		
 		if (TestDAO.userExists("PUUser1")) {
 			TestDAO.deleteUser("PUUser1");
@@ -171,7 +177,7 @@ public class ParkingUserTest_Fail extends BusinessFunctions {
 	
 	  @Test
 	  @FileParameters("tests/Excel/ParkingUserGoodTest.csv")
-	  public void testReservation(String userName, String password, String confirmPassword, String role,
+	  public void dParkingUserHappy(String userName, String password, String confirmPassword, String role,
 				String permitType, String firstName, String middleName, String lastName, String sex, String dayOfBirth,
 				String address, String email, String phoneNum, String dlNum, String dayOfExpiry, String regNum,
 				String utaId, String userToSearch) throws Exception {
@@ -184,7 +190,17 @@ public class ParkingUserTest_Fail extends BusinessFunctions {
 		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Register_Success"))).getText()
 				.equals("Registered Successfully."));
 		functions.Login(driver, userName, password);
-	    functions.makeReservation(driver, "2019-04-15 23:00:00", "2019-04-15 23:15:00", "Nedderman", "Basic", 1 , 4, "4238000023456780", "12", "2020", "213");
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
+		String startdate = dateFormat.format(date) + " 23:00:00";
+		String enddate = dateFormat.format(date) + " 23:15:00";
+	    functions.makeReservation(driver, startdate, enddate, "Nedderman", "Basic", 1 , 4, "4238000023456780", "12", "2020", "213", true, true, true);
+	    startdate = dateFormat.format(date) + " 22:15:00";
+	    enddate = dateFormat.format(date) + " 22:30:00";
+	    functions.makeReservation(driver, startdate, enddate, "Nedderman", "Basic", 1 , 4, "4238000023456780", "12", "2020", "213", false, false, false);
+	    TestDAO.deleteReservation(userName);
+	    TestDAO.deleteUser(userName);
+	    driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
 	  }
 	
 	

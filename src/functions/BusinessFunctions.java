@@ -20,6 +20,7 @@ public class BusinessFunctions {
 		driver.findElement(By.id(prop.getProperty("Txt_Login_Username"))).sendKeys(userName);
 		driver.findElement(By.id(prop.getProperty("Txt_Login_Password"))).clear();
 		driver.findElement(By.id(prop.getProperty("Txt_Login_Password"))).sendKeys(password);
+		driver.findElement(By.id(prop.getProperty("Btn_Login_Login"))).click();
 		if (prop.getProperty("test_delay").equals("delay"))
 		{	
 			try {
@@ -32,7 +33,6 @@ public class BusinessFunctions {
 				e.printStackTrace();
 			}
 		}
-		driver.findElement(By.id(prop.getProperty("Btn_Login_Login"))).click();
 	}
 
 	public void Register(WebDriver driver, String userName, String password, String confirmPassword, String role, String permitType) {
@@ -44,6 +44,7 @@ public class BusinessFunctions {
 		driver.findElement(By.name(prop.getProperty("Txt_Register_ConfirmPassword"))).sendKeys(confirmPassword);
 		new Select(driver.findElement(By.id(prop.getProperty("Txt_Register_Role")))).selectByVisibleText(role);
 		new Select(driver.findElement(By.id(prop.getProperty("Txt_Register_PermitType")))).selectByVisibleText(permitType);
+		driver.findElement(By.id(prop.getProperty("Btn_Register_Register"))).click();
 		if (prop.getProperty("test_delay").equals("delay"))
 		{	
 			try {
@@ -56,7 +57,7 @@ public class BusinessFunctions {
 				e.printStackTrace();
 			}
 		}
-		driver.findElement(By.id(prop.getProperty("Btn_Register_Register"))).click();
+		
 	}
 
 	public void RegisterUserDetails(WebDriver driver, String firstName, String middleName, String lastName, String sex, String dob,
@@ -84,6 +85,7 @@ public class BusinessFunctions {
 		driver.findElement(By.id(prop.getProperty("Txt_UserDetails_REGNO"))).sendKeys(regNum);
 		driver.findElement(By.id(prop.getProperty("Txt_UserDetails_UTAID"))).clear();
 		driver.findElement(By.id(prop.getProperty("Txt_UserDetails_UTAID"))).sendKeys(utaId);
+		driver.findElement(By.id(prop.getProperty("Btn_UserDetails_Submit"))).click();
 		if (prop.getProperty("test_delay").equals("delay"))
 		{	
 			try {
@@ -96,11 +98,11 @@ public class BusinessFunctions {
 				e.printStackTrace();
 			}
 		}
-		driver.findElement(By.id(prop.getProperty("Btn_UserDetails_Submit"))).click();
+		
 	}
 	
 	
-	public void makeReservation(WebDriver driver, String start, String end, String area, String permitType, Integer floor, Integer spot, String card, String month, String year, String cvv ){
+	public void makeReservation(WebDriver driver, String start, String end, String area, String permitType, Integer floor, Integer spot, String card, String month, String year, String cvv, Boolean cartBool, Boolean cameraBool, Boolean historyBool){
 	    driver.findElement(By.id(prop.getProperty("Btn_Reservation_Reserve"))).click();
 	    driver.findElement(By.id(prop.getProperty("Txt_Reservation_StartTime"))).clear();
 		driver.findElement(By.id(prop.getProperty("Txt_Reservation_StartTime"))).sendKeys(start);
@@ -110,9 +112,15 @@ public class BusinessFunctions {
 	    driver.findElement(By.id(prop.getProperty("Btn_Reservation_Search"))).click();
 	    driver.findElement(By.id("btnReserveFloor"+floor+""+permitType)).click();
 	    driver.findElement(By.xpath("(//input[@id='btnReserveSpotID'])["+spot+"]")).click();
-	    driver.findElement(By.id(prop.getProperty("Btn_Reservation_Cart"))).click();
-	    driver.findElement(By.id(prop.getProperty("Btn_Reservation_Camera"))).click();
-	    driver.findElement(By.id(prop.getProperty("Btn_Reservation_History"))).click();
+	    if(cartBool){
+	    	driver.findElement(By.id(prop.getProperty("Btn_Reservation_Cart"))).click();
+	    }
+	    if(cameraBool){
+	    	driver.findElement(By.id(prop.getProperty("Btn_Reservation_Camera"))).click();
+	    }
+	    if(historyBool){
+	    	driver.findElement(By.id(prop.getProperty("Btn_Reservation_History"))).click();
+	    }
 	    driver.findElement(By.id(prop.getProperty("Btn_Reservation_Options"))).click();
 	    driver.findElement(By.id(prop.getProperty("Txt_Reservation_CardNumber"))).clear();
 	    driver.findElement(By.id(prop.getProperty("Txt_Reservation_CardNumber"))).sendKeys(card);
@@ -135,7 +143,7 @@ public class BusinessFunctions {
 			}
 		}
 	    driver.findElement(By.id(prop.getProperty("Btn_Reservation_PayReserve"))).click();
-		driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
+		
 	}
 	
 	public void searchUserbyUserName(WebDriver driver, String userName){
@@ -176,6 +184,24 @@ public class BusinessFunctions {
 		}
 	}
 	
+	public void searchUser(WebDriver driver){
+	    driver.findElement(By.id(prop.getProperty("Btn_Search_For_User"))).click();
+	    driver.findElement(By.id(prop.getProperty("Btn_Search"))).click();
+		if (prop.getProperty("test_delay").equals("delay"))
+		{	
+			try {
+				Thread.sleep((Integer.parseInt(prop.getProperty("thread_sleep"))));
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
 	public void revokeUser(WebDriver driver, String userName){
 	    driver.findElement(By.id(prop.getProperty("Btn_Revoke_User"))).click();
 	    assertTrue(!isElementPresent(driver, "Text_Revoke_Success"));
@@ -183,7 +209,7 @@ public class BusinessFunctions {
 	    new Select(driver.findElement(By.id(prop.getProperty("Drp_Dwn_Select_User_Revoke")))).selectByVisibleText(userName);
 	    driver.findElement(By.id(prop.getProperty("Btn_Revoke"))).click();
 	    assertTrue(driver.findElement(By.id("msgRevSuccess")).getText().equals("User has Been Revoked."));
-	    driver.manage().window().setSize(new Dimension(1936,1056));
+	    
 		if (prop.getProperty("test_delay").equals("delay"))
 		{	
 			try {
@@ -206,7 +232,6 @@ public class BusinessFunctions {
 	    new Select(driver.findElement(By.id(prop.getProperty("Drp_Dwn_Select_User_UnRevoke")))).selectByVisibleText(userName);
 	    driver.findElement(By.id(prop.getProperty("Btn_UnRevoke"))).click();
 	    assertTrue(driver.findElement(By.id(prop.getProperty("Text_UnRevoke_Success"))).getText().equals("User has Been UnRevoked."));
-	    driver.manage().window().setSize(new Dimension(1936,1056));
 		if (prop.getProperty("test_delay").equals("delay"))
 		{	
 			try {
@@ -252,7 +277,6 @@ public class BusinessFunctions {
 	    new Select(driver.findElement(By.id(prop.getProperty("Drp_Dwn_Select_Role_ChRole")))).selectByVisibleText(role);
 	    driver.findElement(By.id(prop.getProperty("Btn_ChRole"))).click();
 	    assertTrue(driver.findElement(By.id(prop.getProperty("Text_ChRole_Success"))).getText().equals("Role has changed for User."));
-	    driver.manage().window().setSize(new Dimension(1936,1056));
 		if (prop.getProperty("test_delay").equals("delay"))
 		{	
 			try {
