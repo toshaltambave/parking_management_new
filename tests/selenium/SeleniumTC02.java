@@ -16,11 +16,14 @@ import functions.BusinessFunctions;
 import junitparams.FileParameters;
 import junitparams.JUnitParamsRunner;
 import test.Data.TestDAO;
-
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runners.MethodSorters;
 @RunWith(JUnitParamsRunner.class)
-public class ParkingManagerTest_Fail extends BusinessFunctions {
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+public class SeleniumTC02 extends BusinessFunctions {
 	private WebDriver driver;
-	private boolean acceptNextAlert = true;
+//	private boolean acceptNextAlert = true;
 	private StringBuffer verificationErrors = new StringBuffer();
 	private BusinessFunctions functions = new BusinessFunctions();
 
@@ -35,14 +38,16 @@ public class ParkingManagerTest_Fail extends BusinessFunctions {
 		   driver = new FirefoxDriver();
 //		System.setProperty("webdriver.chrome.driver", "C:\\ChromeDriver\\chromedriver.exe");
 //		driver = new ChromeDriver();
-		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		prop = new Properties();
 		prop.load(new FileInputStream("./Configuration/Configuration.properties"));
+		int timewait = (Integer.parseInt(prop.getProperty("wait_time")));
+		driver.manage().timeouts().implicitlyWait(timewait, TimeUnit.SECONDS);
 		appUrl = prop.getProperty("AppUrl");
 		sharedUIMapPath = prop.getProperty("SharedUIMapPath");
 		prop.load(new FileInputStream(sharedUIMapPath));
 
 		driver.get(appUrl);
+		driver.manage().window().setSize(new Dimension(1440,850));
 	}
 
 	/**
@@ -52,8 +57,8 @@ public class ParkingManagerTest_Fail extends BusinessFunctions {
 	 * @throws Exception
 	 */
 	@Test
-	@FileParameters("src/Excel/ParkingManagerRegisterFailures.csv")
-	public void testParkingManagerTestFail(String userName, String password, String confirmPassword, String role,
+	@FileParameters("tests/Excel/ParkingManagerRegisterFailures.csv")
+	public void aParkingManagerRegistration(String userName, String password, String confirmPassword, String role,
 			String permitType, String exceptedErrorMsg, String expectedUsernameError, String expectedPasswordError,
 			String expectedConfirmPaswordError) throws Exception {
 		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
@@ -84,8 +89,8 @@ public class ParkingManagerTest_Fail extends BusinessFunctions {
 	}
 
 	@Test
-	@FileParameters("src/Excel/ParkingManagerRegisterUserDetailsFailures.csv")
-	public void testParkingManagerTestUserDetailFails(String firstName, String middleName, String lastName, String sex,
+	@FileParameters("tests/Excel/ParkingManagerRegisterUserDetailsFailures.csv")
+	public void bParkingManagerUserDetails(String firstName, String middleName, String lastName, String sex,
 			String dob, String address, String email, String phoneNum, String dlNum, String expiryDate, String regNum,
 			String utaId, String expectedErrorMsg, String expectedFirstNameError, String expectedMiddleNameError,
 			String expectedLastNameError, String expectedDobError, String expectedAddressError,
@@ -122,8 +127,8 @@ public class ParkingManagerTest_Fail extends BusinessFunctions {
 	}
 	
 	@Test
-	@FileParameters("src/Excel/ParkingManagerRegisterLoginFailures.csv")
-	public void ParkingManagerLoginFail(String userName, String password, String expectedErrorMsg, String expectedUserNameError, String expectedPasswordError){
+	@FileParameters("tests/Excel/ParkingManagerRegisterLoginFailures.csv")
+	public void cParkingManagerLogin(String userName, String password, String expectedErrorMsg, String expectedUserNameError, String expectedPasswordError){
 		
 		if (TestDAO.userExists("PMUser1")) {
 			TestDAO.deleteUser("PMUser1");
@@ -145,8 +150,8 @@ public class ParkingManagerTest_Fail extends BusinessFunctions {
 	}
 	
 	@Test
-	@FileParameters("src/Excel/ParkingManagerGoodTest.csv")
-	public void testParkingManagerTestGood(String userName, String password, String confirmPassword, String role,
+	@FileParameters("tests/Excel/ParkingManagerGoodTest.csv")
+	public void dParkingManagerHappy(String userName, String password, String confirmPassword, String role,
 			String permitType, String firstName, String middleName, String lastName, String sex, String dayOfBirth,
 			String address, String email, String phoneNum, String dlNum, String dayOfExpiry, String regNum,
 			String utaId, String userToSearch) throws Exception {
@@ -187,36 +192,36 @@ public class ParkingManagerTest_Fail extends BusinessFunctions {
 		}
 	}
 
-	private boolean isElementPresent(By by) {
-		try {
-			driver.findElement(by);
-			return true;
-		} catch (NoSuchElementException e) {
-			return false;
-		}
-	}
+//	private boolean isElementPresent(By by) {
+//		try {
+//			driver.findElement(by);
+//			return true;
+//		} catch (NoSuchElementException e) {
+//			return false;
+//		}
+//	}
 
-	private boolean isAlertPresent() {
-		try {
-			driver.switchTo().alert();
-			return true;
-		} catch (NoAlertPresentException e) {
-			return false;
-		}
-	}
-
-	private String closeAlertAndGetItsText() {
-		try {
-			Alert alert = driver.switchTo().alert();
-			String alertText = alert.getText();
-			if (acceptNextAlert) {
-				alert.accept();
-			} else {
-				alert.dismiss();
-			}
-			return alertText;
-		} finally {
-			acceptNextAlert = true;
-		}
-	}
+//	private boolean isAlertPresent() {
+//		try {
+//			driver.switchTo().alert();
+//			return true;
+//		} catch (NoAlertPresentException e) {
+//			return false;
+//		}
+//	}
+//
+//	private String closeAlertAndGetItsText() {
+//		try {
+//			Alert alert = driver.switchTo().alert();
+//			String alertText = alert.getText();
+//			if (acceptNextAlert) {
+//				alert.accept();
+//			} else {
+//				alert.dismiss();
+//			}
+//			return alertText;
+//		} finally {
+//			acceptNextAlert = true;
+//		}
+//	}
 }

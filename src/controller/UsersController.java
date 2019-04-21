@@ -30,19 +30,19 @@ public class UsersController extends HttpServlet {
 		listPermitTypes(request,response);
 		listRoles(request,response);
 		// List users
-		if(action != null)
-		{
-			if (action.equalsIgnoreCase("listUsers")) {
-				ArrayList<Users> usersInDB = new ArrayList<Users>();
-				usersInDB = UsersDAO.listUsers();
-				getServletContext().getRequestDispatcher("/RevokeUser.jsp").forward(request, response);
-			}
-			else if(action.equalsIgnoreCase("search")){
-				searchuserdetails(request);
-			} 
-			else // redirect all other gets to post
+//		if(action != null)
+//		{
+//			if (action.equalsIgnoreCase("listUsers")) {
+//				ArrayList<Users> usersInDB = new ArrayList<Users>();
+//				usersInDB = UsersDAO.listUsers();
+//				getServletContext().getRequestDispatcher("/RevokeUser.jsp").forward(request, response);
+//			}
+//			else if(action.equalsIgnoreCase("search")){
+//				searchuserdetails(request);
+//			} 
+//			else // redirect all other gets to post
 				doPost(request, response);
-		}
+//		}
 
 	}
 	
@@ -75,21 +75,21 @@ public class UsersController extends HttpServlet {
 		getServletContext().getRequestDispatcher(url).forward(request, response);
 	}
 	
-	private void searchuserdetails(HttpServletRequest request) {
-		String type = request.getParameter("type");
-		String query = request.getParameter("query");
-		
-		if ("UserName".equals(type)) {
-			List<Users> userList = new ArrayList<Users>();
-			userList = UsersDAO.searchByUsername(query);
-			for(Users user: userList){
-				System.out.println(user.getUsername());
-			}
-		} else if ("LastName".equals(type)) {
-			System.out.println("Search by LastName");
-		}
-	}
-	
+//	private void searchuserdetails(HttpServletRequest request) {
+//		String type = request.getParameter("type");
+//		String query = request.getParameter("query");
+//		
+//		if ("UserName".equals(type)) {
+//			List<Users> userList = new ArrayList<Users>();
+//			userList = UsersDAO.searchByUsername(query);
+//			for(Users user: userList){
+//				System.out.println(user.getUsername());
+//			}
+//		} else if ("LastName".equals(type)) {
+//			System.out.println("Search by LastName");
+//		}
+//	}
+//	
 	private void getUserParam(HttpServletRequest request) {
 		user.setUser(request.getParameter("username"), request.getParameter("hashedPassword"),
 				 request.getParameter("confirmPassword"),request.getParameter("role"),
@@ -204,9 +204,12 @@ public class UsersController extends HttpServlet {
 			}
 			else if("ParkingUser".equalsIgnoreCase(user.getRole()))
 			{
-				url = "/parkingUserHomePage.jsp";
-				
+				url = "/parkingUserHomePage.jsp";				
 			}
+//			else
+//			{
+//				url = "/index.jsp";
+//			}
 		}
 		//Login Failed
 		else
@@ -217,6 +220,10 @@ public class UsersController extends HttpServlet {
 				session.setAttribute("loginerrorMsgs", errorMsgs);
 				url = "/index.jsp";
 			}
+//			else
+//			{
+//				System.out.println("Login Failed.");
+//			}
 		}
 
 		return url;

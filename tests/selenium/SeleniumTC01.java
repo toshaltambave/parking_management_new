@@ -1,10 +1,14 @@
 package selenium;
 
 import java.io.FileInputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import org.junit.*;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 
 import static org.junit.Assert.*;
 import org.openqa.selenium.*;
@@ -21,15 +25,17 @@ import test.Data.TestDAO;
 import util.PasswordUtility;
 
 @RunWith(JUnitParamsRunner.class)
-public class ParkingUserTest_Fail extends BusinessFunctions {
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+public class SeleniumTC01 extends BusinessFunctions {
 	private WebDriver driver;
-	private boolean acceptNextAlert = true;
+//	private boolean acceptNextAlert = true;
 	private StringBuffer verificationErrors = new StringBuffer();
 	private BusinessFunctions functions = new BusinessFunctions();
 
 	private String appUrl;
 	private String sharedUIMapPath;
-	  private UsersDAO UsersDAO;
+	private UsersDAO UsersDAO;
+//	private String username,password;
 
 	@Before
 	public void setUp() throws Exception {
@@ -39,15 +45,23 @@ public class ParkingUserTest_Fail extends BusinessFunctions {
 		   driver = new FirefoxDriver();
 //		System.setProperty("webdriver.chrome.driver", "C:\\ChromeDriver\\chromedriver.exe");
 //		driver = new ChromeDriver();
-		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+//		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		prop = new Properties();
+//		prop.load(new FileInputStream("./Configuration/login.properties"));
+//		username = prop.getProperty("puusername2");
+//		password = prop.getProperty("pupassword2");
+		
 		prop.load(new FileInputStream("./Configuration/Configuration.properties"));
 		appUrl = prop.getProperty("AppUrl");
+		int timewait = (Integer.parseInt(prop.getProperty("wait_time")));
+		driver.manage().timeouts().implicitlyWait(timewait, TimeUnit.SECONDS);
 		sharedUIMapPath = prop.getProperty("SharedUIMapPath");
 		prop.load(new FileInputStream(sharedUIMapPath));
 	    UsersDAO = new UsersDAO();
 		driver.get(appUrl);
+		driver.manage().window().setSize(new Dimension(1440,850));
 	}
+
 
 	/**
 	 * This Test all combinations of validation errors a user can see in the
@@ -56,8 +70,8 @@ public class ParkingUserTest_Fail extends BusinessFunctions {
 	 * @throws Exception
 	 */
 	@Test
-	@FileParameters("src/Excel/ParkingUserRegisterFailures.csv")
-	public void testParkingUserTestFail(String userName, String password, String confirmPassword, String role,
+	@FileParameters("tests/Excel/ParkingUserRegisterFailures.csv")
+	public void aParkingUserRegistration(String userName, String password, String confirmPassword, String role,
 			String permitType, String exceptedErrorMsg, String expectedUsernameError, String expectedPasswordError,
 			String expectedConfirmPaswordError) throws Exception {
 		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
@@ -88,8 +102,8 @@ public class ParkingUserTest_Fail extends BusinessFunctions {
 	}
 
 	@Test
-	@FileParameters("src/Excel/ParkingUserRegisterUserDetailsFailures.csv")
-	public void testParkingUserTestUserDetailFails(String firstName, String middleName, String lastName, String sex,
+	@FileParameters("tests/Excel/ParkingUserRegisterUserDetailsFailures.csv")
+	public void bParkingUserDetails(String firstName, String middleName, String lastName, String sex,
 			String dob, String address, String email, String phoneNum, String dlNum, String expiryDate, String regNum,
 			String utaId, String expectedErrorMsg, String expectedFirstNameError, String expectedMiddleNameError,
 			String expectedLastNameError, String expectedDobError, String expectedAddressError,
@@ -98,7 +112,7 @@ public class ParkingUserTest_Fail extends BusinessFunctions {
 		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
 		
 		if (TestDAO.userExists("PUUser1")) {
-			TestDAO.deleteUser("PMUser1");
+			TestDAO.deleteUser("PUUser1");
 		}
 		
 		functions.Register(driver, "PUUser1", "Admin12", "Admin12", "ParkingUser", "Basic");
@@ -126,8 +140,8 @@ public class ParkingUserTest_Fail extends BusinessFunctions {
 	}
 	
 	@Test
-	@FileParameters("src/Excel/ParkingUserRegisterLoginFailures.csv")
-	public void ParkingUserLoginFail(String userName, String password, String expectedErrorMsg, String expectedUserNameError, String expectedPasswordError){
+	@FileParameters("tests/Excel/ParkingUserRegisterLoginFailures.csv")
+	public void cParkingUserLogin(String userName, String password, String expectedErrorMsg, String expectedUserNameError, String expectedPasswordError){
 		
 		if (TestDAO.userExists("PUUser1")) {
 			TestDAO.deleteUser("PUUser1");
@@ -162,8 +176,8 @@ public class ParkingUserTest_Fail extends BusinessFunctions {
 	
 	
 	  @Test
-	  @FileParameters("src/Excel/ParkingUserGoodTest.csv")
-	  public void testReservation(String userName, String password, String confirmPassword, String role,
+	  @FileParameters("tests/Excel/ParkingUserGoodTest.csv")
+	  public void dParkingUserHappy(String userName, String password, String confirmPassword, String role,
 				String permitType, String firstName, String middleName, String lastName, String sex, String dayOfBirth,
 				String address, String email, String phoneNum, String dlNum, String dayOfExpiry, String regNum,
 				String utaId, String userToSearch) throws Exception {
@@ -176,7 +190,17 @@ public class ParkingUserTest_Fail extends BusinessFunctions {
 		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Register_Success"))).getText()
 				.equals("Registered Successfully."));
 		functions.Login(driver, userName, password);
-	    functions.makeReservation(driver, "2019-04-14 20:00:00", "2019-04-14 20:15:00", "Hello", "Basic", 2 , 4, "4238000023456780", "12", "2020", "213");
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
+		String startdate = dateFormat.format(date) + " 23:00:00";
+		String enddate = dateFormat.format(date) + " 23:15:00";
+	    functions.makeReservation(driver, startdate, enddate, "Nedderman", "Basic", 1 , 8, "4238000023456780", "12", "2020", "213", true, true, true);
+	    startdate = dateFormat.format(date) + " 23:00:00";
+	    enddate = dateFormat.format(date) + " 23:15:00";
+	    functions.makeReservation(driver, startdate, enddate, "Nedderman", "Basic", 1 , 9, "4238000023456780", "12", "2020", "213", false, false, false);
+	    TestDAO.deleteReservation(userName);
+	    TestDAO.deleteUser(userName);
+	    driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
 	  }
 	
 	
@@ -191,36 +215,36 @@ public class ParkingUserTest_Fail extends BusinessFunctions {
 		}
 	}
 
-	private boolean isElementPresent(By by) {
-		try {
-			driver.findElement(by);
-			return true;
-		} catch (NoSuchElementException e) {
-			return false;
-		}
-	}
+//	private boolean isElementPresent(By by) {
+//		try {
+//			driver.findElement(by);
+//			return true;
+//		} catch (NoSuchElementException e) {
+//			return false;
+//		}
+//	}
 
-	private boolean isAlertPresent() {
-		try {
-			driver.switchTo().alert();
-			return true;
-		} catch (NoAlertPresentException e) {
-			return false;
-		}
-	}
-
-	private String closeAlertAndGetItsText() {
-		try {
-			Alert alert = driver.switchTo().alert();
-			String alertText = alert.getText();
-			if (acceptNextAlert) {
-				alert.accept();
-			} else {
-				alert.dismiss();
-			}
-			return alertText;
-		} finally {
-			acceptNextAlert = true;
-		}
-	}
+//	private boolean isAlertPresent() {
+//		try {
+//			driver.switchTo().alert();
+//			return true;
+//		} catch (NoAlertPresentException e) {
+//			return false;
+//		}
+//	}
+//
+//	private String closeAlertAndGetItsText() {
+//		try {
+//			Alert alert = driver.switchTo().alert();
+//			String alertText = alert.getText();
+//			if (acceptNextAlert) {
+//				alert.accept();
+//			} else {
+//				alert.dismiss();
+//			}
+//			return alertText;
+//		} finally {
+//			acceptNextAlert = true;
+//		}
+//	}
 }

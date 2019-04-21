@@ -27,7 +27,7 @@ public class ReservationTest {
 	}
 
 	@Test
-	@FileParameters("src/test/ReservationTest.csv")
+	@FileParameters("tests/test/ReservationTest.csv")
 	public void test(Integer userId, Integer spotUID, String startTime, String endTime, boolean noShow,
 			boolean overStay, boolean cart, boolean camera, boolean history, Double total, Integer reservationId,
 			Integer floorNumber, Integer noShowNum, Integer overDue, Integer spotId, String areaName, String lastName,
