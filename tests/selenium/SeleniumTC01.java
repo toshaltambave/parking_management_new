@@ -203,26 +203,29 @@ public class SeleniumTC01 extends BusinessFunctions {
 		ReservationsController rc = new ReservationsController();
 	    String timeError = rc.validateDateTime(startdate, enddate, null);
 	    if(timeError.equals("There are time errors.")){
-	    	assertTrue(driver.findElement(By.id(prop.getProperty("Err_Start_Time"))).getText().equals(startTimeError));
-	    	assertTrue(driver.findElement(By.id(prop.getProperty("Err_End_Time"))).getText().equals(endTimeError));
-	    	assertTrue(driver.findElement(By.id(prop.getProperty("Err_Compare"))).getText().equals(compareError));
+	    	assertTrue(driver.findElement(By.id(prop.getProperty("Err_Start_Time"))).getAttribute("value").equals(startTimeError));
+	    	assertTrue(driver.findElement(By.id(prop.getProperty("Err_End_Time"))).getAttribute("value").equals(endTimeError));
+	    	assertTrue(driver.findElement(By.id(prop.getProperty("Err_Compare"))).getAttribute("value").equals(compareError));
 	    }
-	    
-		functions.reservationFloorAndSpot(driver, reservationPermitType, floorNum, spotNum);
-		functions.makeReservation(driver, ccNum, expMon, expYear, cvv, cart, camera, history, cardType);
-		CreditCardError cardError = new CreditCardError();
-		if(cart || camera || history){
-			rc.validatecreditcarddetails(ccNum, expMon, expYear, cardType, cvv, cardError);
+	    else{
+	    	functions.reservationFloorAndSpot(driver, reservationPermitType, floorNum, spotNum);
+			functions.makeReservation(driver, ccNum, expMon, expYear, cvv, cart, camera, history, cardType);
+			CreditCardError cardError = new CreditCardError();
+			if(cart || camera || history){
+				rc.validatecreditcarddetails(ccNum, expMon, expYear, cardType, cvv, cardError);
+		    }
+		    if(cardError.getErrorMsg().equals("Please correct the following errors.")){
+		    	assertTrue(driver.findElement(By.id(prop.getProperty("Err_Card_Num"))).getAttribute("value").equals(cardNumError));
+		    	assertTrue(driver.findElement(By.id(prop.getProperty("Err_Card_Month"))).getAttribute("value").equals(cardMonthError));
+		    	assertTrue(driver.findElement(By.id(prop.getProperty("Err_Card_Year"))).getAttribute("value").equals(cardYearError));
+		    	assertTrue(driver.findElement(By.id(prop.getProperty("Err_Card_Cvv"))).getAttribute("value").equals(cardCvvError));
+		    }
+		    else{
+		    	TestDAO.deleteReservation(userName);
+			    TestDAO.deleteUser(userName);
+			    driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
+		    }
 	    }
-	    if(cardError.getErrorMsg().equals("Please correct the following errors.")){
-	    	assertTrue(driver.findElement(By.id(prop.getProperty("Err_Card_Num"))).getText().equals(cardNumError));
-	    	assertTrue(driver.findElement(By.id(prop.getProperty("Err_Card_Month"))).getText().equals(cardMonthError));
-	    	assertTrue(driver.findElement(By.id(prop.getProperty("Err_Card_Year"))).getText().equals(cardYearError));
-	    	assertTrue(driver.findElement(By.id(prop.getProperty("Err_Card_Cvv"))).getText().equals(cardCvvError));
-	    }
-	    TestDAO.deleteReservation(userName);
-	    TestDAO.deleteUser(userName);
-	    driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
 	  }
 	
 //	  @Test

@@ -279,8 +279,6 @@ public class BusinessFunctions {
 	    driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page_Revoke"))).click();
 	}
 	
-	
-	
 	public void setRole(WebDriver driver, String userName,String role){
 	    driver.findElement(By.id(prop.getProperty("Btn_ChRole_User"))).click();
 	    assertTrue(!isElementPresent(driver, "Text_ChRole_Success"));
