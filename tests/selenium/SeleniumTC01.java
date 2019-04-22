@@ -16,10 +16,12 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
+import controller.ReservationsController;
 import data.UsersDAO;
 import functions.BusinessFunctions;
 import junitparams.FileParameters;
 import junitparams.JUnitParamsRunner;
+import model.CreditCardError;
 import model.Users;
 import test.Data.TestDAO;
 import util.PasswordUtility;
@@ -180,7 +182,9 @@ public class SeleniumTC01 extends BusinessFunctions {
 				String permitType, String firstName, String middleName, String lastName, String sex, String dayOfBirth,
 				String address, String email, String phoneNum, String dlNum, String dayOfExpiry, String regNum,
 				String utaId, String startdate, String enddate, String area, String reservationPermitType, Integer floorNum,
-				Integer spotNum, String ccNum, String expMon, String expYear, String cvv, Boolean cart, Boolean camera, Boolean history) throws Exception {
+				Integer spotNum, String ccNum, String expMon, String expYear, String cvv, String cardType, Boolean cart, Boolean camera, Boolean history,
+				String startTimeError, String endTimeError, String compareError, 
+				String cardNumError, String cardYearError, String cardMonthError, String cardCvvError) throws Exception {
 		driver.get(appUrl);
 	  	assertTrue(!isElementPresent(driver, "Txt_Register_Success"));
 		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
@@ -194,8 +198,28 @@ public class SeleniumTC01 extends BusinessFunctions {
 		Date date = new Date();
 		startdate = dateFormat.format(date) +" "+startdate;
 		enddate = dateFormat.format(date) +" "+enddate;
-	    //functions.makeReservation(driver, startdate, enddate, "Nedderman", "Basic", 1 , 8, "4238000023456780", "12", "2020", "213", true, true, true);
-		functions.makeReservation(driver, startdate, enddate, area, reservationPermitType, floorNum , spotNum, ccNum, expMon, expYear, cvv, cart, camera, history);
+		
+		functions.reservationTimeAndDate(driver, startdate, enddate, area);
+		ReservationsController rc = new ReservationsController();
+	    String timeError = rc.validateDateTime(startdate, enddate, null);
+	    if(timeError.equals("There are time errors.")){
+	    	assertTrue(driver.findElement(By.id(prop.getProperty("Err_Start_Time"))).getText().equals(startTimeError));
+	    	assertTrue(driver.findElement(By.id(prop.getProperty("Err_End_Time"))).getText().equals(endTimeError));
+	    	assertTrue(driver.findElement(By.id(prop.getProperty("Err_Compare"))).getText().equals(compareError));
+	    }
+	    
+		functions.reservationFloorAndSpot(driver, reservationPermitType, floorNum, spotNum);
+		functions.makeReservation(driver, ccNum, expMon, expYear, cvv, cart, camera, history, cardType);
+		CreditCardError cardError = new CreditCardError();
+		if(cart || camera || history){
+			rc.validatecreditcarddetails(ccNum, expMon, expYear, cardType, cvv, cardError);
+	    }
+	    if(cardError.getErrorMsg().equals("Please correct the following errors.")){
+	    	assertTrue(driver.findElement(By.id(prop.getProperty("Err_Card_Num"))).getText().equals(cardNumError));
+	    	assertTrue(driver.findElement(By.id(prop.getProperty("Err_Card_Month"))).getText().equals(cardMonthError));
+	    	assertTrue(driver.findElement(By.id(prop.getProperty("Err_Card_Year"))).getText().equals(cardYearError));
+	    	assertTrue(driver.findElement(By.id(prop.getProperty("Err_Card_Cvv"))).getText().equals(cardCvvError));
+	    }
 	    TestDAO.deleteReservation(userName);
 	    TestDAO.deleteUser(userName);
 	    driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
@@ -235,6 +259,7 @@ public class SeleniumTC01 extends BusinessFunctions {
 	public void tearDown() throws Exception {
 		driver.quit();
 		TestDAO.deleteUser("PUUser1");
+		TestDAO.deleteUser("PUUser7");
 		String verificationErrorString = verificationErrors.toString();
 		if (!"".equals(verificationErrorString)) {
 			fail(verificationErrorString);

@@ -10,6 +10,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
+import controller.ReservationsController;
+import model.CreditCardError;
+
 public class BusinessFunctions {
 	
 	public static Properties prop;
@@ -101,17 +104,23 @@ public class BusinessFunctions {
 		
 	}
 	
-	
-	public void makeReservation(WebDriver driver, String start, String end, String area, String permitType, Integer floor, Integer spot, String card, String month, String year, String cvv, Boolean cartBool, Boolean cameraBool, Boolean historyBool){
-	    driver.findElement(By.id(prop.getProperty("Btn_Reservation_Reserve"))).click();
+	public void reservationTimeAndDate(WebDriver driver, String start, String end, String area){
+		driver.findElement(By.id(prop.getProperty("Btn_Reservation_Reserve"))).click();
 	    driver.findElement(By.id(prop.getProperty("Txt_Reservation_StartTime"))).clear();
 		driver.findElement(By.id(prop.getProperty("Txt_Reservation_StartTime"))).sendKeys(start);
 		driver.findElement(By.id(prop.getProperty("Txt_Reservation_EndTime"))).clear();
 		driver.findElement(By.id(prop.getProperty("Txt_Reservation_EndTime"))).sendKeys(end);
 		new Select(driver.findElement(By.id(prop.getProperty("Txt_Reservation_AreaDropDown")))).selectByVisibleText(area);
 	    driver.findElement(By.id(prop.getProperty("Btn_Reservation_Search"))).click();
-	    driver.findElement(By.id("btnReserveFloor"+floor+""+permitType)).click();
+	}
+	
+	public void reservationFloorAndSpot(WebDriver driver, String permitType, Integer floor, Integer spot){
+		driver.findElement(By.id("btnReserveFloor"+floor+""+permitType)).click();
 	    driver.findElement(By.xpath("(//input[@id='btnReserveSpotID'])["+spot+"]")).click();
+	}
+	
+	public void makeReservation(WebDriver driver, String card, String month, String year, String cvv, Boolean cartBool, Boolean cameraBool, Boolean historyBool, String cardType){
+	    
 	    if(cartBool){
 	    	driver.findElement(By.id(prop.getProperty("Btn_Reservation_Cart"))).click();
 	    }
@@ -124,6 +133,9 @@ public class BusinessFunctions {
 	    driver.findElement(By.id(prop.getProperty("Btn_Reservation_Options"))).click();
 	    driver.findElement(By.id(prop.getProperty("Txt_Reservation_CardNumber"))).clear();
 	    driver.findElement(By.id(prop.getProperty("Txt_Reservation_CardNumber"))).sendKeys(card);
+	    if(cartBool || cameraBool || historyBool){
+	    	new Select(driver.findElement(By.id(prop.getProperty("Drp_Dwn_Card_Type")))).selectByVisibleText(cardType);
+	    }
 	    driver.findElement(By.id(prop.getProperty("Txt_Reservation_ExMonth"))).clear();
 	    driver.findElement(By.id(prop.getProperty("Txt_Reservation_ExMonth"))).sendKeys(month);
 	    driver.findElement(By.id(prop.getProperty("Txt_Reservation_ExYear"))).clear();

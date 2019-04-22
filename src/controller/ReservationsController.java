@@ -167,7 +167,7 @@ public class ReservationsController extends HttpServlet {
 
     }
 
-	private String validateDateTime(String startTime, String endTime,HttpServletRequest request) {
+	public String validateDateTime(String startTime, String endTime,HttpServletRequest request) {
 		String startTimeError ="";
 		String endTimeError ="";
 		String compareError ="";
@@ -287,9 +287,13 @@ public class ReservationsController extends HttpServlet {
 			}	
 			
 		}
-		request.setAttribute("endTimeError", endTimeError);
-		request.setAttribute("startTimeError", startTimeError);
-		request.setAttribute("compareError", compareError);
+		
+		if(request != null){
+			request.setAttribute("endTimeError", endTimeError);
+			request.setAttribute("startTimeError", startTimeError);
+			request.setAttribute("compareError", compareError);
+		}
+		
 		if(!compareError.isEmpty() || !startTimeError.isEmpty() || !endTimeError.isEmpty())
 			return "There are time errors.";
 		else
