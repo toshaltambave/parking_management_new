@@ -111,7 +111,12 @@ public class UpdateUserController extends HttpServlet {
 		else 
 		{
 			// if no error messages
-			boolean isSuccessful = UpdatedUserDetailsDAO.updateUser(userdetails);
+			Boolean isHash = false;
+			if(user.getHashedPassword() == userdetails.getHashedPassword())
+			{
+				isHash=true;
+			}
+			boolean isSuccessful = UpdatedUserDetailsDAO.updateUser(userdetails,isHash);
 			request.setAttribute("isSuccessful", isSuccessful);
 			request.setAttribute("username", userName);
 
