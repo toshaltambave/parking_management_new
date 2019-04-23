@@ -27,6 +27,14 @@
 	<div id="msgisReservation" class="alert alert-success" role="alert"> Reservation has been made successfully.</div>
 </c:if>
 </div><br>
+
+<div class="col">
+	<c:if test="${isSuccessful eq true}">
+		<div id="msgUserUpdSuccess" class="alert alert-success" role="alert">
+			Users profile has been updated.
+		</div>
+	</c:if>
+</div>
 <div class="col"><a id="lnkUpdateProfile" class="btn btn-info" href="${pageContext.request.contextPath}/UpdateUserController?action=getList">Update profile</a> </div> <br>
 <div class="col"><a id="lnkViewUserReservation" class="btn btn-info"href="${pageContext.request.contextPath}/ModifyController?action=viewReservations">View My reservation</a> </div> <br> <!-- TODO ADITYA -->
 <div class="col"><a id="lnkRequestReservation" class="btn btn-info" href="${pageContext.request.contextPath}/ReservationsController">Request a reservation</a> </div> <br>

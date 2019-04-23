@@ -13,6 +13,16 @@
 <h2>PARKING MANAGEMENT HOMEPAGE</h2>
 <div class="row">
 <div class="form-group">
+
+<div class="col">
+	<c:if test="${isSuccessful eq true}">
+		<div id="msgUserUpdSuccess" class="alert alert-success" role="alert">
+			Users profile has been updated.
+		</div>
+	</c:if>
+</div>
+
+
 <br><div class="col"><a id="lnkUpdateProfile" class="btn btn-info"href="UpdateSelect.jsp">Update profile</a></div>
 <br><div class="col"><a id="lnkUserSearch" class="btn btn-info"href="UserSearch.jsp">Search for User</a></div> 
 <br><div class="col"><a id="lnkViewParkingSpotDetails" class="btn btn-info"href="${pageContext.request.contextPath}/SpotSearchController" >View parking spot details</a></div>

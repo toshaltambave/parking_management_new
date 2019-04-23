@@ -96,15 +96,20 @@ public class UpdateUserController extends HttpServlet {
 		String url;
 		Users user = (Users) session.getAttribute("user");
 		if (user != null && !user.getUsername().isEmpty())
-			userdetails.setUserName(user.getUsername());
+			{
+				userdetails.setUserName(user.getUsername());
+				userdetails.setRole(user.getRole());
+			}
 		getUpdatedUserDetailsParam(request, userdetails);
-		userdetails.validateUserDetails(action, userdetails, errorMsgs);
+//		userdetails.validateUserDetails(action, userdetails, errorMsgs);
 		session.setAttribute("userdetails", userdetails);
 		if (!errorMsgs.getErrorMsg().equals("")) {
 			getUpdatedUserDetailsParam(request, userdetails);
 			session.setAttribute("updatedUserDetailsErrorMsgs", errorMsgs);
 			url = "/EditProfile.jsp?username=" + userName;
-		} else {
+		}
+		else 
+		{
 			// if no error messages
 			boolean isSuccessful = UpdatedUserDetailsDAO.updateUser(userdetails);
 			request.setAttribute("isSuccessful", isSuccessful);
@@ -112,7 +117,21 @@ public class UpdateUserController extends HttpServlet {
 
 			UpdatedUserDetailsErrorMsgs errorMsgsuser = new UpdatedUserDetailsErrorMsgs();
 			session.setAttribute("updatedUserDetailsErrorMsgs", errorMsgsuser);
-			url = "/adminHomePage.jsp?username=" + userName;
+			
+			url = "";
+			if(session.getAttribute("User") != null)
+			{
+				if(user.getRole().equals("ParkingUser")){
+				url="/parkingUserHomePage.jsp";
+				}
+				else if (user.getRole().equals("ParkingManager")){
+					url="/parkingManagementHomePage.jsp";
+				}
+				else if (user.getRole().equals("Admin")){
+					url="/adminHomePage.jsp";
+				}			
+			}
+
 		}
 		return url;
 	}

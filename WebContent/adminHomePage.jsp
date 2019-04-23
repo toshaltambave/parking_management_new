@@ -13,13 +13,7 @@
 <h2> ADMIN HOMEPAGE </h2>
 <div class="row">
 <div class="form-group">
-<br><div class="col"><a id="lnkEditUserProfile" class="btn btn-info"href="UpdateSelect.jsp">Edit user profile</a></div>
-<br><div class="col"><a id="lnkChangeUserRole" class="btn btn-info"href="ChangeUserRole.jsp">Change user role</a></div>
-<br><div class="col"><a id="lnkUserSearch" class="btn btn-info"href="UserSearch.jsp">Search for user</a></div>
-<br><div class="col"><a id="lnkRevokeUser" class="btn btn-info"href="RevokeUser.jsp">Revoke user</a></div>
-<br><div class="col"><a id="lnkUnRevokeUser" class="btn btn-info"href="UnrevokeUser.jsp">Unrevoke user</a></div>
-</div>
-</div>
+
 <div class="col">
 	<c:if test="${isSuccessful eq true}">
 		<div id="msgUserUpdSuccess" class="alert alert-success" role="alert">
@@ -27,6 +21,15 @@
 		</div>
 	</c:if>
 </div>
+
+<br><div class="col"><a id="lnkEditUserProfile" class="btn btn-info"href="UpdateSelect.jsp">Edit user profile</a></div>
+<br><div class="col"><a id="lnkChangeUserRole" class="btn btn-info"href="ChangeUserRole.jsp">Change user role</a></div>
+<br><div class="col"><a id="lnkUserSearch" class="btn btn-info"href="UserSearch.jsp">Search for user</a></div>
+<br><div class="col"><a id="lnkRevokeUser" class="btn btn-info"href="RevokeUser.jsp">Revoke user</a></div>
+<br><div class="col"><a id="lnkUnRevokeUser" class="btn btn-info"href="UnrevokeUser.jsp">Unrevoke user</a></div>
+</div>
+</div>
+
 <form action="${pageContext.request.contextPath}/UsersController?logout" method="post">
 	<input name="action" value="logout" type="hidden">
     <input id="btnLogout" class="btn btn-secondary" name="logout" type="submit" value="Logout" />

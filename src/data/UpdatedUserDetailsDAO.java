@@ -51,8 +51,8 @@ public class UpdatedUserDetailsDAO {
 
 					UpdatedUserDetails userDetails = new UpdatedUserDetails(new UsersDAO());
 					userDetails.setAddress(rs2.getString("Address"));
-					userDetails.setDrivingLicenseExpiry(df.format(rs2.getDate("DL_Expiry")));
-					userDetails.setBirthDate(df.format(rs2.getDate("DOB")));
+					userDetails.setDrivingLicenseExpiry(rs2.getString("DL_Expiry"));
+					userDetails.setBirthDate(rs2.getString("DOB"));
 					userDetails.setFirstName(rs2.getString("FirstName"));
 					userDetails.setMiddleName(rs2.getString("MiddleName"));
 					userDetails.setLastName(rs2.getString("LastName"));
