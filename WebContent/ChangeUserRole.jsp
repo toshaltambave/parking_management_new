@@ -81,14 +81,6 @@
 	</div>
 	</div>
 	</div>
-	</div>
-<!-- 			<div class="row"> -->
-<!-- 		<div class="form-group"> -->
-<!-- 		<div class="col"> -->
-<!-- <button id="btnBack" class="btn btn-secondary" type="button" name="back" onclick="history.back()">Back</button> -->
-<!--     	</div> -->
-<!-- 		</div> -->
-<!-- 		</div> -->
-	
+	</div>	
     </jsp:body>
 </t:_layout>

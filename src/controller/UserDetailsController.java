@@ -136,8 +136,9 @@ public class UserDetailsController extends HttpServlet {
 		String url;
 		String type = request.getParameter("type");
 		String value = request.getParameter("value");
+		String comment = request.getParameter("txtComment");
 		boolean isSuccessful = false;
-		isSuccessful = UserDetailsDAO.revokeUser(type, value, Boolean.TRUE);
+		isSuccessful = UserDetailsDAO.revokeUser(type, value, Boolean.TRUE,comment);
 		request.setAttribute("isSuccess", isSuccessful);
 		url = "/RevokeUser.jsp";
 		return url;
@@ -147,8 +148,9 @@ public class UserDetailsController extends HttpServlet {
 		String url;
 		String type = request.getParameter("type");
 		String value = request.getParameter("value");
+		String comment = request.getParameter("txtComment");
 		boolean isSuccessful = false;
-		isSuccessful = UserDetailsDAO.revokeUser(type, value, Boolean.FALSE);
+		isSuccessful = UserDetailsDAO.revokeUser(type, value, Boolean.FALSE,comment);
 		request.setAttribute("isSuccess", isSuccessful);
 		url = "/UnrevokeUser.jsp";
 		return url;

@@ -283,7 +283,7 @@ public class UserDetailsDAO {
 		return userListInDB;
 	}
 
-	public static boolean revokeUser(String type, String value, Boolean isRevoked) {
+	public static boolean revokeUser(String type, String value, Boolean isRevoked,String comment) {
 		Statement stmt = null;
 		Connection conn = SQLConnection.getDBConnection();
 		boolean isSuccessful = true;
@@ -293,10 +293,11 @@ public class UserDetailsDAO {
 				try {
 					stmt = conn.createStatement();
 					PreparedStatement pst = null;
-					String sql = "UPDATE parking_management.system_users SET IsRevoked=? where UserName=?";
+					String sql = "UPDATE parking_management.system_users SET IsRevoked=?,comment=? where UserName=?";
 					pst = conn.prepareStatement(sql);
 					pst.setBoolean(1, isRevoked);
-					pst.setString(2, value);
+					pst.setString(2, comment);
+					pst.setString(3, value);
 					pst.executeUpdate();
 
 				} catch (SQLException e) {
@@ -329,10 +330,11 @@ public class UserDetailsDAO {
 						userId = rs.getInt("User_Id");
 						stmt = conn.createStatement();
 						PreparedStatement pst2 = null;
-						String sql2 = "UPDATE parking_management.system_users SET IsRevoked=? where User_Id=?";
+						String sql2 = "UPDATE parking_management.system_users SET IsRevoked=?,comment=? where User_Id=?";
 						pst2 = conn.prepareStatement(sql2);
 						pst2.setBoolean(1, isRevoked);
-						pst2.setInt(2, userId);
+						pst.setString(2, comment);
+						pst2.setInt(3, userId);
 						pst2.executeUpdate();
 					}
 				} catch (SQLException e) {

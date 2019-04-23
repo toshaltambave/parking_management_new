@@ -56,6 +56,12 @@
 		<div class="row">
 		<div class="form-group">
 		<div class="col">
+		<div class="row">
+		<div class="col">
+		<label>Comment:</label>
+		<input id="txtComment" name="txtComment" type="text" value="comment">
+		</div>
+		</div>
 		<input name="action" value="revoke" type="hidden">
 		 <input id="btnRevoke" class="btn btn-secondary" type="submit" value="Revoke" />
 		</div>

@@ -11,7 +11,22 @@ public class Users {
 	private String ConfirmPassword;
 	private String Role;
 	private Integer IsRevoked;
+	private String Comment;
 	private String PermitType;
+	/**
+	 * @return the comment
+	 */
+	public String getComment() {
+		return Comment;
+	}
+
+	/**
+	 * @param comment the comment to set
+	 */
+	public void setComment(String comment) {
+		Comment = comment;
+	}
+
 	private UsersDAO usersDAO;
 
 	public Users(UsersDAO usersDAO) {
@@ -19,13 +34,14 @@ public class Users {
 	}
 
 	public void setUser(String username, String hashedPassword, String confirmPassword, String role, String permitType,
-			Boolean isRevoked) {
+			Boolean isRevoked,String comment) {
 		setUsername(username);
 		setHashedPassword(hashedPassword);
 		setConfirmPassword(confirmPassword);
 		setRole(role);
 		setPermitType(permitType);
 		setisRevoked(isRevoked);
+		setComment(comment);
 	}
 
 	public Integer getUserID() {

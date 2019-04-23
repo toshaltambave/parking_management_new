@@ -32,7 +32,6 @@
 		
 		    	<div class="container">
 			<div align="center">
-			    <form action="${pageContext.request.contextPath}/ParkingAreaController?getFloorSpots" method="post">
 					<table class="table table-bordered center_div">
 						<tr>
 							<th>Floor Number</th>
@@ -40,6 +39,7 @@
 							<th>Number of Spots</th>
 						</tr>
 						<c:forEach items="${allFloors}" var="ParkingAreaFloors">
+						<form action="${pageContext.request.contextPath}/ParkingAreaController?getFloorSpots" method="post">
 							<tr>
 								<td>${ParkingAreaFloors.floor_Number}</td>
 								<td>${ParkingAreaFloors.permitType}</td>
@@ -49,10 +49,10 @@
 							<input type="hidden" name="selectedAreaId" value="${selectedArea.area_Id}">
 							<input type="hidden" name="selectedFloorNumber" value="${ParkingAreaFloors.floor_Number}">
 							<input type="hidden" name="selectedPermitType" value="${ParkingAreaFloors.permitType}">
+						<input name="action" value="getFloorSpots" type="hidden">
+			    		</form>
 						</c:forEach>
 					</table>
-					<input name="action" value="getFloorSpots" type="hidden">
-			    </form>
 			</div>				
 		</div>
 
