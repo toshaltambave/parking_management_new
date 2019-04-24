@@ -12,7 +12,7 @@
             	    } 
 
             	today = yyyy+'-'+mm+'-'+dd+' 00:00:00';
-            	end = yyyy+'-'+mm+'-'+dd+' 23:23:59';
+            	end = yyyy+'-'+mm+'-'+dd+' 23:59:59';
             	var dateFormat = "YYYY-MM-DD HH:mm:ss";
           	    var CurrDate = today;
           	    var MinDate = today;

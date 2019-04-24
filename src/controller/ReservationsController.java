@@ -265,14 +265,11 @@ public class ReservationsController extends HttpServlet {
 			{
 				compareError = "Start time and end time cannot be same.";
 			}
-			else if(enddate.before(startdate))
-			{
-				compareError = "End time cannot be before start time.";
-			}
 			else if(diffHours >3)
 			{
 				compareError = "Reservation cannot be for more than 3 hours.";
 			}
+			//TODO: Maybe remove this  
 			else if(diffMins >180)
 			{
 				compareError = "Reservation cannot be for more than 3 hours.";
