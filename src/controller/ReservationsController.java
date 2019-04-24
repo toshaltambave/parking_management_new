@@ -37,7 +37,6 @@ public class ReservationsController extends HttpServlet {
 		String action = request.getParameter("action");
 		//1st page - Get Start End Times & Area
 		if (action.equalsIgnoreCase("Search") ) {  
-			//TODO: Implement Request Spot , add Permit Type & Cart Attributes
 			String startTime = request.getParameter("start_time");		
 			String endTime = request.getParameter("end_time");
 			String error = validateDateTime(startTime,endTime,request);
@@ -53,7 +52,6 @@ public class ReservationsController extends HttpServlet {
 			}
 
 		}
-		
 		// 2nd Page - Floor & Permit Type
 		if (action.equalsIgnoreCase("getSpotsForFloor") ) {  
 			int areaId = Integer.parseInt(request.getParameter("selectedAreaId"));

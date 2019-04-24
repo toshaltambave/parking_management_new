@@ -9,20 +9,17 @@ import org.junit.runner.RunWith;
 import junitparams.FileParameters;
 import junitparams.JUnitParamsRunner;
 import model.Reservation;
-import model.Reservations;
 import model.ReservationsHelper;
 
 @RunWith(JUnitParamsRunner.class)
 public class ReservationTest {
 
 	private Reservation reservation;
-	private Reservations reservations;
 	private ReservationsHelper helper;
 
 	@Before
 	public void setUp() throws Exception {
 		reservation = new Reservation();
-		reservations = new Reservations();
 		helper = new ReservationsHelper();
 	}
 
@@ -32,9 +29,6 @@ public class ReservationTest {
 			boolean overStay, boolean cart, boolean camera, boolean history, Double total, Integer reservationId,
 			Integer floorNumber, Integer noShowNum, Integer overDue, Integer spotId, String areaName, String lastName,
 			String userName) {
-
-		reservations.makeReservations(userId, spotUID, startTime, endTime, noShow, overStay, cart, camera, history);
-		reservations.setReservationID(reservationId);
 
 		reservation.makeReservation(userId, spotUID, startTime, endTime, noShow, overStay, cart, camera, history,
 				total);
@@ -64,17 +58,6 @@ public class ReservationTest {
 		assertEquals(spotUID, reservation.getSpotUID());
 		assertEquals(userId, reservation.getUserID());
 		assertEquals(total, reservation.getTotal());
-
-		assertEquals(camera, reservations.getCamera());
-		assertEquals(cart, reservations.getCart());
-		assertEquals(history, reservations.getHistory());
-		assertEquals(noShow, reservations.getNoShow());
-		assertEquals(overStay, reservations.getOverStay());
-		assertEquals(endTime, reservations.getEndTime());
-		assertEquals(startTime, reservations.getStartTime());
-		assertEquals(reservationId, reservations.getReservationID());
-		assertEquals(spotUID, reservations.getSpotUID());
-		assertEquals(userId, reservations.getUserID());
 
 		assertEquals(noShow, helper.getIsNoShow());
 		assertEquals(noShow, helper.getisNoShow());
