@@ -56,7 +56,7 @@ public class UserDetailsController extends HttpServlet {
 			getServletContext().getRequestDispatcher(url).forward(request, response);
 			break;
 		case "revoke":
-			url = handleRevoke(request, userdetails);
+			url = handleRevoke(request, userdetails,session);
 			getServletContext().getRequestDispatcher(url).forward(request, response);
 			break;
 		case "unrevoke":
@@ -132,14 +132,24 @@ public class UserDetailsController extends HttpServlet {
 		return url;
 	}
 
-	private String handleRevoke(HttpServletRequest request, UserDetails userdetails) {
+	private String handleRevoke(HttpServletRequest request, UserDetails userdetails,HttpSession session) {
 		String url;
 		String type = request.getParameter("type");
 		String value = request.getParameter("value");
 		String comment = request.getParameter("txtComment");
+		UsersErrorMsgs error = new UsersErrorMsgs();
+		Users user = (Users) session.getAttribute("User");
 		boolean isSuccessful = false;
-		isSuccessful = UserDetailsDAO.revokeUser(type, value, Boolean.TRUE,comment);
-		request.setAttribute("isSuccess", isSuccessful);
+		error.setCommentError(user.validateComment(comment));
+		if(error.getCommentError().isEmpty())
+		{
+			isSuccessful = UserDetailsDAO.revokeUser(type, value, Boolean.TRUE,comment);
+			request.setAttribute("isSuccess", isSuccessful);
+		}
+		else
+		{
+			request.setAttribute("revokeerrorMsgs", error);
+		}
 		url = "/RevokeUser.jsp";
 		return url;
 	}

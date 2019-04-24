@@ -194,6 +194,13 @@ public class Users {
 	// This section is for general purpose methods used internally in this class
 	private boolean stringSize(String string, int min, int max) {
 		return string.length() >= min && string.length() <= max;
+	}	
+	
+	public String validateComment(String comment) {
+		if (comment.equals(""))
+			return "Comment is mandatory.";	
+		else
+			return "";
 	}
 
 }
