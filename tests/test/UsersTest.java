@@ -49,7 +49,7 @@ public class UsersTest {
 		EasyMock.replay(mockUsersDAO);
 
 		users.setUserID(userId);
-		users.setUser(userName, hashedPassword, confirmPassword, role, permitType, isRevoked);
+		users.setUser(userName, hashedPassword, confirmPassword, role, permitType, isRevoked,"");
 		users.validateLogin(action, users, usersErrorMsgs);
 		users.validateUser(action, users, usersErrorMsgs);
 

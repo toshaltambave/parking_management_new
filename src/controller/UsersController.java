@@ -93,7 +93,7 @@ public class UsersController extends HttpServlet {
 	private void getUserParam(HttpServletRequest request) {
 		user.setUser(request.getParameter("username"), request.getParameter("hashedPassword"),
 				 request.getParameter("confirmPassword"),request.getParameter("role"),
-				 request.getParameter("permitType"), false);
+				 request.getParameter("permitType"), false, "");
 	}
 	
 	protected void listSex(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 

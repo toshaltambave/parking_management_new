@@ -16,7 +16,7 @@
 <div class="row">    
 <div class="form-group">
 <div class="col">	
-<div class="row"><input id="errorMsg" class="form-control" name="errorMsg"  value="<c:out value='${parkingAreaError.errorMsg}'/>" type="text"  style ="background-color: white; color: red; border: none; width:800px" ></div>
+<div class="row"><input disabled id="errorMsg" class="form-control" name="errorMsg"  value="<c:out value='${parkingAreaError.errorMsg}'/>" type="text"  style ="background-color: white; color: red; border: none; width:800px" ></div>
 
 <div class="row"><label> Parking Area Name (*):</label></div> 
 <div class="row"><input id="parkingareaname" type="text" class="form-control" name="parkingareaname" value="<c:out value='${parkingArea.areaname}'/>"  maxlength="20" ></div>

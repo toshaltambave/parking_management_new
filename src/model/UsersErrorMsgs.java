@@ -8,6 +8,7 @@ public class UsersErrorMsgs {
 	private String confirmpasswordError;
 	private String roleError;
 	private String permitTypeError;
+	private String commentError;
 
 	public UsersErrorMsgs() {
 		this.errorMsg = "";
@@ -70,5 +71,19 @@ public class UsersErrorMsgs {
 
 	public void setpermitTypeError(String permitTypeError) {
 		this.permitTypeError = permitTypeError;
+	}
+
+	/**
+	 * @return the commentError
+	 */
+	public String getCommentError() {
+		return commentError;
+	}
+
+	/**
+	 * @param commentError the commentError to set
+	 */
+	public void setCommentError(String commentError) {
+		this.commentError = commentError;
 	}
 }

@@ -56,8 +56,11 @@
 		<div class="row">
 		<div class="form-group">
 		<div class="col">
+		<label>Comment (*):</label>
+		<div class="row"><input id="txtComment" type="text" class="form-control" name="txtComment" value="comment"  maxlength="45" ></div>
+		<div class="row"><input disabled id="commentError" class="form-control center_div" name="commentError"  value="<c:out value='${revokeerrorMsgs.commentError}'/>" type="text"  style ="background-color: white; color: red; border: none"></div>    
 		<input name="action" value="revoke" type="hidden">
-		 <input id="btnRevoke" class="btn btn-secondary" type="submit" value="Revoke" />
+		<div class="row"><input id="btnRevoke" class="btn btn-secondary" type="submit" value="Revoke" /></div>
 		</div>
 		</div>
 		</div>

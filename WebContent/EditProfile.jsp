@@ -225,7 +225,8 @@ input[type="text"] {
   	<td> <input disabled name="confirmPasswordError" id="confirmPasswordError" value="<c:out value='${updatedUserDetailsErrorMsgs.confirmPasswordError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"    maxlength="60"> </td>
     </tr>
     
-    <tr>
+    <%--User should not change his own role only Admin can --%>
+<%--     <tr> 
     <td> Role (*): </td>
     <td> 
     	<select name="role" id="role">
@@ -236,7 +237,7 @@ input[type="text"] {
 		</select>	
     </td>
   	<td> <input disabled name="roleError" id="roleError" value="<c:out value='${updatedUserDetailsErrorMsgs.roleError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"    maxlength="60"> </td>
-    </tr>
+    </tr> --%>
     
     <tr>
     <td> Permit Type: </td>

@@ -37,7 +37,6 @@
 								<td>${AllReservation.end_Time}</td>
 								<td>${AllReservation.isNoShow}</td>
 								<td>${AllReservation.isOverStay}</td>
-								<input name="action" value="setNoshow" type="hidden">
 							 </form>
 							</tr>
 						</c:forEach>

@@ -211,18 +211,37 @@ public class MakeReservationsDOA{
 	 try{
 		 	
 			stmt=conn.createStatement();
-			String queryString="update reservations set NoShow=1 where Reservation_Id="+reservationID+";";
-			stmt.executeUpdate(queryString);
-			conn.commit();
-			String queryString1="select count(*) AS Count from reservations where reservations.User_Id="+user_id+" and reservations.NoShow=1";
-			ResultSet count=stmt.executeQuery(queryString1);
-			count.next();
-			Integer totalCount = count.getInt("Count");
-			if (totalCount>2){
-				String queryString2="Update System_users set isRevoked=1 where user_id="+user_id+";";
-				stmt.executeUpdate(queryString2);
+			String fetchqueryString="select NoShow from reservations where Reservation_Id="+reservationID+";";
+			ResultSet rs = stmt.executeQuery(fetchqueryString);
+			if(rs.next()) 
+			{			
+				int NoShow = rs.getInt("NoShow");
+				if(NoShow == 0)
+				{
+					NoShow = 1;
+				}
+				else
+				{
+					NoShow = 0;
+				}			
+				String queryString="update reservations set NoShow="+NoShow+" where Reservation_Id="+reservationID+";";
+				stmt.executeUpdate(queryString);
+				conn.commit();
+				String queryString1="select count(*) AS Count from reservations where reservations.User_Id="+user_id+" and reservations.NoShow=1";
+				ResultSet count=stmt.executeQuery(queryString1);
+				count.next();
+				Integer totalCount = count.getInt("Count");
+				if (totalCount>2){
+					String queryString2="Update System_users set isRevoked=1,comment=" +"'No Show Violation'"+" where user_id="+user_id+";";
+					stmt.executeUpdate(queryString2);
+				}
+				else
+				{
+					String queryString2="Update System_users set isRevoked=0,comment=" +"''"+" where user_id="+user_id+";";
+					stmt.executeUpdate(queryString2);
+				}
+				conn.commit();
 			}
-			conn.commit();
 	 }catch (SQLException e) {
 		 e.printStackTrace();
 		 return false;
@@ -245,19 +264,38 @@ public class MakeReservationsDOA{
 	 Connection conn = SQLConnection.getDBConnection();
 	 try{
 			stmt=conn.createStatement();
-			String queryString="update reservations set OverStay=1 where Reservation_Id="+reservationID+";";
-			stmt.executeUpdate(queryString);
-			conn.commit();
-			String queryString1="select count(*) AS Count from reservations where reservations.User_Id="+user_id+" and reservations.OverStay=1";
-			ResultSet count=stmt.executeQuery(queryString1);
-			count.next();
-			Integer totalCount = count.getInt("Count");
-			if (totalCount>0){
-				String queryString2="Update System_users set isRevoked=1 where user_id="+user_id+";";
-				stmt.executeUpdate(queryString2);
+			String fetchqueryString="select OverStay from reservations where Reservation_Id="+reservationID+";";
+			ResultSet rs = stmt.executeQuery(fetchqueryString);
+			if(rs.next()) 
+			{			
+				int OverStay = rs.getInt("OverStay");
+				if(OverStay == 0)
+				{
+					OverStay = 1;
+				}
+				else
+				{
+					OverStay = 0;
+				}	
+				String queryString="update reservations set OverStay="+OverStay+" where Reservation_Id="+reservationID+";";
+				stmt.executeUpdate(queryString);
+				conn.commit();
+				String queryString1="select count(*) AS Count from reservations where reservations.User_Id="+user_id+" and reservations.OverStay=1";
+				ResultSet count=stmt.executeQuery(queryString1);
+				count.next();
+				Integer totalCount = count.getInt("Count");
+				if (totalCount>0)
+				{
+					String queryString2="Update System_users set isRevoked=1,comment=" +"'Overstayed'"+"  where user_id="+user_id+";";
+					stmt.executeUpdate(queryString2);
+				}
+				else
+				{
+					String queryString2="Update System_users set isRevoked=0,comment=" +"''"+"  where user_id="+user_id+";";
+					stmt.executeUpdate(queryString2);
+				}
+				conn.commit();
 			}
-			conn.commit();
-			
 	 }catch (SQLException e) {
 		 e.printStackTrace();
 		 return false;

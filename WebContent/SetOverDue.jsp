@@ -35,7 +35,7 @@
 						</tr>
 						<c:forEach items="${allreservations}" var="AllReservation">
 							<tr>
-							 <form action="${pageContext.request.contextPath}/SetOverdueController?setOverDue" method="post">
+							 <form action="${pageContext.request.contextPath}/ModifyController?setOverDue" method="post">
 								<td>${AllReservation.reservationID}</td>
 								<td>${AllReservation.userName}</td>
 								<td>${AllReservation.lastName}</td>
@@ -56,7 +56,6 @@
 					</table>
 
 			</div>
-<!-- 			<button class="btn btn-secondary" type="button" name="back" onclick="history.back()">Back</button> -->
 				
 		</div>
     </jsp:body>

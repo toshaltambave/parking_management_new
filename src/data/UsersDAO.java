@@ -94,6 +94,7 @@ public class UsersDAO {
 				user.setisRevoked(rs.getBoolean("IsRevoked"));
 				user.setPermitType(rs.getString("PermitType"));
 				user.setUserID(rs.getInt("User_Id"));
+				user.setComment(rs.getString("comment"));
 			}
 			else
 				user = null;

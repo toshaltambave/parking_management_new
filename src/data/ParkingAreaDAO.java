@@ -94,5 +94,49 @@ public class ParkingAreaDAO {
 			conn.commit();
 		}
 	}
+	public static Boolean addParkingSpot(int areaId, int floorNumber, String permitType) throws SQLException{
+		Connection conn = SQLConnection.getDBConnection();  
+		try {
+
+				PreparedStatement pst2 = null;
+				String getSpots = "SELECT No_Spots FROM parking_area_floors where Area_Id = ? and Floor_Number = ? and PermitType = ?";
+				pst2 = conn.prepareStatement(getSpots);
+				pst2.setInt(1, areaId);
+				pst2.setInt(2, floorNumber);
+				pst2.setString(3, permitType);
+				ResultSet rs = pst2.executeQuery();
+				if(rs.next()) 
+				{
+					int NoSpots = rs.getInt("No_Spots");
+					NoSpots = NoSpots + 1;				
+					PreparedStatement pst4 = null;
+					String parkingareafloors = "UPDATE parking_area_floors SET `No_Spots` = ? WHERE `Area_Id` = ? AND `Floor_Number` =  ? AND `PermitType` = ? ;";
+					pst4 = conn.prepareStatement(parkingareafloors);
+					pst4.setInt(1, NoSpots);
+					pst4.setInt(2, areaId);
+					pst4.setInt(3, floorNumber);
+					pst4.setString(4, permitType);
+					pst4.executeUpdate();
+					conn.commit();	
+		
+					String parkingareaspots = "INSERT INTO parking_spots(`Area_Id`,`Floor_Number`,`Spot_Id`,`IsBlocked`,`PermitType`)VALUES(?,?,?,?,?)";
+					PreparedStatement pst5 = null;
+					pst5 = conn.prepareStatement(parkingareaspots);
+					pst5.setInt(1, areaId);
+					pst5.setInt(2, floorNumber);
+					pst5.setInt(3, NoSpots);
+					pst5.setInt(4, 0);
+					pst5.setString(5, permitType);
+					pst5.executeUpdate();
+					conn.commit();
+				}
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+			return false;
+		}
+		return true;
+	}
 	
 }

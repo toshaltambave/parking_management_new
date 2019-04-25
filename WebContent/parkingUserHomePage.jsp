@@ -15,7 +15,7 @@
 <h2>PARKING USER HOMEPAGE</h2>
 <br>
 <c:if test="${isRevoked eq true}">
-<div id="msgIsRevoked" class="alert alert-danger" role="alert"> Your Account has been revoked please contact manager.</div>
+<div id="msgIsRevoked" class="alert alert-danger" role="alert"> Your Account has been revoked please contact manager, reason: <c:out value="${User.comment}"/>.</div>
 </c:if>
 <c:if test="${isMax eq true}">
 <div id="msgIsMaxReservation" class="alert alert-danger" role="alert"> Only 3 Reservations allowed in a day.</div>
@@ -27,13 +27,20 @@
 	<div id="msgisReservation" class="alert alert-success" role="alert"> Reservation has been made successfully.</div>
 </c:if>
 </div><br>
+
+<div class="col">
+	<c:if test="${isSuccessful eq true}">
+		<div id="msgUserUpdSuccess" class="alert alert-success" role="alert">
+			Users profile has been updated.
+		</div>
+	</c:if>
+</div>
 <div class="col"><a id="lnkUpdateProfile" class="btn btn-info" href="${pageContext.request.contextPath}/UpdateUserController?action=getList">Update profile</a> </div> <br>
-<div class="col"><a id="lnkViewUserReservation" class="btn btn-info"href="${pageContext.request.contextPath}/GetReservationByUser">View My reservation</a> </div> <br> <!-- TODO ADITYA -->
+<div class="col"><a id="lnkViewUserReservation" class="btn btn-info"href="${pageContext.request.contextPath}/ModifyController?action=viewReservations">View My reservation</a> </div> <br> <!-- TODO ADITYA -->
 <div class="col"><a id="lnkRequestReservation" class="btn btn-info" href="${pageContext.request.contextPath}/ReservationsController">Request a reservation</a> </div> <br>
 <div class="col"><a id="lnkModifyReservation" class="btn btn-info" href="${pageContext.request.contextPath}/ModifyReservationController?action=editReservation">Edit a reservation</a> </div> <br> <!-- TODO TOSHAL -->
-<!-- <div class="col"><a class="btn btn-info" href="#" onclick="return false;">View reservation status</a> </div> <br> -->
 <div class="col"><a id="lnkDeleteReservation" class="btn btn-info" href="${pageContext.request.contextPath}/ModifyReservationController">Cancel a reservation</a> </div> <br> <!-- TODO TOSHAL -->
-<div class="col"><a id="lnkUserViolations" class="btn btn-info" href="${pageContext.request.contextPath}/UserViolationsController"">View no-shows and violations</a> </div> <br> <!-- TODO ADITYA -->
+<div class="col"><a id="lnkUserViolations" class="btn btn-info" href="${pageContext.request.contextPath}/ModifyController?action=viewNoShowViolation">View no-shows and violations</a> </div> <br> <!-- TODO ADITYA -->
 <div class="col"><a id="lnkViewParkingSpots" class="btn btn-info" href="${pageContext.request.contextPath}/SpotSearchController">View parking spots</a> </div>
 </div>
 </div>
