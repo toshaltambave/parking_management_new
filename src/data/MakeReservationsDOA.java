@@ -14,7 +14,7 @@ import util.SQLConnection;
 public class MakeReservationsDOA{
 	
 	static SQLConnection DBMgr = SQLConnection.getInstance();
-	public static void StoreReservationsInDB (Reservations reservations,String queryString) {
+	public static void StoreReservationsInDB (Reservation reservations,String queryString) {
 		Statement stmt = null;
 		Connection conn = SQLConnection.getDBConnection();  
 		try {

@@ -104,14 +104,28 @@ public class BusinessFunctions {
 		
 	}
 	
-	public void reservationTimeAndDate(WebDriver driver, String start, String end, String area){
+	public void reservationTimeAndDate(WebDriver driver, String start, String end, String area) throws Exception{
+		
 		driver.findElement(By.id(prop.getProperty("Btn_Reservation_Reserve"))).click();
-	    driver.findElement(By.id(prop.getProperty("Txt_Reservation_StartTime"))).clear();
-		driver.findElement(By.id(prop.getProperty("Txt_Reservation_StartTime"))).sendKeys(start);
+		driver.findElement(By.id(prop.getProperty("Txt_Reservation_StartTime"))).clear();
 		driver.findElement(By.id(prop.getProperty("Txt_Reservation_EndTime"))).clear();
+		driver.findElement(By.id(prop.getProperty("Txt_Reservation_StartTime"))).sendKeys(start);
 		driver.findElement(By.id(prop.getProperty("Txt_Reservation_EndTime"))).sendKeys(end);
 		new Select(driver.findElement(By.id(prop.getProperty("Txt_Reservation_AreaDropDown")))).selectByVisibleText(area);
+		Thread.sleep(1000);
 	    driver.findElement(By.id(prop.getProperty("Btn_Reservation_Search"))).click();
+	    if (prop.getProperty("test_delay").equals("delay"))
+		{	
+			try {
+				Thread.sleep((Integer.parseInt(prop.getProperty("thread_sleep"))));
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public void reservationFloorAndSpot(WebDriver driver, String permitType, Integer floor, Integer spot){

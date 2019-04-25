@@ -21,7 +21,11 @@ import data.UsersDAO;
 import functions.BusinessFunctions;
 import junitparams.FileParameters;
 import junitparams.JUnitParamsRunner;
+import model.CreditCard;
 import model.CreditCardError;
+import model.CreditCardTypes;
+import model.Reservation;
+import model.ReservationError;
 import model.Users;
 import test.Data.TestDAO;
 import util.PasswordUtility;
@@ -37,14 +41,19 @@ public class SeleniumTC01 extends BusinessFunctions {
 	private String appUrl;
 	private String sharedUIMapPath;
 	private UsersDAO UsersDAO;
+	ReservationsController rc;
+	CreditCard cc;
+	CreditCardError cardError;
+	Reservation reservation;
+	ReservationError resError;
 //	private String username,password;
 
 	@Before
 	public void setUp() throws Exception {
 		// Change to FireFoxDriver if using FireFox browser
 		//FireFox Driver
-		   System.setProperty("webdriver.firefox.marionette", "C:\\GeckoSelenium\\geckodriver.exe");
-		   driver = new FirefoxDriver();
+	   System.setProperty("webdriver.firefox.marionette", "C:\\GeckoSelenium\\geckodriver.exe");
+	   driver = new FirefoxDriver();
 //		System.setProperty("webdriver.chrome.driver", "C:\\ChromeDriver\\chromedriver.exe");
 //		driver = new ChromeDriver();
 //		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
@@ -62,6 +71,11 @@ public class SeleniumTC01 extends BusinessFunctions {
 	    UsersDAO = new UsersDAO();
 		driver.get(appUrl);
 		driver.manage().window().setSize(new Dimension(1440,850));
+		rc = new ReservationsController();
+		cc = new CreditCard();
+		cardError = new CreditCardError();
+		reservation = new Reservation();
+		resError  = new ReservationError();
 	}
 
 
@@ -186,6 +200,12 @@ public class SeleniumTC01 extends BusinessFunctions {
 				String startTimeError, String endTimeError, String compareError, 
 				String cardNumError, String cardYearError, String cardMonthError, String cardCvvError) throws Exception {
 		driver.get(appUrl);
+		cc.setCardNumber(ccNum);
+		cc.setCardType(cardType);
+		cc.setCvv(cvv);
+		cc.setMonth(expMon);
+		cc.setYear(expYear);
+		
 	  	assertTrue(!isElementPresent(driver, "Txt_Register_Success"));
 		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
 		functions.Register(driver, userName, password, confirmPassword, role, permitType);
@@ -200,9 +220,9 @@ public class SeleniumTC01 extends BusinessFunctions {
 		enddate = dateFormat.format(date) +" "+enddate;
 		
 		functions.reservationTimeAndDate(driver, startdate, enddate, area);
-		ReservationsController rc = new ReservationsController();
-	    String timeError = rc.validateDateTime(startdate, enddate, null);
-	    if(timeError.equals("There are time errors.")){
+	    reservation.validateDateTime(startdate, enddate, resError);
+	    
+	    if(resError.getErrorMsg().equals("There are time errors.")){
 	    	assertTrue(driver.findElement(By.id(prop.getProperty("Err_Start_Time"))).getAttribute("value").equals(startTimeError));
 	    	assertTrue(driver.findElement(By.id(prop.getProperty("Err_End_Time"))).getAttribute("value").equals(endTimeError));
 	    	assertTrue(driver.findElement(By.id(prop.getProperty("Err_Compare"))).getAttribute("value").equals(compareError));
@@ -210,9 +230,9 @@ public class SeleniumTC01 extends BusinessFunctions {
 	    else{
 	    	functions.reservationFloorAndSpot(driver, reservationPermitType, floorNum, spotNum);
 			functions.makeReservation(driver, ccNum, expMon, expYear, cvv, cart, camera, history, cardType);
-			CreditCardError cardError = new CreditCardError();
+			
 			if(cart || camera || history){
-				rc.validatecreditcarddetails(ccNum, expMon, expYear, cardType, cvv, cardError);
+				cc.validatecreditcarddetails(cc, cardError);
 		    }
 		    if(cardError.getErrorMsg().equals("Please correct the following errors.")){
 		    	assertTrue(driver.findElement(By.id(prop.getProperty("Err_Card_Num"))).getAttribute("value").equals(cardNumError));

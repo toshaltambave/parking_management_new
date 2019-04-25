@@ -42,9 +42,7 @@ public class CreditCardTest {
 		creditCard.setCvv(cvv);
 		creditCard.setMonth(month);
 		creditCard.setYear(year);
-		
-		errorMsgs = controller.validatecreditcarddetails(creditCard.getCardNumber(), creditCard.getMonth(),
-				creditCard.getYear(), creditCard.getCardType(), creditCard.getCvv(), errorMsgs);
+		creditCard.validatecreditcarddetails(creditCard, errorMsgs);
 		creditCardTypes = Arrays.stream(CreditCardTypes.values()).map(Enum::name).toArray(String[]::new);
 
 		assertEquals(excpetedErrorMsg, errorMsgs.getErrorMsg());
