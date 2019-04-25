@@ -39,8 +39,15 @@ public class ReservationsController extends HttpServlet {
 		if (action.equalsIgnoreCase("Search") ) {  
 			String startTime = request.getParameter("start_time");		
 			String endTime = request.getParameter("end_time");
-			String error = validateDateTime(startTime,endTime,request);
-			if(error == "")
+			ReservationError error = new ReservationError();
+			Reservation reservation = new Reservation();
+			
+			reservation.validateDateTime(startTime,endTime, error);
+			request.setAttribute("endTimeError", error.getEndTimeError());
+			request.setAttribute("startTimeError", error.getStartTimeError());
+			request.setAttribute("compareError", error.getCompareError());
+			
+			if(error.getErrorMsg().equals(""))
 			{
 				int areaId = Integer.parseInt(request.getParameter("areaDropDrown"));
 		        request.setAttribute("selectedAreaId", areaId);
@@ -165,148 +172,135 @@ public class ReservationsController extends HttpServlet {
 
     }
 
-	public String validateDateTime(String startTime, String endTime,HttpServletRequest request) {
-		String startTimeError ="";
-		String endTimeError ="";
-		String compareError ="";
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		if(startTime.isEmpty())
-		{
-			startTimeError = "This field is required.";
-		}
-		else
-		{
-			try
-			{
-			Date startdate = formatter.parse(startTime);	
-			Date date = new Date();
-			int startHours = startdate.getHours();
-			int startMins =  startdate.getMinutes();
-			int currentHours = date.getHours();
-			int currentMins = date.getMinutes();
-				if(startHours < currentHours)
-				{
-					startTimeError = "Start time cannot be before current time.";
-				}
-				else
-				{
-					if(startHours == currentHours && startMins < currentMins)
-					{
-						startTimeError = "Start time cannot be before current time.";
-					}
-					else
-					{
-					    startTimeError ="";	
-					}
-				}
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
-		}
-		if(endTime.isEmpty())
-		{
-			endTimeError = "This field is required.";
-		}
-		else
-		{
-			try
-			{
-			Date enddate = formatter.parse(endTime);
-			Date date  = new Date();
-			int endHours = enddate.getHours();
-			int endMins =  enddate.getMinutes();
-			int currentHours = date.getHours();
-			int currentMins = date.getMinutes();
-			
-			if(endHours < currentHours)
-			{
-				endTimeError = "End time cannot be before current time.";
-			}
-			else
-			{
-				if(endHours == currentHours && endMins < currentMins)
-				{
-					endTimeError = "End time cannot be before current time.";
-				}
-				else
-				{
-					endTimeError ="";	
-				}
-			}
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
-		}
-		if(!endTime.isEmpty() && !startTime.isEmpty())
-		{
-			Date enddate;
-			try {
-				enddate = formatter.parse(endTime);
-			
-			Date startdate;
-				startdate = formatter.parse(startTime);
-			int endHours = enddate.getHours();
-			int endMins =  enddate.getMinutes();
-			int startHours = startdate.getHours();
-			int startMins =  startdate.getMinutes();
-			int diffHours = endHours - startHours;
-			int diffMins = (endHours*60 + endMins) - (startHours*60 + startMins);
-			
-			
-			if(startdate.after(enddate))
-			{
-				compareError = "Start time cannot be after end time.";
-			}
-			else if(startdate.equals(enddate))
-			{
-				compareError = "Start time and end time cannot be same.";
-			}
-			else if(diffHours >3)
-			{
-				compareError = "Reservation cannot be for more than 3 hours.";
-			}
-			//TODO: Maybe remove this  
-			else if(diffMins >180)
-			{
-				compareError = "Reservation cannot be for more than 3 hours.";
-			}
-			else
-			{
-				compareError = "";
-			}
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}	
-			
-		}
-		
-		if(request != null){
-			request.setAttribute("endTimeError", endTimeError);
-			request.setAttribute("startTimeError", startTimeError);
-			request.setAttribute("compareError", compareError);
-		}
-		
-		if(!compareError.isEmpty() || !startTimeError.isEmpty() || !endTimeError.isEmpty())
-			return "There are time errors.";
-		else
-			return "";
-	}
-
-//	public CreditCardError validatecreditcarddetails(String cardNumber, String expMonth, String expYear, String cardType,
-//			String cvv,CreditCardError errorMsgs) {
-//		errorMsgs.setCardNumberError(validateCardNumber(cardNumber,cardType));
-//		errorMsgs.setCvvError(validateCVV(cvv));
-//		errorMsgs.setMonthError(validateMonth(expMonth));
-//		errorMsgs.setYearError(validateYear(expYear));
-//		errorMsgs.setErrorMsg("error");
+//	public String validateDateTime(String startTime, String endTime,HttpServletRequest request) {
+//		String startTimeError ="";
+//		String endTimeError ="";
+//		String compareError ="";
+//		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//		if(startTime.isEmpty())
+//		{
+//			startTimeError = "This field is required.";
+//		}
+//		else
+//		{
+//			try
+//			{
+//			Date startdate = formatter.parse(startTime);	
+//			Date date = new Date();
+//			int startHours = startdate.getHours();
+//			int startMins =  startdate.getMinutes();
+//			int currentHours = date.getHours();
+//			int currentMins = date.getMinutes();
+//				if(startHours < currentHours)
+//				{
+//					startTimeError = "Start time cannot be before current time.";
+//				}
+//				else
+//				{
+//					if(startHours == currentHours && startMins < currentMins)
+//					{
+//						startTimeError = "Start time cannot be before current time.";
+//					}
+//					else
+//					{
+//					    startTimeError ="";	
+//					}
+//				}
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}	
+//		}
+//		if(endTime.isEmpty())
+//		{
+//			endTimeError = "This field is required.";
+//		}
+//		else
+//		{
+//			try
+//			{
+//			Date enddate = formatter.parse(endTime);
+//			Date date  = new Date();
+//			int endHours = enddate.getHours();
+//			int endMins =  enddate.getMinutes();
+//			int currentHours = date.getHours();
+//			int currentMins = date.getMinutes();
+//			
+//			if(endHours < currentHours)
+//			{
+//				endTimeError = "End time cannot be before current time.";
+//			}
+//			else
+//			{
+//				if(endHours == currentHours && endMins < currentMins)
+//				{
+//					endTimeError = "End time cannot be before current time.";
+//				}
+//				else
+//				{
+//					endTimeError ="";	
+//				}
+//			}
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}	
+//		}
+//		if(!endTime.isEmpty() && !startTime.isEmpty())
+//		{
+//			Date enddate;
+//			try {
+//				enddate = formatter.parse(endTime);
+//			
+//			Date startdate;
+//				startdate = formatter.parse(startTime);
+//			int endHours = enddate.getHours();
+//			int endMins =  enddate.getMinutes();
+//			int startHours = startdate.getHours();
+//			int startMins =  startdate.getMinutes();
+//			int diffHours = endHours - startHours;
+//			int diffMins = (endHours*60 + endMins) - (startHours*60 + startMins);
+//			
+//			
+//			if(startdate.after(enddate))
+//			{
+//				compareError = "Start time cannot be after end time.";
+//			}
+//			else if(startdate.equals(enddate))
+//			{
+//				compareError = "Start time and end time cannot be same.";
+//			}
+//			else if(diffHours >3)
+//			{
+//				compareError = "Reservation cannot be for more than 3 hours.";
+//			}
+//			//TODO: Maybe remove this  
+//			else if(diffMins >180)
+//			{
+//				compareError = "Reservation cannot be for more than 3 hours.";
+//			}
+//			else
+//			{
+//				compareError = "";
+//			}
+//			} catch (ParseException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}	
+//			
+//		}
 //		
-//		return errorMsgs;
+//		if(request != null){
+//			request.setAttribute("endTimeError", endTimeError);
+//			request.setAttribute("startTimeError", startTimeError);
+//			request.setAttribute("compareError", compareError);
+//		}
+//		
+//		if(!compareError.isEmpty() || !startTimeError.isEmpty() || !endTimeError.isEmpty())
+//			return "There are time errors.";
+//		else
+//			return "";
 //	}
-
-	
 
 	
 	private Boolean storeReservation(HttpSession session, Users user) {

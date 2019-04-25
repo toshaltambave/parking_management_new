@@ -24,6 +24,8 @@ import junitparams.JUnitParamsRunner;
 import model.CreditCard;
 import model.CreditCardError;
 import model.CreditCardTypes;
+import model.Reservation;
+import model.ReservationError;
 import model.Users;
 import test.Data.TestDAO;
 import util.PasswordUtility;
@@ -42,14 +44,16 @@ public class SeleniumTC01 extends BusinessFunctions {
 	ReservationsController rc;
 	CreditCard cc;
 	CreditCardError cardError;
+	Reservation reservation;
+	ReservationError resError;
 //	private String username,password;
 
 	@Before
 	public void setUp() throws Exception {
 		// Change to FireFoxDriver if using FireFox browser
 		//FireFox Driver
-		   System.setProperty("webdriver.firefox.marionette", "C:\\GeckoSelenium\\geckodriver.exe");
-		   driver = new FirefoxDriver();
+	   System.setProperty("webdriver.firefox.marionette", "C:\\GeckoSelenium\\geckodriver.exe");
+	   driver = new FirefoxDriver();
 //		System.setProperty("webdriver.chrome.driver", "C:\\ChromeDriver\\chromedriver.exe");
 //		driver = new ChromeDriver();
 //		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
@@ -70,6 +74,8 @@ public class SeleniumTC01 extends BusinessFunctions {
 		rc = new ReservationsController();
 		cc = new CreditCard();
 		cardError = new CreditCardError();
+		reservation = new Reservation();
+		resError  = new ReservationError();
 	}
 
 
@@ -214,9 +220,9 @@ public class SeleniumTC01 extends BusinessFunctions {
 		enddate = dateFormat.format(date) +" "+enddate;
 		
 		functions.reservationTimeAndDate(driver, startdate, enddate, area);
-		
-	    String timeError = rc.validateDateTime(startdate, enddate, null);
-	    if(timeError.equals("There are time errors.")){
+	    reservation.validateDateTime(startdate, enddate, resError);
+	    
+	    if(resError.getErrorMsg().equals("There are time errors.")){
 	    	assertTrue(driver.findElement(By.id(prop.getProperty("Err_Start_Time"))).getAttribute("value").equals(startTimeError));
 	    	assertTrue(driver.findElement(By.id(prop.getProperty("Err_End_Time"))).getAttribute("value").equals(endTimeError));
 	    	assertTrue(driver.findElement(By.id(prop.getProperty("Err_Compare"))).getAttribute("value").equals(compareError));
