@@ -91,7 +91,7 @@ public class FetchParkingSpotsDAO {
 
 	public static ArrayList<ParkingAreaFloors> getFloorsbyParkingAreaId(int areaId, String permitType){
 		ArrayList<ParkingAreaFloors> filteredFloors = new ArrayList<ParkingAreaFloors>();
-		Iterator <ParkingAreaFloors> floorsList = FetchParkingSpotsDAO.getAllParkingAreaFloors().iterator();
+		Iterator <ParkingAreaFloors> floorsList = FetchParkingSpotsDAO.getFilteredParkingAreaFloors().iterator();
 		while (floorsList.hasNext()) {
 			ParkingAreaFloors currentFloor = floorsList.next();
 			//TODO: Make PermitType mandatory

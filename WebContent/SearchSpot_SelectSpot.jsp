@@ -32,7 +32,6 @@
 						</table>
 			    </form>
 			</div>
-<!-- 			<button class="btn btn-secondary" type="button" name="back" onclick="history.back()">Back</button>			 -->
 		</div>
     </jsp:body>
 </t:_layout>

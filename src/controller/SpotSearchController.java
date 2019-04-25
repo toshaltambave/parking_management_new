@@ -44,7 +44,11 @@ public class SpotSearchController extends HttpServlet {
 			HttpSession session = request.getSession();
 			ParkingArea selectedArea = FetchParkingSpotsDAO.getspecificParkingArea(areaId);
 			Users user = (Users) session.getAttribute("User");
-			ArrayList<ParkingAreaFloors> floorDetails = FetchParkingSpotsDAO.getFloorsbyParkingAreaId(areaId, user.getPermitType());
+			ArrayList<ParkingAreaFloors> floorDetails = new ArrayList<ParkingAreaFloors>();
+			if (user.getRole().equals(Role.ParkingManager.toString()))
+				floorDetails = FetchParkingSpotsDAO.getFilteredFloorsbyParkingAreaId(areaId, "Premium");
+			else
+				floorDetails = FetchParkingSpotsDAO.getFloorsbyParkingAreaId(areaId, user.getPermitType());
 			request.setAttribute("selectedArea", selectedArea);
 			request.setAttribute("allFloors", floorDetails);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/SearchSpot_Floor.jsp");

@@ -11,7 +11,6 @@
     	<div class="container">
 			<div align="center">
 			    <h2>${selectedArea.area_Name}</h2>
-			    <form action="${pageContext.request.contextPath}/SpotSearchController?getSpotsForFloor" method="post">
 					<table class="table table-bordered center_div">
 						<tr>
 							<th>Floor Number</th>
@@ -19,6 +18,7 @@
 							<th>Number of Spots</th>
 						</tr>
 						<c:forEach items="${allFloors}" var="ParkingAreaFloors">
+						<form action="${pageContext.request.contextPath}/SpotSearchController?getSpotsForFloor" method="post">
 							<tr>
 								<td>${ParkingAreaFloors.floor_Number}</td>
 								<td>${ParkingAreaFloors.permitType}</td>
@@ -28,13 +28,11 @@
 							<input type="hidden" name="selectedAreaId" value="${selectedArea.area_Id}">
 							<input type="hidden" name="selectedFloorNumber" value="${ParkingAreaFloors.floor_Number}">
 							<input type="hidden" name="selectedPermitType" value="${ParkingAreaFloors.permitType}">
+							<input name="action" value="getSpotsForFloor" type="hidden">
+						</form>
 						</c:forEach>
 					</table>
-					<input name="action" value="getSpotsForFloor" type="hidden">
-			    </form>
-			</div>
-<!-- 			<button class="btn btn-secondary" type="button" name="back" onclick="history.back()">Back</button> -->
-				
+			</div>				
 		</div>
     </jsp:body>
 </t:_layout>
