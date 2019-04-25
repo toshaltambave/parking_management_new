@@ -64,10 +64,11 @@ public class UpdatedUserDetailsDAO {
 					userDetails.setUta_Id(rs2.getString("uta_id"));
 					userDetails.setUserID(rs2.getInt("User_Id"));
 					userDetails.setUserName(userName);
+					userDetails.setOldusername(userName);
 					userDetails.setPermitType(rs.getString("PermitType"));
 					userDetails.setRole(rs.getString("Role"));
-					userDetails.setConfirmPassword(rs.getString("HashedPassword"));
-					userDetails.setHashedPassword(rs.getString("HashedPassword"));
+					userDetails.setConfirmPassword("");
+					userDetails.setHashedPassword("");
 
 					userListInDB.add(userDetails);
 
@@ -87,7 +88,7 @@ public class UpdatedUserDetailsDAO {
 		return userListInDB;
 	}
 	
-	public static boolean updateUser(UpdatedUserDetails userDetails, Boolean isHash){
+	public static boolean updateUser(UpdatedUserDetails userDetails){
 		Statement stmt = null;
 		Connection conn = SQLConnection.getDBConnection();
 		boolean isSuccessful = true;
@@ -125,14 +126,7 @@ public class UpdatedUserDetailsDAO {
 					+ "WHERE User_Id=?";
 			pst = conn.prepareStatement(sql2);
 			String mySecurePassword = "";
-			if(isHash)
-			{
-				mySecurePassword = userDetails.getHashedPassword();
-			}
-			else
-			{
-				mySecurePassword = PasswordUtility.generatePassword(userDetails.getHashedPassword());
-			}
+			mySecurePassword = PasswordUtility.generatePassword(userDetails.getHashedPassword());
 			pst.setString(1, userDetails.getUserName());
 			pst.setString(2, mySecurePassword);
 			pst.setString(3, userDetails.getRole());

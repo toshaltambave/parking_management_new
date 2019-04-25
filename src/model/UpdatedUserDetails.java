@@ -27,6 +27,21 @@ public class UpdatedUserDetails {
 	private String RegistrationNumber;
 	private String uta_Id;
 	private String username;
+	private String oldusername;
+	/**
+	 * @return the oldusername
+	 */
+	public String getOldusername() {
+		return oldusername;
+	}
+
+	/**
+	 * @param oldusername the oldusername to set
+	 */
+	public void setOldusername(String oldusername) {
+		this.oldusername = oldusername;
+	}
+
 	private String HashedPassword;
 	private String ConfirmPassword;
 	private String Role;
@@ -223,10 +238,15 @@ public class UpdatedUserDetails {
 		errorMsgs.setRegNumberError(validateRegNo(6, 10, UserDetail.getRegistrationNumber()));
 		errorMsgs.setUtaIdError(validateUTAId(UserDetail.getUta_Id()));
 		errorMsgs.setDrivingLicenseExpiry(validateMandatory(UserDetail.getDrivingLicenseExpiry()));
-		errorMsgs.setUsernameError(validateUsername(UserDetail.getUserName()));
+		if(!UserDetail.getUserName().equals(UserDetail.getOldusername()))
+			errorMsgs.setUsernameError(validateUsername(UserDetail.getUserName()));
+		else
+		{
+			String value = "";
+			errorMsgs.setUsernameError(value);
+		}
 		errorMsgs.setHashedPasswordError(validatePassword(UserDetail.getHashedPassword()));
-		errorMsgs.setConfirmPasswordError(
-				validateConfirmPassword(UserDetail.getHashedPassword(), UserDetail.getConfirmPassword()));
+		errorMsgs.setConfirmPasswordError(validateConfirmPassword(UserDetail.getHashedPassword(), UserDetail.getConfirmPassword()));
 		errorMsgs.setRoleError(validateRole(UserDetail.getRole()));
 		errorMsgs.setPermitTypeError(validatePermitType(UserDetail.getPermitType(), UserDetail.getRole()));
 

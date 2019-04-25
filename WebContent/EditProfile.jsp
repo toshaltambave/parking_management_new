@@ -226,29 +226,36 @@ input[type="text"] {
     </tr>
     
     <%--User should not change his own role only Admin can --%>
-<%--     <tr> 
-    <td> Role (*): </td>
+    <tr> 
+    <td > Role (*): </td>
     <td> 
-    	<select name="role" id="role">
-          <option>${updatedUserDetails.role}</option>
-          <option value="ParkingUser">ParkingUser</option>
-          <option value="ParkingManager">ParkingManager</option>
-          <option value="Admin">Admin</option>
-		</select>	
+    	<div class="row"><select class="form-control style-select" name="role-select" id="role-select" disabled>
+    	 <c:forEach var="roleValue" items="${allRoles}">
+			   <option value="${roleValue}"
+			           <c:if test="${roleValue eq selectedrole}">selected="selected"</c:if>
+			     >
+			        ${roleValue}
+			    </option>
+     	</c:forEach>
+		</select>
+		<input type="hidden" name="role" id ="role" value="<c:out value='${selectedrole}'/>">
+		</div>	
     </td>
   	<td> <input disabled name="roleError" id="roleError" value="<c:out value='${updatedUserDetailsErrorMsgs.roleError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"    maxlength="60"> </td>
-    </tr> --%>
+    </tr>
     
     <tr>
     <td> Permit Type: </td>
     <td> 
-		<select name="permitType" id="permitType">
-          <option>${updatedUserDetails.permitType}</option>
-          <option value="Basic">Basic</option>
-          <option value="Midrange">Midrange</option>
-          <option value="Premium">Premium</option>
-          <option value="Access">Access</option>
-		</select>	
+		<div class="row"><select class="form-control style-select" name="permitType" id="permitType">
+    	 <c:forEach var="permitTypeValue" items="${allPermitTypes}">
+			   <option value="${permitTypeValue}"
+			           <c:if test="${permitTypeValue eq selectedpermitType}">selected="selected"</c:if>
+			     >
+			        ${permitTypeValue}
+			    </option>
+     	</c:forEach>
+		</select></div>	
 	</td>
   	<td> <input disabled name="permitTypeError" id="permitTypeError"  value="<c:out value='${updatedUserDetailsErrorMsgs.permitTypeError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"    maxlength="60"> </td>
     </tr>
