@@ -30,13 +30,14 @@ public class ParkingAreaController extends HttpServlet {
 		{
 			if (action.equalsIgnoreCase("editParkingArea")) {
 				showParkingAreaEdit(req, resp);
-			}
-			
+			}			
 		}
 		else
 		{
 			listAreas(req, resp);
 			listPermitTypes(req, resp);
+			RequestDispatcher dispatcher = req.getRequestDispatcher("/CreatingParkingArea.jsp");
+			dispatcher.forward(req, resp);
 		}
 		
 	}
@@ -62,6 +63,7 @@ public class ParkingAreaController extends HttpServlet {
 		 else if (action.equalsIgnoreCase("getAreaFloors"))
 		 {
 			 listAreas(req, resp);
+			 listPermitTypes(req, resp);
 			 int areaId = Integer.parseInt(req.getParameter("areaDropDrown"));
 		     req.setAttribute("selectedAreaId", areaId);
 			 url = listFloorsForSelectedArea(req, resp,areaId);
@@ -105,6 +107,14 @@ public class ParkingAreaController extends HttpServlet {
 			 addParkingSpot(req,resp,areaId,selectedFloorNumber,selectedPermitType);
 			 url = listSpotsForSelectedFloor(req, resp,areaId,selectedFloorNumber,selectedPermitType);
 		 }
+		else if (action.equalsIgnoreCase("editAreaName")) {
+			listAreas(req, resp);
+			url = editAreaName(req, resp);
+		}
+//		else if (action.equalsIgnoreCase("editPermitType")) {
+//			listAreas(req, resp);
+//			url = editPermitType(req, resp);
+//		}
 		getServletContext().getRequestDispatcher(url).forward(req, resp);
 	}
 
@@ -119,6 +129,7 @@ public class ParkingAreaController extends HttpServlet {
 		}
 	}
 	
+
 	private void addParkingSpot(HttpServletRequest request, HttpServletResponse response,int AreaId, int FloorNumber, String PermitType)
 			throws ServletException, IOException {
 		try {
@@ -144,6 +155,50 @@ public class ParkingAreaController extends HttpServlet {
 			return 0;
 	}
 	
+	private String editAreaName(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	{
+		String areaName = request.getParameter("txteditAreaName");
+		String url = "";
+		if(areaName.isEmpty())
+		{
+			String areanameError="Please select area first.";
+			request.setAttribute("areanameError", areanameError);
+			url = "/EditParkingArea.jsp";
+		}
+		else
+		{
+			int areaId = Integer.parseInt(request.getParameter("txteditAreaNumber"));
+			Boolean isParkingAreaUpdate = FetchParkingSpotsDAO.updateParkingAreaName(areaId, areaName); 
+		 	if(isParkingAreaUpdate)
+		 	{
+		 		request.setAttribute("isParkingAreaUpdate", isParkingAreaUpdate);
+		 	}
+		 	showParkingAreaEdit(request,response);
+		}
+		return url;
+	}
+	
+//	private String editPermitType(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+//	{
+//		 String url = "";
+//		 int areaId = Integer.parseInt(request.getParameter("selectedAreaId"));
+//		 int floorno = Integer.parseInt(request.getParameter("selectedFloorNumber"));
+//		 int spots = Integer.parseInt(request.getParameter("selectedSpots"));
+//		 String permitType = request.getParameter("permitType");
+//		 String oldpermitType = request.getParameter("selectedPermitType");
+//		 Boolean isPermitTypeUpdate = FetchParkingSpotsDAO.updateParkingPermitType(areaId, floorno,permitType,oldpermitType,spots); 
+//		 if(isPermitTypeUpdate)
+//		 {
+//		 	request.setAttribute("isPermitUpdate", isPermitTypeUpdate);
+//		 }
+//		 else
+//		 {
+//			request.setAttribute("isPermitError", true);
+//		 }
+//		 showParkingAreaEdit(request,response);
+//		 return url;
+//	}
+	
 	private void toggleBlock(int spotUID,int isBlocked,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 		HttpSession session = request.getSession();
@@ -166,6 +221,7 @@ public class ParkingAreaController extends HttpServlet {
 			ArrayList<ParkingAreaFloors> floorDetails = FetchParkingSpotsDAO.getFilteredFloorsbyParkingAreaId(areaId,"Premium");
 			request.setAttribute("selectedArea", selectedArea);
 			request.setAttribute("allFloors", floorDetails);
+			request.setAttribute("selectedAreaName", selectedArea.getArea_Name());
 			url = "/EditParkingArea.jsp";
 		}
 		catch (Exception e) 
@@ -201,8 +257,6 @@ public class ParkingAreaController extends HttpServlet {
 		try {
 			ArrayList<PermitType> listPermitTypes = new ArrayList<PermitType>(Arrays.asList(PermitType.values()));
 			request.setAttribute("allPermitTypes", listPermitTypes);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/CreatingParkingArea.jsp");
-			dispatcher.forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ServletException(e);
@@ -289,6 +343,7 @@ public class ParkingAreaController extends HttpServlet {
 			for (ListIterator<ParkingAreaHelper> iterator = copy.listIterator(); iterator.hasNext();) {
 				ParkingAreaHelper area = iterator.next();
 				isadded = ParkingAreaDAO.saveArea(area);
+				url="/CreatingParkingArea.jsp";
 			}
 			if (isadded) {
 				session.setAttribute("areastobeadded", new ArrayList<ParkingAreaHelper>());
