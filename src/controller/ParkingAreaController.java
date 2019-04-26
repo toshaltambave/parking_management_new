@@ -266,23 +266,12 @@ public class ParkingAreaController extends HttpServlet {
 	}
 
 	public void getError(HttpServletRequest request, HttpSession session, ParkingAreaHelperError error, String action) {
-		String mandatory = "This field is mandatory.";
-
 		session.setAttribute("isAreaListEmpty", false);
-		if (request.getParameter("parkingareaname").isEmpty())
-			error.setAreaNameError(mandatory);
-		else
-			error.setAreaNameError("");
-		if (request.getParameter("numberofSpots").isEmpty())
-			error.setNumberofSpotsError(mandatory);
-		else
-			error.setNumberofSpotsError("");
-		if (request.getParameter("floornumber").isEmpty())
-			error.setFloorNumberError(mandatory);
-		else
-			error.setFloorNumberError("");
-
-		if (action.equals("addtoList")) {
+		error.setAreaNameError(error.validateEmpty(request.getParameter("parkingareaname")));
+		error.setNumberofSpotsError(error.validateEmpty(request.getParameter("numberofSpots")));
+		error.setFloorNumberError(error.validateEmpty(request.getParameter("floornumber")));
+		if (action.equals("addtoList"))
+		{
 			error.setErrorMsg(action);
 		}
 	}

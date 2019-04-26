@@ -22,6 +22,15 @@ public class ParkingAreaHelperError {
 		if (!AreaNameError.equals("") || !FloorNumberError.equals("") || !NumberofSpotsError.equals(""))
 			this.errorMsg = "Please correct the following errors";
 	}
+	
+	public String validateEmpty(String value) {
+		if (value.equals(""))
+			return "This field is mandatory.";
+		else
+			return "";
+	}
+
+	
 
 	/**
 	 * @return the areaNameError
