@@ -302,6 +302,29 @@ public class BusinessFunctions {
 	    driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page_ChRole"))).click();
 	}
 	
+	public void addParkingArea(WebDriver driver,String AreaName,String PermitType,String FloorNo, String SpotsNo)
+	{
+	    driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page_ChRole"))).click();
+	    driver.findElement(By.id(prop.getProperty("Btn_Parking_Area_AddList"))).click();
+	    assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Parking_Area_Error"))).getText().equals("Please correct the following errors"));
+	    assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Parking_Area_Name_Error"))).getText().equals("This field is mandatory."));
+	    assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Parking_Floor_Number_Error"))).getText().equals("This field is mandatory."));
+	    assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Parking_Spot_Number_Error"))).getText().equals("This field is mandatory."));
+	    driver.findElement(By.id(prop.getProperty("Btn_Parking_Area_Save"))).click();
+	    assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Parking_Area_Exception"))).getText().equals("Add Area(s) to the list."));
+	    driver.findElement(By.id(prop.getProperty("Txt_Parking_Area_Name"))).clear();
+	    driver.findElement(By.id(prop.getProperty("Txt_Parking_Area_Name"))).sendKeys(AreaName);
+	    new Select(driver.findElement(By.id(prop.getProperty("Txt_Parking_Area_PermitType")))).selectByVisibleText(PermitType);
+	    driver.findElement(By.id(prop.getProperty("Txt_Parking_Floor_No"))).clear();
+	    driver.findElement(By.id(prop.getProperty("Txt_Parking_Floor_No"))).sendKeys(FloorNo);
+	    driver.findElement(By.name(prop.getProperty("Txt_Parking_Spot_No"))).clear();
+	    driver.findElement(By.name(prop.getProperty("Txt_Parking_Spot_No"))).sendKeys(SpotsNo);
+	    driver.findElement(By.id(prop.getProperty("Btn_Parking_Area_AddList"))).click();
+	    driver.findElement(By.id(prop.getProperty("Btn_Parking_Area_Save"))).click();
+	    assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Parking_Add_Success"))).getText().equals("Area(s) added successfully."));
+	    driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
+	}
+	
 	public boolean isElementPresent(WebDriver driver, String id) {
 	    try {
 	        driver.findElement(By.id(prop.getProperty(id)));
