@@ -17,18 +17,11 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
 import controller.ReservationsController;
-import data.UsersDAO;
 import functions.BusinessFunctions;
 import junitparams.FileParameters;
 import junitparams.JUnitParamsRunner;
-import model.CreditCard;
-import model.CreditCardError;
-import model.CreditCardTypes;
-import model.Reservation;
-import model.ReservationError;
-import model.Users;
+import model.*;
 import test.Data.TestDAO;
-import util.PasswordUtility;
 
 @RunWith(JUnitParamsRunner.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -39,7 +32,6 @@ public class SeleniumTC01 extends BusinessFunctions {
 
 	private String appUrl;
 	private String sharedUIMapPath;
-	private UsersDAO UsersDAO;
 	ReservationsController rc;
 	CreditCard cc;
 	CreditCardError cardError;
@@ -62,7 +54,6 @@ public class SeleniumTC01 extends BusinessFunctions {
 		driver.manage().timeouts().implicitlyWait(timewait, TimeUnit.SECONDS);
 		sharedUIMapPath = prop.getProperty("SharedUIMapPath");
 		prop.load(new FileInputStream(sharedUIMapPath));
-	    UsersDAO = new UsersDAO();
 		driver.get(appUrl);
 		driver.manage().window().setSize(new Dimension(1440,850));
 		rc = new ReservationsController();
@@ -83,11 +74,14 @@ public class SeleniumTC01 extends BusinessFunctions {
 	@FileParameters("tests/Excel/ParkingUserRegisterFailures.csv")
 	public void aParkingUserRegistration(String userName, String password, String confirmPassword, String role,
 			String permitType, String exceptedErrorMsg, String expectedUsernameError, String expectedPasswordError,
-			String expectedConfirmPaswordError) throws Exception {
+			String expectedConfirmPaswordError, String correctPassword, String firstName, String middleName, String lastName, String sex, String dob
+			,String address, String email, String phoneNum,String dlno, String dlexpiry, String regNum, String utaId) throws Exception {
 		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
 		
-		if ("Username is already in database".equals(expectedUsernameError) && !TestDAO.userExists("PUUser1")) {
-				registerUser("PUUser1","Admin12");
+		TestDAO.deleteUser(userName);
+		if ("Username is already in database".equals(expectedUsernameError) && !TestDAO.userExists(userName)) {
+				registerUser(userName, correctPassword,role,permitType,firstName,middleName,lastName,
+						sex,dob,address,email,phoneNum,dlno,dlexpiry,regNum,utaId);
 		}
 		
 		if ("None".equals(userName)) {
@@ -97,7 +91,7 @@ public class SeleniumTC01 extends BusinessFunctions {
 			// UserName all ready in DataBase
 			functions.Register(driver, userName, password, confirmPassword, role, permitType);
 			if ("Username is already in database".equals(expectedUsernameError)) {
-				TestDAO.deleteUser("PUUser1");
+				TestDAO.deleteUser(userName);
 			}
 		}
 		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Login_CommonError"))).getAttribute("value")
@@ -118,14 +112,16 @@ public class SeleniumTC01 extends BusinessFunctions {
 			String utaId, String expectedErrorMsg, String expectedFirstNameError, String expectedMiddleNameError,
 			String expectedLastNameError, String expectedDobError, String expectedAddressError,
 			String expectedEmailError, String expectedPhoneNumError, String expectedDlNumError,
-			String expectedDlExpiryError, String RegNumError, String utaIdError) throws Exception {
+			String expectedDlExpiryError, String RegNumError, String utaIdError, String userName, String password, String confirmPassword, String role,
+			String permitType) throws Exception 
+	{
 		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
 		
-		if (TestDAO.userExists("PUUser1")) {
-			TestDAO.deleteUser("PUUser1");
+		if (TestDAO.userExists(userName)) {
+			TestDAO.deleteUser(userName);
 		}
 		
-		functions.Register(driver, "PUUser1", "Admin12", "Admin12", "ParkingUser", "Basic");
+		functions.Register(driver, userName, password, confirmPassword, role, permitType);
 
 
 		if("None".equals(firstName)){
@@ -151,15 +147,19 @@ public class SeleniumTC01 extends BusinessFunctions {
 	
 	@Test
 	@FileParameters("tests/Excel/ParkingUserRegisterLoginFailures.csv")
-	public void cParkingUserLogin(String userName, String password, String expectedErrorMsg, String expectedUserNameError, String expectedPasswordError){
+	public void cParkingUserLogin(String userName, String password, String expectedErrorMsg, String expectedUserNameError, String expectedPasswordError,String reguserName, String regpassword, String confirmPassword, String role,
+			String permitType,String firstName, String middleName, String lastName, String sex,
+			String dob, String address, String email, String phoneNum, String dlNum, String expiryDate, String regNum,
+			String utaId)
+	{
 		
-		if (TestDAO.userExists("PUUser1")) {
-			TestDAO.deleteUser("PUUser1");
+		if (TestDAO.userExists(reguserName)) {
+			TestDAO.deleteUser(reguserName);
 		}
 		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
 		
-		functions.Register(driver, "PUUser1", "Admin12", "Admin12", "ParkingUser", "Basic");
-		functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "1", "LexCorp", "Lex@aol.com", "4693332514", "14412552", "30", "12332147", "1000212003");
+		functions.Register(driver, reguserName, regpassword, confirmPassword, role, permitType);
+		functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dob, address, email, phoneNum, dlNum, expiryDate, regNum, utaId);
 		
 		if("None".equals(userName)){
 			functions.Login(driver, "", "");
@@ -171,11 +171,7 @@ public class SeleniumTC01 extends BusinessFunctions {
 		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Login_UsernameError"))).getAttribute("value").equals(expectedPasswordError));
 		
 	}
-	
-	
-	
-
-	
+		
 	  @Test
 	  @FileParameters("tests/Excel/ParkingUserReservation.csv")
 	  public void dParkingUserReservation(String userName, String password, String confirmPassword, String role,
@@ -186,6 +182,10 @@ public class SeleniumTC01 extends BusinessFunctions {
 				String startTimeError, String endTimeError, String compareError, 
 				String cardNumError, String cardYearError, String cardMonthError, String cardCvvError) throws Exception {
 		driver.get(appUrl);
+		
+		TestDAO.deleteReservation(userName);
+		TestDAO.deleteUser(userName);
+		
 		cc.setCardNumber(ccNum);
 		cc.setCardType(cardType);
 		cc.setCvv(cvv);
@@ -244,6 +244,10 @@ public class SeleniumTC01 extends BusinessFunctions {
 				String startTimeError, String endTimeError, String compareError, 
 				String cardNumError, String cardYearError, String cardMonthError, String cardCvvError) throws Exception {
 			driver.get(appUrl);
+			
+			TestDAO.deleteReservation(userName);
+			TestDAO.deleteUser(userName);
+			
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			Date date = new Date();
 			startdate = dateFormat.format(date) +" "+startdate;
@@ -275,12 +279,13 @@ public class SeleniumTC01 extends BusinessFunctions {
 			driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
 	  }
 	
-		private void registerUser(String userName,String password) {
+		private void registerUser(String userName,String password, String role, String permitType, String firstName, String middleName, String lastName, String sex, String dob
+				,String address, String email, String phoneNum,String dlno, String dlexpiry, String regNum, String utaId) {
 			driver.get(appUrl);
-			functions.Register(driver, userName, password, password, "ParkingUser", "Basic");
-			functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "1", "LexCorp", "Lex@aol.com", "4693332514",
-					"14412552", "30", "12332147", "1000212003");
-			functions.Login(driver, "PUUser1", "Admin12");
+			functions.Register(driver, userName, password, password, role, permitType);
+			functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dob, address, email, phoneNum,
+					dlno, dlexpiry, regNum, utaId);
+			functions.Login(driver, userName, password);
 			driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
 		}
 	
