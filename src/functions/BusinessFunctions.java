@@ -320,10 +320,10 @@ public class BusinessFunctions {
 	{
 	    driver.findElement(By.id(prop.getProperty("Btn_ParkingManagement_AddParkingArea"))).click();
 	    driver.findElement(By.id(prop.getProperty("Btn_Parking_Area_AddList"))).click();
-	    assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Parking_Area_Error"))).getText().equals("Please correct the following errors"));
-	    assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Parking_Area_Name_Error"))).getText().equals("This field is mandatory."));
-	    assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Parking_Floor_Number_Error"))).getText().equals("This field is mandatory."));
-	    assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Parking_Spot_Number_Error"))).getText().equals("This field is mandatory."));
+	    assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Parking_Area_Error"))).getAttribute("value").equals("Please correct the following errors"));
+	    assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Parking_Area_Name_Error"))).getAttribute("value").equals("This field is mandatory."));
+	    assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Parking_Floor_Number_Error"))).getAttribute("value").equals("This field is mandatory."));
+	    assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Parking_Spot_Number_Error"))).getAttribute("value").equals("This field is mandatory."));
 	    driver.findElement(By.id(prop.getProperty("Btn_Parking_Area_Save"))).click();
 	    assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Parking_Area_Exception"))).getText().equals("Add Area(s) to the list."));
 	    driver.findElement(By.id(prop.getProperty("Txt_Parking_Area_Name"))).clear();
