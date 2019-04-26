@@ -19,6 +19,8 @@ import test.Data.TestDAO;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import model.Role;
+
 @RunWith(JUnitParamsRunner.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SeleniumTC02 extends BusinessFunctions {
@@ -57,24 +59,26 @@ public class SeleniumTC02 extends BusinessFunctions {
 	 * @throws Exception
 	 */
 	@Test
-	@FileParameters("tests/Excel/ParkingManagerRegisterFailures.csv")
+	@FileParameters("tests/Excel/RegisterFailures.csv")
 	public void aParkingManagerRegistration(String userName, String password, String confirmPassword, String role,
 			String permitType, String exceptedErrorMsg, String expectedUsernameError, String expectedPasswordError,
 			String expectedConfirmPaswordError) throws Exception {
 		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
 		
-		if ("Username is already in database".equals(expectedUsernameError) && !TestDAO.userExists("PMUser1")) {
-				registerUser("PMUser1","Admin12");
-		}
+		TestDAO.deleteUser(userName);
+//		if ("Username is already in database".equals(expectedUsernameError) && !TestDAO.userExists(userName)) {
+//			registerUser(userName, correctPassword,role,permitType,firstName,middleName,lastName,
+//					sex,dob,address,email,phoneNum,dlno,dlexpiry,regNum,utaId);
+//		}
 		
 		if ("None".equals(userName)) {
 			// Nothing entered - all errors present
 			driver.findElement(By.id(prop.getProperty("Btn_Register_Register"))).click();
 		} else {
 			// UserName all ready in DataBase
-			functions.Register(driver, userName, password, confirmPassword, role, permitType);
+			functions.Register(driver, userName, password, confirmPassword, Role.ParkingManager.toString(), permitType);
 			if ("Username is already in database".equals(expectedUsernameError)) {
-				TestDAO.deleteUser("PMUser1");
+				TestDAO.deleteUser(userName);
 			}
 		}
 		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Login_CommonError"))).getAttribute("value")
@@ -89,20 +93,21 @@ public class SeleniumTC02 extends BusinessFunctions {
 	}
 
 	@Test
-	@FileParameters("tests/Excel/ParkingManagerRegisterUserDetailsFailures.csv")
+	@FileParameters("tests/Excel/UserDetailsFailures.csv")
 	public void bParkingManagerUserDetails(String firstName, String middleName, String lastName, String sex,
 			String dob, String address, String email, String phoneNum, String dlNum, String expiryDate, String regNum,
 			String utaId, String expectedErrorMsg, String expectedFirstNameError, String expectedMiddleNameError,
 			String expectedLastNameError, String expectedDobError, String expectedAddressError,
 			String expectedEmailError, String expectedPhoneNumError, String expectedDlNumError,
-			String expectedDlExpiryError, String RegNumError, String utaIdError) throws Exception {
+			String expectedDlExpiryError, String RegNumError, String utaIdError, String userName, String password, String confirmPassword, String role,
+			String permitType) throws Exception {
 		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
 		
-		if (TestDAO.userExists("PMUser1")) {
-			TestDAO.deleteUser("PMUser1");
+		if (TestDAO.userExists(userName)) {
+			TestDAO.deleteUser(userName);
 		}
 		
-		functions.Register(driver, "PMUser1", "Admin12", "Admin12", "ParkingManager", "Basic");
+		functions.Register(driver, userName, password, confirmPassword, Role.ParkingManager.toString(), permitType);
 
 
 		if("None".equals(firstName)){
@@ -127,16 +132,19 @@ public class SeleniumTC02 extends BusinessFunctions {
 	}
 	
 	@Test
-	@FileParameters("tests/Excel/ParkingManagerRegisterLoginFailures.csv")
-	public void cParkingManagerLogin(String userName, String password, String expectedErrorMsg, String expectedUserNameError, String expectedPasswordError){
+	@FileParameters("tests/Excel/RegisterLoginFailures.csv")
+	public void cParkingManagerLogin(String userName, String password, String expectedErrorMsg, String expectedUserNameError, String expectedPasswordError,String reguserName, String regpassword, String confirmPassword, String role,
+			String permitType,String firstName, String middleName, String lastName, String sex,
+			String dob, String address, String email, String phoneNum, String dlNum, String expiryDate, String regNum,
+			String utaId){
 		
-		if (TestDAO.userExists("PMUser1")) {
-			TestDAO.deleteUser("PMUser1");
+		if (TestDAO.userExists(reguserName)) {
+			TestDAO.deleteUser(reguserName);
 		}
 		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
 		
-		functions.Register(driver, "PMUser1", "Admin12", "Admin12", "ParkingManager", "Basic");
-		functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "1", "LexCorp", "Lex@aol.com", "4693332514", "14412552", "30", "12332147", "1000212003");
+		functions.Register(driver, reguserName, regpassword, confirmPassword, Role.ParkingManager.toString(), permitType);
+		functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dob, address, email, phoneNum, dlNum, expiryDate, regNum, utaId);
 		
 		if("None".equals(userName)){
 			functions.Login(driver, "", "");
@@ -150,7 +158,7 @@ public class SeleniumTC02 extends BusinessFunctions {
 	}
 	
 	@Test
-	@FileParameters("tests/Excel/ParkingManagerGoodTest.csv")
+	@FileParameters("tests/Excel/GoodTest.csv")
 	public void dParkingManagerHappy(String userName, String password, String confirmPassword, String role,
 			String permitType, String firstName, String middleName, String lastName, String sex, String dayOfBirth,
 			String address, String email, String phoneNum, String dlNum, String dayOfExpiry, String regNum,
@@ -159,7 +167,10 @@ public class SeleniumTC02 extends BusinessFunctions {
 //		driver.manage().window().setSize(new Dimension(1936, 1056));
 		assertTrue(!isElementPresent(driver, "Txt_Register_Success"));
 		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
-		functions.Register(driver, userName, password, confirmPassword, role, permitType);
+		if (TestDAO.userExists(userName)) {
+			TestDAO.deleteUser(userName);
+		}
+		functions.Register(driver, userName, password, confirmPassword, Role.ParkingManager.toString(), permitType);
 		functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dayOfBirth, address, email,
 				phoneNum, dlNum, dayOfExpiry, regNum, utaId);
 		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Register_Success"))).getText()
@@ -173,55 +184,23 @@ public class SeleniumTC02 extends BusinessFunctions {
 	
 	
 
-	private void registerUser(String userName,String password) {
-		driver.get(appUrl);
-		functions.Register(driver, userName, password, password, "ParkingManager", "Basic");
-		functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "1", "LexCorp", "Lex@aol.com", "4693332514",
-				"14412552", "30", "12332147", "1000212003");
-		functions.Login(driver, "PMUser1", "Admin12");
-		driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
-	}
+//	private void registerUser(String userName,String password, String role, String permitType, String firstName, String middleName, String lastName, String sex, String dob
+//			,String address, String email, String phoneNum,String dlno, String dlexpiry, String regNum, String utaId) {
+//		driver.get(appUrl);
+//		functions.Register(driver, userName, password, password, role, permitType);
+//		functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dob, address, email, phoneNum,
+//				dlno, dlexpiry, regNum, utaId);
+//		functions.Login(driver, userName, password);
+//		driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
+//	}
 
 	@After
 	public void tearDown() throws Exception {
 		driver.quit();
-		TestDAO.deleteUser("PMUser1");
 		String verificationErrorString = verificationErrors.toString();
 		if (!"".equals(verificationErrorString)) {
 			fail(verificationErrorString);
 		}
 	}
 
-//	private boolean isElementPresent(By by) {
-//		try {
-//			driver.findElement(by);
-//			return true;
-//		} catch (NoSuchElementException e) {
-//			return false;
-//		}
-//	}
-
-//	private boolean isAlertPresent() {
-//		try {
-//			driver.switchTo().alert();
-//			return true;
-//		} catch (NoAlertPresentException e) {
-//			return false;
-//		}
-//	}
-//
-//	private String closeAlertAndGetItsText() {
-//		try {
-//			Alert alert = driver.switchTo().alert();
-//			String alertText = alert.getText();
-//			if (acceptNextAlert) {
-//				alert.accept();
-//			} else {
-//				alert.dismiss();
-//			}
-//			return alertText;
-//		} finally {
-//			acceptNextAlert = true;
-//		}
-//	}
 }

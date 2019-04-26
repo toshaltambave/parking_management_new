@@ -1,0 +1,5 @@
+None,,,,,Please correct the following errors.,Your username must between 4 and 10 characters,Your password must between 4 and 10 characters.,
+PUUser1,1234,,ParkingUser,Basic,Please correct the following errors.,,Password must contain at least one uppercase.,Passwords do not match.
+PUUser1,Abcd,,ParkingUser,Basic,Please correct the following errors.,,Password must contain at least one number.,Passwords do not match.
+PUUser1,12345678901,,ParkingUser,Basic,Please correct the following errors.,,Your password must between 4 and 10 characters.,Passwords do not match.
+PUUser1,Admin12,,ParkingUser,Basic,Please correct the following errors.,,,Passwords do not match.

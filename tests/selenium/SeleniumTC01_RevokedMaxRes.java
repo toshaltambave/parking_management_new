@@ -80,6 +80,10 @@ public class SeleniumTC01_RevokedMaxRes extends BusinessFunctions {
 		startdate = dateFormat.format(date) +" "+startdate;
 		enddate = dateFormat.format(date) +" "+enddate;
 		//Register
+		if (TestDAO.userExists(userName)) {
+			TestDAO.deleteReservation(userName);
+			TestDAO.deleteUser(userName);
+		}
 		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
 		functions.Register(driver, userName, password, confirmPassword, role, permitType);
 		functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dayOfBirth, address, email,
@@ -114,6 +118,7 @@ public class SeleniumTC01_RevokedMaxRes extends BusinessFunctions {
 		driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
 		//Check Revoked
 		functions.Login(driver, userName, password);
+		driver.findElement(By.id(prop.getProperty("Btn_Reservation_Reserve"))).click();
 		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Max_Reservation"))).getText()
 				.equals("Only 3 Reservations allowed in a day."));
 		

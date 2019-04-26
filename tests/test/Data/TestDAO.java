@@ -92,4 +92,38 @@ public class TestDAO {
 			}
 		}
 	}
+	
+	public static void deleteSpot(String areaName) {
+		Statement stmt = null;
+		Connection conn = SQLConnection.getDBConnection();
+
+		try {
+			stmt = conn.createStatement();
+			PreparedStatement pst = null;
+			String sql = "DELETE FROM parking_management.parking_spots WHERE Area_Id = (SELECT Area_Id FROM parking_management.parking_area where Area_Name=?)";
+			pst = conn.prepareStatement(sql);
+			pst.setString(1, areaName);
+			pst.executeUpdate();
+			pst = null;
+			sql = "DELETE FROM parking_management.parking_area_floors WHERE Area_Id = (SELECT Area_Id FROM parking_management.parking_area where Area_Name=?)";
+			pst = conn.prepareStatement(sql);
+			pst.setString(1, areaName);
+			pst.executeUpdate();
+			pst = null;
+			sql = "DELETE FROM parking_management.parking_area WHERE Area_Name=?";
+			pst = conn.prepareStatement(sql);
+			pst.setString(1, areaName);
+			pst.executeUpdate();
+			conn.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

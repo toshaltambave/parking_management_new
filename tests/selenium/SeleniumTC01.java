@@ -71,25 +71,24 @@ public class SeleniumTC01 extends BusinessFunctions {
 	 * @throws Exception
 	 */
 	@Test
-	@FileParameters("tests/Excel/ParkingUserRegisterFailures.csv")
+	@FileParameters("tests/Excel/RegisterFailures.csv")
 	public void aParkingUserRegistration(String userName, String password, String confirmPassword, String role,
 			String permitType, String exceptedErrorMsg, String expectedUsernameError, String expectedPasswordError,
-			String expectedConfirmPaswordError, String correctPassword, String firstName, String middleName, String lastName, String sex, String dob
-			,String address, String email, String phoneNum,String dlno, String dlexpiry, String regNum, String utaId) throws Exception {
+			String expectedConfirmPaswordError) throws Exception {
 		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
 		
 		TestDAO.deleteUser(userName);
-		if ("Username is already in database".equals(expectedUsernameError) && !TestDAO.userExists(userName)) {
-				registerUser(userName, correctPassword,role,permitType,firstName,middleName,lastName,
-						sex,dob,address,email,phoneNum,dlno,dlexpiry,regNum,utaId);
-		}
-		
+//		if ("Username is already in database".equals(expectedUsernameError) && !TestDAO.userExists(userName)) {
+//				registerUser(userName, correctPassword,role,permitType,firstName,middleName,lastName,
+//						sex,dob,address,email,phoneNum,dlno,dlexpiry,regNum,utaId);
+//		}
+//		
 		if ("None".equals(userName)) {
 			// Nothing entered - all errors present
 			driver.findElement(By.id(prop.getProperty("Btn_Register_Register"))).click();
 		} else {
 			// UserName all ready in DataBase
-			functions.Register(driver, userName, password, confirmPassword, role, permitType);
+			functions.Register(driver, userName, password, confirmPassword, Role.ParkingUser.toString(), permitType);
 			if ("Username is already in database".equals(expectedUsernameError)) {
 				TestDAO.deleteUser(userName);
 			}
@@ -106,7 +105,7 @@ public class SeleniumTC01 extends BusinessFunctions {
 	}
 
 	@Test
-	@FileParameters("tests/Excel/ParkingUserRegisterUserDetailsFailures.csv")
+	@FileParameters("tests/Excel/UserDetailsFailures.csv")
 	public void bParkingUserDetails(String firstName, String middleName, String lastName, String sex,
 			String dob, String address, String email, String phoneNum, String dlNum, String expiryDate, String regNum,
 			String utaId, String expectedErrorMsg, String expectedFirstNameError, String expectedMiddleNameError,
@@ -121,7 +120,7 @@ public class SeleniumTC01 extends BusinessFunctions {
 			TestDAO.deleteUser(userName);
 		}
 		
-		functions.Register(driver, userName, password, confirmPassword, role, permitType);
+		functions.Register(driver, userName, password, confirmPassword, Role.ParkingUser.toString(), permitType);
 
 
 		if("None".equals(firstName)){
@@ -146,7 +145,7 @@ public class SeleniumTC01 extends BusinessFunctions {
 	}
 	
 	@Test
-	@FileParameters("tests/Excel/ParkingUserRegisterLoginFailures.csv")
+	@FileParameters("tests/Excel/RegisterLoginFailures.csv")
 	public void cParkingUserLogin(String userName, String password, String expectedErrorMsg, String expectedUserNameError, String expectedPasswordError,String reguserName, String regpassword, String confirmPassword, String role,
 			String permitType,String firstName, String middleName, String lastName, String sex,
 			String dob, String address, String email, String phoneNum, String dlNum, String expiryDate, String regNum,
@@ -158,7 +157,7 @@ public class SeleniumTC01 extends BusinessFunctions {
 		}
 		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
 		
-		functions.Register(driver, reguserName, regpassword, confirmPassword, role, permitType);
+		functions.Register(driver, reguserName, regpassword, confirmPassword, Role.ParkingUser.toString(), permitType);
 		functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dob, address, email, phoneNum, dlNum, expiryDate, regNum, utaId);
 		
 		if("None".equals(userName)){
@@ -194,7 +193,7 @@ public class SeleniumTC01 extends BusinessFunctions {
 		
 	  	assertTrue(!isElementPresent(driver, "Txt_Register_Success"));
 		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
-		functions.Register(driver, userName, password, confirmPassword, role, permitType);
+		functions.Register(driver, userName, password, confirmPassword, Role.ParkingUser.toString(), permitType);
 		functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dayOfBirth, address, email,
 				phoneNum, dlNum, dayOfExpiry, regNum, utaId);
 		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Register_Success"))).getText()
@@ -254,7 +253,7 @@ public class SeleniumTC01 extends BusinessFunctions {
 			enddate = dateFormat.format(date) +" "+enddate;
 			//Register
 			driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
-			functions.Register(driver, userName, password, confirmPassword, role, permitType);
+			functions.Register(driver, userName, password, confirmPassword, Role.ParkingUser.toString(), permitType);
 			functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dayOfBirth, address, email,
 					phoneNum, dlNum, dayOfExpiry, regNum, utaId);
 			//Assert user registered
@@ -279,15 +278,15 @@ public class SeleniumTC01 extends BusinessFunctions {
 			driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
 	  }
 	
-		private void registerUser(String userName,String password, String role, String permitType, String firstName, String middleName, String lastName, String sex, String dob
-				,String address, String email, String phoneNum,String dlno, String dlexpiry, String regNum, String utaId) {
-			driver.get(appUrl);
-			functions.Register(driver, userName, password, password, role, permitType);
-			functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dob, address, email, phoneNum,
-					dlno, dlexpiry, regNum, utaId);
-			functions.Login(driver, userName, password);
-			driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
-		}
+//		private void registerUser(String userName,String password, String role, String permitType, String firstName, String middleName, String lastName, String sex, String dob
+//				,String address, String email, String phoneNum,String dlno, String dlexpiry, String regNum, String utaId) {
+//			driver.get(appUrl);
+//			functions.Register(driver, userName, password, password, role, permitType);
+//			functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dob, address, email, phoneNum,
+//					dlno, dlexpiry, regNum, utaId);
+//			functions.Login(driver, userName, password);
+//			driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
+//		}
 	
 
 	@After
@@ -299,36 +298,4 @@ public class SeleniumTC01 extends BusinessFunctions {
 		}
 	}
 
-//	private boolean isElementPresent(By by) {
-//		try {
-//			driver.findElement(by);
-//			return true;
-//		} catch (NoSuchElementException e) {
-//			return false;
-//		}
-//	}
-
-//	private boolean isAlertPresent() {
-//		try {
-//			driver.switchTo().alert();
-//			return true;
-//		} catch (NoAlertPresentException e) {
-//			return false;
-//		}
-//	}
-//
-//	private String closeAlertAndGetItsText() {
-//		try {
-//			Alert alert = driver.switchTo().alert();
-//			String alertText = alert.getText();
-//			if (acceptNextAlert) {
-//				alert.accept();
-//			} else {
-//				alert.dismiss();
-//			}
-//			return alertText;
-//		} finally {
-//			acceptNextAlert = true;
-//		}
-//	}
 }

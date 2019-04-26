@@ -227,7 +227,6 @@ public class BusinessFunctions {
 		}
 	}
 	
-	
 	public void revokeUser(WebDriver driver, String userName){
 	    driver.findElement(By.id(prop.getProperty("Btn_Revoke_User"))).click();
 	    assertTrue(!isElementPresent(driver, "Text_Revoke_Success"));
@@ -338,7 +337,10 @@ public class BusinessFunctions {
 	    assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Parking_Add_Success"))).getText().equals("Area(s) added successfully."));
 	    driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
 	}
-	
+
+	public void editParkingArea(WebDriver driver, String AreaName, String PermitType){
+		
+	}
 	public boolean isElementPresent(WebDriver driver, String id) {
 	    try {
 	        driver.findElement(By.id(prop.getProperty(id)));

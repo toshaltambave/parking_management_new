@@ -1,5 +1,0 @@
-None,,,,,Please correct the following errors.,Your username must between 4 and 10 characters,Your password must between 4 and 10 characters.,
-PMUser1,1234,,ParkingManager,Basic,Please correct the following errors.,,Password must contain at least one uppercase.,Passwords do not match.
-PMUser1,Abcd,,ParkingManager,Basic,Please correct the following errors.,,Password must contain at least one number.,Passwords do not match.
-PMUser1,12345678901,,ParkingManager,Basic,Please correct the following errors.,,Your password must between 4 and 10 characters.,Passwords do not match.
-PMUser1,Admin12,,ParkingManager,Basic,Please correct the following errors.,,,Passwords do not match.

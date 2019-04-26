@@ -174,3 +174,12 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 ALTER TABLE `parking_management`.`system_users` 
 ADD COLUMN `comment` VARCHAR(45) NULL AFTER `PermitType`;
+
+ALTER TABLE `parking_management`.`reservations` 
+DROP FOREIGN KEY `Fk_Spot_UID`;
+ALTER TABLE `parking_management`.`reservations` 
+ADD CONSTRAINT `Fk_Spot_UID`
+  FOREIGN KEY (`Spot_UID`)
+  REFERENCES `parking_management`.`parking_spots` (`Spot_UID`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;

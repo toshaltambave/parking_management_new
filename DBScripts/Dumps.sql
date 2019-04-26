@@ -222,3 +222,12 @@ ADD COLUMN `comment` VARCHAR(45) NULL AFTER `PermitType`;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2019-04-14 14:48:02
+
+ALTER TABLE `parking_management`.`reservations` 
+DROP FOREIGN KEY `Fk_Spot_UID`;
+ALTER TABLE `parking_management`.`reservations` 
+ADD CONSTRAINT `Fk_Spot_UID`
+  FOREIGN KEY (`Spot_UID`)
+  REFERENCES `parking_management`.`parking_spots` (`Spot_UID`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;

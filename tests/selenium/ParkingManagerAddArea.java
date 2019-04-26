@@ -80,6 +80,7 @@ public class ParkingManagerAddArea extends BusinessFunctions {
 				.equals("Registered Successfully."));
 		//Login
 		functions.Login(driver, userName, password);
+		TestDAO.deleteSpot(AreaName);
 		functions.addParkingArea(driver, AreaName, PermitType, FloorNo, SpotsNo);
 		driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
 		
