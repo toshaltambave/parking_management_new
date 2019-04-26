@@ -37,11 +37,17 @@ public class ReservationsController extends HttpServlet {
 		String action = request.getParameter("action");
 		//1st page - Get Start End Times & Area
 		if (action.equalsIgnoreCase("Search") ) {  
-			//TODO: Implement Request Spot , add Permit Type & Cart Attributes
 			String startTime = request.getParameter("start_time");		
 			String endTime = request.getParameter("end_time");
-			String error = validateDateTime(startTime,endTime,request);
-			if(error == "")
+			ReservationError error = new ReservationError();
+			Reservation reservation = new Reservation();
+			
+			reservation.validateDateTime(startTime,endTime, error);
+			request.setAttribute("endTimeError", error.getEndTimeError());
+			request.setAttribute("startTimeError", error.getStartTimeError());
+			request.setAttribute("compareError", error.getCompareError());
+			
+			if(error.getErrorMsg().equals(""))
 			{
 				int areaId = Integer.parseInt(request.getParameter("areaDropDrown"));
 		        request.setAttribute("selectedAreaId", areaId);
@@ -53,7 +59,6 @@ public class ReservationsController extends HttpServlet {
 			}
 
 		}
-		
 		// 2nd Page - Floor & Permit Type
 		if (action.equalsIgnoreCase("getSpotsForFloor") ) {  
 			int areaId = Integer.parseInt(request.getParameter("selectedAreaId"));
@@ -133,9 +138,8 @@ public class ReservationsController extends HttpServlet {
 				creditcard.setMonth(expMonth);
 				creditcard.setYear(expYear);
 		        request.setAttribute("creditcard", creditcard);
-
 				CreditCardError errorMsgs = new CreditCardError();
-				errorMsgs = validatecreditcarddetails(cardNumber,expMonth,expYear,cardType,cvv,errorMsgs);
+				creditcard.validatecreditcarddetails(creditcard,errorMsgs);
 				if (!errorMsgs.getErrorMsg().equals(""))
 				{
 					session.setAttribute("creditcarderrorMsgs", errorMsgs);
@@ -147,6 +151,7 @@ public class ReservationsController extends HttpServlet {
 			        RequestDispatcher dispatcher = request.getRequestDispatcher("/ReserveComplete.jsp");
 			        dispatcher.forward(request, response);
 				}
+				
 				else
 				{
 					isReservationSuccessful = storeReservation(session, user);
@@ -167,301 +172,137 @@ public class ReservationsController extends HttpServlet {
 
     }
 
-	public String validateDateTime(String startTime, String endTime,HttpServletRequest request) {
-		String startTimeError ="";
-		String endTimeError ="";
-		String compareError ="";
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		if(startTime.isEmpty())
-		{
-			startTimeError = "This field is required.";
-		}
-		else
-		{
-			try
-			{
-			Date startdate = formatter.parse(startTime);	
-			Date date = new Date();
-			int startHours = startdate.getHours();
-			int startMins =  startdate.getMinutes();
-			int currentHours = date.getHours();
-			int currentMins = date.getMinutes();
-				if(startHours < currentHours)
-				{
-					startTimeError = "Start time cannot be before current time.";
-				}
-				else
-				{
-					if(startHours == currentHours && startMins < currentMins)
-					{
-						startTimeError = "Start time cannot be before current time.";
-					}
-					else
-					{
-					    startTimeError ="";	
-					}
-				}
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
-		}
-		if(endTime.isEmpty())
-		{
-			endTimeError = "This field is required.";
-		}
-		else
-		{
-			try
-			{
-			Date enddate = formatter.parse(endTime);
-			Date date  = new Date();
-			int endHours = enddate.getHours();
-			int endMins =  enddate.getMinutes();
-			int currentHours = date.getHours();
-			int currentMins = date.getMinutes();
-			
-			if(endHours < currentHours)
-			{
-				endTimeError = "End time cannot be before current time.";
-			}
-			else
-			{
-				if(endHours == currentHours && endMins < currentMins)
-				{
-					endTimeError = "End time cannot be before current time.";
-				}
-				else
-				{
-					endTimeError ="";	
-				}
-			}
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
-		}
-		if(!endTime.isEmpty() && !startTime.isEmpty())
-		{
-			Date enddate;
-			try {
-				enddate = formatter.parse(endTime);
-			
-			Date startdate;
-				startdate = formatter.parse(startTime);
-			int endHours = enddate.getHours();
-			int endMins =  enddate.getMinutes();
-			int startHours = startdate.getHours();
-			int startMins =  startdate.getMinutes();
-			int diffHours = endHours - startHours;
-			int diffMins = (endHours*60 + endMins) - (startHours*60 + startMins);
-			
-			
-			if(startdate.after(enddate))
-			{
-				compareError = "Start time cannot be after end time.";
-			}
-			else if(startdate.equals(enddate))
-			{
-				compareError = "Start time and end time cannot be same.";
-			}
-			else if(enddate.before(startdate))
-			{
-				compareError = "End time cannot be before start time.";
-			}
-			else if(diffHours >3)
-			{
-				compareError = "Reservation cannot be for more than 3 hours.";
-			}
-			else if(diffMins >180)
-			{
-				compareError = "Reservation cannot be for more than 3 hours.";
-			}
-			else
-			{
-				compareError = "";
-			}
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}	
-			
-		}
-		
-		if(request != null){
-			request.setAttribute("endTimeError", endTimeError);
-			request.setAttribute("startTimeError", startTimeError);
-			request.setAttribute("compareError", compareError);
-		}
-		
-		if(!compareError.isEmpty() || !startTimeError.isEmpty() || !endTimeError.isEmpty())
-			return "There are time errors.";
-		else
-			return "";
-	}
+//	public String validateDateTime(String startTime, String endTime,HttpServletRequest request) {
+//		String startTimeError ="";
+//		String endTimeError ="";
+//		String compareError ="";
+//		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//		if(startTime.isEmpty())
+//		{
+//			startTimeError = "This field is required.";
+//		}
+//		else
+//		{
+//			try
+//			{
+//			Date startdate = formatter.parse(startTime);	
+//			Date date = new Date();
+//			int startHours = startdate.getHours();
+//			int startMins =  startdate.getMinutes();
+//			int currentHours = date.getHours();
+//			int currentMins = date.getMinutes();
+//				if(startHours < currentHours)
+//				{
+//					startTimeError = "Start time cannot be before current time.";
+//				}
+//				else
+//				{
+//					if(startHours == currentHours && startMins < currentMins)
+//					{
+//						startTimeError = "Start time cannot be before current time.";
+//					}
+//					else
+//					{
+//					    startTimeError ="";	
+//					}
+//				}
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}	
+//		}
+//		if(endTime.isEmpty())
+//		{
+//			endTimeError = "This field is required.";
+//		}
+//		else
+//		{
+//			try
+//			{
+//			Date enddate = formatter.parse(endTime);
+//			Date date  = new Date();
+//			int endHours = enddate.getHours();
+//			int endMins =  enddate.getMinutes();
+//			int currentHours = date.getHours();
+//			int currentMins = date.getMinutes();
+//			
+//			if(endHours < currentHours)
+//			{
+//				endTimeError = "End time cannot be before current time.";
+//			}
+//			else
+//			{
+//				if(endHours == currentHours && endMins < currentMins)
+//				{
+//					endTimeError = "End time cannot be before current time.";
+//				}
+//				else
+//				{
+//					endTimeError ="";	
+//				}
+//			}
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}	
+//		}
+//		if(!endTime.isEmpty() && !startTime.isEmpty())
+//		{
+//			Date enddate;
+//			try {
+//				enddate = formatter.parse(endTime);
+//			
+//			Date startdate;
+//				startdate = formatter.parse(startTime);
+//			int endHours = enddate.getHours();
+//			int endMins =  enddate.getMinutes();
+//			int startHours = startdate.getHours();
+//			int startMins =  startdate.getMinutes();
+//			int diffHours = endHours - startHours;
+//			int diffMins = (endHours*60 + endMins) - (startHours*60 + startMins);
+//			
+//			
+//			if(startdate.after(enddate))
+//			{
+//				compareError = "Start time cannot be after end time.";
+//			}
+//			else if(startdate.equals(enddate))
+//			{
+//				compareError = "Start time and end time cannot be same.";
+//			}
+//			else if(diffHours >3)
+//			{
+//				compareError = "Reservation cannot be for more than 3 hours.";
+//			}
+//			//TODO: Maybe remove this  
+//			else if(diffMins >180)
+//			{
+//				compareError = "Reservation cannot be for more than 3 hours.";
+//			}
+//			else
+//			{
+//				compareError = "";
+//			}
+//			} catch (ParseException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}	
+//			
+//		}
+//		
+//		if(request != null){
+//			request.setAttribute("endTimeError", endTimeError);
+//			request.setAttribute("startTimeError", startTimeError);
+//			request.setAttribute("compareError", compareError);
+//		}
+//		
+//		if(!compareError.isEmpty() || !startTimeError.isEmpty() || !endTimeError.isEmpty())
+//			return "There are time errors.";
+//		else
+//			return "";
+//	}
 
-	public CreditCardError validatecreditcarddetails(String cardNumber, String expMonth, String expYear, String cardType,
-			String cvv,CreditCardError errorMsgs) {
-		errorMsgs.setCardNumberError(validateCardNumber(cardNumber,cardType));
-		errorMsgs.setCvvError(validateCVV(cvv));
-		errorMsgs.setMonthError(validateMonth(expMonth));
-		errorMsgs.setYearError(validateYear(expYear));
-		errorMsgs.setErrorMsg("error");
-		
-		return errorMsgs;
-	}
-
-	private String validateYear(String expYear) {
-		if(expYear.isEmpty())
-			return "This field is required.";
-		else
-		{
-			if (!stringSize(expYear,4,4))
-			{
-				return "Year must be 4 digits.";
-			}
-			else
-			{
-				if(!isTextAnInteger(expYear))
-					return "Year must only digits.";
-				else
-					return "";
-			}
-		}
-	}
 	
-	private boolean isTextAnInteger (String string) {
-        boolean result;
-		try
-        {
-            Long.parseLong(string);
-            result=true;
-        } 
-        catch (NumberFormatException e) 
-        {
-            result=false;
-        }
-		return result;
-	}
-	
-	private boolean stringSize(String string, int min, int max) {
-		return string.length()>=min && string.length()<=max;
-	}
-
-	private String validateMonth(String expMonth) {
-		if(expMonth.isEmpty())
-			return "This field is required.";
-		else
-		{
-			if (!stringSize(expMonth,2,2))
-			{
-				return "Month must be 2 digits.";
-			}
-			else
-			{
-				if(!isTextAnInteger(expMonth))
-					return "Month must only digits.";
-				else
-				{
-					int month = Integer.parseInt(expMonth);
-					if(month > 12)
-						return "Month can only be between 01 to 12";
-					else
-						return "";
-				}
-			}
-		}
-	}
-
-	private String validateCVV(String cvv) {
-		if(cvv.isEmpty())
-			return "This field is required.";
-		else
-		{
-			if (!stringSize(cvv,3,3))
-			{
-				return "CVV must be 3 digits.";
-			}
-			else
-			{
-				if(!isTextAnInteger(cvv))
-					return "CVV must only digits.";
-				else
-					return "";
-			}
-		}
-	}
-
-	private String validateCardNumber(String cardNumber, String cardType) {
-		if(cardNumber.isEmpty())
-			return "This field is required.";
-		else
-		{
-			if(!isTextAnInteger(cardNumber))
-				return "Card number must only digits.";
-			else
-			{
-				if(cardType.equalsIgnoreCase("VISA") || cardType.equalsIgnoreCase("MASTERCARD") || cardType.equalsIgnoreCase("DISCOVER"))
-				{
-					if (!stringSize(cardNumber,16,16))
-					{
-						return "Card number must be 16 digits.";
-					}
-					else
-					{ 
-						if(cardType.equalsIgnoreCase("VISA"))
-						{
-							if(!cardNumber.substring(0,1).equalsIgnoreCase("4"))
-							{
-								return "This is not a VISA card as it starts with 4.";
-							}
-							else
-								return "";
-						}
-						else if (cardType.equalsIgnoreCase("MASTERCARD"))
-						{
-							if(!(cardNumber.substring(0,2).equalsIgnoreCase("51")
-									|| cardNumber.substring(0,2).equalsIgnoreCase("52")
-									|| cardNumber.substring(0,2).equalsIgnoreCase("53")
-									|| cardNumber.substring(0,2).equalsIgnoreCase("54")
-									|| cardNumber.substring(0,2).equalsIgnoreCase("55")))
-							{
-								return "This is not a Master card as it starts with 51/52/53/54/55.";
-							}
-							else
-								return "";
-						}
-						else if (cardType.equalsIgnoreCase("DISCOVER"))
-						{
-							if(!(cardNumber.substring(0,4).equalsIgnoreCase("6011")
-									|| cardNumber.substring(0,2).equalsIgnoreCase("65")))
-									return "This is not a Discover card as it starts with 6011/65.";						
-								else
-									return "";
-									
-						}
-					}
-				}
-				else if(cardType.equalsIgnoreCase("AMEX"))
-				{
-					if (!stringSize(cardNumber,15,15))
-					{
-						return "Card number must be 15 digits.";
-					}
-					else
-					{
-						if(!(cardNumber.substring(0,2).equalsIgnoreCase("37")
-								|| cardNumber.substring(0,2).equalsIgnoreCase("34")))
-							return "This is not a AMEX card as it starts with 34/37.";						
-						else
-							return "";
-					}
-				}
-			}
-			return "";
-		}
-	}
-
 	private Boolean storeReservation(HttpSession session, Users user) {
 		Reservation reserve = new Reservation();
 		if(((String)session.getAttribute("camera")).equals("true")){

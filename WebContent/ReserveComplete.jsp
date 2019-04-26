@@ -78,7 +78,7 @@
 				                        <tr>
 				                            <td class="col-md-4"><em>Card Number</em></h4></td>
 				                            <td class="col-md-8">
-				                            <input type="number" class="form-control" name="cardNumber" id="cardNumber" placeholder="Valid Card Number" autofocus value="<c:out value='${creditcard.cardNumber}'/>" />
+				                            <input type="text" class="form-control" name="cardNumber" id="cardNumber" placeholder="Valid Card Number" autofocus value="<c:out value='${creditcard.cardNumber}'/>" />
 				                        	<input disabled class="form-control center_div" name="cardNumberError" id="cardNumberError" value="<c:out value='${creditcarderrorMsgs.cardNumberError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"   maxlength="60">
 				                        </td>
 				                        </tr>
@@ -100,9 +100,9 @@
 				                            <td class="col-md-9"><em>Expiry Date</em></h4></td>
 				                            <td class="col-md-1 text-center">
 				                            <div class="col-xs-6 col-lg-6 pl-ziro">
-                                    			<input type="number" class="form-control" name="expiryMonth" id="expiryMonth" placeholder="MM" value="<c:out value='${creditcard.month}'/>"  />
+                                    			<input type="text" class="form-control" name="expiryMonth" id="expiryMonth" placeholder="MM" value="<c:out value='${creditcard.month}'/>"  />
                                     			<input disabled class="form-control center_div" name="monthError" id="monthError"  value="<c:out value='${creditcarderrorMsgs.monthError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"   maxlength="60">
-                                    			<input type="number" class="form-control" name="expiryYear" id="expiryYear" placeholder="YYYY" value="<c:out value='${creditcard.year}'/>" />
+                                    			<input type="text" class="form-control" name="expiryYear" id="expiryYear" placeholder="YYYY" value="<c:out value='${creditcard.year}'/>" />
                                     			<input disabled class="form-control center_div" name="yearError" id="yearError"  value="<c:out value='${creditcarderrorMsgs.yearError}'/>" type="text"  style ="background-color: white; color: red; border: none; width: 800px"   maxlength="60">
                                 			</div>
                                     		</td>
