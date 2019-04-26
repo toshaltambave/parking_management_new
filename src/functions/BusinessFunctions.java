@@ -318,7 +318,7 @@ public class BusinessFunctions {
 	
 	public void addParkingArea(WebDriver driver,String AreaName,String PermitType,String FloorNo, String SpotsNo)
 	{
-	    driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page_ChRole"))).click();
+	    driver.findElement(By.id(prop.getProperty("Btn_ParkingManagement_AddParkingArea"))).click();
 	    driver.findElement(By.id(prop.getProperty("Btn_Parking_Area_AddList"))).click();
 	    assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Parking_Area_Error"))).getText().equals("Please correct the following errors"));
 	    assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Parking_Area_Name_Error"))).getText().equals("This field is mandatory."));
