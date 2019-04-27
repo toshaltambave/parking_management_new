@@ -233,5 +233,45 @@ public class Reservation implements Serializable
 		else
 			resError.setErrorMsg("");
 	}
+	public boolean checkNormalHours(Date startdate, Date enddate) {
+		int startDay = startdate.getDay();
+		int startHours = startdate.getHours();
+		int endHours = enddate.getHours();
+		boolean normalHours = true;
+		if(5 >= startDay && startDay >=1 ){
+			//Monday to Friday
+			//For Unit Test: Its Always Going to miss 2 branches as 
+			if(startHours >= 6 && endHours <= 19){
+				// 6am to 7.59pm
+				return normalHours;
+			}
+			else{
+				normalHours = false;
+				return normalHours;
+			}
+		}
+		else if(startDay == 6 ){
+			//Saturday
+			if(startHours >= 8 && endHours <= 16){
+				// 8am to 4.59pm
+				return normalHours;
+			}
+			else{
+				normalHours = false;
+				return normalHours;
+			}
+		}
+		else{
+			//Sunday
+			if(startHours >= 12 && endHours <= 16){
+				// 8am to 4.59pm
+				return normalHours;
+			}
+			else{
+				normalHours = false;
+				return normalHours;
+			}
+		}
+	}
 	
 }

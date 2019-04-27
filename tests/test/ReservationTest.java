@@ -3,6 +3,7 @@ package test;
 import static org.junit.Assert.*;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -47,6 +48,16 @@ public class ReservationTest {
 		assertEquals(resError.getEndTimeError(),endTimeError);
 		assertEquals(resError.getCompareError(),compareError);
 
+	}
+	
+	@Test
+	@FileParameters("tests/Excel/CheckNormalHours.csv")
+	public void normalHoursTest(String startTime, String endTime, String isNormalHour) throws ParseException {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date startdate = formatter.parse(startTime);
+		Date enddate = formatter.parse(endTime);
+		Boolean bool = reservation.checkNormalHours(startdate, enddate);
+		assertEquals(Boolean.parseBoolean(isNormalHour),reservation.checkNormalHours(startdate, enddate));
 	}
 
 }

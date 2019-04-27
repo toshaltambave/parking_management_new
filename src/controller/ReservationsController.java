@@ -478,7 +478,8 @@ public class ReservationsController extends HttpServlet {
 			double cartPrice = 15.95;
 			double cameraPrice = 2.95;
 			double historyPrice = 1.95;
-			boolean normalHours = checkNormalHours(startdate, enddate);
+			Reservation res = new Reservation();
+			boolean normalHours = res.checkNormalHours(startdate, enddate);
 			if(normalHours){
 				request.setAttribute("cartPrice", cartPrice );
 				request.setAttribute("cameraPrice", cameraPrice );
@@ -500,45 +501,45 @@ public class ReservationsController extends HttpServlet {
 		
 	}
 
-	private boolean checkNormalHours(Date startdate, Date enddate) {
-		int startDay = startdate.getDay();
-		int startHours = startdate.getHours();
-		int endHours = enddate.getHours();
-		boolean normalHours = true;
-		if(5 <= startDay && startDay >=1 ){
-			//Monday to Friday
-			if(startHours >= 6 && (endHours <= 19 && enddate.getMinutes() <= 59 && enddate.getSeconds() <= 59)){
-				// 6am to 7.59pm
-				return normalHours;
-			}
-			else{
-				normalHours = false;
-				return normalHours;
-			}
-		}
-		else if(startDay == 6 ){
-			//Saturday
-			if(startHours >= 8 && (endHours <= 4 && enddate.getMinutes() <= 59 && enddate.getSeconds() <= 59)){
-				// 8am to 4.59pm
-				return normalHours;
-			}
-			else{
-				normalHours = false;
-				return normalHours;
-			}
-		}
-		else{
-			//Sunday
-			if(startHours >= 12 && (endHours <= 4 && enddate.getMinutes() <= 59 && enddate.getSeconds() <= 59)){
-				// 8am to 4.59pm
-				return normalHours;
-			}
-			else{
-				normalHours = false;
-				return normalHours;
-			}
-		}
-	}
+//	private boolean checkNormalHours(Date startdate, Date enddate) {
+//		int startDay = startdate.getDay();
+//		int startHours = startdate.getHours();
+//		int endHours = enddate.getHours();
+//		boolean normalHours = true;
+//		if(5 <= startDay && startDay >=1 ){
+//			//Monday to Friday
+//			if(startHours >= 6 && (endHours <= 19 && enddate.getMinutes() <= 59 && enddate.getSeconds() <= 59)){
+//				// 6am to 7.59pm
+//				return normalHours;
+//			}
+//			else{
+//				normalHours = false;
+//				return normalHours;
+//			}
+//		}
+//		else if(startDay == 6 ){
+//			//Saturday
+//			if(startHours >= 8 && (endHours <= 4 && enddate.getMinutes() <= 59 && enddate.getSeconds() <= 59)){
+//				// 8am to 4.59pm
+//				return normalHours;
+//			}
+//			else{
+//				normalHours = false;
+//				return normalHours;
+//			}
+//		}
+//		else{
+//			//Sunday
+//			if(startHours >= 12 && (endHours <= 4 && enddate.getMinutes() <= 59 && enddate.getSeconds() <= 59)){
+//				// 8am to 4.59pm
+//				return normalHours;
+//			}
+//			else{
+//				normalHours = false;
+//				return normalHours;
+//			}
+//		}
+//	}
 	
 	
 }
