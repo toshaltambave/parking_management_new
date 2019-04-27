@@ -26,7 +26,6 @@ public class ReservationsController extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		
 		reservationLandingPage(request, response);	
 	}
 
@@ -36,7 +35,8 @@ public class ReservationsController extends HttpServlet {
 	{
 		String action = request.getParameter("action");
 		//1st page - Get Start End Times & Area
-		if (action.equalsIgnoreCase("Search") ) {  
+		if (action.equalsIgnoreCase("Search") )
+		{  
 			String startTime = request.getParameter("start_time");		
 			String endTime = request.getParameter("end_time");
 			ReservationError error = new ReservationError();
@@ -60,7 +60,7 @@ public class ReservationsController extends HttpServlet {
 
 		}
 		// 2nd Page - Floor & Permit Type
-		if (action.equalsIgnoreCase("getSpotsForFloor") ) {  
+		else if (action.equalsIgnoreCase("getSpotsForFloor") ) {  
 			int areaId = Integer.parseInt(request.getParameter("selectedAreaId"));
 			int selectedFloorNumber = Integer.parseInt(request.getParameter("selectedFloorNumber"));
 			String selectedPermitType = request.getParameter("selectedPermitType");
@@ -71,7 +71,7 @@ public class ReservationsController extends HttpServlet {
 		}
 		
 		// Get Spot UID & Spot Id 
-		if (action.equalsIgnoreCase("startReservation") ) {  
+		else if (action.equalsIgnoreCase("startReservation") ) {  
 			int areaId = Integer.parseInt(request.getParameter("selectedAreaId"));
 			int selectedFloorNumber = Integer.parseInt(request.getParameter("selectedFloorNumber"));
 			String selectedPermitType = request.getParameter("selectedPermitType");
@@ -83,7 +83,7 @@ public class ReservationsController extends HttpServlet {
 		}
 		
 		// Get Options selected 
-		if (action.equalsIgnoreCase("checkout") ) {  
+		else if (action.equalsIgnoreCase("checkout") ) {  
 			HttpSession session = request.getSession();
 			String cart = request.getParameter("cart");
 			String camera = request.getParameter("camera");
@@ -116,7 +116,7 @@ public class ReservationsController extends HttpServlet {
 	        dispatcher.forward(request, response);
 		}
 		
-		if (action.equalsIgnoreCase("makeReservation") ) {  
+		else if (action.equalsIgnoreCase("makeReservation") ) {  
 			Boolean isReservationSuccessful = true;
 			HttpSession session = request.getSession();		
 			double totalAmount = Double.parseDouble(request.getParameter("total"));
@@ -169,6 +169,10 @@ public class ReservationsController extends HttpServlet {
 				
 			}
 		}
+		else
+		{
+			System.out.println("Do Nothing.");
+		}		
 
     }
 
@@ -332,6 +336,10 @@ public class ReservationsController extends HttpServlet {
 		if(resIdForEdit != null){
 			previousReservationDeleted = ReservationsDAO.deleteReservationbyResId(resIdForEdit);
 		}
+		else
+		{
+			System.out.println("Do Nothing.");
+		}		
 		Boolean isReservationSuccessful = ReservationsDAO.StoreReservationsInDB(reserve);
 		return isReservationSuccessful;
 	}
@@ -356,12 +364,24 @@ public class ReservationsController extends HttpServlet {
 		if(cart.equals("true")){
 			total += cart_price;
 		}
+		else
+		{
+			System.out.println("Do Nothing.");
+		}		
 		if(camera.equals("true")){
 			total += 2.95;
 		}
+		else
+		{
+			System.out.println("Do Nothing.");
+		}		
 		if(history.equals("true")){
 			total += 1.95;
 		}
+		else
+		{
+			System.out.println("Do Nothing.");
+		}		
 		return total = total * tax;
 	}
 	

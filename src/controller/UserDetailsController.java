@@ -112,6 +112,10 @@ public class UserDetailsController extends HttpServlet {
 		Users user = (Users) session.getAttribute("user");
 		if (user != null && !user.getUsername().isEmpty())
 			userdetails.setUsername(user.getUsername());
+		else
+		{
+			System.out.println("Do Nothing.");
+		}		
 		getUserDetailsParam(request, userdetails);
 		userdetails.validateUserDetails(action, userdetails, errorMsgs);
 		session.setAttribute("userdetails", userdetails);
@@ -128,6 +132,10 @@ public class UserDetailsController extends HttpServlet {
 				session.setAttribute("userDetailsErrorMsgs", errorMsgsuser);
 				url = "/index.jsp";
 			}
+			else
+			{
+				System.out.println("Do Nothing.");
+			}		
 		}
 		return url;
 	}

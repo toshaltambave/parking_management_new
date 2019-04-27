@@ -57,8 +57,7 @@ public class ParkingSpotsController extends HttpServlet  {
 		}
     }
 	private void listSpotsForSelectedFloor
-	(	HttpServletRequest request, HttpServletResponse response, Integer areaId, Integer floorNumber,String permitType 
-	) throws ServletException, IOException 
+	(HttpServletRequest request, HttpServletResponse response, Integer areaId, Integer floorNumber,String permitType ) throws ServletException, IOException 
 	{
 		HttpSession session = request.getSession();
 		try 
@@ -86,13 +85,13 @@ public class ParkingSpotsController extends HttpServlet  {
 	{
 		HttpSession session = request.getSession();
 		        String action = request.getParameter("action");
-		if (action.equalsIgnoreCase("getSelectedArea") ) {  
+		if (action.equalsIgnoreCase("getSelectedArea") )
+		{  
 			int areaId = Integer.parseInt(request.getParameter("areaDropDrown"));
 	        request.setAttribute("selectedAreaId", areaId);
 	        listFloorsForSelectedArea(request, response, areaId);
 		}
-		
-		if (action.equalsIgnoreCase("getSpotsForFloor") ) {  
+		else if (action.equalsIgnoreCase("getSpotsForFloor") ) {  
 			int areaId = Integer.parseInt(request.getParameter("selectedAreaId"));
 			int selectedFloorNumber = Integer.parseInt(request.getParameter("selectedFloorNumber"));
 			String selectedPermitType = request.getParameter("selectedPermitType");
@@ -100,8 +99,7 @@ public class ParkingSpotsController extends HttpServlet  {
 	        session.setAttribute("selectedAreaId", areaId);
 	        listSpotsForSelectedFloor(request, response, areaId, selectedFloorNumber, selectedPermitType);
 		}
-		
-		if(action.equalsIgnoreCase("toggleBlock")){
+		else if(action.equalsIgnoreCase("toggleBlock")){
 			int spotUID = Integer.parseInt(request.getParameter("selectedSpotUId"));
 			int isBlocked = convertBoolToInt(request.getParameter("isBlocked"));
 			int areaId = (int)session.getAttribute("selectedAreaId");
@@ -128,5 +126,9 @@ public class ParkingSpotsController extends HttpServlet  {
 	 	{
 	 		request.setAttribute("isblocksuccess", isblocksuccess);
 	 	}
+		else
+		{
+			System.out.println("Do Nothing.");
+		}		
 	}
 }

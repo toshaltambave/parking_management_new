@@ -71,7 +71,15 @@ public class UsersController extends HttpServlet {
 				listPermitTypes(request,response);
 				listRoles(request,response);
 			}
+			else
+			{
+				System.out.println("Do Nothing.");
+			}		
 		}
+		else
+		{
+			System.out.println("Do Nothing.");
+		}		
 		getServletContext().getRequestDispatcher(url).forward(request, response);
 	}
 	
@@ -193,7 +201,8 @@ public class UsersController extends HttpServlet {
 		UsersDAO.userExists(request.getParameter("username"), mySecurePassword, user);
 		//Set Attributes of Logged in User in session for further pages
 		session.setAttribute("User", user);
-		if(user.getUserID() != null){
+		if(user.getUserID() != null)
+		{
 			if("Admin".equalsIgnoreCase(user.getRole()))
 			{
 				url = "/adminHomePage.jsp";
@@ -206,6 +215,10 @@ public class UsersController extends HttpServlet {
 			{
 				url = "/parkingUserHomePage.jsp";				
 			}
+			else
+			{
+				System.out.println("Do Nothing.");
+			}		
 //			else
 //			{
 //				url = "/index.jsp";
@@ -220,6 +233,10 @@ public class UsersController extends HttpServlet {
 				session.setAttribute("loginerrorMsgs", errorMsgs);
 				url = "/index.jsp";
 			}
+			else
+			{
+				System.out.println("Do Nothing.");
+			}		
 //			else
 //			{
 //				System.out.println("Login Failed.");
