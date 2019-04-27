@@ -79,13 +79,22 @@ public class ParkingManagerEditArea extends BusinessFunctions {
 		//Login
 		functions.Login(driver, userName, password);
 		//Add Here
-		TestDAO.deleteSpot(AreaName);
+		//TestDAO.deleteSpot(AreaName);
+		int val = TestDAO.getAreaId();
+		AreaName = AreaName+val;
+		newName = newName + val;
 		functions.addParkingArea(driver, AreaName, respermitType, floorNumber, SpotsNo);
 	    driver.findElement(By.id(prop.getProperty("Btn_ParkingManagement_EditParkingArea"))).click();
+	    driver.findElement(By.id(prop.getProperty("Btn_Save_New_AreaName"))).click();
+	    try {
+	    	assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Error_Edit"))).getAttribute("value").equals("Please select area first."));
+	 	 } catch (Error e) {
+	      verificationErrors.append(e.toString());
+	    }
 	    new Select(driver.findElement(By.id(prop.getProperty("DropDwn_Parking_Area")))).selectByVisibleText(AreaName);
 	    driver.findElement(By.id(prop.getProperty("Btn_Selected_Editname_Area"))).click();
 	    driver.findElement(By.id(prop.getProperty("Txt_New_AreaName"))).clear();
-	    driver.findElement(By.id(prop.getProperty("Txt_New_AreaName"))).sendKeys("West GarageTest");
+	    driver.findElement(By.id(prop.getProperty("Txt_New_AreaName"))).sendKeys(newName);
 	    driver.findElement(By.id(prop.getProperty("Btn_Save_New_AreaName"))).click();
 	    try {
 	      assertEquals("Parking Area name updated.", driver.findElement(By.id(prop.getProperty("Txt_NameUpdate_Success"))).getText());
@@ -94,7 +103,7 @@ public class ParkingManagerEditArea extends BusinessFunctions {
 	    }
 	    driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
 	    driver.findElement(By.id(prop.getProperty("Btn_ParkingManagement_EditParkingArea"))).click();
-	    new Select(driver.findElement(By.id(prop.getProperty("DropDwn_Parking_Area")))).selectByVisibleText("West GarageTest");
+	    new Select(driver.findElement(By.id(prop.getProperty("DropDwn_Parking_Area")))).selectByVisibleText(newName);
 	    driver.findElement(By.id(prop.getProperty("Btn_Selected_Editname_Area"))).click();
 	    driver.findElement(By.id(prop.getProperty("Btn_Search_Spot_Floor")+floorNumber+respermitType)).click();
 	    driver.findElement(By.id(prop.getProperty("Btn_AddNew_Spot"))).click();
@@ -109,9 +118,16 @@ public class ParkingManagerEditArea extends BusinessFunctions {
 	    } catch (Error e) {
 	      verificationErrors.append(e.toString());
 	    }
+
 	    Integer spotAssert = Integer.parseInt(spotId)+1;
 	    try {
 	      assertEquals("true", driver.findElement(By.xpath("//div[@id='body']/div/div/table/tbody/tr["+spotAssert+"]/td[2]")).getText());
+	    } catch (Error e) {
+	      verificationErrors.append(e.toString());
+	    }
+	    driver.findElement(By.xpath("(//input[@id='btnBlockUnblock'])["+spotId+"]")).click();
+	    try {
+	      assertEquals("spot (un)blocked successfully.", driver.findElement(By.id(prop.getProperty("Txt_Spot_Blocked_Success"))).getText());
 	    } catch (Error e) {
 	      verificationErrors.append(e.toString());
 	    }

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import model.Users;
 import util.PasswordUtility;
@@ -125,5 +126,34 @@ public class TestDAO {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public static Integer getAreaId() {
+		Statement stmt = null;
+		Connection conn = SQLConnection.getDBConnection();
+		Integer areaId = 0;
+		try {
+			
+			stmt = conn.createStatement();
+			PreparedStatement pst = null;
+			String sql = "SELECT Count(*) As NoofAreas FROM parking_management.parking_area";
+			pst = conn.prepareStatement(sql);
+			ResultSet rs = pst.executeQuery();
+			if (rs.next()) 
+			{
+				areaId = rs.getInt("NoofAreas");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return areaId+1;
 	}
 }

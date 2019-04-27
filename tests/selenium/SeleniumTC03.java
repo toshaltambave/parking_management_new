@@ -158,7 +158,7 @@ public class SeleniumTC03 extends BusinessFunctions {
 	}
 
 	@Test
-	@FileParameters("tests/Excel/GoodTest.csv")
+	@FileParameters("tests/Excel/AdminGoodTest.csv")
 	public void dAdminHappy(String userName, String password, String confirmPassword, String role,
 			String permitType, String firstName, String middleName, String lastName, String sex, String dayOfBirth,
 			String address, String email, String phoneNum, String dlNum, String dayOfExpiry, String regNum,
