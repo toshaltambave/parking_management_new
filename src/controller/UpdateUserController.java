@@ -40,6 +40,10 @@ public class UpdateUserController extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/EditProfile.jsp");
 			dispatcher.forward(request, response);
 		}
+		else
+		{
+			System.out.println("Do Nothing.");
+		}		
 		doPost(request, response);
 	}
 
@@ -103,6 +107,10 @@ public class UpdateUserController extends HttpServlet {
 		if (!isDispatch) {
 			getServletContext().getRequestDispatcher(url).forward(request, response);
 		}
+		else
+		{
+			System.out.println("Do Nothing.");
+		}		
 	}
 	
 	protected void listPermitTypes(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
@@ -151,6 +159,10 @@ public class UpdateUserController extends HttpServlet {
 			userdetails.setUserName(user.getUsername());
 			userdetails.setRole(user.getRole());
 		}
+		else
+		{
+			System.out.println("Do Nothing.");
+		}		
 		getUpdatedUserDetailsParam(request, userdetails);
 		
 		String role = userdetails.getRole();
@@ -186,8 +198,16 @@ public class UpdateUserController extends HttpServlet {
 				}
 				else if (user.getRole().equals("Admin")){
 					url="/adminHomePage.jsp";
-				}			
+				}
+				else
+				{
+					System.out.println("Do Nothing.");
+				}		
 			}
+			else
+			{
+				System.out.println("Do Nothing.");
+			}		
 
 		}
 		return url;

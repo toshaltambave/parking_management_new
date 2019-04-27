@@ -1,5 +1,6 @@
 package functions;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Properties;
@@ -514,6 +515,47 @@ public void editreservationTimeAndDate(WebDriver driver, String start, String en
 		}
 	    driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
 	}
+	
+	
+	public void editParkingArea(WebDriver driver,String AreaName, String respermitType, String floorNumber, String spotId,
+			String newName) throws Exception {
+		driver.findElement(By.id(prop.getProperty("Btn_ParkingManagement_EditParkingArea"))).click();
+	    driver.findElement(By.id(prop.getProperty("Btn_Save_New_AreaName"))).click();
+	    assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Error_Edit"))).getAttribute("value").equals("Please select area first."));
+	    new Select(driver.findElement(By.id(prop.getProperty("DropDwn_Parking_Area")))).selectByVisibleText(AreaName);
+	    driver.findElement(By.id(prop.getProperty("Btn_Selected_Editname_Area"))).click();
+	    driver.findElement(By.id(prop.getProperty("Txt_New_AreaName"))).clear();
+	    driver.findElement(By.id(prop.getProperty("Txt_New_AreaName"))).sendKeys(newName);
+	    driver.findElement(By.id(prop.getProperty("Btn_Save_New_AreaName"))).click();
+	    assertEquals("Parking Area name updated.", driver.findElement(By.id(prop.getProperty("Txt_NameUpdate_Success"))).getText());
+	    driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
+	    driver.findElement(By.id(prop.getProperty("Btn_ParkingManagement_EditParkingArea"))).click();
+	    new Select(driver.findElement(By.id(prop.getProperty("DropDwn_Parking_Area")))).selectByVisibleText(newName);
+	    driver.findElement(By.id(prop.getProperty("Btn_Selected_Editname_Area"))).click();
+	    driver.findElement(By.id(prop.getProperty("Btn_Search_Spot_Floor")+floorNumber+respermitType)).click();
+	    driver.findElement(By.id(prop.getProperty("Btn_AddNew_Spot"))).click();
+	    assertEquals("Spot added successfully.", driver.findElement(By.id(prop.getProperty("Txt_Spot_Added_Success"))).getText());
+	    driver.findElement(By.xpath("(//input[@id='btnBlockUnblock'])["+spotId+"]")).click();
+	    assertEquals("spot (un)blocked successfully.", driver.findElement(By.id(prop.getProperty("Txt_Spot_Blocked_Success"))).getText());
+	    Integer spotAssert = Integer.parseInt(spotId)+1;
+	    assertEquals("true", driver.findElement(By.xpath("//div[@id='body']/div/div/table/tbody/tr["+spotAssert+"]/td[2]")).getText());
+	    driver.findElement(By.xpath("(//input[@id='btnBlockUnblock'])["+spotId+"]")).click();
+	    assertEquals("spot (un)blocked successfully.", driver.findElement(By.id(prop.getProperty("Txt_Spot_Blocked_Success"))).getText());
+		if (prop.getProperty("test_delay").equals("delay"))
+		{	
+			try {
+				Thread.sleep((Integer.parseInt(prop.getProperty("thread_sleep"))));
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
 	public boolean isElementPresent(WebDriver driver, String id) {
 	    try {
 	        driver.findElement(By.id(prop.getProperty(id)));

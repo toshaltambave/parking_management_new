@@ -33,9 +33,15 @@ public class ModifyReservationController extends HttpServlet {
 			if (action.equalsIgnoreCase("editReservation")) {
 				showReservationsForEdit(request, response);
 			}
-			
+			else
+			{
+				System.out.println("Do Nothing.");
+			}			
 		}
-		showRelevantReservations(request, response);
+		else
+		{
+			showRelevantReservations(request, response);
+		}
 	}
 	
 	@Override
@@ -49,18 +55,20 @@ public class ModifyReservationController extends HttpServlet {
 			request.setAttribute("isNoShow", result);
 			showRelevantReservations(request, response);
 		}
-		
-		if (action.equalsIgnoreCase("editReservation") ) { 
+				
+		else if (action.equalsIgnoreCase("editReservation") ) { 
 			HttpSession session = request.getSession();
 			int resId = Integer.parseInt(request.getParameter("reservationID"));
 			session.setAttribute("editReservationId", resId);
 			ArrayList<ParkingArea> allAreas = FetchParkingSpotsDAO.getAllParkingAreas();
 			request.setAttribute("Areas", allAreas);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/Reserve.jsp");
-            dispatcher.forward(request, response);
-			
-			
+            dispatcher.forward(request, response);	
 		}
+		else
+		{
+			System.out.println("Do Nothing.");
+		}		
 
     }
 	
@@ -83,6 +91,10 @@ public class ModifyReservationController extends HttpServlet {
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/DeleteReservation.jsp");
 	            dispatcher.forward(request, response);
 			}
+			else
+			{
+				System.out.println("Do Nothing.");
+			}		
 
 		}
 		catch (Exception e) 
@@ -111,6 +123,10 @@ public class ModifyReservationController extends HttpServlet {
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/EditReservation.jsp");
 	            dispatcher.forward(request, response);
 			}
+			else
+			{
+				System.out.println("Do Nothing.");
+			}		
 
 		}
 		catch (Exception e) 

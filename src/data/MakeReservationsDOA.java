@@ -242,6 +242,10 @@ public class MakeReservationsDOA{
 				}
 				conn.commit();
 			}
+			else
+			{
+				System.out.println("Do Nothing.");
+			}		
 	 }catch (SQLException e) {
 		 e.printStackTrace();
 		 return false;
@@ -296,6 +300,10 @@ public class MakeReservationsDOA{
 				}
 				conn.commit();
 			}
+			else
+			{
+				System.out.println("Do Nothing.");
+			}		
 	 }catch (SQLException e) {
 		 e.printStackTrace();
 		 return false;
@@ -327,6 +335,10 @@ public class MakeReservationsDOA{
 				else if (isRevoked == 1){
 					return true;
 				}
+				else
+				{
+					System.out.println("Do Nothing.");
+				}		
 				
 				
 		 }catch (SQLException e) {

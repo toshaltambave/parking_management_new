@@ -54,6 +54,10 @@ public class FetchParkingSpotsDAO {
 				filteredArea.setArea_Id(currentArea.getArea_Id());
 				filteredArea.setArea_Name(currentArea.getArea_Name());
 			}
+			else
+			{
+				System.out.println("Do Nothing.");
+			}		
 		}
 		return filteredArea;
 	}
@@ -100,6 +104,10 @@ public class FetchParkingSpotsDAO {
 				{
 					filteredFloors.add(currentFloor);
 				}
+				else
+				{
+					System.out.println("Do Nothing.");
+				}		
 			}
 			else if(permitType.equalsIgnoreCase("premium")){
 				if(currentFloor.getArea_Id().equals(areaId) && (currentFloor.getPermitType().equalsIgnoreCase("premium")
@@ -108,6 +116,10 @@ public class FetchParkingSpotsDAO {
 				{
 					filteredFloors.add(currentFloor);
 				}
+				else
+				{
+					System.out.println("Do Nothing.");
+				}		
 			}
 			else if(permitType.equalsIgnoreCase("midrange")){
 				if(currentFloor.getArea_Id().equals(areaId) && (currentFloor.getPermitType().equalsIgnoreCase("midrange")
@@ -115,13 +127,25 @@ public class FetchParkingSpotsDAO {
 				{
 					filteredFloors.add(currentFloor);
 				}
+				else
+				{
+					System.out.println("Do Nothing.");
+				}		
 			}
 			else if(permitType.equalsIgnoreCase("basic")){
 				if(currentFloor.getArea_Id().equals(areaId) && currentFloor.getPermitType().equalsIgnoreCase("basic"))
 				{
 					filteredFloors.add(currentFloor);
 				}
+				else
+				{
+					System.out.println("Do Nothing.");
+				}		
 			}
+			else
+			{
+				System.out.println("Do Nothing.");
+			}		
 			
 		}
 		return filteredFloors;
@@ -137,6 +161,10 @@ public class FetchParkingSpotsDAO {
 				{
 					filteredFloors.add(currentFloor);
 				}
+				else
+				{
+					System.out.println("Do Nothing.");
+				}		
 		}
 		return filteredFloors;
 	}
@@ -265,6 +293,10 @@ public class FetchParkingSpotsDAO {
 			{
 				filteredSpots.add(currentSpot);
 			}
+			else
+			{
+				System.out.println("Do Nothing.");
+			}		
 		}
 		return filteredSpots;
 	}

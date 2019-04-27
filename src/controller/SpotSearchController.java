@@ -97,13 +97,17 @@ public class SpotSearchController extends HttpServlet {
 	        listFloorsForSelectedArea(request, response, areaId);
 		}
 		
-		if (action.equalsIgnoreCase("getSpotsForFloor") ) {  
+		else if (action.equalsIgnoreCase("getSpotsForFloor") ) {  
 			int areaId = Integer.parseInt(request.getParameter("selectedAreaId"));
 			int selectedFloorNumber = Integer.parseInt(request.getParameter("selectedFloorNumber"));
 			String selectedPermitType = request.getParameter("selectedPermitType");
 	        request.setAttribute("selectedAreaId", areaId);
 	        listSpotsForSelectedFloor(request, response, areaId, selectedFloorNumber, selectedPermitType);
 		}
+		else
+		{
+			System.out.println("Do Nothing.");
+		}		
 		
 		
     }
