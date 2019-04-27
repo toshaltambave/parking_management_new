@@ -180,6 +180,9 @@ public class SeleniumTC02 extends BusinessFunctions {
 		functions.searchUserbyUserName(driver, userToSearch);
 		driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
 		functions.setNoShow(driver, userName);
+		functions.setNoShow(driver, userName);
+		functions.setOverdue(driver, userName);
+		functions.setOverdue(driver, userName);
 		driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
 	}
 	

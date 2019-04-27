@@ -61,7 +61,7 @@ public class ParkingManagerEditArea extends BusinessFunctions {
 	
 	  @Test
 	  @FileParameters("tests/Excel/ParkingManagerEditArea.csv")
-	  public void dParkingUserReservation(String userName, String password, String confirmPassword, String role,
+	  public void dParkingManagerEditArea(String userName, String password, String confirmPassword, String role,
 				String permitType, String firstName, String middleName, String lastName, String sex, String dayOfBirth,
 				String address, String email, String phoneNum, String dlNum, String dayOfExpiry, String regNum,
 				String utaId, String AreaName, String respermitType, String floorNumber, String SpotsNo, String spotId, String newName) throws Exception 
