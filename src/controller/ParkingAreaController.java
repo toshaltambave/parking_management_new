@@ -270,14 +270,13 @@ public class ParkingAreaController extends HttpServlet {
 		String url = "/CreatingParkingArea.jsp";
 		ParkingAreaHelperError error = new ParkingAreaHelperError();
 		getError(request, session, error, action);
-		session.setAttribute("parkingAreaError", error);
+		request.setAttribute("parkingAreaError", error);
 		if (error.getAreaNameError().isEmpty() && error.getFloorNumberError().isEmpty()
 				&& error.getNumberofSpotsError().isEmpty()) {
 			String areaName = request.getParameter("parkingareaname");
 			String permitType = request.getParameter("permitType");
 			Integer numberofSpots = Integer.parseInt(request.getParameter("numberofSpots"));
 			Integer floorno = Integer.parseInt(request.getParameter("floornumber"));
-			;
 			request.setAttribute("selectedpermitType", permitType);
 
 			ParkingAreaHelper parkingArea = new ParkingAreaHelper();
@@ -291,7 +290,7 @@ public class ParkingAreaController extends HttpServlet {
 				uniqueListAreas = new ArrayList<ParkingAreaHelper>();
 				uniqueListAreas.add(parkingArea);
 				// uniqueListAreas.addAll(Collections.singleton(parkingArea));
-				request.setAttribute("areastobeadded", uniqueListAreas);
+				//request.setAttribute("areastobeadded", uniqueListAreas);
 				session.setAttribute("areastobeadded", uniqueListAreas);
 			} else {
 				copy.add(parkingArea);
@@ -312,7 +311,7 @@ public class ParkingAreaController extends HttpServlet {
 				// Creating Arraylist without duplicate values
 				List<ParkingAreaHelper> listWithoutDuplicates = new ArrayList<ParkingAreaHelper>(listToSet);
 				// copy.addAll(Collections.singleton(parkingArea));
-				request.setAttribute("areastobeadded", listWithoutDuplicates);
+				//request.setAttribute("areastobeadded", listWithoutDuplicates);
 				session.setAttribute("areastobeadded", listWithoutDuplicates);
 			}
 		}
@@ -320,7 +319,7 @@ public class ParkingAreaController extends HttpServlet {
 	}
 
 	public void getError(HttpServletRequest request, HttpSession session, ParkingAreaHelperError error, String action) {
-		session.setAttribute("isAreaListEmpty", false);
+		request.setAttribute("isAreaListEmpty", false);
 		error.setAreaNameError(error.validateEmpty(request.getParameter("parkingareaname")));
 		error.setNumberofSpotsError(error.validateEmpty(request.getParameter("numberofSpots")));
 		error.setFloorNumberError(error.validateEmpty(request.getParameter("floornumber")));
@@ -338,8 +337,10 @@ public class ParkingAreaController extends HttpServlet {
 		ArrayList<ParkingAreaHelper> copy = new ArrayList<ParkingAreaHelper>();
 		copy = (ArrayList<ParkingAreaHelper>) session.getAttribute("areastobeadded");
 		if (copy == null) {
-			session.setAttribute("isAreaListEmpty", true);
-		} else {
+			request.setAttribute("isAreaListEmpty", true);
+			url="/CreatingParkingArea.jsp";
+		} 
+		else {
 			for (ListIterator<ParkingAreaHelper> iterator = copy.listIterator(); iterator.hasNext();) {
 				ParkingAreaHelper area = iterator.next();
 				isadded = ParkingAreaDAO.saveArea(area);
@@ -347,7 +348,7 @@ public class ParkingAreaController extends HttpServlet {
 			}
 			if (isadded) {
 				session.setAttribute("areastobeadded", new ArrayList<ParkingAreaHelper>());
-				session.setAttribute("isAreaAdded", isadded);
+				request.setAttribute("isAreaAdded", isadded);
 			}
 		}
 		return url;

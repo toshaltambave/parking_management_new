@@ -128,7 +128,9 @@ CREATE TABLE `reservations` (
   UNIQUE KEY `Reservation_Id_UNIQUE` (`Reservation_Id`),
   KEY `Fk_Spot_UID_idx` (`Spot_UID`),
   KEY `reservations_systems_users_FK` (`User_Id`),
-  CONSTRAINT `Fk_Spot_UID` FOREIGN KEY (`Spot_UID`) REFERENCES `parking_spots` (`Spot_UID`),
+  CONSTRAINT `Fk_Spot_UID` FOREIGN KEY (`Spot_UID`) REFERENCES `parking_spots` (`Spot_UID`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
   CONSTRAINT `reservations_systems_users_FK` FOREIGN KEY (`User_Id`) REFERENCES `system_users` (`User_Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
