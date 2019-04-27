@@ -240,7 +240,6 @@ public class Reservation implements Serializable
 		boolean normalHours = true;
 		if(5 >= startDay && startDay >=1 ){
 			//Monday to Friday
-			//For Unit Test: Its Always Going to miss 2 branches as 
 			if(startHours >= 6 && endHours <= 19){
 				// 6am to 7.59pm
 				return normalHours;
