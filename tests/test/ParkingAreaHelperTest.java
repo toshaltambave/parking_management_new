@@ -60,6 +60,8 @@ public class ParkingAreaHelperTest {
 		EasyMock.expect(request.getParameter("parkingareaname")).andReturn(areaName);
 		EasyMock.expect(request.getParameter("numberofSpots")).andReturn(numberofSpots);
 		EasyMock.expect(request.getParameter("floornumber")).andReturn(floorNumber);
+		request.setAttribute("isAreaListEmpty", false);
+		EasyMock.expectLastCall();
 		EasyMock.replay(request);
 
 		controller.getError(request, session, errorMsg, action);
