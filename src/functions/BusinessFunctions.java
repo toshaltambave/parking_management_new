@@ -104,6 +104,29 @@ public class BusinessFunctions {
 		
 	}
 	
+public void editreservationTimeAndDate(WebDriver driver, String start, String end, String area) throws Exception{
+		
+		driver.findElement(By.id(prop.getProperty("Txt_Reservation_StartTime"))).clear();
+		driver.findElement(By.id(prop.getProperty("Txt_Reservation_EndTime"))).clear();
+		driver.findElement(By.id(prop.getProperty("Txt_Reservation_StartTime"))).sendKeys(start);
+		driver.findElement(By.id(prop.getProperty("Txt_Reservation_EndTime"))).sendKeys(end);
+		new Select(driver.findElement(By.id(prop.getProperty("Txt_Reservation_AreaDropDown")))).selectByVisibleText(area);
+		Thread.sleep(1000);
+	    driver.findElement(By.id(prop.getProperty("Btn_Reservation_Search"))).click();
+	    if (prop.getProperty("test_delay").equals("delay"))
+		{	
+			try {
+				Thread.sleep((Integer.parseInt(prop.getProperty("thread_sleep"))));
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	public void reservationTimeAndDate(WebDriver driver, String start, String end, String area) throws Exception{
 		
 		driver.findElement(By.id(prop.getProperty("Btn_Reservation_Reserve"))).click();
@@ -128,8 +151,55 @@ public class BusinessFunctions {
 		}
 	}
 	
+	public void deletereservation(WebDriver driver, Integer spot){
+		driver.findElement(By.id(prop.getProperty("Btn_ParkingUser_DelRes"))).click();
+	    driver.findElement(By.xpath("(//input[@id='btnDelete'])["+spot+"]")).click();
+	    
+		if (prop.getProperty("test_delay").equals("delay"))
+		{	
+			try {
+				Thread.sleep((Integer.parseInt(prop.getProperty("thread_sleep"))));
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void modifyreservation(WebDriver driver, Integer spot){
+		driver.findElement(By.id(prop.getProperty("Btn_ParkingUser_EditRes"))).click();
+		if (prop.getProperty("test_delay").equals("delay"))
+		{	
+			try {
+				Thread.sleep((Integer.parseInt(prop.getProperty("thread_sleep"))));
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	    driver.findElement(By.xpath("(//input[@id='btnEditReservation'])["+spot+"]")).click();
+	}
+	
 	public void reservationFloorAndSpot(WebDriver driver, String permitType, Integer floor, Integer spot){
 		driver.findElement(By.id("btnReserveFloor"+floor+""+permitType)).click();
+		if (prop.getProperty("test_delay").equals("delay"))
+		{	
+			try {
+				Thread.sleep((Integer.parseInt(prop.getProperty("thread_sleep"))));
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	    driver.findElement(By.xpath("(//input[@id='btnReserveSpotID'])["+spot+"]")).click();
 	}
 	
@@ -227,11 +297,16 @@ public class BusinessFunctions {
 		}
 	}
 	
-	public void revokeUser(WebDriver driver, String userName){
+	public void revokeUser(WebDriver driver, String userName,String comment){
 	    driver.findElement(By.id(prop.getProperty("Btn_Revoke_User"))).click();
 	    assertTrue(!isElementPresent(driver, "Text_Revoke_Success"));
+	    driver.findElement(By.id(prop.getProperty("txtComment"))).clear();
+	    driver.findElement(By.id(prop.getProperty("Btn_Revoke"))).click();
+	    assertTrue(driver.findElement(By.id(prop.getProperty("commentError"))).getAttribute("value").equals("Comment is mandatory."));
 	    new Select(driver.findElement(By.id(prop.getProperty("Drp_Dwn_Select_Search_Type_Revoke")))).selectByVisibleText("UserName");
 	    new Select(driver.findElement(By.id(prop.getProperty("Drp_Dwn_Select_User_Revoke")))).selectByVisibleText(userName);
+	    driver.findElement(By.id(prop.getProperty("txtComment"))).clear();
+	    driver.findElement(By.id(prop.getProperty("txtComment"))).sendKeys(comment);
 	    driver.findElement(By.id(prop.getProperty("Btn_Revoke"))).click();
 	    assertTrue(driver.findElement(By.id("msgRevSuccess")).getText().equals("User has Been Revoked."));
 	    
@@ -371,13 +446,73 @@ public class BusinessFunctions {
 	    driver.findElement(By.name(prop.getProperty("Txt_Parking_Spot_No"))).clear();
 	    driver.findElement(By.name(prop.getProperty("Txt_Parking_Spot_No"))).sendKeys(SpotsNo);
 	    driver.findElement(By.id(prop.getProperty("Btn_Parking_Area_AddList"))).click();
+	    //Added again to make duplicate value case
+	    driver.findElement(By.id(prop.getProperty("Txt_Parking_Area_Name"))).clear();
+	    driver.findElement(By.id(prop.getProperty("Txt_Parking_Area_Name"))).sendKeys(AreaName);
+	    new Select(driver.findElement(By.id(prop.getProperty("Txt_Parking_Area_PermitType")))).selectByVisibleText(PermitType);
+	    driver.findElement(By.id(prop.getProperty("Txt_Parking_Floor_No"))).clear();
+	    driver.findElement(By.id(prop.getProperty("Txt_Parking_Floor_No"))).sendKeys(FloorNo);
+	    driver.findElement(By.name(prop.getProperty("Txt_Parking_Spot_No"))).clear();
+	    driver.findElement(By.name(prop.getProperty("Txt_Parking_Spot_No"))).sendKeys(SpotsNo);
+	    driver.findElement(By.id(prop.getProperty("Btn_Parking_Area_AddList"))).click();
 	    driver.findElement(By.id(prop.getProperty("Btn_Parking_Area_Save"))).click();
 	    assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Parking_Add_Success"))).getText().equals("Area(s) added successfully."));
+		if (prop.getProperty("test_delay").equals("delay"))
+		{	
+			try {
+				Thread.sleep((Integer.parseInt(prop.getProperty("thread_sleep"))));
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	    driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
+	}
+	
+	public void viewParkingSpots(WebDriver driver,String AreaName,String PermitType,String FloorNo)
+	{
+	    driver.findElement(By.id(prop.getProperty("Btn_ParkingManagement_ViewSpots"))).click();
+	    new Select(driver.findElement(By.id(prop.getProperty("Drop_Down_Area")))).selectByVisibleText(AreaName);
+	    driver.findElement(By.id(prop.getProperty("Btn_Spots_AreaFloors"))).click();	    
+	    driver.findElement(By.id(prop.getProperty("Btn_Search_Spot_Floor")+FloorNo+PermitType)).click();
+		if (prop.getProperty("test_delay").equals("delay"))
+		{	
+			try {
+				Thread.sleep((Integer.parseInt(prop.getProperty("thread_sleep"))));
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	    driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
 	}
 
-	public void editParkingArea(WebDriver driver, String AreaName, String PermitType){
-		
+	public void blockunblock(WebDriver driver, String AreaName, String PermitType,String FloorNo,String spotId) throws Exception{
+	    driver.findElement(By.id(prop.getProperty("Btn_ParkingManagement_Block"))).click();
+	    new Select(driver.findElement(By.id(prop.getProperty("DD_SB_Area")))).selectByVisibleText(AreaName);
+	    driver.findElement(By.id(prop.getProperty("btn_Submit"))).click();	    
+	    driver.findElement(By.id("btnSelectParkingAreaFloors"+FloorNo+PermitType)).click();
+	    driver.findElement(By.xpath("(//input[@id='btnBlockUnblock'])["+spotId+"]")).click();
+	    assertTrue(driver.findElement(By.id(prop.getProperty("Txt_msgblocksuccess"))).getText().equals("spot (un)blocked successfully."));
+		if (prop.getProperty("test_delay").equals("delay"))
+		{	
+			try {
+				Thread.sleep((Integer.parseInt(prop.getProperty("thread_sleep"))));
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	    driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
 	}
 	public boolean isElementPresent(WebDriver driver, String id) {
 	    try {
