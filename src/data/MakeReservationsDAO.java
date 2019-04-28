@@ -213,7 +213,7 @@ public class MakeReservationsDAO{
 			stmt=conn.createStatement();
 			String fetchqueryString="select NoShow from reservations where Reservation_Id="+reservationID+";";
 			ResultSet rs = stmt.executeQuery(fetchqueryString);
-			while(rs.next()) 
+			if(rs.next()) 
 			{			
 				int NoShow = rs.getInt("NoShow");
 				if(NoShow == 0)
@@ -241,6 +241,10 @@ public class MakeReservationsDAO{
 					stmt.executeUpdate(queryString2);
 				}
 				conn.commit();
+			}
+			else
+			{
+				System.out.println("Do Nothing.");
 			}	
 	 }catch (SQLException e) {
 		 e.printStackTrace();
@@ -266,7 +270,7 @@ public class MakeReservationsDAO{
 			stmt=conn.createStatement();
 			String fetchqueryString="select OverStay from reservations where Reservation_Id="+reservationID+";";
 			ResultSet rs = stmt.executeQuery(fetchqueryString);
-			while(rs.next()) 
+			if(rs.next()) 
 			{			
 				int OverStay = rs.getInt("OverStay");
 				if(OverStay == 0)
@@ -295,6 +299,10 @@ public class MakeReservationsDAO{
 					stmt.executeUpdate(queryString2);
 				}
 				conn.commit();
+			}
+			else
+			{
+				System.out.println("Do Nothing.");
 			}	
 	 }catch (SQLException e) {
 		 e.printStackTrace();

@@ -156,7 +156,15 @@ public class ReservationsController extends HttpServlet {
 				{
 					isReservationSuccessful = storeReservation(session, user);
 					request.setAttribute("isReservationSuccessful", isReservationSuccessful);
-			        RequestDispatcher dispatcher = request.getRequestDispatcher("/parkingUserHomePage.jsp");
+					String url = "";
+					if (user.getRole().equals("ParkingManager")){
+						url="/parkingManagementHomePage.jsp";
+					}
+					else
+					{
+						url="/parkingUserHomePage.jsp";
+					}
+			        RequestDispatcher dispatcher = request.getRequestDispatcher(url);
 			        dispatcher.forward(request, response);
 				}
 			}
@@ -164,7 +172,15 @@ public class ReservationsController extends HttpServlet {
 			{
 				isReservationSuccessful = storeReservation(session, user);	
 				request.setAttribute("isReservationSuccessful", isReservationSuccessful);
-		        RequestDispatcher dispatcher = request.getRequestDispatcher("/parkingUserHomePage.jsp");
+				String url = "";
+				if (user.getRole().equals("ParkingManager")){
+					url="/parkingManagementHomePage.jsp";
+				}
+				else
+				{
+					url="/parkingUserHomePage.jsp";
+				}
+				RequestDispatcher dispatcher = request.getRequestDispatcher(url);
 		        dispatcher.forward(request, response);
 				
 			}

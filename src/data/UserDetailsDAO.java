@@ -421,7 +421,7 @@ public class UserDetailsDAO {
 		try {
 			stmt = conn.createStatement();
 			PreparedStatement pst = null;
-			String sql = "SELECT su.PermitType,su.Role,ud.* FROM parking_management.user_details ud JOIN system_users su ON su.user_id=ud.user_id where ud.LastName=?";
+			String sql = "SELECT su.UserName,su.Role,ud.* FROM parking_management.user_details ud JOIN system_users su ON su.user_id=ud.user_id where ud.LastName=?";
 			pst = conn.prepareStatement(sql);
 			pst.setString(1, lastName);
 			ResultSet rs = pst.executeQuery();
