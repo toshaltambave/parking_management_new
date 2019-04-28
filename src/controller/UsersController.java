@@ -211,18 +211,11 @@ public class UsersController extends HttpServlet {
 			{
 				url = "/parkingManagementHomePage.jsp";
 			}
-			else if("ParkingUser".equalsIgnoreCase(user.getRole()))
+			else 
 			{
 				url = "/parkingUserHomePage.jsp";				
 			}
-			else
-			{
-				System.out.println("Do Nothing.");
-			}		
-//			else
-//			{
-//				url = "/index.jsp";
-//			}
+					
 		}
 		//Login Failed
 		else
