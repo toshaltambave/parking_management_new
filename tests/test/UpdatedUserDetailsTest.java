@@ -55,7 +55,7 @@ public class UpdatedUserDetailsTest {
 	@Test
 	@FileParameters("tests/test/UpdatedUserDetailsTest.csv")
 	public void test(String action, String firstName, String middleName, String lastName, String dob, String address,
-			String email, String phone, String dlNumber, String dlExpiry, String utaId, String userName,
+			String email, String phone, String dlNumber, String dlExpiry, String utaId, String userName, String oldUserName,
 			String hashedPass, String confirmPass, String role, String permitType, String regNumber, String sex,
 			String expectedError, boolean mockBoolean, String expectedRoleError, String expectedPermitError,
 			String expectedFirstNameError, String expectedMiddleNameError, String expectedLastNameError,
@@ -63,8 +63,9 @@ public class UpdatedUserDetailsTest {
 			String expectedPhoneError, String expectedRegNumError, String expectedUserNameError,
 			String expectedHashPassError, String expectedConfirmPassError, String expectedDlError, String expectedDlExpiryError, String expectedDobError) {
 		int userId = 1;
-
+	
 		UpdatedUserDetails updatedUserDetail = new UpdatedUserDetails(mockUsersDAO);
+		updatedUserDetail.setOldusername(oldUserName);
 		updatedUserDetail.setUpdatedUserDetails(checkForNull(firstName), checkForNull(middleName),
 				checkForNull(lastName), checkForNull(userName), checkForNull(checkSexEnum(sex)), checkForNull(dob),
 				checkForNull(address), checkForNull(email), checkForNull(phone), checkForNull(dlNumber),
