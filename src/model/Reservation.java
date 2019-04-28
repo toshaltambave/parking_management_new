@@ -131,11 +131,11 @@ public class Reservation implements Serializable {
 
 	public void validateDateTime(String startTime, String endTime, ReservationError resError) {
 
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		if (startTime.isEmpty()) {
-			resError.setStartTimeError("This field is required.");
-		} else {
-			try {				
+		try {
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			if (startTime.isEmpty()) {
+				resError.setStartTimeError("This field is required.");
+			} else {
 				Date startdate = formatter.parse(startTime);
 				Date date = new Date();
 				int startHours = startdate.getHours();
@@ -151,40 +151,33 @@ public class Reservation implements Serializable {
 						resError.setStartTimeError("");
 					}
 				}
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				LOG.info("ERROR: ", e);
 			}
-		}
-		if (endTime.isEmpty()) {
-			resError.setEndTimeError("This field is required.");
-		} else {
-			try {
+			if (endTime.isEmpty()) {
+				resError.setEndTimeError("This field is required.");
+			} else {
+
 				Date enddate = formatter.parse(endTime);
 				Date date = new Date();
 				int endHours = enddate.getHours();
 				int endMins = enddate.getMinutes();
 				int currentHours = date.getHours();
 				int currentMins = date.getMinutes();
-				
+
 				if (endHours < currentHours) {
 					resError.setEndTimeError("End time cannot be before current time.");
 				} else {
-					System.out.printf("C1: "+ (endHours == currentHours) + " c2: "+  (endMins < currentMins) +"\n");
+					System.out.printf("C1: " + (endHours == currentHours) + " c2: " + (endMins < currentMins) + "\n");
 					if (endHours == currentHours && endMins < currentMins) {
 						resError.setEndTimeError("End time cannot be before current time.");
 					} else {
 						resError.setEndTimeError("");
 					}
 				}
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				LOG.info("ERROR: ", e);
+
 			}
-		}
-		if (!endTime.isEmpty() && !startTime.isEmpty()) {
-			Date enddate;
-			try {
+			if (!endTime.isEmpty() && !startTime.isEmpty()) {
+				Date enddate;
+
 				enddate = formatter.parse(endTime);
 
 				Date startdate;
@@ -200,29 +193,21 @@ public class Reservation implements Serializable {
 					resError.setCompareError("Start time cannot be after end time.");
 				} else if (startdate.equals(enddate)) {
 					resError.setCompareError("Start time and end time cannot be same.");
-				}
-				// else if(diffHours >3)
-				// {
-				// resError.setCompareError("Reservation cannot be for more than
-				// 3 hours.");
-				// }
-				// TODO: Maybe remove this
-				else if (diffMins > 180) {
+				} else if (diffMins > 180) {
 					resError.setCompareError("Reservation cannot be for more than 3 hours.");
 				} else {
 					resError.setCompareError("");
 				}
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				LOG.info("ERROR: ", e);
 			}
-		}
 
-		if (!resError.getCompareError().isEmpty() || !resError.getStartTimeError().isEmpty()
-				|| !resError.getEndTimeError().isEmpty())
-			resError.setErrorMsg("There are time errors.");
-		else
-			resError.setErrorMsg("");
+			if (!resError.getCompareError().isEmpty() || !resError.getStartTimeError().isEmpty()
+					|| !resError.getEndTimeError().isEmpty())
+				resError.setErrorMsg("There are time errors.");
+			else
+				resError.setErrorMsg("");
+		} catch (ParseException e) {
+			LOG.info("ERROR: ", e);
+		}
 	}
 
 	public boolean checkNormalHours(Date startdate, Date enddate) {

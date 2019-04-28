@@ -56,6 +56,15 @@ public class ReservationTest {
 		assertEquals(resError.getEndTimeError(), endTimeError);
 		assertEquals(resError.getCompareError(), compareError);
 	}
+	
+	@Test
+	@FileParameters("tests/test/ReservationException.csv")
+	public void ExceptionTest(String startTime, String endTime, String isNormalHour) throws ParseException {
+	    SimpleDateFormat formatter=new SimpleDateFormat("dd-MMM-yyyy"); 
+		Date startdate = formatter.parse(startTime);
+		Date enddate = formatter.parse(endTime);
+		reservation.validateDateTime(startTime, endTime, resError);
+	}
 
 	@Test
 	@FileParameters("tests/Excel/CheckNormalHours.csv")
