@@ -22,24 +22,6 @@ public class UpdateUserController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String action = request.getParameter("action");
-		listPermitTypes(request,response);
-		listRoles(request,response);
-		if (action.equals("getList")) {
-			// get parameters from the request
-			Users user = (Users) request.getSession().getAttribute("User");
-			java.util.List<UpdatedUserDetails> userList = UpdatedUserDetailsDAO.searchByUsername(user.getUsername());
-			UpdatedUserDetails updatedUserDetails = userList.get(0);
-			request.getSession().setAttribute("oldusername", updatedUserDetails.getOldusername());
-			String role = updatedUserDetails.getRole();
-	        request.setAttribute("selectedrole", role);
-			String permitType = updatedUserDetails.getPermitType();
-	        request.setAttribute("selectedpermitType", permitType);
-			request.setAttribute("updatedUserDetails", updatedUserDetails);
-
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/EditProfile.jsp");
-			dispatcher.forward(request, response);
-		}
 		doPost(request, response);
 	}
 

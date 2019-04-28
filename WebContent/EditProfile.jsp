@@ -113,7 +113,7 @@ input[type="text"] {
     <td> Date of Birth (*): </td>
     <td> <input name="dob" id="dob"
 							value="<c:out value='${updatedUserDetails.birthDate}'/>" type="text"
-							class="datepicker" maxlength="16" readonly>  </td>
+							class="datepicker" maxlength="16">  </td>
   	<td> <input disabled name="birthDateError" id="birthDateError"
 							value="<c:out value='${updatedUserDetailsErrorMsgs.birthDateError}'/>"
 							type="text"
@@ -174,7 +174,7 @@ input[type="text"] {
     <td> Driving License Expiry Date (*): </td>
     <td> <input name="dlexpirydte" id="dlexpirydte"
 							value="<c:out value='${updatedUserDetails.drivingLicenseExpiry}'/>"
-							type="text" class="datepicker" maxlength="16" readonly>  </td>
+							type="text" class="datepicker" maxlength="16">  </td>
   	<td> <input disabled name="dlexpirydteError" id="dlexpirydteError"
 							value="<c:out value='${updatedUserDetailsErrorMsgs.drivingLicenseExpiry}'/>"
 							type="text"
