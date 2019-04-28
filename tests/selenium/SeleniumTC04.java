@@ -150,6 +150,8 @@ public class SeleniumTC04 extends BusinessFunctions {
 
 		driver.get(fakeUrl);
 		driver.findElement(By.id("faketest")).click();
+		driver.get(fakeUrl);
+		driver.findElement(By.id("faketestupdate")).click();
 	}
 	
 	@Test

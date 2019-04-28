@@ -178,10 +178,7 @@ public class UpdateUserController extends HttpServlet {
 			url = "";
 			if(session.getAttribute("User") != null)
 			{
-				if(user.getRole().equals("ParkingUser")){
-				url="/parkingUserHomePage.jsp";
-				}
-				else if (user.getRole().equals("ParkingManager")){
+				if (user.getRole().equals("ParkingManager")){
 					url="/parkingManagementHomePage.jsp";
 				}
 				else if (user.getRole().equals("Admin")){
@@ -189,7 +186,7 @@ public class UpdateUserController extends HttpServlet {
 				}
 				else
 				{
-					System.out.println("Do Nothing.");
+					url="/parkingUserHomePage.jsp";
 				}		
 			}
 			else
