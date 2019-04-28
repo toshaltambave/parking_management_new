@@ -28,6 +28,7 @@ public class SeleniumTC04 extends BusinessFunctions {
 	private BusinessFunctions functions = new BusinessFunctions();
 
 	private String appUrl;
+	private String fakeUrl;
 	private String sharedUIMapPath;
 
 	@Before
@@ -48,6 +49,7 @@ public class SeleniumTC04 extends BusinessFunctions {
 		int timewait = (Integer.parseInt(prop.getProperty("wait_time")));
 		driver.manage().timeouts().implicitlyWait(timewait, TimeUnit.SECONDS);
 		appUrl = prop.getProperty("AppUrl");
+		fakeUrl = prop.getProperty("FakeUrl");
 		sharedUIMapPath = prop.getProperty("SharedUIMapPath");
 		prop.load(new FileInputStream(sharedUIMapPath));
 
@@ -75,6 +77,7 @@ public class SeleniumTC04 extends BusinessFunctions {
 		if (TestDAO.userExists(userName)) {
 			TestDAO.deleteUser(userName);
 		}
+		
 		functions.Register(driver, userName, password, confirmPassword, Role.Admin.toString(), permitType);
 		functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dob, address, email, phoneNum,
 				dlNum, dlExpiry, regNum, utaId);
@@ -142,7 +145,8 @@ public class SeleniumTC04 extends BusinessFunctions {
 		functions.UpdateUserProfile(driver, userNameToUpdate, updateFirstName, updateMiddleName, updateLastName,
 				updateUserName, updateSex, updateDob, updateAddress, updateEmail, updatePhoneNum, updateDlNum,
 				updateDlExpiry, updateRegNum, updateUtaId, updatePassword, updateConfirmPassword, updatePermitType);
-
+		driver.get(fakeUrl);
+		driver.findElement(By.id("faketest")).click();
 	}
 
 	@After
