@@ -391,8 +391,8 @@ public class ReservationsController extends HttpServlet {
 		{
 			HttpSession session = request.getSession();
 			Users user = (Users) session.getAttribute("User");
-			Boolean isRevoked = MakeReservationsDOA.CheckRevoked(user.getUserID());
-			Integer numberOfReservations = MakeReservationsDOA.CountReservationsInDay(user.getUserID());
+			Boolean isRevoked = MakeReservationsDAO.CheckRevoked(user.getUserID());
+			Integer numberOfReservations = MakeReservationsDAO.CountReservationsInDay(user.getUserID());
 			if(isRevoked == true){
 				request.setAttribute("isRevoked", isRevoked );
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/parkingUserHomePage.jsp");

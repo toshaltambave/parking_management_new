@@ -157,55 +157,31 @@ public class UserDetailsDAO {
 		Statement stmt = null;
 		Connection conn = SQLConnection.getDBConnection();
 		DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
-
-		int userId;
 		try {
 			stmt = conn.createStatement();
 			PreparedStatement pst = null;
-			String sql = "SELECT * FROM parking_management.system_users where UserName=?";
+			String sql = "SELECT su.PermitType,su.Role,ud.* FROM parking_management.system_users su JOIN user_details ud ON su.user_id=ud.user_id where su.UserName=?";
 			pst = conn.prepareStatement(sql);
 			pst.setString(1, userName);
-			ResultSet rs = pst.executeQuery();
-
-			if (!rs.isBeforeFirst()) {
-				System.out.println("No data");
-			} else if (rs.next()) {
-				userId = rs.getInt("User_Id");
-				stmt = conn.createStatement();
-				PreparedStatement pst2 = null;
-				String sql2 = "SELECT * FROM parking_management.user_details where user_id=?";
-				pst2 = conn.prepareStatement(sql2);
-				pst2.setInt(1, userId);
-				ResultSet rs2 = pst2.executeQuery();
-				if (!rs2.isBeforeFirst()) {
-					LOG.info("No Data Available");
-				} else if (rs2.next()) {
-
-
-					UserDetails userDetails = new UserDetails();
-					userDetails.setAddress(rs2.getString("Address"));
-					userDetails.setDrivingLicenseExpiry(df.format(rs2.getDate("DL_Expiry")));
-					userDetails.setBirthDate(df.format(rs2.getDate("DOB")));
-					userDetails.setFirstName(rs2.getString("FirstName"));
-					userDetails.setMiddleName(rs2.getString("MiddleName"));
-					userDetails.setLastName(rs2.getString("LastName"));
-					userDetails.setSex(rs2.getString("Sex"));
-					userDetails.setEmail(rs2.getString("Email"));
-					userDetails.setPhone(rs2.getString("Phone"));
-					userDetails.setDrivingLicenseNo(rs2.getString("DL_Number"));
-					userDetails.setRegistrationNumber(rs2.getString("Reg_Number"));
-					userDetails.setUta_Id(rs2.getString("uta_id"));
-					userDetails.setUsername(userName);
-
-					userListInDB.add(userDetails);
-
-				}
-				else
-				{
-					System.out.println("Do Nothing.");
-				}		
-			}
-
+			ResultSet rs2 = pst.executeQuery();
+			while (rs2.next())
+			{
+				UserDetails userDetails = new UserDetails();
+				userDetails.setAddress(rs2.getString("Address"));
+				userDetails.setDrivingLicenseExpiry(df.format(rs2.getDate("DL_Expiry")));
+				userDetails.setBirthDate(df.format(rs2.getDate("DOB")));
+				userDetails.setFirstName(rs2.getString("FirstName"));
+				userDetails.setMiddleName(rs2.getString("MiddleName"));
+				userDetails.setLastName(rs2.getString("LastName"));
+				userDetails.setSex(rs2.getString("Sex"));
+				userDetails.setEmail(rs2.getString("Email"));
+				userDetails.setPhone(rs2.getString("Phone"));
+				userDetails.setDrivingLicenseNo(rs2.getString("DL_Number"));
+				userDetails.setRegistrationNumber(rs2.getString("Reg_Number"));
+				userDetails.setUta_Id(rs2.getString("uta_id"));
+				userDetails.setUsername(userName);
+				userListInDB.add(userDetails);
+			}	
 		} catch (SQLException e) {
 			LOG.log(Level.SEVERE, "Sql Error: ", e);
 		} finally {
@@ -230,15 +206,12 @@ public class UserDetailsDAO {
 			String sql = "SELECT LastName FROM parking_management.user_details";
 			pst = conn.prepareStatement(sql);
 			ResultSet rs = pst.executeQuery();
-
-			if (!rs.isBeforeFirst()) {
-				LOG.info("No Data Available");
-			} else
-				while (rs.next()) {
-					UserDetails userDetails = new UserDetails();
-					userDetails.setLastName(rs.getString("LastName"));
-					userListInDB.add(userDetails);
-				}
+			while (rs.next())
+			{
+				UserDetails userDetails = new UserDetails();
+				userDetails.setLastName(rs.getString("LastName"));
+				userListInDB.add(userDetails);
+			}
 		} catch (SQLException e) {
 			LOG.log(Level.SEVERE, "Sql Error: ", e);
 		} finally {
@@ -263,17 +236,14 @@ public class UserDetailsDAO {
 			String sql = "SELECT UserName FROM parking_management.system_users";
 			pst = conn.prepareStatement(sql);
 			ResultSet rs = pst.executeQuery();
+			while (rs.next())
+			{
 
-			if (!rs.isBeforeFirst()) {
-				LOG.info("No Data Available");
-			} else
-				while (rs.next()) {
+				UserDetails userDetails = new UserDetails();
+				userDetails.setUsername(rs.getString("UserName"));
+				userListInDB.add(userDetails);
 
-					UserDetails userDetails = new UserDetails();
-					userDetails.setUsername(rs.getString("UserName"));
-					userListInDB.add(userDetails);
-
-				}
+			}
 		} catch (SQLException e) {
 			LOG.log(Level.SEVERE, "Sql Error: ", e);
 		} finally {
@@ -451,48 +421,29 @@ public class UserDetailsDAO {
 		try {
 			stmt = conn.createStatement();
 			PreparedStatement pst = null;
-			String sql = "SELECT * FROM parking_management.user_details where LastName=?";
+			String sql = "SELECT su.PermitType,su.Role,ud.* FROM parking_management.user_details ud JOIN system_users su ON su.user_id=ud.user_id where ud.LastName=?";
 			pst = conn.prepareStatement(sql);
 			pst.setString(1, lastName);
 			ResultSet rs = pst.executeQuery();
-
-			if (!rs.isBeforeFirst()) {
-				LOG.info("No Data Available");
-			} else if (rs.next()) {
-				Integer userId = rs.getInt("User_Id");
-				stmt = conn.createStatement();
-				PreparedStatement pst2 = null;
-				String sql2 = "SELECT * FROM parking_management.system_users where user_id=?";
-				pst2 = conn.prepareStatement(sql2);
-				pst2.setInt(1, userId);
-				ResultSet rs2 = pst2.executeQuery();
-				if (!rs2.isBeforeFirst()) {
-					LOG.info("No Data Available");
-				} else if (rs2.next()) {
-					String dob = df.format(rs.getDate("DOB"));
-					LOG.info("DOB: " + dob);
-					UserDetails userDetails = new UserDetails();
-					userDetails.setAddress(rs.getString("Address"));
-					userDetails.setDrivingLicenseExpiry(df.format(rs.getDate("DL_Expiry")));
-					userDetails.setBirthDate(df.format(rs.getDate("DOB")));
-					userDetails.setFirstName(rs.getString("FirstName"));
-					userDetails.setMiddleName(rs.getString("MiddleName"));
-					userDetails.setLastName(rs.getString("LastName"));
-					userDetails.setSex(rs.getString("Sex"));
-					userDetails.setEmail(rs.getString("Email"));
-					userDetails.setPhone(rs.getString("Phone"));
-					userDetails.setDrivingLicenseNo(rs.getString("DL_Number"));
-					userDetails.setRegistrationNumber(rs.getString("Reg_Number"));
-					userDetails.setUta_Id(rs.getString("uta_id"));
-					userDetails.setUsername(rs2.getString("UserName"));
-
-					userListInDB.add(userDetails);
-
-				}
-				else
-				{
-					System.out.println("Do Nothing.");
-				}		
+			while (rs.next()) 
+			{
+				String dob = df.format(rs.getDate("DOB"));
+				LOG.info("DOB: " + dob);
+				UserDetails userDetails = new UserDetails();
+				userDetails.setAddress(rs.getString("Address"));
+				userDetails.setDrivingLicenseExpiry(df.format(rs.getDate("DL_Expiry")));
+				userDetails.setBirthDate(df.format(rs.getDate("DOB")));
+				userDetails.setFirstName(rs.getString("FirstName"));
+				userDetails.setMiddleName(rs.getString("MiddleName"));
+				userDetails.setLastName(rs.getString("LastName"));
+				userDetails.setSex(rs.getString("Sex"));
+				userDetails.setEmail(rs.getString("Email"));
+				userDetails.setPhone(rs.getString("Phone"));
+				userDetails.setDrivingLicenseNo(rs.getString("DL_Number"));
+				userDetails.setRegistrationNumber(rs.getString("Reg_Number"));
+				userDetails.setUta_Id(rs.getString("uta_id"));
+				userDetails.setUsername(rs.getString("UserName"));
+				userListInDB.add(userDetails);	
 			}
 
 		} catch (SQLException e) {

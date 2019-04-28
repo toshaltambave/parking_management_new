@@ -48,13 +48,13 @@ public class ModifyController extends HttpServlet {
         String action = request.getParameter("action");
         if (action.equalsIgnoreCase("setNoshow")) 
         { 
-        	Boolean Result = MakeReservationsDOA.SetNoShow(reservation_ID, userId);
+        	Boolean Result = MakeReservationsDAO.SetNoShow(reservation_ID, userId);
         	request.setAttribute("isNoShow", Result);
         	listNSReservations(request, response);	
         }
         else
         { 
-        	Boolean Result = MakeReservationsDOA.SetOverdue(reservation_ID, userId);
+        	Boolean Result = MakeReservationsDAO.SetOverdue(reservation_ID, userId);
         	request.setAttribute("isOverDue", Result);
         	listODReservations(request, response);	
         }        
@@ -64,11 +64,11 @@ public class ModifyController extends HttpServlet {
 	private void listUserReservations(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		HttpSession session = request.getSession();
-		Users user = (Users)session.getAttribute("User");
-		ArrayList<ReservationsHelper> allReservations = MakeReservationsDOA.GetReservationsByUserId(user.getUserID());
-		request.setAttribute("allreservations", allReservations);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/ReservationsByUserId.jsp");
-        dispatcher.forward(request, response);
+			Users user = (Users)session.getAttribute("User");
+			ArrayList<ReservationsHelper> allReservations = MakeReservationsDAO.GetReservationsByUserId(user.getUserID());
+			request.setAttribute("allreservations", allReservations);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/ReservationsByUserId.jsp");
+            dispatcher.forward(request, response);
     }
 	
 	private void listUVReservations(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
@@ -80,13 +80,13 @@ public class ModifyController extends HttpServlet {
 
 		String currentTime = sdf.format(dt);
 		HttpSession session = request.getSession();
-		Users user = (Users)session.getAttribute("User");
-		ArrayList<ReservationsHelper> allReservations = MakeReservationsDOA.GetReservationsViolations(currentTime,user.getUserID());
-		Integer count=allReservations.size();
-		request.setAttribute("allreservations", allReservations);
-		request.setAttribute("count", count);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/UserViolations.jsp");
-        dispatcher.forward(request, response);
+			Users user = (Users)session.getAttribute("User");
+			ArrayList<ReservationsHelper> allReservations = MakeReservationsDAO.GetReservationsViolations(currentTime,user.getUserID());
+			Integer count=allReservations.size();
+			request.setAttribute("allreservations", allReservations);
+			request.setAttribute("count", count);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/UserViolations.jsp");
+            dispatcher.forward(request, response);
     }
 	
 	private void listNSReservations(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
@@ -97,10 +97,11 @@ public class ModifyController extends HttpServlet {
 		     new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		String currentTime = sdf.format(dt);
-		ArrayList<ReservationsHelper> allReservations = MakeReservationsDOA.GetReservationsByReservationNoShow(currentTime);
-		request.setAttribute("allreservations", allReservations);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/SetNoShow.jsp");
-        dispatcher.forward(request, response);
+
+			ArrayList<ReservationsHelper> allReservations = MakeReservationsDAO.GetReservationsByReservationNoShow(currentTime);
+			request.setAttribute("allreservations", allReservations);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/SetNoShow.jsp");
+            dispatcher.forward(request, response);
     }
 	
 	
@@ -112,12 +113,10 @@ public class ModifyController extends HttpServlet {
 		     new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		String currentTime = sdf.format(dt);
-
-		ArrayList<ReservationsHelper> allReservations = MakeReservationsDOA.GetReservationsByReservationNoShow(currentTime);
-		request.setAttribute("allreservations", allReservations);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/SetOverDue.jsp");
-        dispatcher.forward(request, response);
-
+			ArrayList<ReservationsHelper> allReservations = MakeReservationsDAO.GetReservationsByReservationNoShow(currentTime);
+			request.setAttribute("allreservations", allReservations);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/SetOverDue.jsp");
+            dispatcher.forward(request, response);
     }
 	
 

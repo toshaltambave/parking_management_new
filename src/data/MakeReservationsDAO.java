@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 import model.*;
 import util.SQLConnection;
 
-public class MakeReservationsDOA{
+public class MakeReservationsDAO{
 	
 	static SQLConnection DBMgr = SQLConnection.getInstance();
 //	public static void StoreReservationsInDB (Reservation reservations,String queryString) {
@@ -213,7 +213,7 @@ public class MakeReservationsDOA{
 			stmt=conn.createStatement();
 			String fetchqueryString="select NoShow from reservations where Reservation_Id="+reservationID+";";
 			ResultSet rs = stmt.executeQuery(fetchqueryString);
-			if(rs.next()) 
+			while(rs.next()) 
 			{			
 				int NoShow = rs.getInt("NoShow");
 				if(NoShow == 0)
@@ -241,11 +241,7 @@ public class MakeReservationsDOA{
 					stmt.executeUpdate(queryString2);
 				}
 				conn.commit();
-			}
-			else
-			{
-				System.out.println("Do Nothing.");
-			}		
+			}	
 	 }catch (SQLException e) {
 		 e.printStackTrace();
 		 return false;
@@ -270,7 +266,7 @@ public class MakeReservationsDOA{
 			stmt=conn.createStatement();
 			String fetchqueryString="select OverStay from reservations where Reservation_Id="+reservationID+";";
 			ResultSet rs = stmt.executeQuery(fetchqueryString);
-			if(rs.next()) 
+			while(rs.next()) 
 			{			
 				int OverStay = rs.getInt("OverStay");
 				if(OverStay == 0)
@@ -299,11 +295,7 @@ public class MakeReservationsDOA{
 					stmt.executeUpdate(queryString2);
 				}
 				conn.commit();
-			}
-			else
-			{
-				System.out.println("Do Nothing.");
-			}		
+			}	
 	 }catch (SQLException e) {
 		 e.printStackTrace();
 		 return false;
