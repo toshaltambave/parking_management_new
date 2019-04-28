@@ -21,45 +21,45 @@ public class UserDetailsDAO {
 	private static final Logger LOG = Logger.getLogger(UserDetailsDAO.class.getName(), UserDetailsDAO.class);
 	static SQLConnection DBMgr = SQLConnection.getInstance();
 	
-	private static ArrayList<UserDetails> ReturnMatchingUsers (String queryString) {
-		ArrayList<UserDetails> userListInDB = new ArrayList<UserDetails>();
-		
-			Statement stmt = null;
-			Connection conn = SQLConnection.getDBConnection();  
-		try {
-			stmt = conn.createStatement();
-			ResultSet usersList = stmt.executeQuery(queryString);
-			while (usersList.next())
-			{
-				UserDetails userDetails = new UserDetails(); 
-				userDetails.setUserID(usersList.getInt("User_Id"));
-				userDetails.setFirstName(usersList.getString("FirstName"));
-				userDetails.setMiddleName(usersList.getString("MiddleName"));
-				userDetails.setLastName(usersList.getString("LastName"));  
-				userDetails.setAddress(usersList.getString("Address"));
-				userDetails.setDrivingLicenseExpiry(usersList.getDate("DL_Expiry").toString());
-				userDetails.setDrivingLicenseNo(usersList.getString("DL_Number"));
-				userDetails.setEmail(usersList.getString("Email"));
-				userDetails.setBirthDate(usersList.getDate("DOB").toString());  
-				userDetails.setSex(usersList.getString("Sex"));
-				userDetails.setRegistrationNumber(usersList.getString("Reg_Number"));
-				userDetails.setPhone(usersList.getString("Phone"));
-				userDetails.setUta_Id(usersList.getString("uta_Id"));
-				
-				userListInDB.add(userDetails);					
-			}
-		} catch (SQLException e) {
-			LOG.log(Level.SEVERE, "Sql Error: ", e);
-		} finally {
-			try {
-				conn.close();
-				stmt.close();
-			} catch (SQLException e) {
-				LOG.log(Level.SEVERE, "Sql Error: ", e);
-			}
-		}
-		return userListInDB;
-	}
+//	private static ArrayList<UserDetails> ReturnMatchingUsers (String queryString) {
+//		ArrayList<UserDetails> userListInDB = new ArrayList<UserDetails>();
+//		
+//			Statement stmt = null;
+//			Connection conn = SQLConnection.getDBConnection();  
+//		try {
+//			stmt = conn.createStatement();
+//			ResultSet usersList = stmt.executeQuery(queryString);
+//			while (usersList.next())
+//			{
+//				UserDetails userDetails = new UserDetails(); 
+//				userDetails.setUserID(usersList.getInt("User_Id"));
+//				userDetails.setFirstName(usersList.getString("FirstName"));
+//				userDetails.setMiddleName(usersList.getString("MiddleName"));
+//				userDetails.setLastName(usersList.getString("LastName"));  
+//				userDetails.setAddress(usersList.getString("Address"));
+//				userDetails.setDrivingLicenseExpiry(usersList.getDate("DL_Expiry").toString());
+//				userDetails.setDrivingLicenseNo(usersList.getString("DL_Number"));
+//				userDetails.setEmail(usersList.getString("Email"));
+//				userDetails.setBirthDate(usersList.getDate("DOB").toString());  
+//				userDetails.setSex(usersList.getString("Sex"));
+//				userDetails.setRegistrationNumber(usersList.getString("Reg_Number"));
+//				userDetails.setPhone(usersList.getString("Phone"));
+//				userDetails.setUta_Id(usersList.getString("uta_Id"));
+//				
+//				userListInDB.add(userDetails);					
+//			}
+//		} catch (SQLException e) {
+//			LOG.log(Level.SEVERE, "Sql Error: ", e);
+//		} finally {
+//			try {
+//				conn.close();
+//				stmt.close();
+//			} catch (SQLException e) {
+//				LOG.log(Level.SEVERE, "Sql Error: ", e);
+//			}
+//		}
+//		return userListInDB;
+//	}
 	
 	private static Boolean StoreListinDB (UserDetails userDetails,String queryString) {
 		Statement stmt = null;
@@ -120,10 +120,10 @@ public class UserDetailsDAO {
 			return isSuccess;
 		}
 	}
-	public static ArrayList<UserDetails>  listUsers() 
-	{  
-		return ReturnMatchingUsers(" SELECT * from user_details ORDER BY User_Id");
-	}
+//	public static ArrayList<UserDetails>  listUsers() 
+//	{  
+//		return ReturnMatchingUsers(" SELECT * from user_details ORDER BY User_Id");
+//	}
 	
 	//determine if companyID is unique
 	public static Integer ReturnUserID(String username)  
@@ -291,8 +291,9 @@ public class UserDetailsDAO {
 		Statement stmt = null;
 		Connection conn = SQLConnection.getDBConnection();
 		boolean isSuccessful = true;
-		if (type != null) {
-			if (type.equalsIgnoreCase("UserName")) {
+//		if (type != null) 
+//		{
+//			if (type.equalsIgnoreCase("UserName")) {
 
 				try {
 					stmt = conn.createStatement();
@@ -317,47 +318,50 @@ public class UserDetailsDAO {
 						isSuccessful = false;
 					}
 				}
-			} else {
-				int userId;
-				try {
-					stmt = conn.createStatement();
-					PreparedStatement pst = null;
-					String sql = "SELECT * FROM parking_management.user_details where LastName=?";
-					pst = conn.prepareStatement(sql);
-					pst.setString(1, value);
-					ResultSet rs = pst.executeQuery();
-
-					if (!rs.isBeforeFirst()) {
-						LOG.info("No Data Available");
-						isSuccessful = false;
-					} else if (rs.next()) {
-						userId = rs.getInt("User_Id");
-						stmt = conn.createStatement();
-						PreparedStatement pst2 = null;
-						String sql2 = "UPDATE parking_management.system_users SET IsRevoked=?,comment=? where User_Id=?";
-						pst2 = conn.prepareStatement(sql2);
-						pst2.setBoolean(1, isRevoked);
-						pst.setString(2, comment);
-						pst2.setInt(3, userId);
-						pst2.executeUpdate();
-					}
-				} catch (SQLException e) {
-					LOG.log(Level.SEVERE, "Sql Error: ", e);
-					isSuccessful = false;
-				} finally {
-					try {
-						conn.commit();
-						conn.close();
-						stmt.close();
-					} catch (SQLException e) {
-						LOG.log(Level.SEVERE, "Sql Error: ", e);
-						isSuccessful = false;
-					}
-				}
-			}
-		} else {
-			isSuccessful = false;
-		}
+//			} 
+//		else {
+//				int userId;
+//				try {
+//					stmt = conn.createStatement();
+//					PreparedStatement pst = null;
+//					String sql = "SELECT * FROM parking_management.user_details where LastName=?";
+//					pst = conn.prepareStatement(sql);
+//					pst.setString(1, value);
+//					ResultSet rs = pst.executeQuery();
+//
+//					if (!rs.isBeforeFirst()) {
+//						LOG.info("No Data Available");
+//						isSuccessful = false;
+//					} else if (rs.next()) {
+//						userId = rs.getInt("User_Id");
+//						stmt = conn.createStatement();
+//						PreparedStatement pst2 = null;
+//						String sql2 = "UPDATE parking_management.system_users SET IsRevoked=?,comment=? where User_Id=?";
+//						pst2 = conn.prepareStatement(sql2);
+//						pst2.setBoolean(1, isRevoked);
+//						pst.setString(2, comment);
+//						pst2.setInt(3, userId);
+//						pst2.executeUpdate();
+//					}
+//				} catch (SQLException e) {
+//					LOG.log(Level.SEVERE, "Sql Error: ", e);
+//					isSuccessful = false;
+//				} finally {
+//					try {
+//						conn.commit();
+//						conn.close();
+//						stmt.close();
+//					} catch (SQLException e) {
+//						LOG.log(Level.SEVERE, "Sql Error: ", e);
+//						isSuccessful = false;
+//					}
+//				}
+//			}
+//		}
+//		else 
+//		{
+//			isSuccessful = false;
+//		}
 
 		return isSuccessful;
 	}
@@ -366,8 +370,10 @@ public class UserDetailsDAO {
 		Statement stmt = null;
 		Connection conn = SQLConnection.getDBConnection();
 		boolean isSuccessful = true;
-		if (type != null) {
-			if (type.equalsIgnoreCase("UserName")) {
+//		if (type != null) 
+//		{
+//			if (type.equalsIgnoreCase("UserName")) 
+//			{
 				try {
 					stmt = conn.createStatement();
 
@@ -392,46 +398,46 @@ public class UserDetailsDAO {
 						LOG.log(Level.SEVERE, "Sql Error: ", e);
 					}
 				}
-			} else {
-				int userId;
-				try {
-					stmt = conn.createStatement();
-					PreparedStatement pst = null;
-					String sql = "SELECT * FROM parking_management.user_details where LastName=?";
-					pst = conn.prepareStatement(sql);
-					pst.setString(1, value);
-					ResultSet rs = pst.executeQuery();
-
-					if (!rs.isBeforeFirst()) {
-						isSuccessful = false;
-						LOG.info("No Data Available");
-					} else if (rs.next()) {
-						userId = rs.getInt("User_Id");
-						stmt = conn.createStatement();
-						PreparedStatement pst2 = null;
-						String sql2 = "UPDATE parking_management.system_users SET Role=? where User_Id=?";
-						pst2 = conn.prepareStatement(sql2);
-						pst2.setString(1, role);
-						pst2.setInt(2, userId);
-						pst2.executeUpdate();
-					}
-				} catch (SQLException e) {
-					isSuccessful = false;
-					LOG.log(Level.SEVERE, "Sql Error: ", e);
-				} finally {
-					try {
-						conn.commit();
-						conn.close();
-						stmt.close();
-					} catch (SQLException e) {
-						isSuccessful = false;
-						LOG.log(Level.SEVERE, "Sql Error: ", e);
-					}
-				}
-			}
-		} else {
-			isSuccessful = false;
-		}
+//			} else {
+//				int userId;
+//				try {
+//					stmt = conn.createStatement();
+//					PreparedStatement pst = null;
+//					String sql = "SELECT * FROM parking_management.user_details where LastName=?";
+//					pst = conn.prepareStatement(sql);
+//					pst.setString(1, value);
+//					ResultSet rs = pst.executeQuery();
+//
+//					if (!rs.isBeforeFirst()) {
+//						isSuccessful = false;
+//						LOG.info("No Data Available");
+//					} else if (rs.next()) {
+//						userId = rs.getInt("User_Id");
+//						stmt = conn.createStatement();
+//						PreparedStatement pst2 = null;
+//						String sql2 = "UPDATE parking_management.system_users SET Role=? where User_Id=?";
+//						pst2 = conn.prepareStatement(sql2);
+//						pst2.setString(1, role);
+//						pst2.setInt(2, userId);
+//						pst2.executeUpdate();
+//					}
+//				} catch (SQLException e) {
+//					isSuccessful = false;
+//					LOG.log(Level.SEVERE, "Sql Error: ", e);
+//				} finally {
+//					try {
+//						conn.commit();
+//						conn.close();
+//						stmt.close();
+//					} catch (SQLException e) {
+//						isSuccessful = false;
+//						LOG.log(Level.SEVERE, "Sql Error: ", e);
+//					}
+//				}
+//			}
+//		} else {
+//			isSuccessful = false;
+//		}
 
 		return isSuccessful;
 	}
