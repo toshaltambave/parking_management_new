@@ -129,21 +129,16 @@ public class ParkingAreaController extends HttpServlet {
 	}
 
 	private void listAreas(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		try {
-			ArrayList<ParkingArea> allAreas = FetchParkingSpotsDAO.getAllParkingAreas();
-			request.setAttribute("Areas", allAreas);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new ServletException(e);
-		}
+			throws ServletException, IOException 
+	{
+		ArrayList<ParkingArea> allAreas = FetchParkingSpotsDAO.getAllParkingAreas();
+		request.setAttribute("Areas", allAreas);
 	}
 	
 
 	private void addParkingSpot(HttpServletRequest request, HttpServletResponse response,int AreaId, int FloorNumber, String PermitType)
-			throws ServletException, IOException {
-		try 
-		{
+			throws ServletException, IOException
+	{
 		HttpSession session = request.getSession();
 		Boolean isadded = true;
 		isadded = ParkingAreaDAO.addParkingSpot(AreaId,FloorNumber,PermitType);
@@ -155,12 +150,6 @@ public class ParkingAreaController extends HttpServlet {
 		{
 			System.out.println("Do Nothing.");
 		}		
-		}
-		catch (SQLException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 	public static Integer convertBoolToInt(String actual){
@@ -240,54 +229,34 @@ public class ParkingAreaController extends HttpServlet {
 	private String listFloorsForSelectedArea(HttpServletRequest request, HttpServletResponse response, Integer areaId) throws ServletException, IOException 
 	{
 		String url = "";
-		try 
-		{
+
 //			HttpSession session = request.getSession();
-			ParkingArea selectedArea = FetchParkingSpotsDAO.getspecificParkingArea(areaId);
+		ParkingArea selectedArea = FetchParkingSpotsDAO.getspecificParkingArea(areaId);
 //			Users user = (Users) session.getAttribute("User");
-			ArrayList<ParkingAreaFloors> floorDetails = FetchParkingSpotsDAO.getFilteredFloorsbyParkingAreaId(areaId,"Premium");
-			request.setAttribute("selectedArea", selectedArea);
-			request.setAttribute("allFloors", floorDetails);
-			request.setAttribute("selectedAreaName", selectedArea.getArea_Name());
-			url = "/EditParkingArea.jsp";
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			throw new ServletException(e);
-		}
+		ArrayList<ParkingAreaFloors> floorDetails = FetchParkingSpotsDAO.getFilteredFloorsbyParkingAreaId(areaId,"Premium");
+		request.setAttribute("selectedArea", selectedArea);
+		request.setAttribute("allFloors", floorDetails);
+		request.setAttribute("selectedAreaName", selectedArea.getArea_Name());
+		url = "/EditParkingArea.jsp";
 		return url;
     }
 	private String listSpotsForSelectedFloor( HttpServletRequest request, HttpServletResponse response, Integer areaId, Integer floorNumber ,String permitType ) throws ServletException, IOException 
 	{
 		String url = "";
-		try 
-		{
-			ParkingArea selectedArea = FetchParkingSpotsDAO.getspecificParkingArea(areaId);
-			ArrayList<ParkingSpots> spotsList = FetchParkingSpotsDAO.getSpotsByAreaFloorPermitFromDb(areaId, floorNumber, permitType);
-			request.setAttribute("selectedArea", selectedArea);
-			request.setAttribute("selectedFloorNumber", floorNumber);
-			request.setAttribute("selectedPermitType", permitType);
-			request.setAttribute("spotsList", spotsList);
-			url = "/EditParkingSpots.jsp";
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			throw new ServletException(e);
-		}
+		ParkingArea selectedArea = FetchParkingSpotsDAO.getspecificParkingArea(areaId);
+		ArrayList<ParkingSpots> spotsList = FetchParkingSpotsDAO.getSpotsByAreaFloorPermitFromDb(areaId, floorNumber, permitType);
+		request.setAttribute("selectedArea", selectedArea);
+		request.setAttribute("selectedFloorNumber", floorNumber);
+		request.setAttribute("selectedPermitType", permitType);
+		request.setAttribute("spotsList", spotsList);
+		url = "/EditParkingSpots.jsp";
 		return url;
     }
 
 	protected void listPermitTypes(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		try {
-			ArrayList<PermitType> listPermitTypes = new ArrayList<PermitType>(Arrays.asList(PermitType.values()));
-			request.setAttribute("allPermitTypes", listPermitTypes);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new ServletException(e);
-		}
+		ArrayList<PermitType> listPermitTypes = new ArrayList<PermitType>(Arrays.asList(PermitType.values()));
+		request.setAttribute("allPermitTypes", listPermitTypes);
 	}
 
 	private String addtoList(HttpServletRequest request, HttpServletResponse response)

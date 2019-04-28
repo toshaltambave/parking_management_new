@@ -1,6 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+ <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <t:_layout>
 	<jsp:attribute name="header">
     </jsp:attribute>
@@ -33,6 +34,7 @@
 							<th>Over Stay</th>
 							
 						</tr>
+						<c:set var="count" value="2" scope="page" />
 						<c:forEach items="${allreservations}" var="AllReservation">
 							<tr>
 							 <form action="${pageContext.request.contextPath}/ModifyController?setNoshow" method="post">
@@ -46,12 +48,13 @@
 								<td>${AllReservation.end_Time}</td>
 								<td>${AllReservation.isNoShow}</td>
 								<td>${AllReservation.isOverStay}</td>
-								<td><input id="btnNoShow" class="btn btn-secondary" type="submit" value="Select" /></td>
+								<td><input id="btnNoShow${AllReservation.reservationID}" class="btn btn-secondary" type="submit" value="Select" /></td>
 								<input name="action" value="setNoshow" type="hidden">
 								<input type="hidden" name="reservationID" value="${AllReservation.reservationID}">
 								<input type="hidden" name="selectedUsername" value="${AllReservation.userName}">
 							 </form>
 							</tr>
+						<c:set var="count" value="${count + 1}" scope="page"/>
 						</c:forEach>
 					</table>
 

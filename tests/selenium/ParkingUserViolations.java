@@ -3,6 +3,7 @@ package selenium;
 import java.io.FileInputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
@@ -22,6 +23,7 @@ import functions.BusinessFunctions;
 import junitparams.FileParameters;
 import junitparams.JUnitParamsRunner;
 import model.CreditCardError;
+import model.ReservationsHelper;
 import model.Role;
 import model.Users;
 import test.Data.TestDAO;
@@ -42,10 +44,10 @@ public class ParkingUserViolations extends BusinessFunctions {
 	public void setUp() throws Exception {
 		// Change to FireFoxDriver if using FireFox browser
 		//FireFox Driver
-//		   System.setProperty("webdriver.firefox.marionette", "C:\\GeckoSelenium\\geckodriver.exe");
-//		   driver = new FirefoxDriver();
-		System.setProperty("webdriver.chrome.driver", "C:\\ChromeDriver\\chromedriver.exe");
-		driver = new ChromeDriver();
+		   System.setProperty("webdriver.firefox.marionette", "C:\\GeckoSelenium\\geckodriver.exe");
+		   driver = new FirefoxDriver();
+//		System.setProperty("webdriver.chrome.driver", "C:\\ChromeDriver\\chromedriver.exe");
+//		driver = new ChromeDriver();
 //		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		prop = new Properties();
 		
@@ -80,12 +82,16 @@ public class ParkingUserViolations extends BusinessFunctions {
 		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Register_Success"))).getText()
 				.equals("Registered Successfully."));
 		functions.Login(driver, userName, password);
-		functions.setNoShow(driver, userName);
-		functions.setNoShow(driver, userName);
-		functions.setNoShow(driver, userName);
-		functions.setOverdue(driver, userName);
-		functions.setOverdue(driver, userName);
-		functions.setOverdue(driver, userName);
+		driver.findElement(By.id(prop.getProperty("Btn_ParkingManagement_NoShow"))).click();
+		ArrayList<ReservationsHelper> res = new ArrayList<ReservationsHelper> ();
+		res = TestDAO.GetReservationsByUsername(parkinguser);
+	    functions.setNoShowById(driver, parkinguser, res.get(0).getReservationID().toString());
+	    functions.setNoShowById(driver, parkinguser, res.get(0).getReservationID().toString());
+	    functions.setNoShowById(driver, parkinguser, res.get(0).getReservationID().toString());
+	    driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page_Revoke"))).click();
+		functions.setOverdue(driver, parkinguser);
+		functions.setOverdue(driver, parkinguser);
+		functions.setOverdue(driver, parkinguser);
 		driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
 		functions.Login(driver, parkinguser, parkinguserpassword);
 		driver.findElement(By.id(prop.getProperty("Btn_ParkingUser_viewres"))).click();
