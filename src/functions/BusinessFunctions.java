@@ -369,6 +369,16 @@ public void editreservationTimeAndDate(WebDriver driver, String start, String en
 		}
 		driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page_Revoke"))).click();
 	}
+	public void setNoShowById(WebDriver driver, String userName, String resId) throws InterruptedException {
+		Thread.sleep(10000);
+		driver.findElement(By.id(prop.getProperty("Btn_No_Show")+resId)).click();
+		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_NS_Success"))).getText()
+				.equals("Marked No Show Successfully."));
+
+
+
+
+	}
 
 	public void viewUserViolations(WebDriver driver, String userName) {
 		driver.findElement(By.id(prop.getProperty("Btn_ParkingUser_UV"))).click();

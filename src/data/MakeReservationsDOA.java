@@ -174,8 +174,8 @@ public class MakeReservationsDOA{
 							+"Inner join system_users as s on r.User_ID=s.User_ID "
 							+"Inner join user_details as s_u on r.User_ID=s_u.User_ID "
 							+"Inner join parking_spots as p on r.Spot_UID=p.Spot_UID "
-							+"Inner join parking_area as p_a on p.Area_Id=p_a.Area_Id "
-							+"where r.End_Time <='"+current_date+"';";
+							+"Inner join parking_area as p_a on p.Area_Id=p_a.Area_Id;";
+//							+"where r.End_Time <='"+current_date+"';";
 			ResultSet reservationList = stmt.executeQuery(queryString);
 			while (reservationList.next()) {
 				ReservationsHelper reservation = new ReservationsHelper();
