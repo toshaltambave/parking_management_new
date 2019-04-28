@@ -32,14 +32,7 @@ static SQLConnection DBMgr = SQLConnection.getInstance();
 			ps.setString(1, start_time);
 			ps.setString(2, start_time);
 			ps.setInt(3, area_id);
-			ResultSet floorList = ps.executeQuery();
-			if (!floorList.isBeforeFirst()) {
-				System.out.println("No data");
-			}
-			else
-			{
-				System.out.println("Do Nothing.");
-			}		
+			ResultSet floorList = ps.executeQuery();	
 			while (floorList.next()) {
 				ParkingAreaFloors floorWithUpdatedCount = new ParkingAreaFloors(); 
 				floorWithUpdatedCount.setArea_Id(floorList.getInt("Area_Id"));
@@ -148,11 +141,7 @@ static SQLConnection DBMgr = SQLConnection.getInstance();
 			ps.setInt(7, floorNumber);
 			ps.setString(8, permitType);
 			ResultSet spotsList = ps.executeQuery();
-			if (!spotsList.isBeforeFirst()) {
-				System.out.println("No data");
-			}
-			else
-				while (spotsList.next()) {
+			while (spotsList.next()) {
 				ParkingSpots spot = new ParkingSpots(); 
 				spot.setSpot_Id(spotsList.getInt("Spot_Id"));
 				spot.setSpot_UID(spotsList.getInt("Spot_UID"));

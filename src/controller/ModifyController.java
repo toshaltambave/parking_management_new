@@ -48,13 +48,13 @@ public class ModifyController extends HttpServlet {
         String action = request.getParameter("action");
         if (action.equalsIgnoreCase("setNoshow")) 
         { 
-        	Boolean Result = MakeReservationsDOA.SetNoShow(reservation_ID, userId);
+        	Boolean Result = MakeReservationsDAO.SetNoShow(reservation_ID, userId);
         	request.setAttribute("isNoShow", Result);
         	listNSReservations(request, response);	
         }
         else
         { 
-        	Boolean Result = MakeReservationsDOA.SetOverdue(reservation_ID, userId);
+        	Boolean Result = MakeReservationsDAO.SetOverdue(reservation_ID, userId);
         	request.setAttribute("isOverDue", Result);
         	listODReservations(request, response);	
         }        
@@ -67,7 +67,7 @@ public class ModifyController extends HttpServlet {
 		try 
 		{
 			Users user = (Users)session.getAttribute("User");
-			ArrayList<ReservationsHelper> allReservations = MakeReservationsDOA.GetReservationsByUserId(user.getUserID());
+			ArrayList<ReservationsHelper> allReservations = MakeReservationsDAO.GetReservationsByUserId(user.getUserID());
 			request.setAttribute("allreservations", allReservations);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/ReservationsByUserId.jsp");
             dispatcher.forward(request, response);
@@ -91,7 +91,7 @@ public class ModifyController extends HttpServlet {
 		try 
 		{
 			Users user = (Users)session.getAttribute("User");
-			ArrayList<ReservationsHelper> allReservations = MakeReservationsDOA.GetReservationsViolations(currentTime,user.getUserID());
+			ArrayList<ReservationsHelper> allReservations = MakeReservationsDAO.GetReservationsViolations(currentTime,user.getUserID());
 			Integer count=allReservations.size();
 			request.setAttribute("allreservations", allReservations);
 			request.setAttribute("count", count);
@@ -116,7 +116,7 @@ public class ModifyController extends HttpServlet {
 		try 
 		{
 			
-			ArrayList<ReservationsHelper> allReservations = MakeReservationsDOA.GetReservationsByReservationNoShow(currentTime);
+			ArrayList<ReservationsHelper> allReservations = MakeReservationsDAO.GetReservationsByReservationNoShow(currentTime);
 			request.setAttribute("allreservations", allReservations);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/SetNoShow.jsp");
             dispatcher.forward(request, response);
@@ -140,7 +140,7 @@ public class ModifyController extends HttpServlet {
 		try 
 		{
 			
-			ArrayList<ReservationsHelper> allReservations = MakeReservationsDOA.GetReservationsByReservationNoShow(currentTime);
+			ArrayList<ReservationsHelper> allReservations = MakeReservationsDAO.GetReservationsByReservationNoShow(currentTime);
 			request.setAttribute("allreservations", allReservations);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/SetOverDue.jsp");
             dispatcher.forward(request, response);
