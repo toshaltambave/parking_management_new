@@ -25,30 +25,17 @@ public class UpdatedUserDetailsDAO {
 		List<UpdatedUserDetails> userListInDB = new ArrayList<UpdatedUserDetails>();
 		Statement stmt = null;
 		Connection conn = SQLConnection.getDBConnection();
-		DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
-		int userId;
+//		DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+//		int userId;
 		try {
 			stmt = conn.createStatement();
 			PreparedStatement pst = null;
-			String sql = "SELECT * FROM parking_management.system_users where UserName=?";
+			String sql = "SELECT su.PermitType,su.Role,ud.* FROM parking_management.system_users su JOIN user_details ud ON su.user_id=ud.user_id where su.UserName=?";
 			pst = conn.prepareStatement(sql);
 			pst.setString(1, userName);
-			ResultSet rs = pst.executeQuery();
+			ResultSet rs2 = pst.executeQuery();
 
-			if (!rs.isBeforeFirst()) {
-				LOG.info("No Data Available");
-			} else if (rs.next()) {
-				userId = rs.getInt("User_Id");
-				stmt = conn.createStatement();
-				PreparedStatement pst2 = null;
-				String sql2 = "SELECT * FROM parking_management.user_details where user_id=?";
-				pst2 = conn.prepareStatement(sql2);
-				pst2.setInt(1, userId);
-				ResultSet rs2 = pst2.executeQuery();
-				if (!rs2.isBeforeFirst()) {
-					LOG.info("No Data Available");
-				} else if (rs2.next()) {
-
+			while(rs2.next()) {
 					UpdatedUserDetails userDetails = new UpdatedUserDetails(new UsersDAO());
 					userDetails.setAddress(rs2.getString("Address"));
 					userDetails.setDrivingLicenseExpiry(rs2.getString("DL_Expiry"));
@@ -65,19 +52,12 @@ public class UpdatedUserDetailsDAO {
 					userDetails.setUserID(rs2.getInt("User_Id"));
 					userDetails.setUserName(userName);
 					userDetails.setOldusername(userName);
-					userDetails.setPermitType(rs.getString("PermitType"));
-					userDetails.setRole(rs.getString("Role"));
+					userDetails.setPermitType(rs2.getString("PermitType"));
+					userDetails.setRole(rs2.getString("Role"));
 					userDetails.setConfirmPassword("");
 					userDetails.setHashedPassword("");
-
 					userListInDB.add(userDetails);
-
-				}
-				else
-				{
-					System.out.println("Do Nothing.");
-				}		
-			}
+				}	
 
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import model.ReservationsHelper;
 import model.Users;
 import util.PasswordUtility;
 import util.SQLConnection;
@@ -155,5 +156,32 @@ public class TestDAO {
 			}
 		}
 		return areaId+1;
+	}
+
+	public static ArrayList<ReservationsHelper> GetReservationsByUsername (String username) {
+		ArrayList<ReservationsHelper> ReservationsNoShow = new ArrayList<ReservationsHelper>();
+		Statement stmt = null;
+		Connection conn = SQLConnection.getDBConnection();
+		try{
+			stmt=conn.createStatement();
+			String queryString="SELECT r.* FROM parking_management.reservations r join system_users s on s.user_id=r.user_id where s.username='"+username+"';";
+			ResultSet reservationList = stmt.executeQuery(queryString);
+			while (reservationList.next()) {
+				ReservationsHelper reservation = new ReservationsHelper();
+				reservation.setReservationID(reservationList.getInt("Reservation_Id"));
+				ReservationsNoShow.add(reservation);
+			
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return ReservationsNoShow;
 	}
 }
