@@ -168,6 +168,7 @@ public class SeleniumTC04 extends BusinessFunctions {
 				.equals("Registered Successfully."));
 		functions.Login(driver, userName, password);
 		driver.findElement(By.id(prop.getProperty("Btn_PM_EditProfile"))).click();
+		driver.findElement(By.id(prop.getProperty("Btn_Update_User"))).click();
 		new Select(driver.findElement(By.id(prop.getProperty("Drp_Dwn_Select_Search_Type_UnRevoke"))))
 				.selectByVisibleText("UserName");
 		new Select(driver.findElement(By.id(prop.getProperty("Drp_Dwn_Select_User_UnRevoke"))))
