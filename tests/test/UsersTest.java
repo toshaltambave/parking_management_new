@@ -40,18 +40,19 @@ public class UsersTest {
 	@Test
 	@FileParameters("tests/test/UsersTest.csv")
 	public void test(Integer userId, String action, String userName, String hashedPassword, String confirmPassword,
-			String role, String permitType, boolean isRevoked, boolean mockBoolean, String expectedErrorMsg,
+			String role, String permitType, boolean isRevoked, boolean mockBoolean, String comment, String expectedErrorMsg,
 			String expectedUserNameError, String expectedHashPasswordError, String expectedConfirmPasswordError,
 			String expectedRoleError, String expectedPermitError, String expectedLoginErrorMsg,
-			String expectedLoginUserNameError, String expectedLoginPasswordError) {
+			String expectedLoginUserNameError, String expectedLoginPasswordError, String expectedCommentError) {
 
 		EasyMock.expect(mockUsersDAO.Usernameunique(userName)).andReturn(mockBoolean);
 		EasyMock.replay(mockUsersDAO);
 
 		users.setUserID(userId);
-		users.setUser(userName, hashedPassword, confirmPassword, role, permitType, isRevoked,"");
+		users.setUser(userName, hashedPassword, confirmPassword, role, permitType, isRevoked,comment);
 		users.validateLogin(action, users, usersErrorMsgs);
 		users.validateUser(action, users, usersErrorMsgs);
+		usersErrorMsgs.setCommentError(users.validateComment(comment));
 
 		assertEquals(expectedErrorMsg, usersErrorMsgs.getErrorMsg());
 		assertEquals(expectedUserNameError, usersErrorMsgs.getusernameError());
@@ -60,6 +61,8 @@ public class UsersTest {
 		assertEquals(expectedRoleError, usersErrorMsgs.getroleError());
 		assertEquals(expectedPermitError, usersErrorMsgs.getpermitTypeError());
 		assertEquals(getisRevokedValue(isRevoked), users.getisRevoked());
+		assertEquals(expectedCommentError, usersErrorMsgs.getCommentError());
+		assertEquals(users.getComment(), comment);
 		assertEquals(userId, users.getUserID());
 
 		users.validateLogin(action, null, usersLoginErrorMsgs);
