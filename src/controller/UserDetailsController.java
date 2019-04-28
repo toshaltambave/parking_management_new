@@ -110,34 +110,40 @@ public class UserDetailsController extends HttpServlet {
 	private String handleSaveUserDetails(HttpServletRequest request, String action, String url, HttpSession session,
 			UserDetails userdetails, UserDetailsErrorMsgs errorMsgs) {
 		Users user = (Users) session.getAttribute("user");
+		//Checking null before using this object below
 		if (user != null && !user.getUsername().isEmpty())
-			userdetails.setUsername(user.getUsername());
-		else
 		{
-			System.out.println("Do Nothing.");
-		}		
-		getUserDetailsParam(request, userdetails);
-		userdetails.validateUserDetails(action, userdetails, errorMsgs);
-		session.setAttribute("userdetails", userdetails);
-		if (!errorMsgs.getErrorMsg().equals("")) {
+			userdetails.setUsername(user.getUsername());
 			getUserDetailsParam(request, userdetails);
-			session.setAttribute("userDetailsErrorMsgs", errorMsgs);
-			url = "/formUserDetails.jsp";
-		} else {// if no error messages
-			Boolean isSuccess = false;
-			isSuccess = UserDetailsDAO.insertUserDetails(userdetails);
-			if (isSuccess) {
-				request.setAttribute("isSuccessful", isSuccess);
-				UserDetailsErrorMsgs errorMsgsuser = new UserDetailsErrorMsgs();
-				session.setAttribute("userDetailsErrorMsgs", errorMsgsuser);
+			userdetails.validateUserDetails(action, userdetails, errorMsgs);
+			session.setAttribute("userdetails", userdetails);
+			if (!errorMsgs.getErrorMsg().equals("")) {
+				getUserDetailsParam(request, userdetails);
+				session.setAttribute("userDetailsErrorMsgs", errorMsgs);
+				url = "/formUserDetails.jsp";
+			} 
+			else 
+			{
+				// if no error messages
+				Boolean isSuccess = false;
+				isSuccess = UserDetailsDAO.insertUserDetails(userdetails);
+				if (isSuccess) {
+					request.setAttribute("isSuccessful", isSuccess);
+					UserDetailsErrorMsgs errorMsgsuser = new UserDetailsErrorMsgs();
+					session.setAttribute("userDetailsErrorMsgs", errorMsgsuser);
+					url = "/index.jsp";
+				}
+				//If Insert fails even after no Validation errors
 				url = "/index.jsp";
 			}
-			else
-			{
-				System.out.println("Do Nothing.");
-			}		
+		}	
+		else
+		{
+			//This branch would only get executed when User has not logged in and somehow still manages to reach here
+			//Ideally this path should never get executed 
+			url="/index.jsp";
 		}
-		return url;
+		return url;		
 	}
 
 	private String handleRevoke(HttpServletRequest request, UserDetails userdetails,HttpSession session) {

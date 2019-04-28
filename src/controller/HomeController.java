@@ -33,16 +33,16 @@ public class HomeController extends HttpServlet {
 		if(session.getAttribute("User") != null)
 		{
 		Users user = (Users) session.getAttribute("User");
-		if(user.getRole().equals("ParkingUser")){
-		url="/parkingUserHomePage.jsp";
+		if (user.getRole().equals("Admin")){
+			url="/adminHomePage.jsp";
 		}
 		else if (user.getRole().equals("ParkingManager")){
 			url="/parkingManagementHomePage.jsp";
 		}
-		else if (user.getRole().equals("Admin")){
-			url="/adminHomePage.jsp";
+		else {
+		url="/parkingUserHomePage.jsp";
 		}
-		
+
 		}
 		else
 		{
@@ -52,11 +52,11 @@ public class HomeController extends HttpServlet {
 
 	}
 
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String url = "";
-		
-		getServletContext().getRequestDispatcher(url).forward(req, resp);
-	}
+//	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//		String url = "";
+//		
+//		getServletContext().getRequestDispatcher(url).forward(req, resp);
+//	}
 	
 	
 }
