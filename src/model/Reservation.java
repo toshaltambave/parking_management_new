@@ -3,9 +3,16 @@ package model;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+import org.joda.time.Minutes;
 
 import com.sun.istack.internal.logging.Logger;
 
@@ -138,18 +145,11 @@ public class Reservation implements Serializable {
 			} else {
 				Date startdate = formatter.parse(startTime);
 				Date date = new Date();
-				int startHours = startdate.getHours();
-				int startMins = startdate.getMinutes();
-				int currentHours = date.getHours();
-				int currentMins = date.getMinutes();
-				if (startHours < currentHours) {
+
+				if (startdate.before(date)) {
 					resError.setStartTimeError("Start time cannot be before current time.");
 				} else {
-					if (startHours == currentHours && startMins < currentMins) {
-						resError.setStartTimeError("Start time cannot be before current time.");
-					} else {
-						resError.setStartTimeError("");
-					}
+						resError.setStartTimeError("");	
 				}
 			}
 			if (endTime.isEmpty()) {
@@ -158,46 +158,33 @@ public class Reservation implements Serializable {
 
 				Date enddate = formatter.parse(endTime);
 				Date date = new Date();
-				int endHours = enddate.getHours();
-				int endMins = enddate.getMinutes();
-				int currentHours = date.getHours();
-				int currentMins = date.getMinutes();
 
-				if (endHours < currentHours) {
+				if (enddate.before(date)) {
 					resError.setEndTimeError("End time cannot be before current time.");
 				} else {
-					System.out.printf("C1: " + (endHours == currentHours) + " c2: " + (endMins < currentMins) + "\n");
-					if (endHours == currentHours && endMins < currentMins) {
-						resError.setEndTimeError("End time cannot be before current time.");
-					} else {
-						resError.setEndTimeError("");
-					}
+					resError.setEndTimeError("");
 				}
 
 			}
 			if (!endTime.isEmpty() && !startTime.isEmpty()) {
-				Date enddate;
-
-				enddate = formatter.parse(endTime);
-
+			
 				Date startdate;
+				Date enddate;
+				
 				startdate = formatter.parse(startTime);
-				int endHours = enddate.getHours();
-				int endMins = enddate.getMinutes();
-				int startHours = startdate.getHours();
-				int startMins = startdate.getMinutes();
-				// int diffHours = endHours - startHours;
-				int diffMins = (endHours * 60 + endMins) - (startHours * 60 + startMins);
+				enddate = formatter.parse(endTime);
+				
+		        DateTime start = new DateTime(startdate.getTime());
+		        DateTime end = new DateTime(enddate.getTime());
 
+				int minutes = Minutes.minutesBetween(start,end).getMinutes();
 				if (startdate.after(enddate)) {
 					resError.setCompareError("Start time cannot be after end time.");
 				} else if (startdate.equals(enddate)) {
 					resError.setCompareError("Start time and end time cannot be same.");
-				} else if (diffMins > 180) {
+				} else if (minutes > 180) {
 					resError.setCompareError("Reservation cannot be for more than 3 hours.");
-				} else {
-					resError.setCompareError("");
-				}
+				} 
 			}
 
 			if (!resError.getCompareError().isEmpty() || !resError.getStartTimeError().isEmpty()
@@ -215,34 +202,25 @@ public class Reservation implements Serializable {
 		int startHours = startdate.getHours();
 		int endHours = enddate.getHours();
 		boolean normalHours = true;
-		if (5 >= startDay && startDay >= 1) {
-			// Monday to Friday
-			if (startHours >= 6 && endHours <= 19) {
-				// 6am to 7.59pm
-				return normalHours;
-			} else {
-				normalHours = false;
-				return normalHours;
-			}
-		} else if (startDay == 6) {
+
+		if (startDay == 6) {
 			// Saturday
-			if (startHours >= 8 && endHours <= 16) {
-				// 8am to 4.59pm
-				return normalHours;
-			} else {
+			if (startHours < 8 || endHours > 16) {
 				normalHours = false;
-				return normalHours;
+			}
+		} else if (startDay == 0) {
+			// Sunday
+			if (startHours < 12 || endHours > 16) {
+				normalHours = false;
 			}
 		} else {
-			// Sunday
-			if (startHours >= 12 && endHours <= 16) {
-				// 8am to 4.59pm
-				return normalHours;
-			} else {
+			// Monday to Friday
+			if (startHours < 6 || endHours > 19) {
 				normalHours = false;
-				return normalHours;
 			}
 		}
+
+		return normalHours;
 	}
 
 }

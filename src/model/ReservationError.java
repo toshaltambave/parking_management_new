@@ -3,7 +3,7 @@ package model;
 public class ReservationError {
 	String startTimeError;
 	String endTimeError;
-	String compareError ="";
+	String compareError = "";
 	String errorMsg;
 	
 	public String getErrorMsg() {

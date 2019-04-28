@@ -48,9 +48,7 @@ public class ReservationTest {
 			endTimeString = dateFormat.format(endCal.getTime());
 		}
 
-		System.out.printf("Start: " + startTimeString + " Stop: " + endTimeString + "\n");
 		reservation.validateDateTime(startTimeString, endTimeString, resError);
-		System.out.printf("actual: "+resError.getStartTimeError() +" excepted: "+startTimeError+"\n");
 		assertEquals(resError.getErrorMsg(), errorMsg);
 		assertEquals(resError.getStartTimeError(), startTimeError);
 		assertEquals(resError.getEndTimeError(), endTimeError);
@@ -72,7 +70,7 @@ public class ReservationTest {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date startdate = formatter.parse(startTime);
 		Date enddate = formatter.parse(endTime);
-		Boolean bool = reservation.checkNormalHours(startdate, enddate);
+		int startDay = startdate.getDay();
 		assertEquals(Boolean.parseBoolean(isNormalHour), reservation.checkNormalHours(startdate, enddate));
 	}
 

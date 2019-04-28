@@ -7,7 +7,8 @@
 99999,5,There are time errors.,This field is required.,,
 5,99999,There are time errors.,,This field is required.,
 5,20,,,,
-0,30,,,,
+0,30,There are time errors.,Start time cannot be before current time.,,
 -15,-10,There are time errors.,Start time cannot be before current time.,End time cannot be before current time.,
 -15,-10,There are time errors.,Start time cannot be before current time.,End time cannot be before current time.,
-60,61,,,,
+60,240,,,,
+60,241,There are time errors.,,,Reservation cannot be for more than 3 hours.
