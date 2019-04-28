@@ -1,12 +1,13 @@
-0:00:00,0:15:00,There are time errors.,Start time cannot be before current time.,End time cannot be before current time.,
-9:00:00,9:15:00,There are time errors.,Start time cannot be before current time.,End time cannot be before current time.,
-9:15:00,9:00:00,There are time errors.,Start time cannot be before current time.,End time cannot be before current time.,Start time cannot be after end time.
-9:00:00,9:00:00,There are time errors.,Start time cannot be before current time.,End time cannot be before current time.,Start time and end time cannot be same.
-17:00:00,22:30:00,There are time errors.,,,Reservation cannot be for more than 3 hours.
-17:30:00,23:30:00,There are time errors.,,,Reservation cannot be for more than 3 hours.
-,23:30:00,There are time errors.,This field is required.,,
-23:30:00,,There are time errors.,,This field is required.,
-23:15:00,23:30:00,,,,
-22:45:00,23:00:00,,,,
-22:15:00,22:30:00,There are time errors.,Start time cannot be before current time.,End time cannot be before current time.,
-20:15:00,20:30:00,There are time errors.,Start time cannot be before current time.,End time cannot be before current time.,
+-15,-10,There are time errors.,Start time cannot be before current time.,End time cannot be before current time.,
+-60,-10,There are time errors.,Start time cannot be before current time.,End time cannot be before current time.,
+-10,-60,There are time errors.,Start time cannot be before current time.,End time cannot be before current time.,Start time cannot be after end time.
+-15,-15,There are time errors.,Start time cannot be before current time.,End time cannot be before current time.,Start time and end time cannot be same.
+5,500,There are time errors.,,,Reservation cannot be for more than 3 hours.
+5,500,There are time errors.,,,Reservation cannot be for more than 3 hours.
+99999,5,There are time errors.,This field is required.,,
+5,99999,There are time errors.,,This field is required.,
+5,20,,,,
+0,30,,,,
+-15,-10,There are time errors.,Start time cannot be before current time.,End time cannot be before current time.,
+-15,-10,There are time errors.,Start time cannot be before current time.,End time cannot be before current time.,
+60,61,,,,

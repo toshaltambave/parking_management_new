@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.junit.Before;
@@ -31,25 +32,31 @@ public class ReservationTest {
 
 	@Test
 	@FileParameters("tests/test/ReservationDateTest.csv")
-	public void test(String startTime, String endTime, String errorMsg, String startTimeError, String endTimeError, String compareError) {
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		Date date = new Date();
-		if(!startTime.equals("")){
-			startTime = dateFormat.format(date) +" "+startTime;
+	public void test(int startTime, int endTime, String errorMsg, String startTimeError, String endTimeError,
+			String compareError) {
+		Calendar startCal = Calendar.getInstance();
+		Calendar endCal = Calendar.getInstance();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String startTimeString = "";
+		String endTimeString = "";
+		if (startTime != 99999) {
+			startCal.add(Calendar.MINUTE, startTime);
+			startTimeString = dateFormat.format(startCal.getTime());
 		}
-		if(!endTime.equals("")){
-			endTime = dateFormat.format(date) +" "+endTime;
+		if (endTime != 99999) {
+			endCal.add(Calendar.MINUTE, endTime);
+			endTimeString = dateFormat.format(endCal.getTime());
 		}
-		
-		reservation.validateDateTime(startTime, endTime, resError);
-		
-		assertEquals(resError.getErrorMsg(),errorMsg);
-		assertEquals(resError.getStartTimeError(),startTimeError);
-		assertEquals(resError.getEndTimeError(),endTimeError);
-		assertEquals(resError.getCompareError(),compareError);
 
+		System.out.printf("Start: " + startTimeString + " Stop: " + endTimeString + "\n");
+		reservation.validateDateTime(startTimeString, endTimeString, resError);
+		System.out.printf("actual: "+resError.getStartTimeError() +" excepted: "+startTimeError+"\n");
+		assertEquals(resError.getErrorMsg(), errorMsg);
+		assertEquals(resError.getStartTimeError(), startTimeError);
+		assertEquals(resError.getEndTimeError(), endTimeError);
+		assertEquals(resError.getCompareError(), compareError);
 	}
-	
+
 	@Test
 	@FileParameters("tests/Excel/CheckNormalHours.csv")
 	public void normalHoursTest(String startTime, String endTime, String isNormalHour) throws ParseException {
@@ -57,7 +64,7 @@ public class ReservationTest {
 		Date startdate = formatter.parse(startTime);
 		Date enddate = formatter.parse(endTime);
 		Boolean bool = reservation.checkNormalHours(startdate, enddate);
-		assertEquals(Boolean.parseBoolean(isNormalHour),reservation.checkNormalHours(startdate, enddate));
+		assertEquals(Boolean.parseBoolean(isNormalHour), reservation.checkNormalHours(startdate, enddate));
 	}
 
 }
