@@ -106,48 +106,26 @@ public class UsersController extends HttpServlet {
 	
 	protected void listSex(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		try 
-		{
-			ArrayList<Sex> listSex = new ArrayList<Sex>(Arrays.asList(Sex.values()));
-			request.setAttribute("allSex", listSex);
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			throw new ServletException(e);
-		}
+
+		ArrayList<Sex> listSex = new ArrayList<Sex>(Arrays.asList(Sex.values()));
+		request.setAttribute("allSex", listSex);
+
     }
 	
 	protected void listPermitTypes(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		try 
-		{
-			ArrayList<PermitType> listPermitTypes = new ArrayList<PermitType>(Arrays.asList(PermitType.values()));
-			request.setAttribute("allPermitTypes", listPermitTypes);
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			throw new ServletException(e);
-		}
+		ArrayList<PermitType> listPermitTypes = new ArrayList<PermitType>(Arrays.asList(PermitType.values()));
+		request.setAttribute("allPermitTypes", listPermitTypes);
     }
 	
 	protected void listRoles(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		try 
-		{
-			//request.getSession().invalidate();
-			ArrayList<Role> listRoles = new ArrayList<Role>(Arrays.asList(Role.values()));
-			request.setAttribute("allRoles", listRoles);
-			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/formRegistration.jsp");
-            dispatcher.forward(request, response);
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			throw new ServletException(e);
-		}
+		//request.getSession().invalidate();
+		ArrayList<Role> listRoles = new ArrayList<Role>(Arrays.asList(Role.values()));
+		request.setAttribute("allRoles", listRoles);
+	
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/formRegistration.jsp");
+        dispatcher.forward(request, response);
     }
 		
 

@@ -362,16 +362,10 @@ public class ReservationsController extends HttpServlet {
 	
 	protected void listCreditCardTypes(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		try 
-		{
-			ArrayList<CreditCardTypes> listCreditCardTypes = new ArrayList<CreditCardTypes>(Arrays.asList(CreditCardTypes.values()));
-			request.setAttribute("allCardTypes", listCreditCardTypes);
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			throw new ServletException(e);
-		}
+
+		ArrayList<CreditCardTypes> listCreditCardTypes = new ArrayList<CreditCardTypes>(Arrays.asList(CreditCardTypes.values()));
+		request.setAttribute("allCardTypes", listCreditCardTypes);
+
     }
 
 	private double calculateTotal(String cart, String camera, String history, double cart_price) {
@@ -403,56 +397,45 @@ public class ReservationsController extends HttpServlet {
 	
 	private void reservationLandingPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		try 
-		{
-			HttpSession session = request.getSession();
-			Users user = (Users) session.getAttribute("User");
-			Boolean isRevoked = MakeReservationsDAO.CheckRevoked(user.getUserID());
-			Integer numberOfReservations = MakeReservationsDAO.CountReservationsInDay(user.getUserID());
-			if(isRevoked == true){
-				request.setAttribute("isRevoked", isRevoked );
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/parkingUserHomePage.jsp");
-	            dispatcher.forward(request, response);
-			}
-			else if(numberOfReservations >= 3){
-				request.setAttribute("isMax", true );
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/parkingUserHomePage.jsp");
-	            dispatcher.forward(request, response);
-			}
-			else{
-				ArrayList<ParkingArea> allAreas = FetchParkingSpotsDAO.getAllParkingAreas();
-				request.setAttribute("Areas", allAreas);
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/Reserve.jsp");
-	            dispatcher.forward(request, response);
-			}
+
+		HttpSession session = request.getSession();
+		Users user = (Users) session.getAttribute("User");
+		Boolean isRevoked = MakeReservationsDAO.CheckRevoked(user.getUserID());
+		Integer numberOfReservations = MakeReservationsDAO.CountReservationsInDay(user.getUserID());
+		if(isRevoked == true){
+			request.setAttribute("isRevoked", isRevoked );
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/parkingUserHomePage.jsp");
+            dispatcher.forward(request, response);
 		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			throw new ServletException(e);
+		else if(numberOfReservations >= 3){
+			request.setAttribute("isMax", true );
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/parkingUserHomePage.jsp");
+            dispatcher.forward(request, response);
 		}
+		else{
+			ArrayList<ParkingArea> allAreas = FetchParkingSpotsDAO.getAllParkingAreas();
+			request.setAttribute("Areas", allAreas);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/Reserve.jsp");
+            dispatcher.forward(request, response);
+		}
+		
+
     }
 	
 	private void listFloorsAndAvailableSpots(HttpServletRequest request, HttpServletResponse response, Integer areaId, String startTime, String endTime) throws ServletException, IOException 
 	{
-		try 
-		{
-			HttpSession session = request.getSession();
-			ParkingArea selectedArea = FetchParkingSpotsDAO.getspecificParkingArea(areaId);
-			Users user = (Users) session.getAttribute("User");
-			ArrayList<ParkingAreaFloors> floorDetails = ReservationsDAO.getFloorSpotsCountByTimeFiltered(areaId, startTime, endTime, user.getPermitType());
-			request.setAttribute("selectedArea", selectedArea);
-			request.setAttribute("allFloors", floorDetails);
-			request.setAttribute("startTime", startTime);
-			request.setAttribute("endTime", endTime);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/Reserve_Floor.jsp");
-            dispatcher.forward(request, response);
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			throw new ServletException(e);
-		}
+
+		HttpSession session = request.getSession();
+		ParkingArea selectedArea = FetchParkingSpotsDAO.getspecificParkingArea(areaId);
+		Users user = (Users) session.getAttribute("User");
+		ArrayList<ParkingAreaFloors> floorDetails = ReservationsDAO.getFloorSpotsCountByTimeFiltered(areaId, startTime, endTime, user.getPermitType());
+		request.setAttribute("selectedArea", selectedArea);
+		request.setAttribute("allFloors", floorDetails);
+		request.setAttribute("startTime", startTime);
+		request.setAttribute("endTime", endTime);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/Reserve_Floor.jsp");
+        dispatcher.forward(request, response);
+
     }
 	
 	private void listSpotsForSelectedFloor
@@ -466,24 +449,18 @@ public class ReservationsController extends HttpServlet {
 			String selectedEndTime
 	) throws ServletException, IOException 
 	{
-		try 
-		{
-			ParkingArea selectedArea = FetchParkingSpotsDAO.getspecificParkingArea(areaId);
-			ArrayList<ParkingSpots> spotsList = ReservationsDAO.getSpotsByAreaFloorPermitFromDb(areaId, floorNumber, permitType, selectedStartTime, selectedEndTime);
-			request.setAttribute("selectedArea", selectedArea);
-			request.setAttribute("selectedFloorNumber", floorNumber);
-			request.setAttribute("selectedPermitType", permitType);
-			request.setAttribute("selectedStartTime", selectedStartTime);
-			request.setAttribute("selectedEndTime", selectedEndTime);
-			request.setAttribute("spotsList", spotsList);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/Reserve_Spot.jsp");
-            dispatcher.forward(request, response);
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			throw new ServletException(e);
-		}
+
+		ParkingArea selectedArea = FetchParkingSpotsDAO.getspecificParkingArea(areaId);
+		ArrayList<ParkingSpots> spotsList = ReservationsDAO.getSpotsByAreaFloorPermitFromDb(areaId, floorNumber, permitType, selectedStartTime, selectedEndTime);
+		request.setAttribute("selectedArea", selectedArea);
+		request.setAttribute("selectedFloorNumber", floorNumber);
+		request.setAttribute("selectedPermitType", permitType);
+		request.setAttribute("selectedStartTime", selectedStartTime);
+		request.setAttribute("selectedEndTime", selectedEndTime);
+		request.setAttribute("spotsList", spotsList);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/Reserve_Spot.jsp");
+        dispatcher.forward(request, response);
+
     }
 	
 	private void includeOptions
