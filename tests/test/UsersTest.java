@@ -61,6 +61,7 @@ public class UsersTest {
 		assertEquals(expectedPermitError, usersErrorMsgs.getpermitTypeError());
 		assertEquals(getisRevokedValue(isRevoked), users.getisRevoked());
 		assertEquals(userId, users.getUserID());
+		assertEquals("", users.getComment());
 
 		users.validateLogin(action, null, usersLoginErrorMsgs);
 
