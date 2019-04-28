@@ -65,18 +65,6 @@ public class UpdateUserController extends HttpServlet {
 				listRoles(request,response);
 				url = handleUpdate(request, action, userName, session, userdetails, errorMsgs);
 			} 
-			else 
-			{
-				listPermitTypes(request,response);
-				listRoles(request,response);
-				String role = userdetails.getRole();
-		        request.setAttribute("selectedrole", role);
-				String permitType = userdetails.getPermitType();
-		        request.setAttribute("selectedpermitType", permitType);
-				userdetails.validateUserDetails(action, userdetails, errorMsgs);
-				session.setAttribute("updatedUserDetailsErrorMsgs", errorMsgs);
-				url = "/EditProfile.jsp?username=" + userName;
-			}
 		} 
 		else
 		{
