@@ -426,6 +426,64 @@ public void editreservationTimeAndDate(WebDriver driver, String start, String en
 		driver.findElement(By.id(prop.getProperty("Txt_UpdateUserDetails_Confirm_Password"))).sendKeys(confirmPassword);
 		new Select(driver.findElement(By.id(prop.getProperty("Txt_UpdateUserDetails_PermitType")))).selectByVisibleText(permitType);
 		driver.findElement(By.id(prop.getProperty("Btn_Update_Profile"))).click();
+		if (prop.getProperty("test_delay").equals("delay")) {
+			try {
+				Thread.sleep((Integer.parseInt(prop.getProperty("thread_sleep"))));
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void UpdateUserProfileUserManager(WebDriver driver, String userNameToUpdate, String firstName, String middleName,
+			String lastName, String userName, String sex, String dob, String address, String email, String phone,
+			String dlNum, String dlExpiry, String regNum, String utaId, String password, String confirmPassword, String permitType) {
+		driver.findElement(By.id(prop.getProperty("Txt_UserDetails_Firstname"))).clear();
+		driver.findElement(By.id(prop.getProperty("Txt_UserDetails_Firstname"))).sendKeys(firstName);
+		driver.findElement(By.id(prop.getProperty("Txt_UserDetails_Middlename"))).clear();
+		driver.findElement(By.id(prop.getProperty("Txt_UserDetails_Middlename"))).sendKeys(middleName);
+		driver.findElement(By.id(prop.getProperty("Txt_UserDetails_Lastname"))).clear();
+		driver.findElement(By.id(prop.getProperty("Txt_UserDetails_Lastname"))).sendKeys(lastName);
+		driver.findElement(By.id(prop.getProperty("Txt_UpdateUserDetails_UserName"))).clear();
+		driver.findElement(By.id(prop.getProperty("Txt_UpdateUserDetails_UserName"))).sendKeys(userName);
+		new Select(driver.findElement(By.id(prop.getProperty("Txt_UserDetails_Sex")))).selectByVisibleText(sex);
+		driver.findElement(By.id(prop.getProperty("Txt_UserDetails_DOB"))).clear();
+		driver.findElement(By.id(prop.getProperty("Txt_UserDetails_DOB"))).sendKeys(dob);
+		driver.findElement(By.id(prop.getProperty("Txt_UserDetails_Address"))).clear();
+		driver.findElement(By.id(prop.getProperty("Txt_UserDetails_Address"))).sendKeys(address);
+		driver.findElement(By.id(prop.getProperty("Txt_UserDetails_Email"))).clear();
+		driver.findElement(By.id(prop.getProperty("Txt_UserDetails_Email"))).sendKeys(email);
+		driver.findElement(By.id(prop.getProperty("Txt_UserDetails_Phone"))).clear();
+		driver.findElement(By.id(prop.getProperty("Txt_UserDetails_Phone"))).sendKeys(phone);
+		driver.findElement(By.id(prop.getProperty("Txt_UserDetails_DLNO"))).clear();
+		driver.findElement(By.id(prop.getProperty("Txt_UserDetails_DLNO"))).sendKeys(dlNum);
+		driver.findElement(By.id(prop.getProperty("Txt_UserDetails_DLExpiryDte"))).clear();
+		driver.findElement(By.id(prop.getProperty("Txt_UserDetails_DLExpiryDte"))).sendKeys(dlExpiry);
+		driver.findElement(By.id(prop.getProperty("Txt_UserDetails_REGNO"))).clear();
+		driver.findElement(By.id(prop.getProperty("Txt_UserDetails_REGNO"))).sendKeys(regNum);
+		driver.findElement(By.id(prop.getProperty("Txt_UserDetails_UTAID"))).clear();
+		driver.findElement(By.id(prop.getProperty("Txt_UserDetails_UTAID"))).sendKeys(utaId);
+		driver.findElement(By.id(prop.getProperty("Txt_UpdateUserDetails_Password"))).clear();
+		driver.findElement(By.id(prop.getProperty("Txt_UpdateUserDetails_Password"))).sendKeys(password);
+		driver.findElement(By.id(prop.getProperty("Txt_UpdateUserDetails_Confirm_Password"))).clear();
+		driver.findElement(By.id(prop.getProperty("Txt_UpdateUserDetails_Confirm_Password"))).sendKeys(confirmPassword);
+		new Select(driver.findElement(By.id(prop.getProperty("Txt_UpdateUserDetails_PermitType")))).selectByVisibleText(permitType);
+		driver.findElement(By.id(prop.getProperty("Btn_Update_Profile"))).click();
+		if (prop.getProperty("test_delay").equals("delay")) {
+			try {
+				Thread.sleep((Integer.parseInt(prop.getProperty("thread_sleep"))));
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public void setOverdue(WebDriver driver, String userName) {

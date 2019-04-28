@@ -123,7 +123,7 @@ public class SeleniumTC04 extends BusinessFunctions {
 
 	@Test
 	@FileParameters("tests/Excel/TC04Good.csv")
-	public void tc04Good(String userNameToUpdate, String userName, String updateUserName, String password,
+	public void tc04GoodAdmin(String userNameToUpdate, String userName, String updateUserName, String password,
 			String updatePassword, String confirmPassword, String updateConfirmPassword, String role, String permitType,
 			String updatePermitType, String firstName, String updateFirstName, String middleName,
 			String updateMiddleName, String lastName, String updateLastName, String sex, String updateSex, String dob,
@@ -145,8 +145,78 @@ public class SeleniumTC04 extends BusinessFunctions {
 		functions.UpdateUserProfile(driver, userNameToUpdate, updateFirstName, updateMiddleName, updateLastName,
 				updateUserName, updateSex, updateDob, updateAddress, updateEmail, updatePhoneNum, updateDlNum,
 				updateDlExpiry, updateRegNum, updateUtaId, updatePassword, updateConfirmPassword, updatePermitType);
+		driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
+		driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
+
 		driver.get(fakeUrl);
 		driver.findElement(By.id("faketest")).click();
+	}
+	
+	@Test
+	@FileParameters("tests/Excel/TC04Good.csv")
+	public void tc04GoodParkingManager(String userNameToUpdate, String userName, String updateUserName, String password,
+			String updatePassword, String confirmPassword, String updateConfirmPassword, String role, String permitType,
+			String updatePermitType, String firstName, String updateFirstName, String middleName,
+			String updateMiddleName, String lastName, String updateLastName, String sex, String updateSex, String dob,
+			String updateDob, String address, String updateAddress, String email, String updateEmail, String phoneNum,
+			String updatePhoneNum, String dlNum, String updateDlNum, String dlExpiry, String updateDlExpiry,
+			String regNum, String updateRegNum, String utaId, String updateUtaId) {
+		driver.get(appUrl);
+		assertTrue(!isElementPresent(driver, "Txt_Register_Success"));
+		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
+		if (TestDAO.userExists(userName)) {
+			TestDAO.deleteUser(userName);
+		}
+		functions.Register(driver, userName, password, confirmPassword, Role.ParkingManager.toString(), permitType);
+		functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dob, address, email, phoneNum,
+				dlNum, dlExpiry, regNum, utaId);
+		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Register_Success"))).getText()
+				.equals("Registered Successfully."));
+		functions.Login(driver, userName, password);
+		driver.findElement(By.id(prop.getProperty("Btn_PM_EditProfile"))).click();
+		new Select(driver.findElement(By.id(prop.getProperty("Drp_Dwn_Select_Search_Type_UnRevoke"))))
+				.selectByVisibleText("UserName");
+		new Select(driver.findElement(By.id(prop.getProperty("Drp_Dwn_Select_User_UnRevoke"))))
+				.selectByVisibleText(userNameToUpdate);
+		driver.findElement(By.id(prop.getProperty("Btn_Update_User"))).click();
+		functions.UpdateUserProfileUserManager(driver, userNameToUpdate, updateFirstName, updateMiddleName, updateLastName,
+				updateUserName, updateSex, updateDob, updateAddress, updateEmail, updatePhoneNum, updateDlNum,
+				updateDlExpiry, updateRegNum, updateUtaId, updatePassword, updateConfirmPassword, updatePermitType);
+		driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
+		driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
+
+	}
+	
+	@Test
+	@FileParameters("tests/Excel/TC04Good.csv")
+	public void tc04GoodParkingUser(String userNameToUpdate, String userName, String updateUserName, String password,
+			String updatePassword, String confirmPassword, String updateConfirmPassword, String role, String permitType,
+			String updatePermitType, String firstName, String updateFirstName, String middleName,
+			String updateMiddleName, String lastName, String updateLastName, String sex, String updateSex, String dob,
+			String updateDob, String address, String updateAddress, String email, String updateEmail, String phoneNum,
+			String updatePhoneNum, String dlNum, String updateDlNum, String dlExpiry, String updateDlExpiry,
+			String regNum, String updateRegNum, String utaId, String updateUtaId) {
+		driver.get(appUrl);
+		userName = userName+1;
+		updateUserName = updateUserName+2;
+		assertTrue(!isElementPresent(driver, "Txt_Register_Success"));
+		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
+		if (TestDAO.userExists(userName)) {
+			TestDAO.deleteUser(updateUserName);
+			TestDAO.deleteUser(userName);
+		}
+		functions.Register(driver, userName, password, confirmPassword, Role.ParkingUser.toString(), permitType);
+		functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dob, address, email, phoneNum,
+				dlNum, dlExpiry, regNum, utaId);
+		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Register_Success"))).getText()
+				.equals("Registered Successfully."));
+		functions.Login(driver, userName, password);
+		driver.findElement(By.id(prop.getProperty("Btn_ParkingUser_upd"))).click();
+		functions.UpdateUserProfileUserManager(driver, userName, updateFirstName, updateMiddleName, updateLastName,
+				updateUserName, updateSex, updateDob, updateAddress, updateEmail, updatePhoneNum, updateDlNum,
+				updateDlExpiry, updateRegNum, updateUtaId, updatePassword, updateConfirmPassword, updatePermitType);
+		driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
+		driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
 	}
 
 	@After
