@@ -98,7 +98,7 @@ public class ParkingAreaDAO {
 			conn.commit();
 		}
 	}
-	public static Boolean addParkingSpot(int areaId, int floorNumber, String permitType) throws SQLException{
+	public static Boolean addParkingSpot(int areaId, int floorNumber, String permitType) {
 		Connection conn = SQLConnection.getDBConnection();  
 		try {
 

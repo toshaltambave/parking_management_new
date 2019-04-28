@@ -64,19 +64,11 @@ public class ModifyController extends HttpServlet {
 	private void listUserReservations(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		HttpSession session = request.getSession();
-		try 
-		{
-			Users user = (Users)session.getAttribute("User");
-			ArrayList<ReservationsHelper> allReservations = MakeReservationsDOA.GetReservationsByUserId(user.getUserID());
-			request.setAttribute("allreservations", allReservations);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/ReservationsByUserId.jsp");
-            dispatcher.forward(request, response);
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			throw new ServletException(e);
-		}
+		Users user = (Users)session.getAttribute("User");
+		ArrayList<ReservationsHelper> allReservations = MakeReservationsDOA.GetReservationsByUserId(user.getUserID());
+		request.setAttribute("allreservations", allReservations);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/ReservationsByUserId.jsp");
+        dispatcher.forward(request, response);
     }
 	
 	private void listUVReservations(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
@@ -88,21 +80,13 @@ public class ModifyController extends HttpServlet {
 
 		String currentTime = sdf.format(dt);
 		HttpSession session = request.getSession();
-		try 
-		{
-			Users user = (Users)session.getAttribute("User");
-			ArrayList<ReservationsHelper> allReservations = MakeReservationsDOA.GetReservationsViolations(currentTime,user.getUserID());
-			Integer count=allReservations.size();
-			request.setAttribute("allreservations", allReservations);
-			request.setAttribute("count", count);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/UserViolations.jsp");
-            dispatcher.forward(request, response);
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			throw new ServletException(e);
-		}
+		Users user = (Users)session.getAttribute("User");
+		ArrayList<ReservationsHelper> allReservations = MakeReservationsDOA.GetReservationsViolations(currentTime,user.getUserID());
+		Integer count=allReservations.size();
+		request.setAttribute("allreservations", allReservations);
+		request.setAttribute("count", count);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/UserViolations.jsp");
+        dispatcher.forward(request, response);
     }
 	
 	private void listNSReservations(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
@@ -113,19 +97,10 @@ public class ModifyController extends HttpServlet {
 		     new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		String currentTime = sdf.format(dt);
-		try 
-		{
-			
-			ArrayList<ReservationsHelper> allReservations = MakeReservationsDOA.GetReservationsByReservationNoShow(currentTime);
-			request.setAttribute("allreservations", allReservations);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/SetNoShow.jsp");
-            dispatcher.forward(request, response);
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			throw new ServletException(e);
-		}
+		ArrayList<ReservationsHelper> allReservations = MakeReservationsDOA.GetReservationsByReservationNoShow(currentTime);
+		request.setAttribute("allreservations", allReservations);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/SetNoShow.jsp");
+        dispatcher.forward(request, response);
     }
 	
 	
@@ -137,19 +112,12 @@ public class ModifyController extends HttpServlet {
 		     new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		String currentTime = sdf.format(dt);
-		try 
-		{
-			
-			ArrayList<ReservationsHelper> allReservations = MakeReservationsDOA.GetReservationsByReservationNoShow(currentTime);
-			request.setAttribute("allreservations", allReservations);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/SetOverDue.jsp");
-            dispatcher.forward(request, response);
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			throw new ServletException(e);
-		}
+
+		ArrayList<ReservationsHelper> allReservations = MakeReservationsDOA.GetReservationsByReservationNoShow(currentTime);
+		request.setAttribute("allreservations", allReservations);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/SetOverDue.jsp");
+        dispatcher.forward(request, response);
+
     }
 	
 

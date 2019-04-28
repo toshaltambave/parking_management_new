@@ -74,8 +74,7 @@ public class ModifyReservationController extends HttpServlet {
 	
 	private void showRelevantReservations(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		try 
-		{
+
 			HttpSession session = request.getSession();
 			Users user = (Users) session.getAttribute("User");
 			if(user.getRole().equals("ParkingUser")){
@@ -96,43 +95,29 @@ public class ModifyReservationController extends HttpServlet {
 				System.out.println("Do Nothing.");
 			}		
 
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			throw new ServletException(e);
-		}
     }
 
 	private void showReservationsForEdit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		try 
+		HttpSession session = request.getSession();
+		Users user = (Users) session.getAttribute("User");
+		if(user.getRole().equals("ParkingUser")){
+			ArrayList<ReservationsHelper> allReservations = MakeReservationsDOA.GetReservationsByUserId(user.getUserID());
+			request.setAttribute("allreservations", allReservations);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/EditReservation.jsp");
+            dispatcher.forward(request, response);
+		}
+		else if(user.getRole().equals("ParkingManager")){
+			String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+			ArrayList<ReservationsHelper> allReservations = MakeReservationsDOA.GetReservationsByReservationDate(timeStamp);
+			request.setAttribute("allreservations", allReservations);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/EditReservation.jsp");
+            dispatcher.forward(request, response);
+		}
+		else
 		{
-			HttpSession session = request.getSession();
-			Users user = (Users) session.getAttribute("User");
-			if(user.getRole().equals("ParkingUser")){
-				ArrayList<ReservationsHelper> allReservations = MakeReservationsDOA.GetReservationsByUserId(user.getUserID());
-				request.setAttribute("allreservations", allReservations);
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/EditReservation.jsp");
-	            dispatcher.forward(request, response);
-			}
-			else if(user.getRole().equals("ParkingManager")){
-				String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
-				ArrayList<ReservationsHelper> allReservations = MakeReservationsDOA.GetReservationsByReservationDate(timeStamp);
-				request.setAttribute("allreservations", allReservations);
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/EditReservation.jsp");
-	            dispatcher.forward(request, response);
-			}
-			else
-			{
-				System.out.println("Do Nothing.");
-			}		
+			System.out.println("Do Nothing.");
+		}		
 
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			throw new ServletException(e);
-		}
     }
 }

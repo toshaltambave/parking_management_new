@@ -77,7 +77,7 @@ public class SeleniumTC04 extends BusinessFunctions {
 		if (TestDAO.userExists(userName)) {
 			TestDAO.deleteUser(userName);
 		}
-		
+		driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
 		functions.Register(driver, userName, password, confirmPassword, Role.Admin.toString(), permitType);
 		functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dob, address, email, phoneNum,
 				dlNum, dlExpiry, regNum, utaId);
@@ -152,6 +152,8 @@ public class SeleniumTC04 extends BusinessFunctions {
 		driver.findElement(By.id("faketest")).click();
 		driver.get(fakeUrl);
 		driver.findElement(By.id("faketestupdate")).click();
+		driver.get(fakeUrl);
+		driver.findElement(By.id("faketestclick")).click();
 	}
 	
 	@Test
@@ -204,8 +206,8 @@ public class SeleniumTC04 extends BusinessFunctions {
 		updateUserName = updateUserName+2;
 		assertTrue(!isElementPresent(driver, "Txt_Register_Success"));
 		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
+		TestDAO.deleteUser(updateUserName);
 		if (TestDAO.userExists(userName)) {
-			TestDAO.deleteUser(updateUserName);
 			TestDAO.deleteUser(userName);
 		}
 		functions.Register(driver, userName, password, confirmPassword, Role.ParkingUser.toString(), permitType);
