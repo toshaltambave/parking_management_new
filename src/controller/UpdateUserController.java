@@ -22,6 +22,24 @@ public class UpdateUserController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		String action = request.getParameter("action");
+		listPermitTypes(request,response);
+		listRoles(request,response);
+		if (action.equals("getList")) {
+			// get parameters from the request
+			Users user = (Users) request.getSession().getAttribute("User");
+			java.util.List<UpdatedUserDetails> userList = UpdatedUserDetailsDAO.searchByUsername(user.getUsername());
+			UpdatedUserDetails updatedUserDetails = userList.get(0);
+			request.getSession().setAttribute("oldusername", updatedUserDetails.getOldusername());
+			String role = updatedUserDetails.getRole();
+	        request.setAttribute("selectedrole", role);
+			String permitType = updatedUserDetails.getPermitType();
+	        request.setAttribute("selectedpermitType", permitType);
+			request.setAttribute("updatedUserDetails", updatedUserDetails);
+
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/EditProfile.jsp");
+			dispatcher.forward(request, response);
+		}		
 		doPost(request, response);
 	}
 
@@ -43,18 +61,6 @@ public class UpdateUserController extends HttpServlet {
 				listRoles(request,response);
 				url = handleUpdate(request, action, userName, session, userdetails, errorMsgs);
 			} 
-			else 
-			{
-				listPermitTypes(request,response);
-				listRoles(request,response);
-				String role = userdetails.getRole();
-		        request.setAttribute("selectedrole", role);
-				String permitType = userdetails.getPermitType();
-		        request.setAttribute("selectedpermitType", permitType);
-				userdetails.validateUserDetails(action, userdetails, errorMsgs);
-				session.setAttribute("updatedUserDetailsErrorMsgs", errorMsgs);
-				url = "/EditProfile.jsp?username=" + userName;
-			}
 		} 
 		else
 		{
