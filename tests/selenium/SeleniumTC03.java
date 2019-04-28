@@ -34,10 +34,10 @@ public class SeleniumTC03 extends BusinessFunctions {
 	public void setUp() throws Exception {
 		// Change to FireFoxDriver if using FireFox browser
 		//FireFox Driver
-//		   System.setProperty("webdriver.firefox.marionette", "C:\\GeckoSelenium\\geckodriver.exe");
-//		   driver = new FirefoxDriver();
-		System.setProperty("webdriver.chrome.driver", "C:\\ChromeDriver\\chromedriver.exe");
-		driver = new ChromeDriver();
+		   System.setProperty("webdriver.firefox.marionette", "C:\\GeckoSelenium\\geckodriver.exe");
+		   driver = new FirefoxDriver();
+//		System.setProperty("webdriver.chrome.driver", "C:\\ChromeDriver\\chromedriver.exe");
+//		driver = new ChromeDriver();
 
 		prop = new Properties();
 		prop.load(new FileInputStream("./Configuration/Configuration.properties"));
@@ -162,7 +162,7 @@ public class SeleniumTC03 extends BusinessFunctions {
 	public void dAdminHappy(String userName, String password, String confirmPassword, String role,
 			String permitType, String firstName, String middleName, String lastName, String sex, String dayOfBirth,
 			String address, String email, String phoneNum, String dlNum, String dayOfExpiry, String regNum,
-			String utaId, String userToRevoke,String lastNameSearch,String userRoleChange,String chgRole,String comment) throws Exception {
+			String utaId, String userToRevoke,String lastNameSearch,String userRoleChange,String chgRole,String comment,String userRevokePassword) throws Exception {
 		driver.get(appUrl);
 		assertTrue(!isElementPresent(driver, "Txt_Register_Success"));
 		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
@@ -183,6 +183,12 @@ public class SeleniumTC03 extends BusinessFunctions {
 		driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
 		functions.revokeUser(driver, userToRevoke,comment);
 		driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
+		driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
+		functions.Login(driver, userToRevoke, userRevokePassword);
+		driver.findElement(By.id(prop.getProperty("Btn_Reservation_Reserve"))).click();
+		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Revoked"))).getText().contains("Your Account has been revoked please contact manager, reason:"));
+		driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
+		functions.Login(driver, userName, password);
 		functions.unrevokeUser(driver, userToRevoke);
 		driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
 		functions.setRole(driver, userRoleChange, chgRole);
