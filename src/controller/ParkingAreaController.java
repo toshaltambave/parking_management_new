@@ -30,7 +30,11 @@ public class ParkingAreaController extends HttpServlet {
 		{
 			if (action.equalsIgnoreCase("editParkingArea")) {
 				showParkingAreaEdit(req, resp);
-			}			
+			}
+			else
+			{
+				System.out.println("Do Nothing.");
+			}		
 		}
 		else
 		{
@@ -53,10 +57,12 @@ public class ParkingAreaController extends HttpServlet {
 		String action = req.getParameter("action");
 		String url = "";
 		HttpSession session = req.getSession();
-		if (action.equalsIgnoreCase("addtoList")) {
+		if (action.equalsIgnoreCase("addtoList")) 
+		{
 			url = addtoList(req, resp);
 			listPermitTypes(req, resp);
-		} else if (action.equalsIgnoreCase("saveArea")) {
+		} 
+		else if (action.equalsIgnoreCase("saveArea")) {
 			url = saveArea(req, resp);
 			listPermitTypes(req, resp);
 		}
@@ -111,6 +117,10 @@ public class ParkingAreaController extends HttpServlet {
 			listAreas(req, resp);
 			url = editAreaName(req, resp);
 		}
+		else
+		{
+			System.out.println("Do Nothing.");
+		}		
 //		else if (action.equalsIgnoreCase("editPermitType")) {
 //			listAreas(req, resp);
 //			url = editPermitType(req, resp);
@@ -132,13 +142,19 @@ public class ParkingAreaController extends HttpServlet {
 
 	private void addParkingSpot(HttpServletRequest request, HttpServletResponse response,int AreaId, int FloorNumber, String PermitType)
 			throws ServletException, IOException {
-		try {
+		try 
+		{
 		HttpSession session = request.getSession();
 		Boolean isadded = true;
 		isadded = ParkingAreaDAO.addParkingSpot(AreaId,FloorNumber,PermitType);
-		if (isadded) {
+		if (isadded) 
+		{
 			request.setAttribute("isParkingSpotAdded", isadded);
 		}
+		else
+		{
+			System.out.println("Do Nothing.");
+		}		
 		}
 		catch (SQLException e)
 		{
@@ -148,11 +164,14 @@ public class ParkingAreaController extends HttpServlet {
 	}
 	
 	public static Integer convertBoolToInt(String actual){
-		if(actual.equalsIgnoreCase("true")){
+		if(actual.equalsIgnoreCase("true"))
+		{
 			return 1;
 		}
 		else
+		{
 			return 0;
+		}
 	}
 	
 	private String editAreaName(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
@@ -173,6 +192,10 @@ public class ParkingAreaController extends HttpServlet {
 		 	{
 		 		request.setAttribute("isParkingAreaUpdate", isParkingAreaUpdate);
 		 	}
+			else
+			{
+				System.out.println("Do Nothing.");
+			}		
 		 	showParkingAreaEdit(request,response);
 		}
 		return url;
@@ -207,6 +230,10 @@ public class ParkingAreaController extends HttpServlet {
 	 	{
 	 		request.setAttribute("isblocksuccess", isblocksuccess);
 	 	}
+		else
+		{
+			System.out.println("Do Nothing.");
+		}		
 	}
 	
 	
@@ -272,7 +299,8 @@ public class ParkingAreaController extends HttpServlet {
 		getError(request, session, error, action);
 		request.setAttribute("parkingAreaError", error);
 		if (error.getAreaNameError().isEmpty() && error.getFloorNumberError().isEmpty()
-				&& error.getNumberofSpotsError().isEmpty()) {
+				&& error.getNumberofSpotsError().isEmpty())
+		{
 			String areaName = request.getParameter("parkingareaname");
 			String permitType = request.getParameter("permitType");
 			Integer numberofSpots = Integer.parseInt(request.getParameter("numberofSpots"));
@@ -286,25 +314,43 @@ public class ParkingAreaController extends HttpServlet {
 			ArrayList<ParkingAreaHelper> copy = new ArrayList<ParkingAreaHelper>();
 			copy = (ArrayList<ParkingAreaHelper>) session.getAttribute("areastobeadded");
 
-			if (copy == null || copy.isEmpty()) {
+			if (copy == null || copy.isEmpty()) 
+			{
 				uniqueListAreas = new ArrayList<ParkingAreaHelper>();
 				uniqueListAreas.add(parkingArea);
 				// uniqueListAreas.addAll(Collections.singleton(parkingArea));
 				//request.setAttribute("areastobeadded", uniqueListAreas);
 				session.setAttribute("areastobeadded", uniqueListAreas);
-			} else {
+			} 
+			else 
+			{
 				copy.add(parkingArea);
 				int index = 0;
 				for (ListIterator<ParkingAreaHelper> iterator = copy.listIterator(); iterator.hasNext();) {
 					ParkingAreaHelper area = iterator.next();
-					if (area.getAreaname().equals(parkingArea.getAreaname())) {
-						if (area.getFloornumber().equals(parkingArea.getFloornumber())) {
-							if (area.getPermittype().equals(parkingArea.getPermittype())) {
+					if (area.getAreaname().equals(parkingArea.getAreaname()))
+					{
+						if (area.getFloornumber().equals(parkingArea.getFloornumber()))
+						{
+							if (area.getPermittype().equals(parkingArea.getPermittype()))
+							{
 								area = parkingArea;
 								copy.set(index, area);
 							}
+							else
+							{
+								System.out.println("Do Nothing.");
+							}		
 						}
+						else
+						{
+							System.out.println("Do Nothing.");
+						}		
 					}
+					else
+					{
+						System.out.println("Do Nothing.");
+					}		
 					index++;
 				}
 				HashSet<ParkingAreaHelper> listToSet = new HashSet<ParkingAreaHelper>(copy);
@@ -327,6 +373,10 @@ public class ParkingAreaController extends HttpServlet {
 		{
 			error.setErrorMsg(action);
 		}
+		else
+		{
+			System.out.println("Do Nothing.");
+		}		
 	}
 
 	private String saveArea(HttpServletRequest request, HttpServletResponse response)
@@ -336,20 +386,28 @@ public class ParkingAreaController extends HttpServlet {
 		Boolean isadded = true;
 		ArrayList<ParkingAreaHelper> copy = new ArrayList<ParkingAreaHelper>();
 		copy = (ArrayList<ParkingAreaHelper>) session.getAttribute("areastobeadded");
-		if (copy == null) {
+		if (copy == null) 
+		{
 			request.setAttribute("isAreaListEmpty", true);
 			url="/CreatingParkingArea.jsp";
 		} 
-		else {
-			for (ListIterator<ParkingAreaHelper> iterator = copy.listIterator(); iterator.hasNext();) {
+		else 
+		{
+			for (ListIterator<ParkingAreaHelper> iterator = copy.listIterator(); iterator.hasNext();)
+			{
 				ParkingAreaHelper area = iterator.next();
 				isadded = ParkingAreaDAO.saveArea(area);
 				url="/CreatingParkingArea.jsp";
 			}
-			if (isadded) {
+			if (isadded)
+			{
 				session.setAttribute("areastobeadded", new ArrayList<ParkingAreaHelper>());
 				request.setAttribute("isAreaAdded", isadded);
 			}
+			else
+			{
+				System.out.println("Do Nothing.");
+			}		
 		}
 		return url;
 

@@ -162,7 +162,7 @@ public class SeleniumTC03 extends BusinessFunctions {
 	public void dAdminHappy(String userName, String password, String confirmPassword, String role,
 			String permitType, String firstName, String middleName, String lastName, String sex, String dayOfBirth,
 			String address, String email, String phoneNum, String dlNum, String dayOfExpiry, String regNum,
-			String utaId, String userToRevoke,String lastNameSearch,String userRoleChange,String chgRole) throws Exception {
+			String utaId, String userToRevoke,String lastNameSearch,String userRoleChange,String chgRole,String comment) throws Exception {
 		driver.get(appUrl);
 		assertTrue(!isElementPresent(driver, "Txt_Register_Success"));
 		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
@@ -181,7 +181,7 @@ public class SeleniumTC03 extends BusinessFunctions {
 		driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
 		functions.searchUserbyLastName(driver, lastNameSearch);
 		driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
-		functions.revokeUser(driver, userToRevoke);
+		functions.revokeUser(driver, userToRevoke,comment);
 		driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
 		functions.unrevokeUser(driver, userToRevoke);
 		driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();

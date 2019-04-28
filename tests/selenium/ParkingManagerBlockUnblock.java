@@ -28,7 +28,7 @@ import util.PasswordUtility;
 
 @RunWith(JUnitParamsRunner.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class ParkingManagerEditArea extends BusinessFunctions {
+public class ParkingManagerBlockUnblock extends BusinessFunctions {
 	private WebDriver driver;
 	private StringBuffer verificationErrors = new StringBuffer();
 	private BusinessFunctions functions = new BusinessFunctions();
@@ -41,10 +41,10 @@ public class ParkingManagerEditArea extends BusinessFunctions {
 	public void setUp() throws Exception {
 		// Change to FireFoxDriver if using FireFox browser
 		//FireFox Driver
-//		   System.setProperty("webdriver.firefox.marionette", "C:\\GeckoSelenium\\geckodriver.exe");
-//		   driver = new FirefoxDriver();
-		System.setProperty("webdriver.chrome.driver", "C:\\ChromeDriver\\chromedriver.exe");
-		driver = new ChromeDriver();
+		   System.setProperty("webdriver.firefox.marionette", "C:\\GeckoSelenium\\geckodriver.exe");
+		   driver = new FirefoxDriver();
+//		System.setProperty("webdriver.chrome.driver", "C:\\ChromeDriver\\chromedriver.exe");
+//		driver = new ChromeDriver();
 //		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		prop = new Properties();
 		
@@ -60,8 +60,8 @@ public class ParkingManagerEditArea extends BusinessFunctions {
 	}
 	
 	  @Test
-	  @FileParameters("tests/Excel/ParkingManagerEditArea.csv")
-	  public void dParkingManagerEditArea(String userName, String password, String confirmPassword, String role,
+	  @FileParameters("tests/Excel/ParkingManagerBlockUnblock.csv")
+	  public void dParkingManagerBlockUnblock(String userName, String password, String confirmPassword, String role,
 				String permitType, String firstName, String middleName, String lastName, String sex, String dayOfBirth,
 				String address, String email, String phoneNum, String dlNum, String dayOfExpiry, String regNum,
 				String utaId, String AreaName, String respermitType, String floorNumber, String SpotsNo, String spotId, String newName) throws Exception 
@@ -83,13 +83,15 @@ public class ParkingManagerEditArea extends BusinessFunctions {
 		int val = TestDAO.getAreaId();
 		AreaName = AreaName+val;
 		newName = newName + val;
-		functions.addParkingArea(driver, AreaName, respermitType, floorNumber, SpotsNo);
-	    functions.editParkingArea(driver,AreaName, respermitType, floorNumber, spotId, newName);
-	    driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
-		driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();		
-	  }
-	
+		functions.addParkingArea(driver, AreaName, respermitType, floorNumber, SpotsNo);	    
+		functions.viewParkingSpots(driver, AreaName, respermitType, floorNumber);
+	    functions.blockunblock(driver, AreaName, respermitType,floorNumber,spotId);
+	    functions.blockunblock(driver, AreaName, respermitType,floorNumber,spotId);
+		driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
 		
+	  }
+		
+
 	@After
 	public void tearDown() throws Exception {
 		driver.quit();

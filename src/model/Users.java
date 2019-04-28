@@ -17,7 +17,7 @@ public class Users {
 	 * @return the comment
 	 */
 	public String getComment() {
-		return Comment;
+		return this.Comment;
 	}
 
 	/**

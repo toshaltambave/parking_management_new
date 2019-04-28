@@ -36,6 +36,10 @@ static SQLConnection DBMgr = SQLConnection.getInstance();
 			if (!floorList.isBeforeFirst()) {
 				System.out.println("No data");
 			}
+			else
+			{
+				System.out.println("Do Nothing.");
+			}		
 			while (floorList.next()) {
 				ParkingAreaFloors floorWithUpdatedCount = new ParkingAreaFloors(); 
 				floorWithUpdatedCount.setArea_Id(floorList.getInt("Area_Id"));
@@ -68,6 +72,10 @@ static SQLConnection DBMgr = SQLConnection.getInstance();
 				{
 					filteredFloors.add(currentFloor);
 				}
+				else
+				{
+					System.out.println("Do Nothing.");
+				}		
 			}
 			else if(permitType.equalsIgnoreCase("premium")){
 				if(currentFloor.getPermitType().equalsIgnoreCase("premium")
@@ -76,6 +84,10 @@ static SQLConnection DBMgr = SQLConnection.getInstance();
 				{
 					filteredFloors.add(currentFloor);
 				}
+				else
+				{
+					System.out.println("Do Nothing.");
+				}		
 			}
 			else if(permitType.equalsIgnoreCase("midrange")){
 				if(currentFloor.getPermitType().equalsIgnoreCase("midrange")
@@ -83,13 +95,25 @@ static SQLConnection DBMgr = SQLConnection.getInstance();
 				{
 					filteredFloors.add(currentFloor);
 				}
+				else
+				{
+					System.out.println("Do Nothing.");
+				}		
 			}
 			else if(permitType.equalsIgnoreCase("basic")){
 				if(currentFloor.getPermitType().equalsIgnoreCase("basic"))
 				{
 					filteredFloors.add(currentFloor);
 				}
+				else
+				{
+					System.out.println("Do Nothing.");
+				}		
 			}
+			else
+			{
+				System.out.println("Do Nothing.");
+			}		
 			
 		}
 		return filteredFloors;

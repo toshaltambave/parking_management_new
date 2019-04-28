@@ -200,6 +200,10 @@ public class UserDetailsDAO {
 					userListInDB.add(userDetails);
 
 				}
+				else
+				{
+					System.out.println("Do Nothing.");
+				}		
 			}
 
 		} catch (SQLException e) {
@@ -479,6 +483,10 @@ public class UserDetailsDAO {
 					userListInDB.add(userDetails);
 
 				}
+				else
+				{
+					System.out.println("Do Nothing.");
+				}		
 			}
 
 		} catch (SQLException e) {

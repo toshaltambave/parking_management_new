@@ -69,6 +69,10 @@ public class ParkingAreaDAO {
 		{					
 			insertparkingspots(area, conn, rs3);
 		}
+		else
+		{
+			System.out.println("Do Nothing.");
+		}		
 	}
 
 	private static void insertparkingspots(ParkingAreaHelper area, Connection conn, ResultSet rs3) throws SQLException {
@@ -130,6 +134,10 @@ public class ParkingAreaDAO {
 					pst5.executeUpdate();
 					conn.commit();
 				}
+				else
+				{
+					System.out.println("Do Nothing.");
+				}		
 		}
 		catch(Exception ex)
 		{
