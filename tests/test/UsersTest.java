@@ -64,6 +64,7 @@ public class UsersTest {
 		assertEquals(expectedCommentError, usersErrorMsgs.getCommentError());
 		assertEquals(users.getComment(), comment);
 		assertEquals(userId, users.getUserID());
+		assertEquals(comment, users.getComment());
 
 		users.validateLogin(action, null, usersLoginErrorMsgs);
 
