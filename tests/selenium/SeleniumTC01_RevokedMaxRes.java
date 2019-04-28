@@ -67,65 +67,65 @@ public class SeleniumTC01_RevokedMaxRes extends BusinessFunctions {
 		driver.manage().window().setSize(new Dimension(1440,850));
 	}
 	
-//	  @Test
-//	  @FileParameters("tests/Excel/ParkingUserMaxReservations.csv")
-//	  public void dParkingUserReservation(String userName, String password, String confirmPassword, String role,
-//				String permitType, String firstName, String middleName, String lastName, String sex, String dayOfBirth,
-//				String address, String email, String phoneNum, String dlNum, String dayOfExpiry, String regNum,
-//				String utaId, String startdate, String enddate, String area, String reservationPermitType, Integer floorNum,
-//				Integer spotNum, String ccNum, String expMon, String expYear, String cvv, String cardType, Boolean cart, Boolean camera, Boolean history,
-//				String startTimeError, String endTimeError, String compareError, 
-//				String cardNumError, String cardYearError, String cardMonthError, String cardCvvError) throws Exception 
-//	  {
-//		driver.get(appUrl);
-//		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//		Date date = new Date();
-//		startdate = dateFormat.format(date) +" "+startdate;
-//		enddate = dateFormat.format(date) +" "+enddate;
-//		//Register
-//		if (TestDAO.userExists(userName)) {
-//			TestDAO.deleteReservation(userName);
-//			TestDAO.deleteUser(userName);
-//		}
-//		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
-//		functions.Register(driver, userName, password, confirmPassword, role, permitType);
-//		functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dayOfBirth, address, email,
-//				phoneNum, dlNum, dayOfExpiry, regNum, utaId);
-//		//Assert user registered
-//		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Register_Success"))).getText()
-//				.equals("Registered Successfully."));
-//		//Login
-//		functions.Login(driver, userName, password);
-//		//Reservation 1
-//		functions.reservationTimeAndDate(driver, startdate, enddate, area);
-//		functions.reservationFloorAndSpot(driver, reservationPermitType, floorNum, spotNum);
-//		functions.makeReservation(driver, ccNum, expMon, expYear, cvv, cart, camera, history, cardType);
-//		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Reserve_Sucess"))).getText()
-//						.equals("Reservation has been made successfully."));
-//		driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
-//	    //Reservation 2 previous Spot + 1
-//	    functions.Login(driver, userName, password);
-//	    functions.reservationTimeAndDate(driver, startdate, enddate, area);
-//		functions.reservationFloorAndSpot(driver, reservationPermitType, floorNum, spotNum+1);
-//		functions.makeReservation(driver, ccNum, expMon, expYear, cvv, cart, camera, history, cardType);
-//		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Reserve_Sucess"))).getText()
-//						.equals("Reservation has been made successfully."));
-//		driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
-//		//Reservation 3 previous Spot + 2
-//	    functions.Login(driver, userName, password);
-//	    functions.reservationTimeAndDate(driver, startdate, enddate, area);
-//		functions.reservationFloorAndSpot(driver, reservationPermitType, floorNum, spotNum+2);
-//		functions.makeReservation(driver, ccNum, expMon, expYear, cvv, cart, camera, history, cardType);
-//		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Reserve_Sucess"))).getText()
-//						.equals("Reservation has been made successfully."));
-//		driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
-//		//Check Revoked
-//		functions.Login(driver, userName, password);
-//		driver.findElement(By.id(prop.getProperty("Btn_Reservation_Reserve"))).click();
-//		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Max_Reservation"))).getText()
-//				.equals("Only 3 Reservations allowed in a day."));
-//		
-//	  }
+	  @Test
+	  @FileParameters("tests/Excel/ParkingUserMaxReservations.csv")
+	  public void dParkingUserReservation(String userName, String password, String confirmPassword, String role,
+				String permitType, String firstName, String middleName, String lastName, String sex, String dayOfBirth,
+				String address, String email, String phoneNum, String dlNum, String dayOfExpiry, String regNum,
+				String utaId, String startdate, String enddate, String area, String reservationPermitType, Integer floorNum,
+				Integer spotNum, String ccNum, String expMon, String expYear, String cvv, String cardType, Boolean cart, Boolean camera, Boolean history,
+				String startTimeError, String endTimeError, String compareError, 
+				String cardNumError, String cardYearError, String cardMonthError, String cardCvvError) throws Exception 
+	  {
+		driver.get(appUrl);
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
+		startdate = dateFormat.format(date) +" "+startdate;
+		enddate = dateFormat.format(date) +" "+enddate;
+		//Register
+		if (TestDAO.userExists(userName)) {
+			TestDAO.deleteReservation(userName);
+			TestDAO.deleteUser(userName);
+		}
+		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
+		functions.Register(driver, userName, password, confirmPassword, role, permitType);
+		functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dayOfBirth, address, email,
+				phoneNum, dlNum, dayOfExpiry, regNum, utaId);
+		//Assert user registered
+		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Register_Success"))).getText()
+				.equals("Registered Successfully."));
+		//Login
+		functions.Login(driver, userName, password);
+		//Reservation 1
+		functions.reservationTimeAndDate(driver, startdate, enddate, area);
+		functions.reservationFloorAndSpot(driver, reservationPermitType, floorNum, spotNum);
+		functions.makeReservation(driver, ccNum, expMon, expYear, cvv, cart, camera, history, cardType);
+		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Reserve_Sucess"))).getText()
+						.equals("Reservation has been made successfully."));
+		driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
+	    //Reservation 2 previous Spot + 1
+	    functions.Login(driver, userName, password);
+	    functions.reservationTimeAndDate(driver, startdate, enddate, area);
+		functions.reservationFloorAndSpot(driver, reservationPermitType, floorNum, spotNum+1);
+		functions.makeReservation(driver, ccNum, expMon, expYear, cvv, cart, camera, history, cardType);
+		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Reserve_Sucess"))).getText()
+						.equals("Reservation has been made successfully."));
+		driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
+		//Reservation 3 previous Spot + 2
+	    functions.Login(driver, userName, password);
+	    functions.reservationTimeAndDate(driver, startdate, enddate, area);
+		functions.reservationFloorAndSpot(driver, reservationPermitType, floorNum, spotNum+2);
+		functions.makeReservation(driver, ccNum, expMon, expYear, cvv, cart, camera, history, cardType);
+		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Reserve_Sucess"))).getText()
+						.equals("Reservation has been made successfully."));
+		driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
+		//Check Revoked
+		functions.Login(driver, userName, password);
+		driver.findElement(By.id(prop.getProperty("Btn_Reservation_Reserve"))).click();
+		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Max_Reservation"))).getText()
+				.equals("Only 3 Reservations allowed in a day."));
+		
+	  }
 	  
 	  @Test
 	  @FileParameters("tests/Excel/ParkingUserMaxReservations.csv")
