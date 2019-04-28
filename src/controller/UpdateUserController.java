@@ -41,10 +41,7 @@ public class UpdateUserController extends HttpServlet {
 			dispatcher.forward(request, response);
 		}
 		else
-		{
-			System.out.println("Do Nothing.");
-		}		
-		doPost(request, response);
+			doPost(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -103,30 +100,14 @@ public class UpdateUserController extends HttpServlet {
 	
 	protected void listPermitTypes(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		try 
-		{
 			ArrayList<PermitType> listPermitTypes = new ArrayList<PermitType>(Arrays.asList(PermitType.values()));
 			request.setAttribute("allPermitTypes", listPermitTypes);
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			throw new ServletException(e);
-		}
     }
 	
 	protected void listRoles(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		try 
-		{
-			ArrayList<Role> listRoles = new ArrayList<Role>(Arrays.asList(Role.values()));
-			request.setAttribute("allRoles", listRoles);
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			throw new ServletException(e);
-		}
+		ArrayList<Role> listRoles = new ArrayList<Role>(Arrays.asList(Role.values()));
+		request.setAttribute("allRoles", listRoles);
     }
 
 	private void getUpdatedUserDetailsParam(HttpServletRequest request, UpdatedUserDetails updatedUserdetails) {
@@ -142,15 +123,10 @@ public class UpdateUserController extends HttpServlet {
 			UpdatedUserDetails userdetails, UpdatedUserDetailsErrorMsgs errorMsgs) {
 		String url;
 		Users user = (Users) session.getAttribute("User");
-		if (user != null && !user.getUsername().isEmpty())
-		{
-			userdetails.setUserName(user.getUsername());
-			userdetails.setRole(user.getRole());
-		}
-		else
-		{
-			System.out.println("Do Nothing.");
-		}		
+
+		userdetails.setUserName(user.getUsername());
+		userdetails.setRole(user.getRole());
+	
 		getUpdatedUserDetailsParam(request, userdetails);
 		
 		String role = userdetails.getRole();
@@ -176,22 +152,16 @@ public class UpdateUserController extends HttpServlet {
 			request.setAttribute("updatedUserDetailsErrorMsgs", errorMsgsuser);
 			
 			url = "";
-			if(session.getAttribute("User") != null)
-			{
-				if (user.getRole().equals("ParkingManager")){
-					url="/parkingManagementHomePage.jsp";
-				}
-				else if (user.getRole().equals("Admin")){
-					url="/adminHomePage.jsp";
-				}
-				else
-				{
-					url="/parkingUserHomePage.jsp";
-				}		
+
+			if (user.getRole().equals("ParkingManager")){
+				url="/parkingManagementHomePage.jsp";
+			}
+			else if (user.getRole().equals("Admin")){
+				url="/adminHomePage.jsp";
 			}
 			else
 			{
-				System.out.println("Do Nothing.");
+				url="/parkingUserHomePage.jsp";
 			}		
 
 		}

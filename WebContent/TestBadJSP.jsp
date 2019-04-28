@@ -17,6 +17,10 @@
 				<input id="faketestupdate" class="btn btn-secondary" type="submit" value="Select" />
 				<input name="action" value="fakepost" type="hidden">
 			</form>
+			<form action="${pageContext.request.contextPath}/UpdateUserController?fakepost" method="get">
+				<input id="faketestclick" class="btn btn-secondary" type="submit" value="Select" />
+				<input name="action" value="fakepost" type="hidden">
+			</form>
 			
 		</div>
     </jsp:body>

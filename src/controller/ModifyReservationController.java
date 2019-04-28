@@ -74,8 +74,7 @@ public class ModifyReservationController extends HttpServlet {
 	
 	private void showRelevantReservations(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		try 
-		{
+
 			HttpSession session = request.getSession();
 			Users user = (Users) session.getAttribute("User");
 			if(user.getRole().equals("ParkingUser")){
@@ -96,18 +95,10 @@ public class ModifyReservationController extends HttpServlet {
 				System.out.println("Do Nothing.");
 			}		
 
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			throw new ServletException(e);
-		}
     }
 
 	private void showReservationsForEdit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		try 
-		{
 			HttpSession session = request.getSession();
 			Users user = (Users) session.getAttribute("User");
 			if(user.getRole().equals("ParkingUser")){
@@ -128,11 +119,5 @@ public class ModifyReservationController extends HttpServlet {
 				System.out.println("Do Nothing.");
 			}		
 
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			throw new ServletException(e);
-		}
     }
 }
