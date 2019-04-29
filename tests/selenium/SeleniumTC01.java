@@ -171,9 +171,94 @@ public class SeleniumTC01 extends BusinessFunctions {
 //		
 //	}
 		
+	@Test
+	@FileParameters("tests/Excel/TC04Good.csv")
+	public void dParkingUserUpdateProfile(String userNameToUpdate, String userName, String updateUserName, String password,
+			String updatePassword, String confirmPassword, String updateConfirmPassword, String role, String permitType,
+			String updatePermitType, String firstName, String updateFirstName, String middleName,
+			String updateMiddleName, String lastName, String updateLastName, String sex, String updateSex, String dob,
+			String updateDob, String address, String updateAddress, String email, String updateEmail, String phoneNum,
+			String updatePhoneNum, String dlNum, String updateDlNum, String dlExpiry, String updateDlExpiry,
+			String regNum, String updateRegNum, String utaId, String updateUtaId) {
+		driver.get(appUrl);
+		userName = userName+1;
+		updateUserName = updateUserName+2;
+		assertTrue(!isElementPresent(driver, "Txt_Register_Success"));
+		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
+		TestDAO.deleteUser(updateUserName);
+		if (TestDAO.userExists(userName)) {
+			TestDAO.deleteUser(userName);
+		}
+		functions.Register(driver, userName, password, confirmPassword, Role.ParkingUser.toString(), permitType);
+		functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dob, address, email, phoneNum,
+				dlNum, dlExpiry, regNum, utaId);
+		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Register_Success"))).getText()
+				.equals("Registered Successfully."));
+		functions.Login(driver, userName, password);
+		if (prop.getProperty("test_delay").equals("delay")) {
+			try {
+				Thread.sleep((Integer.parseInt(prop.getProperty("thread_sleep"))));
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		driver.findElement(By.id(prop.getProperty("Btn_ParkingUser_upd"))).click();
+		functions.UpdateUserProfileUserManager(driver, userName, updateFirstName, updateMiddleName, updateLastName,
+				updateUserName, updateSex, updateDob, updateAddress, updateEmail, updatePhoneNum, updateDlNum,
+				updateDlExpiry, updateRegNum, updateUtaId, updatePassword, updateConfirmPassword, updatePermitType);
+		driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
+		driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
+	}
+	
+	@Test
+	@FileParameters("tests/Excel/TC04Good.csv")
+	public void eParkingUserUniqueUsername(String userNameToUpdate, String userName, String updateUserName, String password,
+			String updatePassword, String confirmPassword, String updateConfirmPassword, String role, String permitType,
+			String updatePermitType, String firstName, String updateFirstName, String middleName,
+			String updateMiddleName, String lastName, String updateLastName, String sex, String updateSex, String dob,
+			String updateDob, String address, String updateAddress, String email, String updateEmail, String phoneNum,
+			String updatePhoneNum, String dlNum, String updateDlNum, String dlExpiry, String updateDlExpiry,
+			String regNum, String updateRegNum, String utaId, String updateUtaId) {
+		driver.get(appUrl);
+		userName = userName+1;
+		updateUserName = updateUserName+2;
+		assertTrue(!isElementPresent(driver, "Txt_Register_Success"));
+		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
+		if (TestDAO.userExists(userName)) {
+			TestDAO.deleteUser(userName);
+		}
+		functions.Register(driver, userName, password, confirmPassword, Role.ParkingUser.toString(), permitType);
+		functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dob, address, email, phoneNum,
+				dlNum, dlExpiry, regNum, utaId);
+		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Register_Success"))).getText()
+				.equals("Registered Successfully."));
+		functions.Login(driver, userName, password);
+		if (prop.getProperty("test_delay").equals("delay")) {
+			try {
+				Thread.sleep((Integer.parseInt(prop.getProperty("thread_sleep"))));
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		driver.findElement(By.id(prop.getProperty("Btn_ParkingUser_upd"))).click();
+		functions.UpdateUserProfileUserManager(driver, userName, updateFirstName, updateMiddleName, updateLastName,
+				updateUserName, updateSex, updateDob, updateAddress, updateEmail, updatePhoneNum, updateDlNum,
+				updateDlExpiry, updateRegNum, updateUtaId, updatePassword, updateConfirmPassword, updatePermitType);
+		driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
+		driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
+	}
+	
 	  @Test
 	  @FileParameters("tests/Excel/ParkingUserReservation.csv")
-	  public void dParkingUserReservation(String userName, String password, String confirmPassword, String role,
+	  public void fParkingUserReservation(String userName, String password, String confirmPassword, String role,
 				String permitType, String firstName, String middleName, String lastName, String sex, String dayOfBirth,
 				String address, String email, String phoneNum, String dlNum, String dayOfExpiry, String regNum,
 				String utaId, String startdate, String enddate, String area, String reservationPermitType, Integer floorNum,
@@ -233,27 +318,240 @@ public class SeleniumTC01 extends BusinessFunctions {
 	    }
 	  }
 	
-	  @Test
-	  @FileParameters("tests/Excel/ParkingUserMaxReservations.csv")
-	  public void eParkingUserHappy(String userName, String password, String confirmPassword, String role,
-				String permitType, String firstName, String middleName, String lastName, String sex, String dayOfBirth,
+		@Test
+		@FileParameters("tests/Excel/ParkingUserReservations.csv")
+		public void gParkingUserReservationAndViewReservation(String parkingmanageruserName,String basicparkinguseruserName,
+				String premiumparkinguseruserName, String midrangeparkinguseruserName,String accessparkinguseruserName,
+				String password, String confirmPassword, String parkingmangerrole,String parkinguserrole,
+				String basicpermitType,String premiumpermitType,String midrangepermitType,String accesspermitType,
+				String firstName, String middleName, String lastName, String sex, String dayOfBirth,
 				String address, String email, String phoneNum, String dlNum, String dayOfExpiry, String regNum,
-				String utaId, String startdate, String enddate, String area, String reservationPermitType, Integer floorNum,
-				Integer spotNum, String ccNum, String expMon, String expYear, String cvv, String cardType, Boolean cart, Boolean camera, Boolean history,
-				String startTimeError, String endTimeError, String compareError, 
-				String cardNumError, String cardYearError, String cardMonthError, String cardCvvError) throws Exception {
+				String utaId,String AreaName,String floorNumber,String SpotsNo,String startdate, String enddate, 
+				Integer floorNum,Integer spotNum, String ccNum, String expMon, String expYear,
+				String cvv, String cardType, Boolean cart, Boolean camera, Boolean history) 
+				throws Exception {
 			driver.get(appUrl);
-			
-			TestDAO.deleteReservation(userName);
-			TestDAO.deleteUser(userName);
+			TestDAO.deleteReservation(basicparkinguseruserName);
+			TestDAO.deleteUser(basicparkinguseruserName);
+			TestDAO.deleteReservation(premiumparkinguseruserName);
+			TestDAO.deleteUser(premiumparkinguseruserName);
+			TestDAO.deleteReservation(midrangeparkinguseruserName);
+			TestDAO.deleteUser(midrangeparkinguseruserName);
+			TestDAO.deleteReservation(accessparkinguseruserName);
+			TestDAO.deleteUser(accessparkinguseruserName);
+			TestDAO.deleteUser(parkingmanageruserName);
 			
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			Date date = new Date();
 			startdate = dateFormat.format(date) +" "+startdate;
 			enddate = dateFormat.format(date) +" "+enddate;
-			//Register
+			int val = TestDAO.getAreaId();
+			AreaName = AreaName+val;
+//			driver.manage().window().setSize(new Dimension(1936, 1056));
+			assertTrue(!isElementPresent(driver, "Txt_Register_Success"));
 			driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
-			functions.Register(driver, userName, password, confirmPassword, Role.ParkingUser.toString(), permitType);
+			functions.Register(driver, parkingmanageruserName, password, confirmPassword, parkingmangerrole, premiumpermitType);
+			functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dayOfBirth, address, email,
+					phoneNum, dlNum, dayOfExpiry, regNum, utaId);
+			assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Register_Success"))).getText()
+					.equals("Registered Successfully."));
+			
+			
+			driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
+			functions.Register(driver, basicparkinguseruserName, password, confirmPassword, parkinguserrole, basicpermitType);
+			functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dayOfBirth, address, email,
+					phoneNum, dlNum, dayOfExpiry, regNum, utaId);
+			assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Register_Success"))).getText()
+					.equals("Registered Successfully."));
+			
+			
+			driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
+			functions.Register(driver, premiumparkinguseruserName, password, confirmPassword, parkinguserrole, premiumpermitType);
+			functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dayOfBirth, address, email,
+					phoneNum, dlNum, dayOfExpiry, regNum, utaId);
+			assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Register_Success"))).getText()
+					.equals("Registered Successfully."));
+			
+			
+			driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
+			functions.Register(driver, midrangeparkinguseruserName, password, confirmPassword, parkinguserrole, midrangepermitType);
+			functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dayOfBirth, address, email,
+					phoneNum, dlNum, dayOfExpiry, regNum, utaId);
+			assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Register_Success"))).getText()
+					.equals("Registered Successfully."));
+			
+			
+			driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
+			functions.Register(driver, accessparkinguseruserName, password, confirmPassword, parkinguserrole, accesspermitType);
+			functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dayOfBirth, address, email,
+					phoneNum, dlNum, dayOfExpiry, regNum, utaId);
+			assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Register_Success"))).getText()
+					.equals("Registered Successfully."));
+					
+			functions.Login(driver, parkingmanageruserName, password);
+			functions.addParkingAreaList(driver, AreaName, basicpermitType, floorNumber, SpotsNo);
+			functions.addParkingAreaList(driver, AreaName, premiumpermitType, floorNumber, SpotsNo);
+			functions.addParkingAreaList(driver, AreaName, midrangepermitType, floorNumber, SpotsNo);
+			functions.addParkingAreaList(driver, AreaName, accesspermitType, floorNumber, SpotsNo);
+			driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
+			//Area Created
+			
+			functions.Login(driver, basicparkinguseruserName, password);
+			functions.reservationTimeAndDate(driver, startdate, enddate, AreaName);
+			functions.reservationFloorAndSpot(driver, basicpermitType, floorNum, spotNum);
+			functions.makeReservation(driver, ccNum, expMon, expYear, cvv, cart, camera, history, cardType);
+			if (prop.getProperty("test_delay").equals("delay")) {
+				try {
+					Thread.sleep((Integer.parseInt(prop.getProperty("thread_sleep"))));
+				} catch (NumberFormatException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}	
+			assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Reserve_Sucess"))).getText()
+							.equals("Reservation has been made successfully."));
+			functions.viewUserParkingSpots(driver, AreaName, basicpermitType, floorNum.toString());
+			driver.findElement(By.id(prop.getProperty("Btn_ParkingUser_viewres"))).click();
+			if (prop.getProperty("test_delay").equals("delay")) {
+				try {
+					Thread.sleep((Integer.parseInt(prop.getProperty("thread_sleep"))));
+				} catch (NumberFormatException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}	
+			driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
+			driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
+			
+			functions.Login(driver, premiumparkinguseruserName, password);
+			functions.reservationTimeAndDate(driver, startdate, enddate, AreaName);
+			functions.reservationFloorAndSpot(driver, premiumpermitType, floorNum, spotNum);
+			functions.makeReservation(driver, ccNum, expMon, expYear, cvv, cart, camera, history, cardType);
+			if (prop.getProperty("test_delay").equals("delay")) {
+				try {
+					Thread.sleep((Integer.parseInt(prop.getProperty("thread_sleep"))));
+				} catch (NumberFormatException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}	
+			assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Reserve_Sucess"))).getText()
+							.equals("Reservation has been made successfully."));
+			functions.viewUserParkingSpots(driver, AreaName, premiumpermitType, floorNum.toString());
+			driver.findElement(By.id(prop.getProperty("Btn_ParkingUser_viewres"))).click();
+			if (prop.getProperty("test_delay").equals("delay")) {
+				try {
+					Thread.sleep((Integer.parseInt(prop.getProperty("thread_sleep"))));
+				} catch (NumberFormatException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}	
+			driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
+			driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
+			
+			functions.Login(driver, midrangeparkinguseruserName, password);
+			functions.reservationTimeAndDate(driver, startdate, enddate, AreaName);
+			functions.reservationFloorAndSpot(driver, midrangepermitType, floorNum, spotNum);
+			functions.makeReservation(driver, ccNum, expMon, expYear, cvv, cart, camera, history, cardType);
+			if (prop.getProperty("test_delay").equals("delay")) {
+				try {
+					Thread.sleep((Integer.parseInt(prop.getProperty("thread_sleep"))));
+				} catch (NumberFormatException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}	
+			assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Reserve_Sucess"))).getText()
+							.equals("Reservation has been made successfully."));
+			functions.viewUserParkingSpots(driver, AreaName, midrangepermitType, floorNum.toString());
+			driver.findElement(By.id(prop.getProperty("Btn_ParkingUser_viewres"))).click();
+			if (prop.getProperty("test_delay").equals("delay")) {
+				try {
+					Thread.sleep((Integer.parseInt(prop.getProperty("thread_sleep"))));
+				} catch (NumberFormatException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}	
+			driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
+			driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
+			
+			functions.Login(driver, accessparkinguseruserName, password);
+			functions.reservationTimeAndDate(driver, startdate, enddate, AreaName);
+			functions.reservationFloorAndSpot(driver, accesspermitType, floorNum, spotNum);
+			functions.makeReservation(driver, ccNum, expMon, expYear, cvv, cart, camera, history, cardType);
+			if (prop.getProperty("test_delay").equals("delay")) {
+				try {
+					Thread.sleep((Integer.parseInt(prop.getProperty("thread_sleep"))));
+				} catch (NumberFormatException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}	
+			assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Reserve_Sucess"))).getText()
+							.equals("Reservation has been made successfully."));
+			functions.viewUserParkingSpots(driver, AreaName, accesspermitType, floorNum.toString());
+			driver.findElement(By.id(prop.getProperty("Btn_ParkingUser_viewres"))).click();
+			if (prop.getProperty("test_delay").equals("delay")) {
+				try {
+					Thread.sleep((Integer.parseInt(prop.getProperty("thread_sleep"))));
+				} catch (NumberFormatException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}	
+			driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
+			
+			driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
+		}
+		
+		  @Test
+		  @FileParameters("tests/Excel/ParkingUserMaxReservations.csv")
+		  public void hParkingUserEditCancelReservation(String userName, String password, String confirmPassword, String role,
+					String permitType, String firstName, String middleName, String lastName, String sex, String dayOfBirth,
+					String address, String email, String phoneNum, String dlNum, String dayOfExpiry, String regNum,
+					String utaId, String startdate, String enddate, String area, String reservationPermitType, Integer floorNum,
+					Integer spotNum, String ccNum, String expMon, String expYear, String cvv, String cardType, Boolean cart, Boolean camera, Boolean history,
+					String startTimeError, String endTimeError, String compareError, 
+					String cardNumError, String cardYearError, String cardMonthError, String cardCvvError) throws Exception 
+		  {
+			driver.get(appUrl);
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = new Date();
+			startdate = dateFormat.format(date) +" "+startdate;
+			enddate = dateFormat.format(date) +" "+enddate;
+			//Register
+			if (TestDAO.userExists(userName)) {
+				TestDAO.deleteReservation(userName);
+				TestDAO.deleteUser(userName);
+			}
+			driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
+			functions.Register(driver, userName, password, confirmPassword, role, permitType);
 			functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dayOfBirth, address, email,
 					phoneNum, dlNum, dayOfExpiry, regNum, utaId);
 			//Assert user registered
@@ -265,6 +563,90 @@ public class SeleniumTC01 extends BusinessFunctions {
 			functions.reservationTimeAndDate(driver, startdate, enddate, area);
 			functions.reservationFloorAndSpot(driver, reservationPermitType, floorNum, spotNum);
 			functions.makeReservation(driver, ccNum, expMon, expYear, cvv, cart, camera, history, cardType);
+			if (prop.getProperty("test_delay").equals("delay")) {
+				try {
+					Thread.sleep((Integer.parseInt(prop.getProperty("thread_sleep"))));
+				} catch (NumberFormatException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Reserve_Sucess"))).getText()
+							.equals("Reservation has been made successfully."));
+			//Modify Reservation
+			functions.modifyreservation(driver,1);
+			functions.editreservationTimeAndDate(driver, startdate, enddate, area);
+			functions.reservationFloorAndSpot(driver, reservationPermitType, floorNum, spotNum);
+			functions.makeReservation(driver, ccNum, expMon, expYear, cvv, cart, camera, history, cardType);
+			if (prop.getProperty("test_delay").equals("delay")) {
+				try {
+					Thread.sleep((Integer.parseInt(prop.getProperty("thread_sleep"))));
+				} catch (NumberFormatException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Reserve_Sucess"))).getText()
+							.equals("Reservation has been made successfully."));
+			//Delete Reservation
+			functions.deletereservation(driver, 1);
+			assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Del_msg"))).getText().equals("Deleted Successfully."));
+		    driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
+			
+			driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
+					
+		  }
+		  
+		  @Test
+		  @FileParameters("tests/Excel/ParkingUserMaxReservations.csv")
+		  public void iParkingUser3Reservations(String userName, String password, String confirmPassword, String role,
+					String permitType, String firstName, String middleName, String lastName, String sex, String dayOfBirth,
+					String address, String email, String phoneNum, String dlNum, String dayOfExpiry, String regNum,
+					String utaId, String startdate, String enddate, String area, String reservationPermitType, Integer floorNum,
+					Integer spotNum, String ccNum, String expMon, String expYear, String cvv, String cardType, Boolean cart, Boolean camera, Boolean history,
+					String startTimeError, String endTimeError, String compareError, 
+					String cardNumError, String cardYearError, String cardMonthError, String cardCvvError) throws Exception 
+		  {
+			driver.get(appUrl);
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = new Date();
+			startdate = dateFormat.format(date) +" "+startdate;
+			enddate = dateFormat.format(date) +" "+enddate;
+			//Register
+			if (TestDAO.userExists(userName)) {
+				TestDAO.deleteReservation(userName);
+				TestDAO.deleteUser(userName);
+			}
+			driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
+			functions.Register(driver, userName, password, confirmPassword, role, permitType);
+			functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dayOfBirth, address, email,
+					phoneNum, dlNum, dayOfExpiry, regNum, utaId);
+			//Assert user registered
+			assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Register_Success"))).getText()
+					.equals("Registered Successfully."));
+			//Login
+			functions.Login(driver, userName, password);
+			//Reservation 1
+			functions.reservationTimeAndDate(driver, startdate, enddate, area);
+			functions.reservationFloorAndSpot(driver, reservationPermitType, floorNum, spotNum);
+			functions.makeReservation(driver, ccNum, expMon, expYear, cvv, cart, camera, history, cardType);
+			if (prop.getProperty("test_delay").equals("delay")) {
+				try {
+					Thread.sleep((Integer.parseInt(prop.getProperty("thread_sleep"))));
+				} catch (NumberFormatException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 			assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Reserve_Sucess"))).getText()
 							.equals("Reservation has been made successfully."));
 			driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
@@ -273,21 +655,58 @@ public class SeleniumTC01 extends BusinessFunctions {
 		    functions.reservationTimeAndDate(driver, startdate, enddate, area);
 			functions.reservationFloorAndSpot(driver, reservationPermitType, floorNum, spotNum+1);
 			functions.makeReservation(driver, ccNum, expMon, expYear, cvv, cart, camera, history, cardType);
+			if (prop.getProperty("test_delay").equals("delay")) {
+				try {
+					Thread.sleep((Integer.parseInt(prop.getProperty("thread_sleep"))));
+				} catch (NumberFormatException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 			assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Reserve_Sucess"))).getText()
 							.equals("Reservation has been made successfully."));
 			driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
-	  }
-	
-//		private void registerUser(String userName,String password, String role, String permitType, String firstName, String middleName, String lastName, String sex, String dob
-//				,String address, String email, String phoneNum,String dlno, String dlexpiry, String regNum, String utaId) {
-//			driver.get(appUrl);
-//			functions.Register(driver, userName, password, password, role, permitType);
-//			functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dob, address, email, phoneNum,
-//					dlno, dlexpiry, regNum, utaId);
-//			functions.Login(driver, userName, password);
-//			driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
-//		}
-	
+			//Reservation 3 previous Spot + 2
+		    functions.Login(driver, userName, password);
+		    functions.reservationTimeAndDate(driver, startdate, enddate, area);
+			functions.reservationFloorAndSpot(driver, reservationPermitType, floorNum, spotNum+2);
+			functions.makeReservation(driver, ccNum, expMon, expYear, cvv, cart, camera, history, cardType);
+			if (prop.getProperty("test_delay").equals("delay")) {
+				try {
+					Thread.sleep((Integer.parseInt(prop.getProperty("thread_sleep"))));
+				} catch (NumberFormatException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Reserve_Sucess"))).getText()
+							.equals("Reservation has been made successfully."));
+			//Check Revoked
+			driver.findElement(By.id(prop.getProperty("Btn_Reservation_Reserve"))).click();
+			if (prop.getProperty("test_delay").equals("delay")) {
+				try {
+					Thread.sleep((Integer.parseInt(prop.getProperty("thread_sleep"))));
+				} catch (NumberFormatException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Max_Reservation"))).getText()
+					.equals("Only 3 Reservations allowed in a day."));
+			driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
+			
+		  }
+			
+	  
 
 	@After
 	public void tearDown() throws Exception {

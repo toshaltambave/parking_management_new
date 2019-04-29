@@ -24,9 +24,9 @@
 
 
 <br><div class="col"><a id="lnkUpdateProfile" class="btn btn-info"href="UpdateSelect.jsp">Update profile</a></div>
-<br><div class="col"><a id="lnkUserSearch" class="btn btn-info"href="UserSearch.jsp">Search for User</a></div> 
+<br><div class="col"><a id="lnkUserSearch" class="btn btn-info"href="UserSearch.jsp">Search for User and view details</a></div> 
 <br><div class="col"><a id="lnkViewParkingSpotDetails" class="btn btn-info"href="${pageContext.request.contextPath}/SpotSearchController" >View parking spot details</a></div>
-<br><div class="col"><a id="lnkViewParkingUserDetails" class="btn btn-info"href="UserSearch.jsp">View parking user details</a></div>
+<!-- <br><div class="col"><a id="lnkViewParkingUserDetails" class="btn btn-info"href="UserSearch.jsp">View parking user details</a></div> -->
 <br><div class="col"><a id="lnkDeleteReservation" class="btn btn-info"href="${pageContext.request.contextPath}/ModifyReservationController">Delete a reservation</a></div> <!-- TODO TOSHAL -->
 <br><div class="col"><a id="lnkModifyReservation" class="btn btn-info"href="${pageContext.request.contextPath}/ModifyReservationController?action=editReservation">Edit a reservation</a></div> <!-- TODO TOSHAL -->
 <br><div class="col"><a id="lnkSetNoShow" class="btn btn-info"href="${pageContext.request.contextPath}/ModifyController?action=setNoshow">Set no-show</a></div>
