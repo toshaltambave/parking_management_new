@@ -147,19 +147,13 @@ public class MakeReservationsDAO{
 				reservation.setEnd_Time(reservationList.getString("End_Time"));
 				reservation.setisNoShow(reservationList.getInt("NoShow"));
 				reservation.setisOverDue(reservationList.getInt("OverStay"));
-				ReservationsByDate.add(reservation);
-			
+				ReservationsByDate.add(reservation);			
 			}
+			conn.close();
+			stmt.close();
 		}catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				conn.close();
-				stmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
+		} 
 		return ReservationsByDate;
 	}
 	
@@ -189,19 +183,13 @@ public class MakeReservationsDAO{
 				reservation.setEnd_Time(reservationList.getString("End_Time"));
 				reservation.setisNoShow(reservationList.getInt("NoShow"));
 				reservation.setisOverDue(reservationList.getInt("OverStay"));
-				ReservationsNoShow.add(reservation);
-			
+				ReservationsNoShow.add(reservation);			
 			}
+			conn.close();
+			stmt.close();
 		}catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				conn.close();
-				stmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
+		} 
 		return ReservationsNoShow;
 	}
  
@@ -246,21 +234,13 @@ public class MakeReservationsDAO{
 			{
 				System.out.println("Do Nothing.");
 			}	
+			conn.close();
+			stmt.close();
 	 }catch (SQLException e) {
 		 e.printStackTrace();
 		 return false;
-		} finally {
-			try {
-				conn.close();
-				stmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-				return false;
-			}
-		}
-	 
-	 return true;
-	 
+		} 	 
+	 return true;	 
  }
  
 	public static Boolean SetOverdue(Integer reservationID, Integer user_id) {
@@ -303,20 +283,13 @@ public class MakeReservationsDAO{
 			else
 			{
 				System.out.println("Do Nothing.");
-			}	
+			}
+			conn.close();
+			stmt.close();
 	 }catch (SQLException e) {
 		 e.printStackTrace();
 		 return false;
-	 } finally {
-			try {
-				conn.close();
-				stmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-				return false;
-			}
-		}
-	 
+	 }	 
 	 return true;
 }
 	
@@ -330,27 +303,21 @@ public class MakeReservationsDAO{
 				count.next();
 				Integer isRevoked = count.getInt("Count");
 				if(isRevoked == 0){
+					conn.close();
+					stmt.close();
 					return false;
 				}
 				else
 				{
-					return true;
-				}				
-				
-		 }catch (SQLException e) {
-			 e.printStackTrace();
-			 return false;
-		 } finally {
-				try {
 					conn.close();
 					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-					return false;
-				}
-			}
-//		 
-//		 return true;
+					return true;
+				}								
+		 }catch (SQLException e)
+		 {
+			 e.printStackTrace();
+			 return false;
+		 }
 	}
 	public static ArrayList<ReservationsHelper> GetReservationsByUserId (Integer user_id) {
 	ArrayList<ReservationsHelper> ReservationsById = new ArrayList<ReservationsHelper>();
@@ -381,16 +348,11 @@ public class MakeReservationsDAO{
 			ReservationsById.add(reservation);
 		
 		}
+		conn.close();
+		stmt.close();
 	}catch (SQLException e) {
 		e.printStackTrace();
-	} finally {
-		try {
-			conn.close();
-			stmt.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
+	} 
 	return ReservationsById;
 }
 
@@ -425,16 +387,11 @@ public static ArrayList<ReservationsHelper> GetReservationsViolations (String cu
 			ReservationsViolations.add(reservation);
 		
 		}
+		conn.close();
+		stmt.close();
 	}catch (SQLException e) {
 		e.printStackTrace();
-	} finally {
-		try {
-			conn.close();
-			stmt.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
+	} 
 	return ReservationsViolations;
 }
  
@@ -442,35 +399,25 @@ public static ArrayList<ReservationsHelper> GetReservationsViolations (String cu
 		 Statement stmt = null;
 		 Connection conn = SQLConnection.getDBConnection();
 		 Integer totalCount=0;
-		 try{
-			 	
+		 try{			 	
 				stmt=conn.createStatement();
 				java.util.Date dt = new java.util.Date();
-
-				java.text.SimpleDateFormat sdf = 
-				     new java.text.SimpleDateFormat("yyyy-MM-dd");
+				java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
 				String currentTime = sdf.format(dt);
 				String queryString="select count(*) as Count " 
 						+"from reservations " 
 						+"where Start_Time>='"+currentTime+"%' "
-						+"and User_Id="+user_id+";";
-		
+						+"and User_Id="+user_id+";";		
 				ResultSet count=stmt.executeQuery(queryString);
 				count.next();
 				totalCount = count.getInt("Count");
 				
-		 }catch (SQLException e) {
-			 e.printStackTrace();
-			} finally {
-				try {
-					conn.close();
-					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		return totalCount;
-		 
+				conn.close();
+				stmt.close();
+		 }catch (SQLException e) 
+		 {
+			 e.printStackTrace();			 
+		 } 			
+		return totalCount;		 
 	}
-
 }

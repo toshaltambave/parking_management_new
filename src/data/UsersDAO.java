@@ -17,10 +17,9 @@ public class UsersDAO {
 	static SQLConnection DBMgr = SQLConnection.getInstance();
 	
 	private static ArrayList<Users> ReturnMatchingUsers (String queryString) {
-		ArrayList<Users> userListInDB = new ArrayList<Users>();
-		
-			Statement stmt = null;
-			Connection conn = SQLConnection.getDBConnection();  
+		ArrayList<Users> userListInDB = new ArrayList<Users>();		
+		Statement stmt = null;
+		Connection conn = SQLConnection.getDBConnection();  
 		try {
 			stmt = conn.createStatement();
 			ResultSet usersList = stmt.executeQuery(queryString);
@@ -31,20 +30,14 @@ public class UsersDAO {
 				user.setRole(usersList.getString("Role"));
 				user.setisRevoked(usersList.getBoolean("IsRevoked"));  
 				user.setPermitType(usersList.getString("PermitType"));
-				user.setUserID(usersList.getInt("User_Id"));
-	
+				user.setUserID(usersList.getInt("User_Id"));	
 				userListInDB.add(user);					
 			}
+			conn.close();
+			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				conn.close();
-				stmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			};
-		}
+		} 
 		return userListInDB;
 	}
 	
@@ -62,16 +55,12 @@ public class UsersDAO {
 					+ user.getisRevoked() + "','"	
 					+ user.getPermitType() + "'" + ')';
 			stmt.executeUpdate(insertUser);	
-			conn.commit(); 
+			conn.commit();
+			conn.close();
+			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				conn.close();
-				stmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}};
+		} 
 	}
 
 
@@ -98,17 +87,11 @@ public class UsersDAO {
 			}
 			else
 				user = null;
-
+			conn.close();
+			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				conn.close();
-				stmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
+		} 
 	}
 	
 	public static void insertUser(Users user) {  
@@ -183,24 +166,16 @@ public class UsersDAO {
 			if (!rs.isBeforeFirst()) {
 				System.out.println("No data");
 			} 
-			else{
+			else
+			{
 				rs.next();
 				user_Id = rs.getInt("User_Id");	
-				}
-					
-				
-
+			}
+			conn.close();
+			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				conn.close();
-				stmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 		}
 		return user_Id;
 	}
-
 }
