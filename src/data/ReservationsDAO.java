@@ -14,8 +14,8 @@ import util.SQLConnection;
 public class ReservationsDAO {
 static SQLConnection DBMgr = SQLConnection.getInstance();
 	
-	public static ArrayList<ParkingAreaFloors> getFloorSpotsCountByTime (Integer area_id, String start_time, String end_time) {
-
+	public static ArrayList<ParkingAreaFloors> getFloorSpotsCountByTime (Integer area_id, String start_time, String end_time) 
+	{
 		ArrayList<ParkingAreaFloors> parkingAreasFloorsUpdatedCount = new ArrayList<ParkingAreaFloors>();
 		
 			Statement stmt = null;
@@ -41,16 +41,11 @@ static SQLConnection DBMgr = SQLConnection.getInstance();
 				floorWithUpdatedCount.setNo_Spots(floorList.getInt("AvailableSpots"));
 				parkingAreasFloorsUpdatedCount.add(floorWithUpdatedCount);					
 			}
+			conn.close();
+			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				conn.close();
-				stmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			};
-		}
+		} 
 		return parkingAreasFloorsUpdatedCount;
 	}
 
@@ -93,7 +88,7 @@ static SQLConnection DBMgr = SQLConnection.getInstance();
 					System.out.println("Do Nothing.");
 				}		
 			}
-			else if(permitType.equalsIgnoreCase("basic")){
+			else{
 				if(currentFloor.getPermitType().equalsIgnoreCase("basic"))
 				{
 					filteredFloors.add(currentFloor);
@@ -102,12 +97,7 @@ static SQLConnection DBMgr = SQLConnection.getInstance();
 				{
 					System.out.println("Do Nothing.");
 				}		
-			}
-			else
-			{
-				System.out.println("Do Nothing.");
-			}		
-			
+			}				
 		}
 		return filteredFloors;
 	}
@@ -147,23 +137,19 @@ static SQLConnection DBMgr = SQLConnection.getInstance();
 				spot.setSpot_UID(spotsList.getInt("Spot_UID"));
 				parkingSpotsInDb.add(spot);					
 			}
+			conn.close();
+			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				conn.close();
-				stmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			};
-		}
+		} 
 		return parkingSpotsInDb;
 	}
 
 	public static Boolean StoreReservationsInDB (Reservation reservations) {
 		Statement stmt = null;
 		Connection conn = SQLConnection.getDBConnection();  
-		try {
+		try 
+		{
 			stmt = conn.createStatement();
 			String insertReservation = "INSERT INTO reservations (User_Id, Spot_UID,Start_Time,End_Time,NoShow,OverStay,Cart,Camera,Total, History) VALUES ('"  
 					+ reservations.getUserID()  + "','"
@@ -177,19 +163,14 @@ static SQLConnection DBMgr = SQLConnection.getInstance();
 					+ reservations.getTotal() + "','"
 					+ convertBoolToInt(reservations.getHistory()) + "'" + ')';
 			stmt.executeUpdate(insertReservation);	
-			conn.commit(); 
+			conn.commit();
+			conn.close();
+			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
-		} finally {
-			try {
-				conn.close();
-				stmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-				return false;
-			}};
-			return true;
+		}
+		return true;
 	}
 	
 	public static Boolean deleteReservationbyResId(Integer resId){
@@ -200,16 +181,12 @@ static SQLConnection DBMgr = SQLConnection.getInstance();
 			String delete = "Delete from parking_management.reservations Where Reservation_id ="+resId+";";
 			stmt.executeUpdate(delete);	
 			conn.commit(); 
+			conn.close();
+			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
-		} finally {
-			try {
-				conn.close();
-				stmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}}
+		}
 		return true;
 	}
 	
@@ -342,4 +319,3 @@ static SQLConnection DBMgr = SQLConnection.getInstance();
 	}
 	
 }
-

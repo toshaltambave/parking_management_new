@@ -132,7 +132,7 @@ public class FetchParkingSpotsDAO {
 					System.out.println("Do Nothing.");
 				}		
 			}
-			else if(permitType.equalsIgnoreCase("basic")){
+			else{
 				if(currentFloor.getArea_Id().equals(areaId) && currentFloor.getPermitType().equalsIgnoreCase("basic"))
 				{
 					filteredFloors.add(currentFloor);
@@ -141,12 +141,7 @@ public class FetchParkingSpotsDAO {
 				{
 					System.out.println("Do Nothing.");
 				}		
-			}
-			else
-			{
-				System.out.println("Do Nothing.");
-			}		
-			
+			}				
 		}
 		return filteredFloors;
 	}
@@ -389,15 +384,15 @@ public class FetchParkingSpotsDAO {
 //			 }
 //			 else
 //			 {			 			 
-////				PreparedStatement pst3 = null;
-////				String insertString="INSERT INTO parking_area_floors (`Area_Id`,`Floor_Number`,`PermitType`,`No_Spots`)VALUES(?,?,?,?)";
-////				pst3 = conn.prepareStatement(insertString);
-////				pst3.setString(3, permitType);
-////				pst3.setInt(1, areaId);
-////				pst3.setInt(2, floorno);
-////				pst3.setInt(4, Spots);
-////				pst3.executeUpdate();
-////				conn.commit();
+//				PreparedStatement pst3 = null;
+//				String insertString="INSERT INTO parking_area_floors (`Area_Id`,`Floor_Number`,`PermitType`,`No_Spots`)VALUES(?,?,?,?)";
+//				pst3 = conn.prepareStatement(insertString);
+//				pst3.setString(3, permitType);
+//				pst3.setInt(1, areaId);
+//				pst3.setInt(2, floorno);
+//				pst3.setInt(4, Spots);
+//				pst3.executeUpdate();
+//				conn.commit();
 //				 
 //					PreparedStatement pst4 = null;
 //					String updString="UPDATE `parking_area_floors` SET `PermitType` = ? WHERE `Area_Id` = ? and Floor_Number=?";
@@ -408,23 +403,23 @@ public class FetchParkingSpotsDAO {
 //					pst4.executeUpdate();
 //					conn.commit();
 //				
-////				PreparedStatement pst4 = null;
-////				String updString="UPDATE `parking_spots` SET `PermitType` = ? WHERE `Area_Id` = ? and Floor_Number=?";
-////				pst4 = conn.prepareStatement(updString);
-////				pst4.setString(1, permitType);
-////				pst4.setInt(2, areaId);
-////				pst4.setInt(3, floorno);
-////				pst4.executeUpdate();
-////				conn.commit();
-//				
-////				PreparedStatement pst5 = null;
-////				String delString="DELETE from `parking_area_floors` WHERE `Area_Id` = ? and Floor_Number=? and PermitType =?";
-////				pst5 = conn.prepareStatement(delString);
-////				pst5.setString(3, oldpermitType);
-////				pst5.setInt(1, areaId);
-////				pst5.setInt(2, floorno);
-////				pst5.executeUpdate();
-////				conn.commit();
+//				PreparedStatement pst4 = null;
+//				String updString="UPDATE `parking_spots` SET `PermitType` = ? WHERE `Area_Id` = ? and Floor_Number=?";
+//				pst4 = conn.prepareStatement(updString);
+//				pst4.setString(1, permitType);
+//				pst4.setInt(2, areaId);
+//				pst4.setInt(3, floorno);
+//				pst4.executeUpdate();
+//				conn.commit();
+				
+//				PreparedStatement pst5 = null;
+//				String delString="DELETE from `parking_area_floors` WHERE `Area_Id` = ? and Floor_Number=? and PermitType =?";
+//				pst5 = conn.prepareStatement(delString);
+//				pst5.setString(3, oldpermitType);
+//				pst5.setInt(1, areaId);
+//				pst5.setInt(2, floorno);
+//				pst5.executeUpdate();
+//				conn.commit();
 //			 }
 //				
 //		 }catch (SQLException e) {
