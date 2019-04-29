@@ -707,6 +707,35 @@ public void editreservationTimeAndDate(WebDriver driver, String start, String en
 		}
 	}
 	
+	public void testEdgeCase(WebDriver driver,String one, String two, String three, String four, String five, String six, String seven,
+			String eight, String nine, String ten, String eleven, String twelve, String thirteen,String fakeUrl) {
+		driver.findElement(By.id(prop.getProperty(one))).click();
+		driver.get(fakeUrl);
+		driver.findElement(By.id(prop.getProperty(two))).click();
+		driver.get(fakeUrl);
+		driver.findElement(By.id(prop.getProperty(three))).click();
+		driver.get(fakeUrl);
+		driver.findElement(By.id(prop.getProperty(four))).click();
+		driver.get(fakeUrl);
+		driver.findElement(By.id(prop.getProperty(five))).click();
+		driver.get(fakeUrl);
+		driver.findElement(By.id(prop.getProperty(six))).click();
+		driver.get(fakeUrl);
+		driver.findElement(By.id(prop.getProperty(seven))).click();
+		driver.get(fakeUrl);
+		driver.findElement(By.id(prop.getProperty(eight))).click();
+		driver.get(fakeUrl);
+		driver.findElement(By.id(prop.getProperty(nine))).click();
+		driver.get(fakeUrl);
+		driver.findElement(By.id(prop.getProperty(ten))).click();
+		driver.get(fakeUrl);
+		driver.findElement(By.id(prop.getProperty(eleven))).click();
+		driver.get(fakeUrl);
+		driver.findElement(By.id(prop.getProperty(twelve))).click();
+		driver.get(fakeUrl);
+		driver.findElement(By.id(prop.getProperty(thirteen))).click();
+	}
+	
 	
 	public boolean isElementPresent(WebDriver driver, String id) {
 		try {
