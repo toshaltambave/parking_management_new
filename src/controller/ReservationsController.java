@@ -474,7 +474,7 @@ public class ReservationsController extends HttpServlet {
 			String startTime, 
 			String endTime)throws ServletException, IOException
 	{
-
+		try{
 			HttpSession session = request.getSession();
 			ParkingArea selectedArea = FetchParkingSpotsDAO.getspecificParkingArea(areaId);
 			session.setAttribute("resSelectedArea", selectedArea);
@@ -506,7 +506,11 @@ public class ReservationsController extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/Reserve_Options.jsp");
 	        dispatcher.forward(request, response);
 		}
-
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			throw new ServletException(e);
+		}
 		
 	}
 
