@@ -83,17 +83,13 @@ public class ModifyReservationController extends HttpServlet {
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/DeleteReservation.jsp");
 	            dispatcher.forward(request, response);
 			}
-			else if(user.getRole().equals("ParkingManager")){
+			else {
 				String timeStamp = new SimpleDateFormat("yyyy-dd-MM HH:mm:ss").format(Calendar.getInstance().getTime());
 				ArrayList<ReservationsHelper> allReservations = MakeReservationsDAO.GetReservationsByReservationDate(timeStamp);
 				request.setAttribute("allreservations", allReservations);
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/DeleteReservation.jsp");
 	            dispatcher.forward(request, response);
-			}
-			else
-			{
-				System.out.println("Do Nothing.");
-			}		
+			}	
 
     }
 
@@ -107,17 +103,13 @@ public class ModifyReservationController extends HttpServlet {
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/EditReservation.jsp");
 	            dispatcher.forward(request, response);
 			}
-			else if(user.getRole().equals("ParkingManager")){
+			else {
 				String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
 				ArrayList<ReservationsHelper> allReservations = MakeReservationsDAO.GetReservationsByReservationDate(timeStamp);
 				request.setAttribute("allreservations", allReservations);
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/EditReservation.jsp");
 	            dispatcher.forward(request, response);
-			}
-			else
-			{
-				System.out.println("Do Nothing.");
-			}		
+			}	
 
     }
 }

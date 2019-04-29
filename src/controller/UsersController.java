@@ -41,7 +41,7 @@ public class UsersController extends HttpServlet {
 //				searchuserdetails(request);
 //			} 
 //			else // redirect all other gets to post
-				doPost(request, response);
+//				doPost(request, response);
 //		}
 
 	}
@@ -70,15 +70,7 @@ public class UsersController extends HttpServlet {
 			{
 				listPermitTypes(request,response);
 				listRoles(request,response);
-			}
-			else
-			{
-				System.out.println("Do Nothing.");
 			}		
-		}
-		else
-		{
-			System.out.println("Do Nothing.");
 		}		
 		getServletContext().getRequestDispatcher(url).forward(request, response);
 	}
@@ -155,19 +147,15 @@ public class UsersController extends HttpServlet {
 		return url;
 	}
 
-	private String logout(HttpServletRequest request) {
+	private String logout(HttpServletRequest request) throws ServletException {
 		String url;
 		url = "/index.jsp";
-		try {
-			user = new Users(new UsersDAO());
-			request.logout();	
-			request.getSession().setAttribute("User", null);
-			request.getSession().invalidate();
-		}
-		catch (ServletException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+		user = new Users(new UsersDAO());
+		request.logout();	
+		request.getSession().setAttribute("User", null);
+		request.getSession().invalidate();
+
 		return url;
 	}
 
@@ -204,14 +192,6 @@ public class UsersController extends HttpServlet {
 				session.setAttribute("loginerrorMsgs", errorMsgs);
 				url = "/index.jsp";
 			}
-			else
-			{
-				System.out.println("Do Nothing.");
-			}		
-//			else
-//			{
-//				System.out.println("Login Failed.");
-//			}
 		}
 
 		return url;

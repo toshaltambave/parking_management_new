@@ -103,13 +103,6 @@ public class ParkingSpotsController extends HttpServlet  {
 	{
 		HttpSession session = request.getSession();
 		Boolean isblocksuccess = FetchParkingSpotsDAO.blockSpot(spotUID,isBlocked); 
-	 	if(isblocksuccess)
-	 	{
-	 		request.setAttribute("isblocksuccess", isblocksuccess);
-	 	}
-		else
-		{
-			System.out.println("Do Nothing.");
-		}		
+	 	request.setAttribute("isblocksuccess", isblocksuccess);
 	}
 }

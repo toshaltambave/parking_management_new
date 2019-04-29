@@ -142,14 +142,7 @@ public class ParkingAreaController extends HttpServlet {
 		HttpSession session = request.getSession();
 		Boolean isadded = true;
 		isadded = ParkingAreaDAO.addParkingSpot(AreaId,FloorNumber,PermitType);
-		if (isadded) 
-		{
-			request.setAttribute("isParkingSpotAdded", isadded);
-		}
-		else
-		{
-			System.out.println("Do Nothing.");
-		}		
+		request.setAttribute("isParkingSpotAdded", isadded);		
 	}
 	
 	public static Integer convertBoolToInt(String actual){
@@ -177,14 +170,7 @@ public class ParkingAreaController extends HttpServlet {
 		{
 			int areaId = Integer.parseInt(request.getParameter("txteditAreaNumber"));
 			Boolean isParkingAreaUpdate = FetchParkingSpotsDAO.updateParkingAreaName(areaId, areaName); 
-		 	if(isParkingAreaUpdate)
-		 	{
-		 		request.setAttribute("isParkingAreaUpdate", isParkingAreaUpdate);
-		 	}
-			else
-			{
-				System.out.println("Do Nothing.");
-			}		
+			request.setAttribute("isParkingAreaUpdate", isParkingAreaUpdate);	
 		 	showParkingAreaEdit(request,response);
 		}
 		return url;
@@ -215,14 +201,8 @@ public class ParkingAreaController extends HttpServlet {
 	{
 		HttpSession session = request.getSession();
 		Boolean isblocksuccess = FetchParkingSpotsDAO.blockSpot(spotUID,isBlocked); 
-	 	if(isblocksuccess)
-	 	{
-	 		request.setAttribute("isblocksuccess", isblocksuccess);
-	 	}
-		else
-		{
-			System.out.println("Do Nothing.");
-		}		
+	 	request.setAttribute("isblocksuccess", isblocksuccess);
+	
 	}
 	
 	
@@ -348,15 +328,10 @@ public class ParkingAreaController extends HttpServlet {
 				isadded = ParkingAreaDAO.saveArea(area);
 				url="/CreatingParkingArea.jsp";
 			}
-			if (isadded)
-			{
-				session.setAttribute("areastobeadded", new ArrayList<ParkingAreaHelper>());
-				request.setAttribute("isAreaAdded", isadded);
-			}
-			else
-			{
-				System.out.println("Do Nothing.");
-			}		
+
+			session.setAttribute("areastobeadded", new ArrayList<ParkingAreaHelper>());
+			request.setAttribute("isAreaAdded", isadded);
+	
 		}
 		return url;
 
