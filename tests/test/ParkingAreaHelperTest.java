@@ -2,6 +2,8 @@ package test;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -24,6 +26,10 @@ import model.PermitType;
 public class ParkingAreaHelperTest {
 
 	private ParkingAreaHelper parkingAreaHelper;
+	private ParkingAreaHelper parkingAreaHelper1;
+	private ParkingAreaHelper parkingAreaHelper2;
+	private ParkingAreaHelper area1;
+	private ParkingAreaHelper area2;
 	private ParkingAreaHelperError errorMsg;
 	private ParkingAreaController controller;
 	private HttpServletRequest request;
@@ -31,15 +37,21 @@ public class ParkingAreaHelperTest {
 	private ParkingArea parkingArea;
 	private ParkingAreaFloors parkingAreaFloors;
 	private ParkingSpots parkingSpots;
+	private ArrayList<ParkingAreaHelper> copy;
 
 	@Before
 	public void setUp() throws Exception {
+		copy = new ArrayList<ParkingAreaHelper>();
 		parkingAreaHelper = new ParkingAreaHelper();
+		parkingAreaHelper1 = new ParkingAreaHelper();
+		parkingAreaHelper2 = new ParkingAreaHelper();
 		errorMsg = new ParkingAreaHelperError();
 		controller = new ParkingAreaController();
 		parkingSpots = new ParkingSpots();
 		parkingArea = new ParkingArea();
 		parkingAreaFloors = new ParkingAreaFloors();
+		area1 = EasyMock.createMock(ParkingAreaHelper.class);
+		area2 = EasyMock.createMock(ParkingAreaHelper.class);
 		request = EasyMock.createMock(HttpServletRequest.class);
 		session = EasyMock.createMock(HttpSession.class);
 	}
@@ -109,4 +121,27 @@ public class ParkingAreaHelperTest {
 		assertEquals(true, parkingSpots.getIsBlocked());
 	}
 
+	@Test
+	@FileParameters("tests/test/ParkingAreaCompare.csv")
+	public void testCompare(String areaName, Integer floorNumber, String permitType ,
+			String areaName1, Integer floorNumber1, String permitType1 ) {
+
+		EasyMock.expect(area1.getAreaname()).andReturn(areaName);
+		EasyMock.expect(area1.getFloornumber()).andReturn(floorNumber);
+		EasyMock.expect(area1.getPermittype()).andReturn(permitType);
+		EasyMock.expect(area2.getAreaname()).andReturn(areaName1);
+		EasyMock.expect(area2.getFloornumber()).andReturn(floorNumber1);
+		EasyMock.expect(area2.getPermittype()).andReturn(permitType1);
+		
+		copy.add(area1);
+//		copy.set(0, area1);
+//		EasyMock.expectLastCall();
+		
+		
+		EasyMock.replay(area1,area2);
+		
+
+		controller.CompareArea(area1, area2, copy, 0);
+
+	}
 }

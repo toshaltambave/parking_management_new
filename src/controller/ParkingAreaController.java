@@ -297,29 +297,9 @@ public class ParkingAreaController extends HttpServlet {
 				int index = 0;
 				for (ListIterator<ParkingAreaHelper> iterator = copy.listIterator(); iterator.hasNext();) {
 					ParkingAreaHelper area = iterator.next();
-					if (area.getAreaname().equals(parkingArea.getAreaname()))
-					{
-						if (area.getFloornumber().equals(parkingArea.getFloornumber()))
-						{
-							if (area.getPermittype().equals(parkingArea.getPermittype()))
-							{
-								area = parkingArea;
-								copy.set(index, area);
-							}
-							else
-							{
-								System.out.println("Do Nothing.");
-							}		
-						}
-						else
-						{
-							System.out.println("Do Nothing.");
-						}		
-					}
-					else
-					{
-						System.out.println("Do Nothing.");
-					}		
+					
+					CompareArea(area, parkingArea, copy, index );
+		
 					index++;
 				}
 				HashSet<ParkingAreaHelper> listToSet = new HashSet<ParkingAreaHelper>(copy);
@@ -380,5 +360,19 @@ public class ParkingAreaController extends HttpServlet {
 		}
 		return url;
 
+	}
+
+	public void CompareArea(ParkingAreaHelper area, ParkingAreaHelper parkingArea, ArrayList<ParkingAreaHelper> copy, Integer index ){
+		if (area.getAreaname().equals(parkingArea.getAreaname()))
+		{
+			if (area.getFloornumber().equals(parkingArea.getFloornumber()))
+			{
+				if (area.getPermittype().equals(parkingArea.getPermittype()))
+				{
+					area = parkingArea;
+					copy.set(index, area);
+				}	
+			}		
+		}
 	}
 }

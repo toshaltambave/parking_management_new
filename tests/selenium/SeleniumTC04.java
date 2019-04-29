@@ -170,6 +170,10 @@ public class SeleniumTC04 extends BusinessFunctions {
 		driver.findElement(By.id("faketest8")).click();
 		driver.get(fakeUrl);
 		driver.findElement(By.id("faketest9")).click();
+		driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
+		driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
+		driver.get(fakeUrl);
+		driver.findElement(By.id("faketest10")).click();
 	}
 	
 	@Test
