@@ -98,58 +98,11 @@ public class UsersDAO {
 		storeUser(user,"INSERT INTO system_users (UserName,HashedPassword,Role,IsRevoked,PermitType) ");
 	} 
 	
-//	public static ArrayList<Users>  listUsers() {  
-//			return ReturnMatchingUsers(" SELECT * from system_users ORDER BY UserName");
-//	}
-	
 	//determine if username is unique
 	public Boolean Usernameunique(String username)  {  
 			return (ReturnMatchingUsers(" SELECT * from system_users WHERE UserName = '"+username+"' ORDER BY UserName").isEmpty());
 	}
 	
-	//determine if username is unique
-//	public ArrayList<Users> UsernameuniqueList(String username)  {  
-//			return ReturnMatchingUsers(" SELECT * from system_users WHERE UserName = '"+username+"' ORDER BY UserName");
-//	}
-
-//	public static List<Users> searchByUsername(String userName) {
-//		ArrayList<Users> userListInDB = new ArrayList<Users>();
-//		Statement stmt = null;
-//		Connection conn = SQLConnection.getDBConnection();
-//		try {
-//			stmt = conn.createStatement();
-//			PreparedStatement pst = null;
-//			String sql = "SELECT * FROM parking_management.system_users where username=?";
-//			pst = conn.prepareStatement(sql);
-//			pst.setString(1, userName);
-//			ResultSet rs = pst.executeQuery();
-//
-//			if (!rs.isBeforeFirst()) {
-//				System.out.println("No data");
-//			} else
-//
-//				while (rs.next()) {
-//					Users user = new Users(new UsersDAO());
-//					user.setUsername(rs.getString("UserName"));
-//					user.setHashedPassword(rs.getString("HashedPassword"));
-//					user.setRole(rs.getString("Role"));
-//					user.setisRevoked(rs.getBoolean("IsRevoked"));
-//					user.setPermitType(rs.getString("PermitType"));
-//					userListInDB.add(user);
-//				}
-//
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		} finally {
-//			try {
-//				conn.close();
-//				stmt.close();
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		return userListInDB;
-//	}
 	
 	public static Integer getUserIdbyUsername(String userName) {
 		Integer user_Id = 0;

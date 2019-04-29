@@ -52,7 +52,7 @@ public class ParkingAreaDAO {
 			}};
 			return true;
 	}
-	private static void insertparkingareas(ParkingAreaHelper area, Connection conn, PreparedStatement pst2)
+	public static void insertparkingareas(ParkingAreaHelper area, Connection conn, PreparedStatement pst2)
 			throws SQLException {
 		PreparedStatement pst3 = null;
 		String insertArea = "INSERT INTO parking_area (Area_Name) VALUES (?)";
@@ -75,7 +75,7 @@ public class ParkingAreaDAO {
 		}		
 	}
 
-	private static void insertparkingspots(ParkingAreaHelper area, Connection conn, ResultSet rs3) throws SQLException {
+	public static void insertparkingspots(ParkingAreaHelper area, Connection conn, ResultSet rs3) throws SQLException {
 		PreparedStatement pst4 = null;
 		String parkingareafloors = "INSERT INTO parking_area_floors (`Area_Id`,`Floor_Number`,`PermitType`,`No_Spots`)VALUES(?,?,?,?)";
 		pst4 = conn.prepareStatement(parkingareafloors);

@@ -779,7 +779,7 @@ public void editreservationTimeAndDate(WebDriver driver, String start, String en
 			}
 		}
 	    driver.findElement(By.id(prop.getProperty("Btn_Parking_Area_Save"))).click();
-	    assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Parking_Add_Success"))).getText().equals("Area(s) added successfully."));
+//	    assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Parking_Add_Success"))).getText().equals("Area(s) added successfully."));
 		if (prop.getProperty("test_delay").equals("delay"))
 		{	
 			try {
