@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>BusinessFunctions.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 28, 2019 10:09:51 PM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">functions</a> &gt; <span class="el_source">BusinessFunctions.java</span></div><h1>BusinessFunctions.java</h1><pre class="source lang-java linenums">package functions;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>BusinessFunctions.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 28, 2019 10:57:19 PM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">functions</a> &gt; <span class="el_source">BusinessFunctions.java</span></div><h1>BusinessFunctions.java</h1><pre class="source lang-java linenums">package functions;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -350,26 +350,26 @@ public void editreservationTimeAndDate(WebDriver driver, String start, String en
 <span class="fc" id="L350">		driver.findElement(By.id(prop.getProperty(&quot;Btn_User_Home_Page_UnRevoke&quot;))).click();</span>
 <span class="fc" id="L351">	}</span>
 
-	public void setNoShow(WebDriver driver, String userName) {
-<span class="nc" id="L354">		driver.findElement(By.id(prop.getProperty(&quot;Btn_ParkingManagement_NoShow&quot;))).click();</span>
-<span class="nc bnc" id="L355" title="All 2 branches missed.">		assertTrue(!isElementPresent(driver, &quot;Txt_NoShow_msg&quot;));</span>
-<span class="nc" id="L356">		driver.findElement(By.id(prop.getProperty(&quot;Btn_No_Show&quot;))).click();</span>
-<span class="nc" id="L357">		assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_NS_Success&quot;))).getText()</span>
-<span class="nc" id="L358">				.equals(&quot;Marked No Show Successfully.&quot;));</span>
-<span class="nc bnc" id="L359" title="All 2 branches missed.">		if (prop.getProperty(&quot;test_delay&quot;).equals(&quot;delay&quot;)) {</span>
+
+	public void setNoShowById(WebDriver driver, String userName, String resId) throws InterruptedException {
+<span class="pc bpc" id="L355" title="1 of 2 branches missed.">		if (prop.getProperty(&quot;test_delay&quot;).equals(&quot;delay&quot;)) {</span>
 			try {
-<span class="nc" id="L361">				Thread.sleep((Integer.parseInt(prop.getProperty(&quot;thread_sleep&quot;))));</span>
-<span class="nc" id="L362">			} catch (NumberFormatException e) {</span>
+<span class="fc" id="L357">				Thread.sleep((Integer.parseInt(prop.getProperty(&quot;thread_sleep&quot;))));</span>
+<span class="pc" id="L358">			} catch (NumberFormatException e) {</span>
 				// TODO Auto-generated catch block
-<span class="nc" id="L364">				e.printStackTrace();</span>
-<span class="nc" id="L365">			} catch (InterruptedException e) {</span>
+<span class="nc" id="L360">				e.printStackTrace();</span>
+<span class="nc" id="L361">			} catch (InterruptedException e) {</span>
 				// TODO Auto-generated catch block
-<span class="nc" id="L367">				e.printStackTrace();</span>
+<span class="nc" id="L363">				e.printStackTrace();</span>
 			}
 		}
-<span class="nc" id="L370">		driver.findElement(By.id(prop.getProperty(&quot;Btn_User_Home_Page_Revoke&quot;))).click();</span>
-<span class="nc" id="L371">	}</span>
-	public void setNoShowById(WebDriver driver, String userName, String resId) throws InterruptedException {
+<span class="fc" id="L366">		driver.findElement(By.id(prop.getProperty(&quot;Btn_No_Show&quot;)+resId)).click();</span>
+<span class="fc" id="L367">		assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_NS_Success&quot;))).getText()</span>
+<span class="fc" id="L368">				.equals(&quot;Marked No Show Successfully.&quot;));</span>
+<span class="fc" id="L369">	}</span>
+
+	public void viewUserViolations(WebDriver driver, String userName) {
+<span class="fc" id="L372">		driver.findElement(By.id(prop.getProperty(&quot;Btn_ParkingUser_UV&quot;))).click();</span>
 <span class="pc bpc" id="L373" title="1 of 2 branches missed.">		if (prop.getProperty(&quot;test_delay&quot;).equals(&quot;delay&quot;)) {</span>
 			try {
 <span class="fc" id="L375">				Thread.sleep((Integer.parseInt(prop.getProperty(&quot;thread_sleep&quot;))));</span>
@@ -381,360 +381,342 @@ public void editreservationTimeAndDate(WebDriver driver, String start, String en
 <span class="nc" id="L381">				e.printStackTrace();</span>
 			}
 		}
-<span class="fc" id="L384">		driver.findElement(By.id(prop.getProperty(&quot;Btn_No_Show&quot;)+resId)).click();</span>
-<span class="fc" id="L385">		assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_NS_Success&quot;))).getText()</span>
-<span class="fc" id="L386">				.equals(&quot;Marked No Show Successfully.&quot;));</span>
-<span class="fc" id="L387">	}</span>
-
-	public void viewUserViolations(WebDriver driver, String userName) {
-<span class="fc" id="L390">		driver.findElement(By.id(prop.getProperty(&quot;Btn_ParkingUser_UV&quot;))).click();</span>
-<span class="pc bpc" id="L391" title="1 of 2 branches missed.">		if (prop.getProperty(&quot;test_delay&quot;).equals(&quot;delay&quot;)) {</span>
-			try {
-<span class="fc" id="L393">				Thread.sleep((Integer.parseInt(prop.getProperty(&quot;thread_sleep&quot;))));</span>
-<span class="pc" id="L394">			} catch (NumberFormatException e) {</span>
-				// TODO Auto-generated catch block
-<span class="nc" id="L396">				e.printStackTrace();</span>
-<span class="nc" id="L397">			} catch (InterruptedException e) {</span>
-				// TODO Auto-generated catch block
-<span class="nc" id="L399">				e.printStackTrace();</span>
-			}
-		}
-<span class="fc" id="L402">		driver.findElement(By.id(prop.getProperty(&quot;Btn_User_Home_Page_Revoke&quot;))).click();</span>
-<span class="fc" id="L403">	}</span>
+<span class="fc" id="L384">		driver.findElement(By.id(prop.getProperty(&quot;Btn_User_Home_Page_Revoke&quot;))).click();</span>
+<span class="fc" id="L385">	}</span>
 
 	public void UpdateUserProfile(WebDriver driver, String userNameToUpdate, String firstName, String middleName,
 			String lastName, String userName, String sex, String dob, String address, String email, String phone,
 			String dlNum, String dlExpiry, String regNum, String utaId, String password, String confirmPassword, String permitType) {
-<span class="fc" id="L408">		driver.findElement(By.id(prop.getProperty(&quot;Btn_Edit_Profile&quot;))).click();</span>
-<span class="fc" id="L409">		new Select(driver.findElement(By.id(prop.getProperty(&quot;Drp_Dwn_Select_Search_Type_UnRevoke&quot;))))</span>
-<span class="fc" id="L410">				.selectByVisibleText(&quot;UserName&quot;);</span>
-<span class="fc" id="L411">		new Select(driver.findElement(By.id(prop.getProperty(&quot;Drp_Dwn_Select_User_UnRevoke&quot;))))</span>
-<span class="fc" id="L412">				.selectByVisibleText(userNameToUpdate);</span>
-<span class="fc" id="L413">		driver.findElement(By.id(prop.getProperty(&quot;Btn_Update_User&quot;))).click();</span>
-<span class="fc" id="L414">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Firstname&quot;))).clear();</span>
-<span class="fc" id="L415">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Firstname&quot;))).sendKeys(firstName);</span>
-<span class="fc" id="L416">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Middlename&quot;))).clear();</span>
-<span class="fc" id="L417">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Middlename&quot;))).sendKeys(middleName);</span>
-<span class="fc" id="L418">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Lastname&quot;))).clear();</span>
-<span class="fc" id="L419">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Lastname&quot;))).sendKeys(lastName);</span>
-<span class="fc" id="L420">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UpdateUserDetails_UserName&quot;))).clear();</span>
-<span class="fc" id="L421">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UpdateUserDetails_UserName&quot;))).sendKeys(userName);</span>
-<span class="fc" id="L422">		new Select(driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Sex&quot;)))).selectByVisibleText(sex);</span>
-<span class="fc" id="L423">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_DOB&quot;))).clear();</span>
-<span class="fc" id="L424">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_DOB&quot;))).sendKeys(dob);</span>
-<span class="fc" id="L425">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Address&quot;))).clear();</span>
-<span class="fc" id="L426">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Address&quot;))).sendKeys(address);</span>
-<span class="fc" id="L427">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Email&quot;))).clear();</span>
-<span class="fc" id="L428">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Email&quot;))).sendKeys(email);</span>
-<span class="fc" id="L429">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Phone&quot;))).clear();</span>
-<span class="fc" id="L430">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Phone&quot;))).sendKeys(phone);</span>
-<span class="fc" id="L431">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_DLNO&quot;))).clear();</span>
-<span class="fc" id="L432">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_DLNO&quot;))).sendKeys(dlNum);</span>
-<span class="fc" id="L433">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_DLExpiryDte&quot;))).clear();</span>
-<span class="fc" id="L434">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_DLExpiryDte&quot;))).sendKeys(dlExpiry);</span>
-<span class="fc" id="L435">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_REGNO&quot;))).clear();</span>
-<span class="fc" id="L436">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_REGNO&quot;))).sendKeys(regNum);</span>
-<span class="fc" id="L437">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_UTAID&quot;))).clear();</span>
-<span class="fc" id="L438">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_UTAID&quot;))).sendKeys(utaId);</span>
-<span class="fc" id="L439">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UpdateUserDetails_Password&quot;))).clear();</span>
-<span class="fc" id="L440">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UpdateUserDetails_Password&quot;))).sendKeys(password);</span>
-<span class="fc" id="L441">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UpdateUserDetails_Confirm_Password&quot;))).clear();</span>
-<span class="fc" id="L442">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UpdateUserDetails_Confirm_Password&quot;))).sendKeys(confirmPassword);</span>
-<span class="fc" id="L443">		new Select(driver.findElement(By.id(prop.getProperty(&quot;Txt_UpdateUserDetails_PermitType&quot;)))).selectByVisibleText(permitType);</span>
-<span class="fc" id="L444">		driver.findElement(By.id(prop.getProperty(&quot;Btn_Update_Profile&quot;))).click();</span>
-<span class="pc bpc" id="L445" title="1 of 2 branches missed.">		if (prop.getProperty(&quot;test_delay&quot;).equals(&quot;delay&quot;)) {</span>
+<span class="fc" id="L390">		driver.findElement(By.id(prop.getProperty(&quot;Btn_Edit_Profile&quot;))).click();</span>
+<span class="fc" id="L391">		new Select(driver.findElement(By.id(prop.getProperty(&quot;Drp_Dwn_Select_Search_Type_UnRevoke&quot;))))</span>
+<span class="fc" id="L392">				.selectByVisibleText(&quot;UserName&quot;);</span>
+<span class="fc" id="L393">		new Select(driver.findElement(By.id(prop.getProperty(&quot;Drp_Dwn_Select_User_UnRevoke&quot;))))</span>
+<span class="fc" id="L394">				.selectByVisibleText(userNameToUpdate);</span>
+<span class="fc" id="L395">		driver.findElement(By.id(prop.getProperty(&quot;Btn_Update_User&quot;))).click();</span>
+<span class="fc" id="L396">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Firstname&quot;))).clear();</span>
+<span class="fc" id="L397">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Firstname&quot;))).sendKeys(firstName);</span>
+<span class="fc" id="L398">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Middlename&quot;))).clear();</span>
+<span class="fc" id="L399">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Middlename&quot;))).sendKeys(middleName);</span>
+<span class="fc" id="L400">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Lastname&quot;))).clear();</span>
+<span class="fc" id="L401">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Lastname&quot;))).sendKeys(lastName);</span>
+<span class="fc" id="L402">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UpdateUserDetails_UserName&quot;))).clear();</span>
+<span class="fc" id="L403">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UpdateUserDetails_UserName&quot;))).sendKeys(userName);</span>
+<span class="fc" id="L404">		new Select(driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Sex&quot;)))).selectByVisibleText(sex);</span>
+<span class="fc" id="L405">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_DOB&quot;))).clear();</span>
+<span class="fc" id="L406">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_DOB&quot;))).sendKeys(dob);</span>
+<span class="fc" id="L407">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Address&quot;))).clear();</span>
+<span class="fc" id="L408">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Address&quot;))).sendKeys(address);</span>
+<span class="fc" id="L409">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Email&quot;))).clear();</span>
+<span class="fc" id="L410">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Email&quot;))).sendKeys(email);</span>
+<span class="fc" id="L411">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Phone&quot;))).clear();</span>
+<span class="fc" id="L412">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Phone&quot;))).sendKeys(phone);</span>
+<span class="fc" id="L413">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_DLNO&quot;))).clear();</span>
+<span class="fc" id="L414">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_DLNO&quot;))).sendKeys(dlNum);</span>
+<span class="fc" id="L415">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_DLExpiryDte&quot;))).clear();</span>
+<span class="fc" id="L416">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_DLExpiryDte&quot;))).sendKeys(dlExpiry);</span>
+<span class="fc" id="L417">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_REGNO&quot;))).clear();</span>
+<span class="fc" id="L418">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_REGNO&quot;))).sendKeys(regNum);</span>
+<span class="fc" id="L419">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_UTAID&quot;))).clear();</span>
+<span class="fc" id="L420">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_UTAID&quot;))).sendKeys(utaId);</span>
+<span class="fc" id="L421">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UpdateUserDetails_Password&quot;))).clear();</span>
+<span class="fc" id="L422">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UpdateUserDetails_Password&quot;))).sendKeys(password);</span>
+<span class="fc" id="L423">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UpdateUserDetails_Confirm_Password&quot;))).clear();</span>
+<span class="fc" id="L424">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UpdateUserDetails_Confirm_Password&quot;))).sendKeys(confirmPassword);</span>
+<span class="fc" id="L425">		new Select(driver.findElement(By.id(prop.getProperty(&quot;Txt_UpdateUserDetails_PermitType&quot;)))).selectByVisibleText(permitType);</span>
+<span class="fc" id="L426">		driver.findElement(By.id(prop.getProperty(&quot;Btn_Update_Profile&quot;))).click();</span>
+<span class="pc bpc" id="L427" title="1 of 2 branches missed.">		if (prop.getProperty(&quot;test_delay&quot;).equals(&quot;delay&quot;)) {</span>
 			try {
-<span class="fc" id="L447">				Thread.sleep((Integer.parseInt(prop.getProperty(&quot;thread_sleep&quot;))));</span>
-<span class="pc" id="L448">			} catch (NumberFormatException e) {</span>
+<span class="fc" id="L429">				Thread.sleep((Integer.parseInt(prop.getProperty(&quot;thread_sleep&quot;))));</span>
+<span class="pc" id="L430">			} catch (NumberFormatException e) {</span>
 				// TODO Auto-generated catch block
-<span class="nc" id="L450">				e.printStackTrace();</span>
-<span class="nc" id="L451">			} catch (InterruptedException e) {</span>
+<span class="nc" id="L432">				e.printStackTrace();</span>
+<span class="nc" id="L433">			} catch (InterruptedException e) {</span>
 				// TODO Auto-generated catch block
-<span class="nc" id="L453">				e.printStackTrace();</span>
+<span class="nc" id="L435">				e.printStackTrace();</span>
 			}
 		}
-<span class="fc" id="L456">	}</span>
+<span class="fc" id="L438">	}</span>
 	
 	public void UpdateUserProfileUserManager(WebDriver driver, String userNameToUpdate, String firstName, String middleName,
 			String lastName, String userName, String sex, String dob, String address, String email, String phone,
 			String dlNum, String dlExpiry, String regNum, String utaId, String password, String confirmPassword, String permitType) {
-<span class="nc" id="L461">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Firstname&quot;))).clear();</span>
-<span class="nc" id="L462">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Firstname&quot;))).sendKeys(firstName);</span>
-<span class="nc" id="L463">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Middlename&quot;))).clear();</span>
-<span class="nc" id="L464">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Middlename&quot;))).sendKeys(middleName);</span>
-<span class="nc" id="L465">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Lastname&quot;))).clear();</span>
-<span class="nc" id="L466">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Lastname&quot;))).sendKeys(lastName);</span>
-<span class="nc" id="L467">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UpdateUserDetails_UserName&quot;))).clear();</span>
-<span class="nc" id="L468">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UpdateUserDetails_UserName&quot;))).sendKeys(userName);</span>
-<span class="nc" id="L469">		new Select(driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Sex&quot;)))).selectByVisibleText(sex);</span>
-<span class="nc" id="L470">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_DOB&quot;))).clear();</span>
-<span class="nc" id="L471">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_DOB&quot;))).sendKeys(dob);</span>
-<span class="nc" id="L472">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Address&quot;))).clear();</span>
-<span class="nc" id="L473">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Address&quot;))).sendKeys(address);</span>
-<span class="nc" id="L474">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Email&quot;))).clear();</span>
-<span class="nc" id="L475">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Email&quot;))).sendKeys(email);</span>
-<span class="nc" id="L476">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Phone&quot;))).clear();</span>
-<span class="nc" id="L477">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Phone&quot;))).sendKeys(phone);</span>
-<span class="nc" id="L478">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_DLNO&quot;))).clear();</span>
-<span class="nc" id="L479">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_DLNO&quot;))).sendKeys(dlNum);</span>
-<span class="nc" id="L480">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_DLExpiryDte&quot;))).clear();</span>
-<span class="nc" id="L481">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_DLExpiryDte&quot;))).sendKeys(dlExpiry);</span>
-<span class="nc" id="L482">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_REGNO&quot;))).clear();</span>
-<span class="nc" id="L483">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_REGNO&quot;))).sendKeys(regNum);</span>
-<span class="nc" id="L484">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_UTAID&quot;))).clear();</span>
-<span class="nc" id="L485">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_UTAID&quot;))).sendKeys(utaId);</span>
-<span class="nc" id="L486">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UpdateUserDetails_Password&quot;))).clear();</span>
-<span class="nc" id="L487">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UpdateUserDetails_Password&quot;))).sendKeys(password);</span>
-<span class="nc" id="L488">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UpdateUserDetails_Confirm_Password&quot;))).clear();</span>
-<span class="nc" id="L489">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UpdateUserDetails_Confirm_Password&quot;))).sendKeys(confirmPassword);</span>
-<span class="nc" id="L490">		new Select(driver.findElement(By.id(prop.getProperty(&quot;Txt_UpdateUserDetails_PermitType&quot;)))).selectByVisibleText(permitType);</span>
-<span class="nc" id="L491">		driver.findElement(By.id(prop.getProperty(&quot;Btn_Update_Profile&quot;))).click();</span>
-<span class="nc bnc" id="L492" title="All 2 branches missed.">		if (prop.getProperty(&quot;test_delay&quot;).equals(&quot;delay&quot;)) {</span>
+<span class="fc" id="L443">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Firstname&quot;))).clear();</span>
+<span class="fc" id="L444">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Firstname&quot;))).sendKeys(firstName);</span>
+<span class="fc" id="L445">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Middlename&quot;))).clear();</span>
+<span class="fc" id="L446">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Middlename&quot;))).sendKeys(middleName);</span>
+<span class="fc" id="L447">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Lastname&quot;))).clear();</span>
+<span class="fc" id="L448">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Lastname&quot;))).sendKeys(lastName);</span>
+<span class="fc" id="L449">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UpdateUserDetails_UserName&quot;))).clear();</span>
+<span class="fc" id="L450">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UpdateUserDetails_UserName&quot;))).sendKeys(userName);</span>
+<span class="fc" id="L451">		new Select(driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Sex&quot;)))).selectByVisibleText(sex);</span>
+<span class="fc" id="L452">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_DOB&quot;))).clear();</span>
+<span class="fc" id="L453">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_DOB&quot;))).sendKeys(dob);</span>
+<span class="fc" id="L454">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Address&quot;))).clear();</span>
+<span class="fc" id="L455">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Address&quot;))).sendKeys(address);</span>
+<span class="fc" id="L456">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Email&quot;))).clear();</span>
+<span class="fc" id="L457">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Email&quot;))).sendKeys(email);</span>
+<span class="fc" id="L458">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Phone&quot;))).clear();</span>
+<span class="fc" id="L459">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_Phone&quot;))).sendKeys(phone);</span>
+<span class="fc" id="L460">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_DLNO&quot;))).clear();</span>
+<span class="fc" id="L461">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_DLNO&quot;))).sendKeys(dlNum);</span>
+<span class="fc" id="L462">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_DLExpiryDte&quot;))).clear();</span>
+<span class="fc" id="L463">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_DLExpiryDte&quot;))).sendKeys(dlExpiry);</span>
+<span class="fc" id="L464">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_REGNO&quot;))).clear();</span>
+<span class="fc" id="L465">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_REGNO&quot;))).sendKeys(regNum);</span>
+<span class="fc" id="L466">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_UTAID&quot;))).clear();</span>
+<span class="fc" id="L467">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_UTAID&quot;))).sendKeys(utaId);</span>
+<span class="fc" id="L468">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UpdateUserDetails_Password&quot;))).clear();</span>
+<span class="fc" id="L469">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UpdateUserDetails_Password&quot;))).sendKeys(password);</span>
+<span class="fc" id="L470">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UpdateUserDetails_Confirm_Password&quot;))).clear();</span>
+<span class="fc" id="L471">		driver.findElement(By.id(prop.getProperty(&quot;Txt_UpdateUserDetails_Confirm_Password&quot;))).sendKeys(confirmPassword);</span>
+<span class="fc" id="L472">		new Select(driver.findElement(By.id(prop.getProperty(&quot;Txt_UpdateUserDetails_PermitType&quot;)))).selectByVisibleText(permitType);</span>
+<span class="fc" id="L473">		driver.findElement(By.id(prop.getProperty(&quot;Btn_Update_Profile&quot;))).click();</span>
+<span class="pc bpc" id="L474" title="1 of 2 branches missed.">		if (prop.getProperty(&quot;test_delay&quot;).equals(&quot;delay&quot;)) {</span>
 			try {
-<span class="nc" id="L494">				Thread.sleep((Integer.parseInt(prop.getProperty(&quot;thread_sleep&quot;))));</span>
-<span class="nc" id="L495">			} catch (NumberFormatException e) {</span>
+<span class="fc" id="L476">				Thread.sleep((Integer.parseInt(prop.getProperty(&quot;thread_sleep&quot;))));</span>
+<span class="pc" id="L477">			} catch (NumberFormatException e) {</span>
 				// TODO Auto-generated catch block
-<span class="nc" id="L497">				e.printStackTrace();</span>
-<span class="nc" id="L498">			} catch (InterruptedException e) {</span>
+<span class="nc" id="L479">				e.printStackTrace();</span>
+<span class="nc" id="L480">			} catch (InterruptedException e) {</span>
 				// TODO Auto-generated catch block
-<span class="nc" id="L500">				e.printStackTrace();</span>
+<span class="nc" id="L482">				e.printStackTrace();</span>
 			}
 		}
-<span class="nc" id="L503">	}</span>
+<span class="fc" id="L485">	}</span>
 
 	public void setOverdue(WebDriver driver, String userName) {
-<span class="fc" id="L506">		driver.findElement(By.id(prop.getProperty(&quot;Btn_ParkingManagement_OD&quot;))).click();</span>
-<span class="pc bpc" id="L507" title="1 of 2 branches missed.">		assertTrue(!isElementPresent(driver, &quot;Txt_OD_Successful&quot;));</span>
-<span class="fc" id="L508">		driver.findElement(By.id(prop.getProperty(&quot;Btn_OD&quot;))).click();</span>
-<span class="fc" id="L509">		assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_OD_Successful&quot;))).getText()</span>
-<span class="fc" id="L510">				.equals(&quot;Marked Overdue Successfully.&quot;));</span>
-<span class="pc bpc" id="L511" title="1 of 2 branches missed.">		if (prop.getProperty(&quot;test_delay&quot;).equals(&quot;delay&quot;)) {</span>
+<span class="fc" id="L488">		driver.findElement(By.id(prop.getProperty(&quot;Btn_ParkingManagement_OD&quot;))).click();</span>
+<span class="pc bpc" id="L489" title="1 of 2 branches missed.">		assertTrue(!isElementPresent(driver, &quot;Txt_OD_Successful&quot;));</span>
+<span class="fc" id="L490">		driver.findElement(By.id(prop.getProperty(&quot;Btn_OD&quot;))).click();</span>
+<span class="fc" id="L491">		assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_OD_Successful&quot;))).getText()</span>
+<span class="fc" id="L492">				.equals(&quot;Marked Overdue Successfully.&quot;));</span>
+<span class="pc bpc" id="L493" title="1 of 2 branches missed.">		if (prop.getProperty(&quot;test_delay&quot;).equals(&quot;delay&quot;)) {</span>
 			try {
-<span class="fc" id="L513">				Thread.sleep((Integer.parseInt(prop.getProperty(&quot;thread_sleep&quot;))));</span>
-<span class="pc" id="L514">			} catch (NumberFormatException e) {</span>
+<span class="fc" id="L495">				Thread.sleep((Integer.parseInt(prop.getProperty(&quot;thread_sleep&quot;))));</span>
+<span class="pc" id="L496">			} catch (NumberFormatException e) {</span>
 				// TODO Auto-generated catch block
-<span class="nc" id="L516">				e.printStackTrace();</span>
-<span class="nc" id="L517">			} catch (InterruptedException e) {</span>
+<span class="nc" id="L498">				e.printStackTrace();</span>
+<span class="nc" id="L499">			} catch (InterruptedException e) {</span>
 				// TODO Auto-generated catch block
-<span class="nc" id="L519">				e.printStackTrace();</span>
+<span class="nc" id="L501">				e.printStackTrace();</span>
 			}
 		}
-<span class="fc" id="L522">		driver.findElement(By.id(prop.getProperty(&quot;Btn_User_Home_Page_Revoke&quot;))).click();</span>
-<span class="fc" id="L523">	}</span>
+<span class="fc" id="L504">		driver.findElement(By.id(prop.getProperty(&quot;Btn_User_Home_Page_Revoke&quot;))).click();</span>
+<span class="fc" id="L505">	}</span>
 
 	public void setRole(WebDriver driver, String userName, String role) {
-<span class="fc" id="L526">		driver.findElement(By.id(prop.getProperty(&quot;Btn_ChRole_User&quot;))).click();</span>
-<span class="pc bpc" id="L527" title="1 of 2 branches missed.">		assertTrue(!isElementPresent(driver, &quot;Text_ChRole_Success&quot;));</span>
-<span class="fc" id="L528">		new Select(driver.findElement(By.id(prop.getProperty(&quot;Drp_Dwn_Select_Search_Type_ChRole&quot;))))</span>
-<span class="fc" id="L529">				.selectByVisibleText(&quot;UserName&quot;);</span>
-<span class="fc" id="L530">		new Select(driver.findElement(By.id(prop.getProperty(&quot;Drp_Dwn_Select_User_ChRole&quot;))))</span>
-<span class="fc" id="L531">				.selectByVisibleText(userName);</span>
-<span class="fc" id="L532">		new Select(driver.findElement(By.id(prop.getProperty(&quot;Drp_Dwn_Select_Role_ChRole&quot;)))).selectByVisibleText(role);</span>
-<span class="fc" id="L533">		driver.findElement(By.id(prop.getProperty(&quot;Btn_ChRole&quot;))).click();</span>
-<span class="fc" id="L534">		assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Text_ChRole_Success&quot;))).getText()</span>
-<span class="fc" id="L535">				.equals(&quot;Role has changed for User.&quot;));</span>
-<span class="pc bpc" id="L536" title="1 of 2 branches missed.">		if (prop.getProperty(&quot;test_delay&quot;).equals(&quot;delay&quot;)) {</span>
+<span class="fc" id="L508">		driver.findElement(By.id(prop.getProperty(&quot;Btn_ChRole_User&quot;))).click();</span>
+<span class="pc bpc" id="L509" title="1 of 2 branches missed.">		assertTrue(!isElementPresent(driver, &quot;Text_ChRole_Success&quot;));</span>
+<span class="fc" id="L510">		new Select(driver.findElement(By.id(prop.getProperty(&quot;Drp_Dwn_Select_Search_Type_ChRole&quot;))))</span>
+<span class="fc" id="L511">				.selectByVisibleText(&quot;UserName&quot;);</span>
+<span class="fc" id="L512">		new Select(driver.findElement(By.id(prop.getProperty(&quot;Drp_Dwn_Select_User_ChRole&quot;))))</span>
+<span class="fc" id="L513">				.selectByVisibleText(userName);</span>
+<span class="fc" id="L514">		new Select(driver.findElement(By.id(prop.getProperty(&quot;Drp_Dwn_Select_Role_ChRole&quot;)))).selectByVisibleText(role);</span>
+<span class="fc" id="L515">		driver.findElement(By.id(prop.getProperty(&quot;Btn_ChRole&quot;))).click();</span>
+<span class="fc" id="L516">		assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Text_ChRole_Success&quot;))).getText()</span>
+<span class="fc" id="L517">				.equals(&quot;Role has changed for User.&quot;));</span>
+<span class="pc bpc" id="L518" title="1 of 2 branches missed.">		if (prop.getProperty(&quot;test_delay&quot;).equals(&quot;delay&quot;)) {</span>
 			try {
-<span class="fc" id="L538">				Thread.sleep((Integer.parseInt(prop.getProperty(&quot;thread_sleep&quot;))));</span>
-<span class="pc" id="L539">			} catch (NumberFormatException e) {</span>
+<span class="fc" id="L520">				Thread.sleep((Integer.parseInt(prop.getProperty(&quot;thread_sleep&quot;))));</span>
+<span class="pc" id="L521">			} catch (NumberFormatException e) {</span>
 				// TODO Auto-generated catch block
-<span class="nc" id="L541">				e.printStackTrace();</span>
-<span class="nc" id="L542">			} catch (InterruptedException e) {</span>
+<span class="nc" id="L523">				e.printStackTrace();</span>
+<span class="nc" id="L524">			} catch (InterruptedException e) {</span>
 				// TODO Auto-generated catch block
-<span class="nc" id="L544">				e.printStackTrace();</span>
+<span class="nc" id="L526">				e.printStackTrace();</span>
 			}
 		}
-<span class="fc" id="L547">		driver.findElement(By.id(prop.getProperty(&quot;Btn_User_Home_Page_ChRole&quot;))).click();</span>
-<span class="fc" id="L548">	}</span>
+<span class="fc" id="L529">		driver.findElement(By.id(prop.getProperty(&quot;Btn_User_Home_Page_ChRole&quot;))).click();</span>
+<span class="fc" id="L530">	}</span>
 
 	public void addParkingArea(WebDriver driver,String AreaName,String PermitType,String FloorNo, String SpotsNo)
 	{
-<span class="fc" id="L552">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_ParkingManagement_AddParkingArea&quot;))).click();</span>
-<span class="fc" id="L553">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_Parking_Area_AddList&quot;))).click();</span>
-<span class="fc" id="L554">	    assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Area_Error&quot;))).getAttribute(&quot;value&quot;).equals(&quot;Please correct the following errors&quot;));</span>
-<span class="fc" id="L555">	    assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Area_Name_Error&quot;))).getAttribute(&quot;value&quot;).equals(&quot;This field is mandatory.&quot;));</span>
-<span class="fc" id="L556">	    assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Floor_Number_Error&quot;))).getAttribute(&quot;value&quot;).equals(&quot;This field is mandatory.&quot;));</span>
-<span class="fc" id="L557">	    assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Spot_Number_Error&quot;))).getAttribute(&quot;value&quot;).equals(&quot;This field is mandatory.&quot;));</span>
-<span class="fc" id="L558">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_Parking_Area_Save&quot;))).click();</span>
-<span class="fc" id="L559">	    assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Area_Exception&quot;))).getText().equals(&quot;Add Area(s) to the list.&quot;));</span>
-<span class="fc" id="L560">	    driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Area_Name&quot;))).clear();</span>
-<span class="fc" id="L561">	    driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Area_Name&quot;))).sendKeys(AreaName);</span>
-<span class="fc" id="L562">	    new Select(driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Area_PermitType&quot;)))).selectByVisibleText(PermitType);</span>
-<span class="fc" id="L563">	    driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Floor_No&quot;))).clear();</span>
-<span class="fc" id="L564">	    driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Floor_No&quot;))).sendKeys(FloorNo);</span>
-<span class="fc" id="L565">	    driver.findElement(By.name(prop.getProperty(&quot;Txt_Parking_Spot_No&quot;))).clear();</span>
-<span class="fc" id="L566">	    driver.findElement(By.name(prop.getProperty(&quot;Txt_Parking_Spot_No&quot;))).sendKeys(SpotsNo);</span>
-<span class="fc" id="L567">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_Parking_Area_AddList&quot;))).click();</span>
+<span class="fc" id="L534">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_ParkingManagement_AddParkingArea&quot;))).click();</span>
+<span class="fc" id="L535">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_Parking_Area_AddList&quot;))).click();</span>
+<span class="fc" id="L536">	    assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Area_Error&quot;))).getAttribute(&quot;value&quot;).equals(&quot;Please correct the following errors&quot;));</span>
+<span class="fc" id="L537">	    assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Area_Name_Error&quot;))).getAttribute(&quot;value&quot;).equals(&quot;This field is mandatory.&quot;));</span>
+<span class="fc" id="L538">	    assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Floor_Number_Error&quot;))).getAttribute(&quot;value&quot;).equals(&quot;This field is mandatory.&quot;));</span>
+<span class="fc" id="L539">	    assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Spot_Number_Error&quot;))).getAttribute(&quot;value&quot;).equals(&quot;This field is mandatory.&quot;));</span>
+<span class="fc" id="L540">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_Parking_Area_Save&quot;))).click();</span>
+<span class="fc" id="L541">	    assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Area_Exception&quot;))).getText().equals(&quot;Add Area(s) to the list.&quot;));</span>
+<span class="fc" id="L542">	    driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Area_Name&quot;))).clear();</span>
+<span class="fc" id="L543">	    driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Area_Name&quot;))).sendKeys(AreaName);</span>
+<span class="fc" id="L544">	    new Select(driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Area_PermitType&quot;)))).selectByVisibleText(PermitType);</span>
+<span class="fc" id="L545">	    driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Floor_No&quot;))).clear();</span>
+<span class="fc" id="L546">	    driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Floor_No&quot;))).sendKeys(FloorNo);</span>
+<span class="fc" id="L547">	    driver.findElement(By.name(prop.getProperty(&quot;Txt_Parking_Spot_No&quot;))).clear();</span>
+<span class="fc" id="L548">	    driver.findElement(By.name(prop.getProperty(&quot;Txt_Parking_Spot_No&quot;))).sendKeys(SpotsNo);</span>
+<span class="fc" id="L549">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_Parking_Area_AddList&quot;))).click();</span>
 	    //Added again to make duplicate value case
-<span class="fc" id="L569">	    driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Area_Name&quot;))).clear();</span>
-<span class="fc" id="L570">	    driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Area_Name&quot;))).sendKeys(AreaName);</span>
-<span class="fc" id="L571">	    new Select(driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Area_PermitType&quot;)))).selectByVisibleText(PermitType);</span>
-<span class="fc" id="L572">	    driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Floor_No&quot;))).clear();</span>
-<span class="fc" id="L573">	    driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Floor_No&quot;))).sendKeys(FloorNo);</span>
-<span class="fc" id="L574">	    driver.findElement(By.name(prop.getProperty(&quot;Txt_Parking_Spot_No&quot;))).clear();</span>
-<span class="fc" id="L575">	    driver.findElement(By.name(prop.getProperty(&quot;Txt_Parking_Spot_No&quot;))).sendKeys(SpotsNo);</span>
-<span class="fc" id="L576">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_Parking_Area_AddList&quot;))).click();</span>
-<span class="fc" id="L577">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_Parking_Area_Save&quot;))).click();</span>
-<span class="fc" id="L578">	    assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Add_Success&quot;))).getText().equals(&quot;Area(s) added successfully.&quot;));</span>
-<span class="pc bpc" id="L579" title="1 of 2 branches missed.">		if (prop.getProperty(&quot;test_delay&quot;).equals(&quot;delay&quot;))</span>
+<span class="fc" id="L551">	    driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Area_Name&quot;))).clear();</span>
+<span class="fc" id="L552">	    driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Area_Name&quot;))).sendKeys(AreaName);</span>
+<span class="fc" id="L553">	    new Select(driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Area_PermitType&quot;)))).selectByVisibleText(PermitType);</span>
+<span class="fc" id="L554">	    driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Floor_No&quot;))).clear();</span>
+<span class="fc" id="L555">	    driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Floor_No&quot;))).sendKeys(FloorNo);</span>
+<span class="fc" id="L556">	    driver.findElement(By.name(prop.getProperty(&quot;Txt_Parking_Spot_No&quot;))).clear();</span>
+<span class="fc" id="L557">	    driver.findElement(By.name(prop.getProperty(&quot;Txt_Parking_Spot_No&quot;))).sendKeys(SpotsNo);</span>
+<span class="fc" id="L558">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_Parking_Area_AddList&quot;))).click();</span>
+<span class="fc" id="L559">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_Parking_Area_Save&quot;))).click();</span>
+<span class="fc" id="L560">	    assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Add_Success&quot;))).getText().equals(&quot;Area(s) added successfully.&quot;));</span>
+<span class="pc bpc" id="L561" title="1 of 2 branches missed.">		if (prop.getProperty(&quot;test_delay&quot;).equals(&quot;delay&quot;))</span>
 		{	
 			try {
-<span class="fc" id="L582">				Thread.sleep((Integer.parseInt(prop.getProperty(&quot;thread_sleep&quot;))));</span>
-<span class="pc" id="L583">			} catch (NumberFormatException e) {</span>
+<span class="fc" id="L564">				Thread.sleep((Integer.parseInt(prop.getProperty(&quot;thread_sleep&quot;))));</span>
+<span class="pc" id="L565">			} catch (NumberFormatException e) {</span>
 				// TODO Auto-generated catch block
-<span class="nc" id="L585">				e.printStackTrace();</span>
-<span class="nc" id="L586">			} catch (InterruptedException e) {</span>
+<span class="nc" id="L567">				e.printStackTrace();</span>
+<span class="nc" id="L568">			} catch (InterruptedException e) {</span>
 				// TODO Auto-generated catch block
-<span class="nc" id="L588">				e.printStackTrace();</span>
+<span class="nc" id="L570">				e.printStackTrace();</span>
 			}
 		}
-<span class="fc" id="L591">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_User_Home_Page&quot;))).click();</span>
-<span class="fc" id="L592">	}</span>
+<span class="fc" id="L573">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_User_Home_Page&quot;))).click();</span>
+<span class="fc" id="L574">	}</span>
 	
 	
 	public void addParkingAreaList(WebDriver driver,String AreaName,String PermitType,String FloorNo, String SpotsNo)
 	{
-<span class="fc" id="L597">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_ParkingManagement_AddParkingArea&quot;))).click();</span>
-<span class="fc" id="L598">	    driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Area_Name&quot;))).clear();</span>
-<span class="fc" id="L599">	    driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Area_Name&quot;))).sendKeys(AreaName);</span>
-<span class="fc" id="L600">	    new Select(driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Area_PermitType&quot;)))).selectByVisibleText(PermitType);</span>
-<span class="fc" id="L601">	    driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Floor_No&quot;))).clear();</span>
-<span class="fc" id="L602">	    driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Floor_No&quot;))).sendKeys(FloorNo);</span>
-<span class="fc" id="L603">	    driver.findElement(By.name(prop.getProperty(&quot;Txt_Parking_Spot_No&quot;))).clear();</span>
-<span class="fc" id="L604">	    driver.findElement(By.name(prop.getProperty(&quot;Txt_Parking_Spot_No&quot;))).sendKeys(SpotsNo);</span>
-<span class="fc" id="L605">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_Parking_Area_AddList&quot;))).click();</span>
-<span class="fc" id="L606">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_Parking_Area_Save&quot;))).click();</span>
-<span class="fc" id="L607">	    assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Add_Success&quot;))).getText().equals(&quot;Area(s) added successfully.&quot;));</span>
-<span class="pc bpc" id="L608" title="1 of 2 branches missed.">	    if (prop.getProperty(&quot;test_delay&quot;).equals(&quot;delay&quot;))</span>
+<span class="fc" id="L579">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_ParkingManagement_AddParkingArea&quot;))).click();</span>
+<span class="fc" id="L580">	    driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Area_Name&quot;))).clear();</span>
+<span class="fc" id="L581">	    driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Area_Name&quot;))).sendKeys(AreaName);</span>
+<span class="fc" id="L582">	    new Select(driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Area_PermitType&quot;)))).selectByVisibleText(PermitType);</span>
+<span class="fc" id="L583">	    driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Floor_No&quot;))).clear();</span>
+<span class="fc" id="L584">	    driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Floor_No&quot;))).sendKeys(FloorNo);</span>
+<span class="fc" id="L585">	    driver.findElement(By.name(prop.getProperty(&quot;Txt_Parking_Spot_No&quot;))).clear();</span>
+<span class="fc" id="L586">	    driver.findElement(By.name(prop.getProperty(&quot;Txt_Parking_Spot_No&quot;))).sendKeys(SpotsNo);</span>
+<span class="fc" id="L587">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_Parking_Area_AddList&quot;))).click();</span>
+<span class="fc" id="L588">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_Parking_Area_Save&quot;))).click();</span>
+<span class="fc" id="L589">	    assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_Parking_Add_Success&quot;))).getText().equals(&quot;Area(s) added successfully.&quot;));</span>
+<span class="pc bpc" id="L590" title="1 of 2 branches missed.">	    if (prop.getProperty(&quot;test_delay&quot;).equals(&quot;delay&quot;))</span>
 		{	
 			try {
-<span class="fc" id="L611">				Thread.sleep((Integer.parseInt(prop.getProperty(&quot;thread_sleep&quot;))));</span>
-<span class="pc" id="L612">			} catch (NumberFormatException e) {</span>
+<span class="fc" id="L593">				Thread.sleep((Integer.parseInt(prop.getProperty(&quot;thread_sleep&quot;))));</span>
+<span class="pc" id="L594">			} catch (NumberFormatException e) {</span>
 				// TODO Auto-generated catch block
-<span class="nc" id="L614">				e.printStackTrace();</span>
-<span class="nc" id="L615">			} catch (InterruptedException e) {</span>
+<span class="nc" id="L596">				e.printStackTrace();</span>
+<span class="nc" id="L597">			} catch (InterruptedException e) {</span>
 				// TODO Auto-generated catch block
-<span class="nc" id="L617">				e.printStackTrace();</span>
+<span class="nc" id="L599">				e.printStackTrace();</span>
 			}
 		}
-<span class="fc" id="L620">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_User_Home_Page&quot;))).click();</span>
-<span class="fc" id="L621">	}</span>
+<span class="fc" id="L602">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_User_Home_Page&quot;))).click();</span>
+<span class="fc" id="L603">	}</span>
 	
 	
 	public void viewParkingSpots(WebDriver driver,String AreaName,String PermitType,String FloorNo)
 	{
-<span class="fc" id="L626">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_ParkingManagement_ViewSpots&quot;))).click();</span>
-<span class="fc" id="L627">	    new Select(driver.findElement(By.id(prop.getProperty(&quot;Drop_Down_Area&quot;)))).selectByVisibleText(AreaName);</span>
-<span class="fc" id="L628">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_Spots_AreaFloors&quot;))).click();	    </span>
-<span class="fc" id="L629">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_Search_Spot_Floor&quot;)+FloorNo+PermitType)).click();</span>
-<span class="pc bpc" id="L630" title="1 of 2 branches missed.">		if (prop.getProperty(&quot;test_delay&quot;).equals(&quot;delay&quot;))</span>
+<span class="fc" id="L608">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_ParkingManagement_ViewSpots&quot;))).click();</span>
+<span class="fc" id="L609">	    new Select(driver.findElement(By.id(prop.getProperty(&quot;Drop_Down_Area&quot;)))).selectByVisibleText(AreaName);</span>
+<span class="fc" id="L610">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_Spots_AreaFloors&quot;))).click();	    </span>
+<span class="fc" id="L611">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_Search_Spot_Floor&quot;)+FloorNo+PermitType)).click();</span>
+<span class="pc bpc" id="L612" title="1 of 2 branches missed.">		if (prop.getProperty(&quot;test_delay&quot;).equals(&quot;delay&quot;))</span>
 		{	
 			try {
-<span class="fc" id="L633">				Thread.sleep((Integer.parseInt(prop.getProperty(&quot;thread_sleep&quot;))));</span>
-<span class="pc" id="L634">			} catch (NumberFormatException e) {</span>
+<span class="fc" id="L615">				Thread.sleep((Integer.parseInt(prop.getProperty(&quot;thread_sleep&quot;))));</span>
+<span class="pc" id="L616">			} catch (NumberFormatException e) {</span>
 				// TODO Auto-generated catch block
-<span class="nc" id="L636">				e.printStackTrace();</span>
-<span class="nc" id="L637">			} catch (InterruptedException e) {</span>
+<span class="nc" id="L618">				e.printStackTrace();</span>
+<span class="nc" id="L619">			} catch (InterruptedException e) {</span>
 				// TODO Auto-generated catch block
-<span class="nc" id="L639">				e.printStackTrace();</span>
+<span class="nc" id="L621">				e.printStackTrace();</span>
 			}
 		}
-<span class="fc" id="L642">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_User_Home_Page&quot;))).click();</span>
-<span class="fc" id="L643">	}</span>
+<span class="fc" id="L624">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_User_Home_Page&quot;))).click();</span>
+<span class="fc" id="L625">	}</span>
 	
 	
 	public void viewUserParkingSpots(WebDriver driver,String AreaName,String PermitType,String FloorNo)
 	{
-<span class="fc" id="L648">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_ParkingUser_ViewSpots&quot;))).click();</span>
-<span class="fc" id="L649">	    new Select(driver.findElement(By.id(prop.getProperty(&quot;Drop_Down_Area&quot;)))).selectByVisibleText(AreaName);</span>
-<span class="fc" id="L650">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_Spots_AreaFloors&quot;))).click();	    </span>
-<span class="fc" id="L651">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_Search_Spot_Floor&quot;)+FloorNo+PermitType)).click();</span>
-<span class="pc bpc" id="L652" title="1 of 2 branches missed.">		if (prop.getProperty(&quot;test_delay&quot;).equals(&quot;delay&quot;))</span>
+<span class="fc" id="L630">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_ParkingUser_ViewSpots&quot;))).click();</span>
+<span class="fc" id="L631">	    new Select(driver.findElement(By.id(prop.getProperty(&quot;Drop_Down_Area&quot;)))).selectByVisibleText(AreaName);</span>
+<span class="fc" id="L632">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_Spots_AreaFloors&quot;))).click();	    </span>
+<span class="fc" id="L633">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_Search_Spot_Floor&quot;)+FloorNo+PermitType)).click();</span>
+<span class="pc bpc" id="L634" title="1 of 2 branches missed.">		if (prop.getProperty(&quot;test_delay&quot;).equals(&quot;delay&quot;))</span>
 		{	
 			try {
-<span class="fc" id="L655">				Thread.sleep((Integer.parseInt(prop.getProperty(&quot;thread_sleep&quot;))));</span>
-<span class="pc" id="L656">			} catch (NumberFormatException e) {</span>
+<span class="fc" id="L637">				Thread.sleep((Integer.parseInt(prop.getProperty(&quot;thread_sleep&quot;))));</span>
+<span class="pc" id="L638">			} catch (NumberFormatException e) {</span>
 				// TODO Auto-generated catch block
-<span class="nc" id="L658">				e.printStackTrace();</span>
-<span class="nc" id="L659">			} catch (InterruptedException e) {</span>
+<span class="nc" id="L640">				e.printStackTrace();</span>
+<span class="nc" id="L641">			} catch (InterruptedException e) {</span>
 				// TODO Auto-generated catch block
-<span class="nc" id="L661">				e.printStackTrace();</span>
+<span class="nc" id="L643">				e.printStackTrace();</span>
 			}
 		}
-<span class="fc" id="L664">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_User_Home_Page&quot;))).click();</span>
-<span class="fc" id="L665">	}</span>
+<span class="fc" id="L646">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_User_Home_Page&quot;))).click();</span>
+<span class="fc" id="L647">	}</span>
 
 	public void blockunblock(WebDriver driver, String AreaName, String PermitType,String FloorNo,String spotId) throws Exception{
-<span class="fc" id="L668">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_ParkingManagement_Block&quot;))).click();</span>
-<span class="fc" id="L669">	    new Select(driver.findElement(By.id(prop.getProperty(&quot;DD_SB_Area&quot;)))).selectByVisibleText(AreaName);</span>
-<span class="fc" id="L670">	    driver.findElement(By.id(prop.getProperty(&quot;btn_Submit&quot;))).click();	    </span>
-<span class="fc" id="L671">	    driver.findElement(By.id(&quot;btnSelectParkingAreaFloors&quot;+FloorNo+PermitType)).click();</span>
-<span class="fc" id="L672">	    driver.findElement(By.xpath(&quot;(//input[@id='btnBlockUnblock'])[&quot;+spotId+&quot;]&quot;)).click();</span>
-<span class="fc" id="L673">	    assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_msgblocksuccess&quot;))).getText().equals(&quot;spot (un)blocked successfully.&quot;));</span>
-<span class="pc bpc" id="L674" title="1 of 2 branches missed.">		if (prop.getProperty(&quot;test_delay&quot;).equals(&quot;delay&quot;))</span>
+<span class="fc" id="L650">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_ParkingManagement_Block&quot;))).click();</span>
+<span class="fc" id="L651">	    new Select(driver.findElement(By.id(prop.getProperty(&quot;DD_SB_Area&quot;)))).selectByVisibleText(AreaName);</span>
+<span class="fc" id="L652">	    driver.findElement(By.id(prop.getProperty(&quot;btn_Submit&quot;))).click();	    </span>
+<span class="fc" id="L653">	    driver.findElement(By.id(&quot;btnSelectParkingAreaFloors&quot;+FloorNo+PermitType)).click();</span>
+<span class="fc" id="L654">	    driver.findElement(By.xpath(&quot;(//input[@id='btnBlockUnblock'])[&quot;+spotId+&quot;]&quot;)).click();</span>
+<span class="fc" id="L655">	    assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_msgblocksuccess&quot;))).getText().equals(&quot;spot (un)blocked successfully.&quot;));</span>
+<span class="pc bpc" id="L656" title="1 of 2 branches missed.">		if (prop.getProperty(&quot;test_delay&quot;).equals(&quot;delay&quot;))</span>
 		{	
 			try {
-<span class="fc" id="L677">				Thread.sleep((Integer.parseInt(prop.getProperty(&quot;thread_sleep&quot;))));</span>
-<span class="pc" id="L678">			} catch (NumberFormatException e) {</span>
+<span class="fc" id="L659">				Thread.sleep((Integer.parseInt(prop.getProperty(&quot;thread_sleep&quot;))));</span>
+<span class="pc" id="L660">			} catch (NumberFormatException e) {</span>
 				// TODO Auto-generated catch block
-<span class="nc" id="L680">				e.printStackTrace();</span>
-<span class="nc" id="L681">			} catch (InterruptedException e) {</span>
+<span class="nc" id="L662">				e.printStackTrace();</span>
+<span class="nc" id="L663">			} catch (InterruptedException e) {</span>
 				// TODO Auto-generated catch block
-<span class="nc" id="L683">				e.printStackTrace();</span>
+<span class="nc" id="L665">				e.printStackTrace();</span>
 			}
 		}
-<span class="fc" id="L686">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_User_Home_Page&quot;))).click();</span>
-<span class="fc" id="L687">	}</span>
+<span class="fc" id="L668">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_User_Home_Page&quot;))).click();</span>
+<span class="fc" id="L669">	}</span>
 	
 	
 	public void editParkingArea(WebDriver driver,String AreaName, String respermitType, String floorNumber, String spotId,
 			String newName) throws Exception {
-<span class="fc" id="L692">		driver.findElement(By.id(prop.getProperty(&quot;Btn_ParkingManagement_EditParkingArea&quot;))).click();</span>
-<span class="fc" id="L693">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_Save_New_AreaName&quot;))).click();</span>
-<span class="fc" id="L694">	    assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_Error_Edit&quot;))).getAttribute(&quot;value&quot;).equals(&quot;Please select area first.&quot;));</span>
-<span class="fc" id="L695">	    new Select(driver.findElement(By.id(prop.getProperty(&quot;DropDwn_Parking_Area&quot;)))).selectByVisibleText(AreaName);</span>
-<span class="fc" id="L696">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_Selected_Editname_Area&quot;))).click();</span>
-<span class="fc" id="L697">	    driver.findElement(By.id(prop.getProperty(&quot;Txt_New_AreaName&quot;))).clear();</span>
-<span class="fc" id="L698">	    driver.findElement(By.id(prop.getProperty(&quot;Txt_New_AreaName&quot;))).sendKeys(newName);</span>
-<span class="fc" id="L699">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_Save_New_AreaName&quot;))).click();</span>
-<span class="fc" id="L700">	    assertEquals(&quot;Parking Area name updated.&quot;, driver.findElement(By.id(prop.getProperty(&quot;Txt_NameUpdate_Success&quot;))).getText());</span>
-<span class="fc" id="L701">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_User_Home_Page&quot;))).click();</span>
-<span class="fc" id="L702">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_ParkingManagement_EditParkingArea&quot;))).click();</span>
-<span class="fc" id="L703">	    new Select(driver.findElement(By.id(prop.getProperty(&quot;DropDwn_Parking_Area&quot;)))).selectByVisibleText(newName);</span>
-<span class="fc" id="L704">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_Selected_Editname_Area&quot;))).click();</span>
-<span class="fc" id="L705">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_Search_Spot_Floor&quot;)+floorNumber+respermitType)).click();</span>
-<span class="fc" id="L706">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_AddNew_Spot&quot;))).click();</span>
-<span class="fc" id="L707">	    assertEquals(&quot;Spot added successfully.&quot;, driver.findElement(By.id(prop.getProperty(&quot;Txt_Spot_Added_Success&quot;))).getText());</span>
-<span class="fc" id="L708">	    driver.findElement(By.xpath(&quot;(//input[@id='btnBlockUnblock'])[&quot;+spotId+&quot;]&quot;)).click();</span>
-<span class="fc" id="L709">	    assertEquals(&quot;spot (un)blocked successfully.&quot;, driver.findElement(By.id(prop.getProperty(&quot;Txt_Spot_Blocked_Success&quot;))).getText());</span>
-<span class="fc" id="L710">	    Integer spotAssert = Integer.parseInt(spotId)+1;</span>
-<span class="fc" id="L711">	    assertEquals(&quot;true&quot;, driver.findElement(By.xpath(&quot;//div[@id='body']/div/div/table/tbody/tr[&quot;+spotAssert+&quot;]/td[2]&quot;)).getText());</span>
-<span class="fc" id="L712">	    driver.findElement(By.xpath(&quot;(//input[@id='btnBlockUnblock'])[&quot;+spotId+&quot;]&quot;)).click();</span>
-<span class="fc" id="L713">	    assertEquals(&quot;spot (un)blocked successfully.&quot;, driver.findElement(By.id(prop.getProperty(&quot;Txt_Spot_Blocked_Success&quot;))).getText());</span>
-<span class="pc bpc" id="L714" title="1 of 2 branches missed.">		if (prop.getProperty(&quot;test_delay&quot;).equals(&quot;delay&quot;))</span>
+<span class="fc" id="L674">		driver.findElement(By.id(prop.getProperty(&quot;Btn_ParkingManagement_EditParkingArea&quot;))).click();</span>
+<span class="fc" id="L675">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_Save_New_AreaName&quot;))).click();</span>
+<span class="fc" id="L676">	    assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_Error_Edit&quot;))).getAttribute(&quot;value&quot;).equals(&quot;Please select area first.&quot;));</span>
+<span class="fc" id="L677">	    new Select(driver.findElement(By.id(prop.getProperty(&quot;DropDwn_Parking_Area&quot;)))).selectByVisibleText(AreaName);</span>
+<span class="fc" id="L678">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_Selected_Editname_Area&quot;))).click();</span>
+<span class="fc" id="L679">	    driver.findElement(By.id(prop.getProperty(&quot;Txt_New_AreaName&quot;))).clear();</span>
+<span class="fc" id="L680">	    driver.findElement(By.id(prop.getProperty(&quot;Txt_New_AreaName&quot;))).sendKeys(newName);</span>
+<span class="fc" id="L681">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_Save_New_AreaName&quot;))).click();</span>
+<span class="fc" id="L682">	    assertEquals(&quot;Parking Area name updated.&quot;, driver.findElement(By.id(prop.getProperty(&quot;Txt_NameUpdate_Success&quot;))).getText());</span>
+<span class="fc" id="L683">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_User_Home_Page&quot;))).click();</span>
+<span class="fc" id="L684">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_ParkingManagement_EditParkingArea&quot;))).click();</span>
+<span class="fc" id="L685">	    new Select(driver.findElement(By.id(prop.getProperty(&quot;DropDwn_Parking_Area&quot;)))).selectByVisibleText(newName);</span>
+<span class="fc" id="L686">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_Selected_Editname_Area&quot;))).click();</span>
+<span class="fc" id="L687">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_Search_Spot_Floor&quot;)+floorNumber+respermitType)).click();</span>
+<span class="fc" id="L688">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_AddNew_Spot&quot;))).click();</span>
+<span class="fc" id="L689">	    assertEquals(&quot;Spot added successfully.&quot;, driver.findElement(By.id(prop.getProperty(&quot;Txt_Spot_Added_Success&quot;))).getText());</span>
+<span class="fc" id="L690">	    driver.findElement(By.xpath(&quot;(//input[@id='btnBlockUnblock'])[&quot;+spotId+&quot;]&quot;)).click();</span>
+<span class="fc" id="L691">	    assertEquals(&quot;spot (un)blocked successfully.&quot;, driver.findElement(By.id(prop.getProperty(&quot;Txt_Spot_Blocked_Success&quot;))).getText());</span>
+<span class="fc" id="L692">	    Integer spotAssert = Integer.parseInt(spotId)+1;</span>
+<span class="fc" id="L693">	    assertEquals(&quot;true&quot;, driver.findElement(By.xpath(&quot;//div[@id='body']/div/div/table/tbody/tr[&quot;+spotAssert+&quot;]/td[2]&quot;)).getText());</span>
+<span class="fc" id="L694">	    driver.findElement(By.xpath(&quot;(//input[@id='btnBlockUnblock'])[&quot;+spotId+&quot;]&quot;)).click();</span>
+<span class="fc" id="L695">	    assertEquals(&quot;spot (un)blocked successfully.&quot;, driver.findElement(By.id(prop.getProperty(&quot;Txt_Spot_Blocked_Success&quot;))).getText());</span>
+<span class="pc bpc" id="L696" title="1 of 2 branches missed.">		if (prop.getProperty(&quot;test_delay&quot;).equals(&quot;delay&quot;))</span>
 		{	
 			try {
-<span class="fc" id="L717">				Thread.sleep((Integer.parseInt(prop.getProperty(&quot;thread_sleep&quot;))));</span>
-<span class="pc" id="L718">			} catch (NumberFormatException e) {</span>
+<span class="fc" id="L699">				Thread.sleep((Integer.parseInt(prop.getProperty(&quot;thread_sleep&quot;))));</span>
+<span class="pc" id="L700">			} catch (NumberFormatException e) {</span>
 				// TODO Auto-generated catch block
-<span class="nc" id="L720">				e.printStackTrace();</span>
-<span class="nc" id="L721">			} catch (InterruptedException e) {</span>
+<span class="nc" id="L702">				e.printStackTrace();</span>
+<span class="nc" id="L703">			} catch (InterruptedException e) {</span>
 				// TODO Auto-generated catch block
-<span class="nc" id="L723">				e.printStackTrace();</span>
+<span class="nc" id="L705">				e.printStackTrace();</span>
 			}
 		}
-<span class="fc" id="L726">	}</span>
+<span class="fc" id="L708">	}</span>
 	
 	
 	public boolean isElementPresent(WebDriver driver, String id) {
 		try {
-<span class="nc" id="L731">			driver.findElement(By.id(prop.getProperty(id)));</span>
-<span class="nc" id="L732">			return true;</span>
-<span class="fc" id="L733">		} catch (org.openqa.selenium.NoSuchElementException e) {</span>
-<span class="fc" id="L734">			return false;</span>
+<span class="nc" id="L713">			driver.findElement(By.id(prop.getProperty(id)));</span>
+<span class="nc" id="L714">			return true;</span>
+<span class="fc" id="L715">		} catch (org.openqa.selenium.NoSuchElementException e) {</span>
+<span class="fc" id="L716">			return false;</span>
 		}
 	}
 
 }
 	
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 28, 2019 10:09:51 PM)</div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 28, 2019 10:57:19 PM)</div></body></html>
