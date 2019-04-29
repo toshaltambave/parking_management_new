@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import data.UserDetailsDAO;
 import data.UsersDAO;
 import junitparams.FileParameters;
 import junitparams.JUnitParamsRunner;
@@ -63,6 +64,20 @@ public class UserDetailsTest {
 		assertEquals(userName, userDetails.getUsername());
 		assertEquals(sex, userDetails.getSex());
 
+	}
+	
+	@Test
+	@FileParameters("tests/test/UserDetailsDAOTest.csv")
+	public void DAOtest(String type, String value, String role, boolean isRevoked, String userName, String comment, String lastName){
+		UserDetailsDAO dao = new UserDetailsDAO();
+		dao.changeRole(type, value, role);
+		dao.getLastNames();
+		dao.getUserNames();
+		dao.insertUserDetails(userDetails);
+		dao.ReturnUserID(userName);
+		dao.revokeUser(type, value, isRevoked, comment);
+		dao.searchByLastName(lastName);
+		dao.searchByUsername(userName);
 	}
 
 }

@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import data.UpdatedUserDetailsDAO;
 import data.UsersDAO;
 import junitparams.FileParameters;
 import junitparams.JUnitParamsRunner;
@@ -101,5 +102,15 @@ public class UpdatedUserDetailsTest {
 		assertEquals(expectedDlError, errorMsgs.getDrivingLicenseError());
 		assertEquals(expectedDlExpiryError, errorMsgs.getDrivingLicenseExpiry());
 		assertEquals(expectedDobError, errorMsgs.getBirthDateError());
+	}
+	
+	@Test
+	@FileParameters("tests/test/UpdatedUserDetailsDAOTest.csv")
+	public void daoTest(String userName, int userId){
+		UpdatedUserDetailsDAO dao = new UpdatedUserDetailsDAO();
+		dao.searchByUsername(userName);
+
+		updatedUserDetails.setUserID(userId);
+		dao.updateUser(updatedUserDetails);
 	}
 }

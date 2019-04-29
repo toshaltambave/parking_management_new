@@ -72,5 +72,15 @@ public class UsersTest {
 		assertEquals(expectedLoginUserNameError, usersLoginErrorMsgs.getusernameError());
 		assertEquals(expectedLoginPasswordError, usersLoginErrorMsgs.getpasswordError());
 	}
+	
+	@Test
+	@FileParameters("tests/test/UsersDAOTest.csv")
+	public void DAOtest(String userName, String password){
+		UsersDAO dao = new UsersDAO();
+		dao.Usernameunique(userName);
+		dao.getUserIdbyUsername(userName);
+		dao.insertUser(users);
+		dao.userExists(userName, password, users);
+	}
 
 }
