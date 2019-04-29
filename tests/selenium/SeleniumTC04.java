@@ -39,10 +39,10 @@ public class SeleniumTC04 extends BusinessFunctions {
 		// "C:\\GeckoSelenium\\geckodriver.exe");
 		// driver = new FirefoxDriver();
 		//FireFox Driver
-		   System.setProperty("webdriver.firefox.marionette", "C:\\GeckoSelenium\\geckodriver.exe");
-		   driver = new FirefoxDriver();
-//		System.setProperty("webdriver.chrome.driver", "C:\\ChromeDriver\\chromedriver.exe");
-//		driver = new ChromeDriver();
+//		   System.setProperty("webdriver.firefox.marionette", "C:\\GeckoSelenium\\geckodriver.exe");
+//		   driver = new FirefoxDriver();
+		System.setProperty("webdriver.chrome.driver", "C:\\ChromeDriver\\chromedriver.exe");
+		driver = new ChromeDriver();
 
 		prop = new Properties();
 		prop.load(new FileInputStream("./Configuration/Configuration.properties"));

@@ -36,10 +36,10 @@ public class SeleniumTC02 extends BusinessFunctions {
 	public void setUp() throws Exception {
 		// Change to FireFoxDriver if using FireFox browser
 		//FireFox Driver
-		   System.setProperty("webdriver.firefox.marionette", "C:\\GeckoSelenium\\geckodriver.exe");
-		   driver = new FirefoxDriver();
-//		System.setProperty("webdriver.chrome.driver", "C:\\ChromeDriver\\chromedriver.exe");
-//		driver = new ChromeDriver();
+//		   System.setProperty("webdriver.firefox.marionette", "C:\\GeckoSelenium\\geckodriver.exe");
+//		   driver = new FirefoxDriver();
+		System.setProperty("webdriver.chrome.driver", "C:\\ChromeDriver\\chromedriver.exe");
+		driver = new ChromeDriver();
 		prop = new Properties();
 		prop.load(new FileInputStream("./Configuration/Configuration.properties"));
 		int timewait = (Integer.parseInt(prop.getProperty("wait_time")));

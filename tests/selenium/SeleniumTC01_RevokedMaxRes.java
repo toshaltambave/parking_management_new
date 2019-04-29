@@ -46,11 +46,11 @@ public class SeleniumTC01_RevokedMaxRes extends BusinessFunctions {
 	public void setUp() throws Exception {
 		// Change to FireFoxDriver if using FireFox browser
 		//FireFox Driver
-		System.setProperty("webdriver.firefox.marionette", "C:\\GeckoSelenium\\geckodriver.exe");
-		driver = new FirefoxDriver();
-//		System.setProperty("webdriver.chrome.driver", "C:\\ChromeDriver\\chromedriver.exe");
-//		driver = new ChromeDriver();
-//		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+//		System.setProperty("webdriver.firefox.marionette", "C:\\GeckoSelenium\\geckodriver.exe");
+//		driver = new FirefoxDriver();
+		System.setProperty("webdriver.chrome.driver", "C:\\ChromeDriver\\chromedriver.exe");
+		driver = new ChromeDriver();
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		prop = new Properties();
 //		prop.load(new FileInputStream("./Configuration/login.properties"));
 //		username = prop.getProperty("puusername2");
