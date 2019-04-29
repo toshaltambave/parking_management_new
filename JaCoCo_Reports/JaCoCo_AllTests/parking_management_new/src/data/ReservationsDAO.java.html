@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ReservationsDAO.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 28, 2019 10:57:19 PM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">data</a> &gt; <span class="el_source">ReservationsDAO.java</span></div><h1>ReservationsDAO.java</h1><pre class="source lang-java linenums">package data;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ReservationsDAO.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 29, 2019 5:46:49 AM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">data</a> &gt; <span class="el_source">ReservationsDAO.java</span></div><h1>ReservationsDAO.java</h1><pre class="source lang-java linenums">package data;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -166,9 +166,9 @@ import util.SQLConnection;
 <span class="fc" id="L166">			conn.commit();</span>
 <span class="fc" id="L167">			conn.close();</span>
 <span class="fc" id="L168">			stmt.close();</span>
-<span class="pc" id="L169">		} catch (SQLException e) {</span>
-<span class="nc" id="L170">			e.printStackTrace();</span>
-<span class="nc" id="L171">			return false;</span>
+<span class="fc" id="L169">		} catch (SQLException e) {</span>
+<span class="fc" id="L170">			e.printStackTrace();</span>
+<span class="fc" id="L171">			return false;</span>
 		}
 <span class="fc" id="L173">		return true;</span>
 	}
@@ -190,133 +190,13 @@ import util.SQLConnection;
 <span class="fc" id="L190">		return true;</span>
 	}
 	
-//	public static ArrayList&lt;ReservationsHelper&gt; GetReservationsByName (String firstName, String lastName) {
-//		ArrayList&lt;ReservationsHelper&gt; ReservationsByName = new ArrayList&lt;ReservationsHelper&gt;();
-//		Statement stmt = null;
-//		Connection conn = SQLConnection.getDBConnection();
-//		try{
-//			stmt=conn.createStatement();
-//			String queryString=&quot;SELECT r.Reservation_Id,s.UserName,s_u.LastName,p_a.Area_Name, p.Floor_Number,p.Spot_Id,r.Start_Time,r.End_Time&quot;
-//							+&quot;from reservations as r&quot;
-//							+&quot;Inner join system_users as s on r.User_ID=s.User_ID&quot;
-//							+&quot;Inner join user_details as s_u on r.User_ID=s_u.User_ID&quot;
-//							+&quot;Inner join parking_spots as p on r.Spot_UID=p.Spot_UID&quot;
-//							+&quot;Inner join parking_area as p_a on p.Area_Id=p_a.Area_Id&quot;
-//							+&quot;where s_u.FirstName=&quot;+firstName+&quot;and s_u.LastName=&quot;+lastName+&quot;;&quot;;
-//			ResultSet reservationList = stmt.executeQuery(queryString);
-//			while (reservationList.next()) {
-//				ReservationsHelper reservation = new ReservationsHelper();
-//				reservation.setReservationID(reservationList.getInt(&quot;Reservavtion_Id&quot;));
-//				reservation.setUserName(reservationList.getString(&quot;UserName&quot;));
-//				reservation.setLastName(reservationList.getString(&quot;LastName&quot;));
-//				reservation.setAreaName(reservationList.getString(&quot;Area_Name&quot;));
-//				reservation.setFloor_Number(reservationList.getInt(&quot;Floor_Number&quot;));
-//				reservation.setSpot_Id(reservationList.getInt(&quot;Spot_Id&quot;));
-//				reservation.setStart_Time(reservationList.getString(&quot;Start_Time&quot;));
-//				reservation.setEnd_Time(reservationList.getString(&quot;End_Time&quot;));
-//				ReservationsByName.add(reservation);	
-//			
-//			}
-//		}catch (SQLException e) {
-//			e.printStackTrace();
-//		} finally {
-//			try {
-//				conn.close();
-//				stmt.close();
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		return ReservationsByName;
-//	}
-//	
-//	public static ArrayList&lt;ReservationsHelper&gt; GetReservationsByReservationId (Integer reservation_Id) {
-//		ArrayList&lt;ReservationsHelper&gt; ReservationsById = new ArrayList&lt;ReservationsHelper&gt;();
-//		Statement stmt = null;
-//		Connection conn = SQLConnection.getDBConnection();
-//		try{
-//			stmt=conn.createStatement();
-//			String queryString=&quot;SELECT r.Reservation_Id,s.UserName,s_u.LastName,p_a.Area_Name, p.Floor_Number,p.Spot_Id,r.Start_Time,r.End_Time&quot;
-//							+&quot;from reservations as r&quot;
-//							+&quot;Inner join system_users as s on r.User_ID=s.User_ID&quot;
-//							+&quot;Inner join user_details as s_u on r.User_ID=s_u.User_ID&quot;
-//							+&quot;Inner join parking_spots as p on r.Spot_UID=p.Spot_UID&quot;
-//							+&quot;Inner join parking_area as p_a on p.Area_Id=p_a.Area_Id&quot;
-//							+&quot;where r.Reservation_Id=&quot;+reservation_Id+&quot;;&quot;;
-//			ResultSet reservationList = stmt.executeQuery(queryString);
-//			while (reservationList.next()) {
-//				ReservationsHelper reservation = new ReservationsHelper();
-//				reservation.setReservationID(reservationList.getInt(&quot;Reservavtion_Id&quot;));
-//				reservation.setUserName(reservationList.getString(&quot;UserName&quot;));
-//				reservation.setLastName(reservationList.getString(&quot;LastName&quot;));
-//				reservation.setAreaName(reservationList.getString(&quot;Area_Name&quot;));
-//				reservation.setFloor_Number(reservationList.getInt(&quot;Floor_Number&quot;));
-//				reservation.setSpot_Id(reservationList.getInt(&quot;Spot_Id&quot;));
-//				reservation.setStart_Time(reservationList.getString(&quot;Start_Time&quot;));
-//				reservation.setEnd_Time(reservationList.getString(&quot;End_Time&quot;));
-//				ReservationsById.add(reservation);	
-//			
-//			}
-//		}catch (SQLException e) {
-//			e.printStackTrace();
-//		} finally {
-//			try {
-//				conn.close();
-//				stmt.close();
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		return ReservationsById;
-//	}
-//	
-//	public static ArrayList&lt;ReservationsHelper&gt; GetReservationsByReservationDate (String current_date) {
-//		ArrayList&lt;ReservationsHelper&gt; ReservationsByDate = new ArrayList&lt;ReservationsHelper&gt;();
-//		Statement stmt = null;
-//		Connection conn = SQLConnection.getDBConnection();
-//		try{
-//			stmt=conn.createStatement();
-//			String queryString=&quot;SELECT r.Reservation_Id,s.UserName,s_u.LastName,p_a.Area_Name, p.Floor_Number,p.Spot_Id,r.Start_Time,r.End_Time&quot;
-//							+&quot;from reservations as r&quot;
-//							+&quot;Inner join system_users as s on r.User_ID=s.User_ID&quot;
-//							+&quot;Inner join user_details as s_u on r.User_ID=s_u.User_ID&quot;
-//							+&quot;Inner join parking_spots as p on r.Spot_UID=p.Spot_UID&quot;
-//							+&quot;Inner join parking_area as p_a on p.Area_Id=p_a.Area_Id&quot;
-//							+&quot;where r.Start_Time &gt;=&quot;+current_date+&quot;;&quot;;
-//			ResultSet reservationList = stmt.executeQuery(queryString);
-//			while (reservationList.next()) {
-//				ReservationsHelper reservation = new ReservationsHelper();
-//				reservation.setReservationID(reservationList.getInt(&quot;Reservavtion_Id&quot;));
-//				reservation.setUserName(reservationList.getString(&quot;UserName&quot;));
-//				reservation.setLastName(reservationList.getString(&quot;LastName&quot;));
-//				reservation.setAreaName(reservationList.getString(&quot;Area_Name&quot;));
-//				reservation.setFloor_Number(reservationList.getInt(&quot;Floor_Number&quot;));
-//				reservation.setSpot_Id(reservationList.getInt(&quot;Spot_Id&quot;));
-//				reservation.setStart_Time(reservationList.getString(&quot;Start_Time&quot;));
-//				reservation.setEnd_Time(reservationList.getString(&quot;End_Time&quot;));
-//				ReservationsByDate.add(reservation);
-//			
-//			}
-//		}catch (SQLException e) {
-//			e.printStackTrace();
-//		} finally {
-//			try {
-//				conn.close();
-//				stmt.close();
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		return ReservationsByDate;
-//	}
-	
 	public static Integer convertBoolToInt(Boolean actual){
-<span class="fc bfc" id="L314" title="All 2 branches covered.">		if(actual == true){</span>
-<span class="fc" id="L315">			return 1;</span>
+<span class="fc bfc" id="L194" title="All 2 branches covered.">		if(actual == true){</span>
+<span class="fc" id="L195">			return 1;</span>
 		}
 		else
-<span class="fc" id="L318">			return 0;</span>
+<span class="fc" id="L198">			return 0;</span>
 	}
 	
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 28, 2019 10:57:19 PM)</div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 29, 2019 5:46:49 AM)</div></body></html>

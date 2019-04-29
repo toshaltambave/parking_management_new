@@ -1,8 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ParkingAreaHelperTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 28, 2019 10:57:19 PM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">tests</a> &gt; <a href="index.source.html" class="el_package">test</a> &gt; <span class="el_source">ParkingAreaHelperTest.java</span></div><h1>ParkingAreaHelperTest.java</h1><pre class="source lang-java linenums">package test;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ParkingAreaHelperTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 29, 2019 5:46:49 AM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">tests</a> &gt; <a href="index.source.html" class="el_package">test</a> &gt; <span class="el_source">ParkingAreaHelperTest.java</span></div><h1>ParkingAreaHelperTest.java</h1><pre class="source lang-java linenums">package test;
 
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -13,6 +17,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import controller.ParkingAreaController;
+import data.FetchParkingSpotsDAO;
+import data.ParkingAreaDAO;
 import junitparams.FileParameters;
 import junitparams.JUnitParamsRunner;
 import model.ParkingArea;
@@ -23,7 +29,7 @@ import model.ParkingSpots;
 import model.PermitType;
 
 @RunWith(JUnitParamsRunner.class)
-<span class="fc" id="L26">public class ParkingAreaHelperTest {</span>
+<span class="fc" id="L32">public class ParkingAreaHelperTest {</span>
 
 	private ParkingAreaHelper parkingAreaHelper;
 	private ParkingAreaHelper parkingAreaHelper1;
@@ -41,26 +47,26 @@ import model.PermitType;
 
 	@Before
 	public void setUp() throws Exception {
-<span class="fc" id="L44">		copy = new ArrayList&lt;ParkingAreaHelper&gt;();</span>
-<span class="fc" id="L45">		parkingAreaHelper = new ParkingAreaHelper();</span>
-<span class="fc" id="L46">		parkingAreaHelper1 = new ParkingAreaHelper();</span>
-<span class="fc" id="L47">		parkingAreaHelper2 = new ParkingAreaHelper();</span>
-<span class="fc" id="L48">		errorMsg = new ParkingAreaHelperError();</span>
-<span class="fc" id="L49">		controller = new ParkingAreaController();</span>
-<span class="fc" id="L50">		parkingSpots = new ParkingSpots();</span>
-<span class="fc" id="L51">		parkingArea = new ParkingArea();</span>
-<span class="fc" id="L52">		parkingAreaFloors = new ParkingAreaFloors();</span>
-<span class="fc" id="L53">		area1 = EasyMock.createMock(ParkingAreaHelper.class);</span>
-<span class="fc" id="L54">		area2 = EasyMock.createMock(ParkingAreaHelper.class);</span>
-<span class="fc" id="L55">		request = EasyMock.createMock(HttpServletRequest.class);</span>
-<span class="fc" id="L56">		session = EasyMock.createMock(HttpSession.class);</span>
-<span class="fc" id="L57">	}</span>
-	
-	private Integer getNumber(String number){
-<span class="fc bfc" id="L60" title="All 2 branches covered.">			if(number.isEmpty()){</span>
-<span class="fc" id="L61">				return null;</span>
-			}
-<span class="fc" id="L63">			return Integer.valueOf(number);</span>
+<span class="fc" id="L50">		copy = new ArrayList&lt;ParkingAreaHelper&gt;();</span>
+<span class="fc" id="L51">		parkingAreaHelper = new ParkingAreaHelper();</span>
+<span class="fc" id="L52">		parkingAreaHelper1 = new ParkingAreaHelper();</span>
+<span class="fc" id="L53">		parkingAreaHelper2 = new ParkingAreaHelper();</span>
+<span class="fc" id="L54">		errorMsg = new ParkingAreaHelperError();</span>
+<span class="fc" id="L55">		controller = new ParkingAreaController();</span>
+<span class="fc" id="L56">		parkingSpots = new ParkingSpots();</span>
+<span class="fc" id="L57">		parkingArea = new ParkingArea();</span>
+<span class="fc" id="L58">		parkingAreaFloors = new ParkingAreaFloors();</span>
+<span class="fc" id="L59">		area1 = EasyMock.createMock(ParkingAreaHelper.class);</span>
+<span class="fc" id="L60">		area2 = EasyMock.createMock(ParkingAreaHelper.class);</span>
+<span class="fc" id="L61">		request = EasyMock.createMock(HttpServletRequest.class);</span>
+<span class="fc" id="L62">		session = EasyMock.createMock(HttpSession.class);</span>
+<span class="fc" id="L63">	}</span>
+
+	private Integer getNumber(String number) {
+<span class="fc bfc" id="L66" title="All 2 branches covered.">		if (number.isEmpty()) {</span>
+<span class="fc" id="L67">			return null;</span>
+		}
+<span class="fc" id="L69">		return Integer.valueOf(number);</span>
 	}
 
 	@Test
@@ -69,80 +75,106 @@ import model.PermitType;
 			String expectedErrorMsg, String expectedAreaNameError, String expectedPermitTypeError,
 			String expectedFloorNumberError, String expectedNumOfSpotsError) {
 
-<span class="fc" id="L72">		EasyMock.expect(request.getParameter(&quot;parkingareaname&quot;)).andReturn(areaName);</span>
-<span class="fc" id="L73">		EasyMock.expect(request.getParameter(&quot;numberofSpots&quot;)).andReturn(numberofSpots);</span>
-<span class="fc" id="L74">		EasyMock.expect(request.getParameter(&quot;floornumber&quot;)).andReturn(floorNumber);</span>
-<span class="fc" id="L75">		request.setAttribute(&quot;isAreaListEmpty&quot;, false);</span>
-<span class="fc" id="L76">		EasyMock.expectLastCall();</span>
-<span class="fc" id="L77">		EasyMock.replay(request);</span>
+<span class="fc" id="L78">		EasyMock.expect(request.getParameter(&quot;parkingareaname&quot;)).andReturn(areaName);</span>
+<span class="fc" id="L79">		EasyMock.expect(request.getParameter(&quot;numberofSpots&quot;)).andReturn(numberofSpots);</span>
+<span class="fc" id="L80">		EasyMock.expect(request.getParameter(&quot;floornumber&quot;)).andReturn(floorNumber);</span>
+<span class="fc" id="L81">		request.setAttribute(&quot;isAreaListEmpty&quot;, false);</span>
+<span class="fc" id="L82">		EasyMock.expectLastCall();</span>
+<span class="fc" id="L83">		EasyMock.replay(request);</span>
 
-<span class="fc" id="L79">		controller.getError(request, session, errorMsg, action);</span>
-<span class="fc" id="L80">		parkingAreaHelper.setDetails(areaName, PermitType.valueOf(permitType).toString(), getNumber(numberofSpots), getNumber(floorNumber));</span>
+<span class="fc" id="L85">		controller.getError(request, session, errorMsg, action);</span>
+<span class="fc" id="L86">		parkingAreaHelper.setDetails(areaName, PermitType.valueOf(permitType).toString(), getNumber(numberofSpots),</span>
+<span class="fc" id="L87">				getNumber(floorNumber));</span>
 
-<span class="fc" id="L82">		assertEquals(expectedErrorMsg, errorMsg.getErrorMsg());</span>
-<span class="fc" id="L83">		assertEquals(expectedAreaNameError, errorMsg.getAreaNameError());</span>
-<span class="fc" id="L84">		assertEquals(expectedFloorNumberError, errorMsg.getFloorNumberError());</span>
-<span class="fc" id="L85">		assertEquals(expectedNumOfSpotsError, errorMsg.getNumberofSpotsError());</span>
-<span class="fc" id="L86">		assertEquals(areaName, parkingAreaHelper.getAreaname());</span>
-<span class="fc" id="L87">		assertEquals(permitType, parkingAreaHelper.getPermittype());</span>
-<span class="fc" id="L88">		assertEquals(getNumber(numberofSpots), parkingAreaHelper.getNumberofspots());</span>
-<span class="fc" id="L89">		assertEquals(getNumber(floorNumber), parkingAreaHelper.getFloornumber());</span>
-		
-		
-		//Getter Setter Tests - NOT REQUIRED
-<span class="fc" id="L93">		parkingArea.setArea_Id(1);</span>
-<span class="fc" id="L94">		parkingArea.setArea_Name(&quot;testName&quot;);</span>
-		
-<span class="fc" id="L96">		parkingAreaFloors.setArea_Id(1);</span>
-<span class="fc" id="L97">		parkingAreaFloors.setFloor_Number(1);</span>
-<span class="fc" id="L98">		parkingAreaFloors.setNo_Spots(1);</span>
-<span class="fc" id="L99">		parkingAreaFloors.setPermitType(&quot;Basic&quot;);</span>
-		
-<span class="fc" id="L101">		parkingSpots.setArea_Id(1);</span>
-<span class="fc" id="L102">		parkingSpots.setFloor_Number(1);</span>
-<span class="fc" id="L103">		parkingSpots.setIsBlocked(true);</span>
-<span class="fc" id="L104">		parkingSpots.setPermitType(&quot;Basic&quot;);</span>
-<span class="fc" id="L105">		parkingSpots.setSpot_Id(1);</span>
-<span class="fc" id="L106">		parkingSpots.setSpot_UID(1);</span>
-		
-<span class="fc" id="L108">		assertEquals((Integer)1, parkingArea.getArea_Id());		</span>
-<span class="fc" id="L109">		assertEquals(&quot;testName&quot;, parkingArea.getArea_Name());	</span>
-		
-<span class="fc" id="L111">		assertEquals((Integer)1, parkingAreaFloors.getArea_Id());	</span>
-<span class="fc" id="L112">		assertEquals((Integer)1, parkingAreaFloors.getNo_Spots());	</span>
-<span class="fc" id="L113">		assertEquals((Integer)1, parkingAreaFloors.getFloor_Number());	</span>
-<span class="fc" id="L114">		assertEquals(&quot;Basic&quot;, parkingAreaFloors.getPermitType());</span>
-		
-<span class="fc" id="L116">		assertEquals((Integer)1, parkingSpots.getArea_Id());	</span>
-<span class="fc" id="L117">		assertEquals((Integer)1, parkingSpots.getSpot_Id());	</span>
-<span class="fc" id="L118">		assertEquals((Integer)1, parkingSpots.getFloor_Number());	</span>
-<span class="fc" id="L119">		assertEquals((Integer)1, parkingSpots.getSpot_UID());</span>
-<span class="fc" id="L120">		assertEquals(&quot;Basic&quot;, parkingSpots.getPermitType());</span>
-<span class="fc" id="L121">		assertEquals(true, parkingSpots.getIsBlocked());</span>
-<span class="fc" id="L122">	}</span>
+<span class="fc" id="L89">		assertEquals(expectedErrorMsg, errorMsg.getErrorMsg());</span>
+<span class="fc" id="L90">		assertEquals(expectedAreaNameError, errorMsg.getAreaNameError());</span>
+<span class="fc" id="L91">		assertEquals(expectedFloorNumberError, errorMsg.getFloorNumberError());</span>
+<span class="fc" id="L92">		assertEquals(expectedNumOfSpotsError, errorMsg.getNumberofSpotsError());</span>
+<span class="fc" id="L93">		assertEquals(areaName, parkingAreaHelper.getAreaname());</span>
+<span class="fc" id="L94">		assertEquals(permitType, parkingAreaHelper.getPermittype());</span>
+<span class="fc" id="L95">		assertEquals(getNumber(numberofSpots), parkingAreaHelper.getNumberofspots());</span>
+<span class="fc" id="L96">		assertEquals(getNumber(floorNumber), parkingAreaHelper.getFloornumber());</span>
+
+		// Getter Setter Tests - NOT REQUIRED
+<span class="fc" id="L99">		parkingArea.setArea_Id(1);</span>
+<span class="fc" id="L100">		parkingArea.setArea_Name(&quot;testName&quot;);</span>
+
+<span class="fc" id="L102">		parkingAreaFloors.setArea_Id(1);</span>
+<span class="fc" id="L103">		parkingAreaFloors.setFloor_Number(1);</span>
+<span class="fc" id="L104">		parkingAreaFloors.setNo_Spots(1);</span>
+<span class="fc" id="L105">		parkingAreaFloors.setPermitType(&quot;Basic&quot;);</span>
+
+<span class="fc" id="L107">		parkingSpots.setArea_Id(1);</span>
+<span class="fc" id="L108">		parkingSpots.setFloor_Number(1);</span>
+<span class="fc" id="L109">		parkingSpots.setIsBlocked(true);</span>
+<span class="fc" id="L110">		parkingSpots.setPermitType(&quot;Basic&quot;);</span>
+<span class="fc" id="L111">		parkingSpots.setSpot_Id(1);</span>
+<span class="fc" id="L112">		parkingSpots.setSpot_UID(1);</span>
+
+<span class="fc" id="L114">		assertEquals((Integer) 1, parkingArea.getArea_Id());</span>
+<span class="fc" id="L115">		assertEquals(&quot;testName&quot;, parkingArea.getArea_Name());</span>
+
+<span class="fc" id="L117">		assertEquals((Integer) 1, parkingAreaFloors.getArea_Id());</span>
+<span class="fc" id="L118">		assertEquals((Integer) 1, parkingAreaFloors.getNo_Spots());</span>
+<span class="fc" id="L119">		assertEquals((Integer) 1, parkingAreaFloors.getFloor_Number());</span>
+<span class="fc" id="L120">		assertEquals(&quot;Basic&quot;, parkingAreaFloors.getPermitType());</span>
+
+<span class="fc" id="L122">		assertEquals((Integer) 1, parkingSpots.getArea_Id());</span>
+<span class="fc" id="L123">		assertEquals((Integer) 1, parkingSpots.getSpot_Id());</span>
+<span class="fc" id="L124">		assertEquals((Integer) 1, parkingSpots.getFloor_Number());</span>
+<span class="fc" id="L125">		assertEquals((Integer) 1, parkingSpots.getSpot_UID());</span>
+<span class="fc" id="L126">		assertEquals(&quot;Basic&quot;, parkingSpots.getPermitType());</span>
+<span class="fc" id="L127">		assertEquals(true, parkingSpots.getIsBlocked());</span>
+<span class="fc" id="L128">	}</span>
+
+	@Test(expected = NullPointerException.class)
+	@FileParameters(&quot;tests/test/ParkingDAOTest.csv&quot;)
+	public void DAOTest(int spotUuid, int isBlocked, int areaId, String permitType, int floorNum, String areaName)
+			throws SQLException {
+<span class="fc" id="L134">		Connection conn = null;</span>
+<span class="fc" id="L135">		PreparedStatement pst = null;</span>
+<span class="fc" id="L136">		ResultSet resultSet = null;</span>
+
+<span class="fc" id="L138">		FetchParkingSpotsDAO.blockSpot(spotUuid, isBlocked);</span>
+<span class="fc" id="L139">		FetchParkingSpotsDAO.getAllParkingAreas();</span>
+<span class="fc" id="L140">		FetchParkingSpotsDAO.getFilteredFloorsbyParkingAreaId(areaId, permitType);</span>
+<span class="fc" id="L141">		FetchParkingSpotsDAO.getFilteredParkingAreaFloors();</span>
+<span class="fc" id="L142">		FetchParkingSpotsDAO.getFloorsbyParkingAreaId(areaId, permitType);</span>
+<span class="fc" id="L143">		FetchParkingSpotsDAO.getspecificParkingArea(1);</span>
+<span class="fc" id="L144">		FetchParkingSpotsDAO.getSpotsByAreaFloorPermitFromDb(areaId, floorNum, permitType);</span>
+<span class="fc" id="L145">		FetchParkingSpotsDAO.updateParkingAreaName(areaId, areaName);</span>
+
+<span class="fc" id="L147">		parkingAreaHelper.setAreaname(areaName);</span>
+<span class="fc" id="L148">		parkingAreaHelper.setFloornumber(floorNum);</span>
+<span class="fc" id="L149">		parkingAreaHelper.setNumberofspots(spotUuid);</span>
+<span class="fc" id="L150">		parkingAreaHelper.setPermittype(permitType);</span>
+<span class="fc" id="L151">		ParkingAreaDAO.addParkingSpot(areaId, floorNum, permitType);</span>
+<span class="fc" id="L152">		ParkingAreaDAO.saveArea(parkingAreaHelper);</span>
+<span class="nc" id="L153">		ParkingAreaDAO.insertparkingareas(parkingAreaHelper, conn, pst);</span>
+<span class="nc" id="L154">		ParkingAreaDAO.insertparkingspots(parkingAreaHelper, conn, resultSet);</span>
+
+<span class="nc" id="L156">	}</span>
 
 	@Test
 	@FileParameters(&quot;tests/test/ParkingAreaCompare.csv&quot;)
-	public void testCompare(String areaName, Integer floorNumber, String permitType ,
-			String areaName1, Integer floorNumber1, String permitType1 ) {
+	public void testCompare(String areaName, Integer floorNumber, String permitType, String areaName1,
+			Integer floorNumber1, String permitType1) {
 
-<span class="fc" id="L129">		EasyMock.expect(area1.getAreaname()).andReturn(areaName);</span>
-<span class="fc" id="L130">		EasyMock.expect(area1.getFloornumber()).andReturn(floorNumber);</span>
-<span class="fc" id="L131">		EasyMock.expect(area1.getPermittype()).andReturn(permitType);</span>
-<span class="fc" id="L132">		EasyMock.expect(area2.getAreaname()).andReturn(areaName1);</span>
-<span class="fc" id="L133">		EasyMock.expect(area2.getFloornumber()).andReturn(floorNumber1);</span>
-<span class="fc" id="L134">		EasyMock.expect(area2.getPermittype()).andReturn(permitType1);</span>
-		
-<span class="fc" id="L136">		copy.add(area1);</span>
-//		copy.set(0, area1);
-//		EasyMock.expectLastCall();
-		
-		
-<span class="fc" id="L141">		EasyMock.replay(area1,area2);</span>
-		
+<span class="fc" id="L163">		EasyMock.expect(area1.getAreaname()).andReturn(areaName);</span>
+<span class="fc" id="L164">		EasyMock.expect(area1.getFloornumber()).andReturn(floorNumber);</span>
+<span class="fc" id="L165">		EasyMock.expect(area1.getPermittype()).andReturn(permitType);</span>
+<span class="fc" id="L166">		EasyMock.expect(area2.getAreaname()).andReturn(areaName1);</span>
+<span class="fc" id="L167">		EasyMock.expect(area2.getFloornumber()).andReturn(floorNumber1);</span>
+<span class="fc" id="L168">		EasyMock.expect(area2.getPermittype()).andReturn(permitType1);</span>
 
-<span class="fc" id="L144">		controller.CompareArea(area1, area2, copy, 0);</span>
+<span class="fc" id="L170">		copy.add(area1);</span>
+		// copy.set(0, area1);
+		// EasyMock.expectLastCall();
 
-<span class="fc" id="L146">	}</span>
+<span class="fc" id="L174">		EasyMock.replay(area1, area2);</span>
+
+<span class="fc" id="L176">		controller.CompareArea(area1, area2, copy, 0);</span>
+
+<span class="fc" id="L178">	}</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 28, 2019 10:57:19 PM)</div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 29, 2019 5:46:49 AM)</div></body></html>

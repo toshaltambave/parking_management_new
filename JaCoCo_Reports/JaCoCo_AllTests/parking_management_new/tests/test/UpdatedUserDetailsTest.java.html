@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>UpdatedUserDetailsTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 28, 2019 10:57:19 PM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">tests</a> &gt; <a href="index.source.html" class="el_package">test</a> &gt; <span class="el_source">UpdatedUserDetailsTest.java</span></div><h1>UpdatedUserDetailsTest.java</h1><pre class="source lang-java linenums"><span class="fc" id="L1">package test;</span>
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>UpdatedUserDetailsTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 29, 2019 5:46:49 AM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">tests</a> &gt; <a href="index.source.html" class="el_package">test</a> &gt; <span class="el_source">UpdatedUserDetailsTest.java</span></div><h1>UpdatedUserDetailsTest.java</h1><pre class="source lang-java linenums"><span class="fc" id="L1">package test;</span>
 
 import static org.junit.Assert.*;
 
@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import data.UpdatedUserDetailsDAO;
 import data.UsersDAO;
 import junitparams.FileParameters;
 import junitparams.JUnitParamsRunner;
@@ -18,38 +19,38 @@ import model.UpdatedUserDetails;
 import model.UpdatedUserDetailsErrorMsgs;
 
 @RunWith(JUnitParamsRunner.class)
-<span class="fc" id="L21">public class UpdatedUserDetailsTest {</span>
+<span class="fc" id="L22">public class UpdatedUserDetailsTest {</span>
 
 	private UpdatedUserDetails updatedUserDetails;
 	private UsersDAO mockUsersDAO;
 
 	@Before
 	public void setUp() throws Exception {
-<span class="fc" id="L28">		updatedUserDetails = new UpdatedUserDetails(mockUsersDAO);</span>
-<span class="fc" id="L29">		mockUsersDAO = EasyMock.createMock(UsersDAO.class);</span>
-<span class="fc" id="L30">	}</span>
+<span class="fc" id="L29">		updatedUserDetails = new UpdatedUserDetails(mockUsersDAO);</span>
+<span class="fc" id="L30">		mockUsersDAO = EasyMock.createMock(UsersDAO.class);</span>
+<span class="fc" id="L31">	}</span>
 
 	public String checkForNull(String attribute) {
-<span class="fc bfc" id="L33" title="All 2 branches covered.">		if (&quot;null&quot;.equals(attribute)) {</span>
-<span class="fc" id="L34">			return null;</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">		if (&quot;null&quot;.equals(attribute)) {</span>
+<span class="fc" id="L35">			return null;</span>
 		}
-<span class="fc" id="L36">		return attribute;</span>
+<span class="fc" id="L37">		return attribute;</span>
 	}
 	
 	public String checkSexEnum(String enumName){
-<span class="fc" id="L40">		String[] enumArray = Arrays.stream(Sex.values()).map(Enum::name).toArray(String[]::new);</span>
-<span class="fc bfc" id="L41" title="All 2 branches covered.">		if(Arrays.asList(enumArray).contains(enumName)){</span>
-<span class="fc" id="L42">			return Sex.valueOf(enumName).toString();</span>
+<span class="fc" id="L41">		String[] enumArray = Arrays.stream(Sex.values()).map(Enum::name).toArray(String[]::new);</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">		if(Arrays.asList(enumArray).contains(enumName)){</span>
+<span class="fc" id="L43">			return Sex.valueOf(enumName).toString();</span>
 		}
-<span class="fc" id="L44">		return enumName;</span>
+<span class="fc" id="L45">		return enumName;</span>
 	}
 	
 	public String checkRoleEnum(String enumName){
-<span class="fc" id="L48">		String[] enumArray = Arrays.stream(Role.values()).map(Enum::name).toArray(String[]::new);</span>
-<span class="fc bfc" id="L49" title="All 2 branches covered.">		if(Arrays.asList(enumArray).contains(enumName)){</span>
-<span class="fc" id="L50">			return Role.valueOf(enumName).toString();</span>
+<span class="fc" id="L49">		String[] enumArray = Arrays.stream(Role.values()).map(Enum::name).toArray(String[]::new);</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">		if(Arrays.asList(enumArray).contains(enumName)){</span>
+<span class="fc" id="L51">			return Role.valueOf(enumName).toString();</span>
 		}
-<span class="fc" id="L52">		return enumName;</span>
+<span class="fc" id="L53">		return enumName;</span>
 	}
 
 	@Test
@@ -62,45 +63,55 @@ import model.UpdatedUserDetailsErrorMsgs;
 			String expectedEmailError, String expectedAddressError, String expectedUtaIdError,
 			String expectedPhoneError, String expectedRegNumError, String expectedUserNameError,
 			String expectedHashPassError, String expectedConfirmPassError, String expectedDlError, String expectedDlExpiryError, String expectedDobError) {
-<span class="fc" id="L65">		int userId = 1;</span>
+<span class="fc" id="L66">		int userId = 1;</span>
 	
-<span class="fc" id="L67">		UpdatedUserDetails updatedUserDetail = new UpdatedUserDetails(mockUsersDAO);</span>
-<span class="fc" id="L68">		updatedUserDetail.setOldusername(oldUserName);</span>
-<span class="fc" id="L69">		updatedUserDetail.setUpdatedUserDetails(checkForNull(firstName), checkForNull(middleName),</span>
-<span class="fc" id="L70">				checkForNull(lastName), checkForNull(userName), checkForNull(checkSexEnum(sex)), checkForNull(dob),</span>
-<span class="fc" id="L71">				checkForNull(address), checkForNull(email), checkForNull(phone), checkForNull(dlNumber),</span>
-<span class="fc" id="L72">				checkForNull(dlExpiry), checkForNull(regNumber), checkForNull(utaId), checkForNull(hashedPass),</span>
-<span class="fc" id="L73">				checkForNull(confirmPass), checkForNull(checkRoleEnum(role)), checkForNull(permitType));</span>
+<span class="fc" id="L68">		UpdatedUserDetails updatedUserDetail = new UpdatedUserDetails(mockUsersDAO);</span>
+<span class="fc" id="L69">		updatedUserDetail.setOldusername(oldUserName);</span>
+<span class="fc" id="L70">		updatedUserDetail.setUpdatedUserDetails(checkForNull(firstName), checkForNull(middleName),</span>
+<span class="fc" id="L71">				checkForNull(lastName), checkForNull(userName), checkForNull(checkSexEnum(sex)), checkForNull(dob),</span>
+<span class="fc" id="L72">				checkForNull(address), checkForNull(email), checkForNull(phone), checkForNull(dlNumber),</span>
+<span class="fc" id="L73">				checkForNull(dlExpiry), checkForNull(regNumber), checkForNull(utaId), checkForNull(hashedPass),</span>
+<span class="fc" id="L74">				checkForNull(confirmPass), checkForNull(checkRoleEnum(role)), checkForNull(permitType));</span>
 
-<span class="fc" id="L75">		updatedUserDetail.setUserID(userId);</span>
+<span class="fc" id="L76">		updatedUserDetail.setUserID(userId);</span>
 
-<span class="fc" id="L77">		UpdatedUserDetailsErrorMsgs errorMsgs = new UpdatedUserDetailsErrorMsgs();</span>
+<span class="fc" id="L78">		UpdatedUserDetailsErrorMsgs errorMsgs = new UpdatedUserDetailsErrorMsgs();</span>
 
-<span class="fc" id="L79">		EasyMock.expect(mockUsersDAO.Usernameunique(userName)).andReturn(mockBoolean);</span>
-<span class="fc" id="L80">		EasyMock.replay(mockUsersDAO);</span>
+<span class="fc" id="L80">		EasyMock.expect(mockUsersDAO.Usernameunique(userName)).andReturn(mockBoolean);</span>
+<span class="fc" id="L81">		EasyMock.replay(mockUsersDAO);</span>
 
-<span class="fc" id="L82">		updatedUserDetail.validateUserDetails(action, updatedUserDetail, errorMsgs);</span>
+<span class="fc" id="L83">		updatedUserDetail.validateUserDetails(action, updatedUserDetail, errorMsgs);</span>
 
-<span class="fc" id="L84">		assertEquals(checkForNull(sex), updatedUserDetail.getSex());</span>
-<span class="fc" id="L85">		assertEquals((Integer) userId, updatedUserDetail.getUserID());</span>
+<span class="fc" id="L85">		assertEquals(checkForNull(sex), updatedUserDetail.getSex());</span>
+<span class="fc" id="L86">		assertEquals((Integer) userId, updatedUserDetail.getUserID());</span>
 
-<span class="fc" id="L87">		assertEquals(expectedError, errorMsgs.getErrorMsg());</span>
-<span class="fc" id="L88">		assertEquals(expectedRoleError, errorMsgs.getRoleError());</span>
-<span class="fc" id="L89">		assertEquals(expectedPermitError, errorMsgs.getPermitTypeError());</span>
-<span class="fc" id="L90">		assertEquals(expectedFirstNameError, errorMsgs.getFirstNameError());</span>
-<span class="fc" id="L91">		assertEquals(expectedMiddleNameError, errorMsgs.getMiddleNameError());</span>
-<span class="fc" id="L92">		assertEquals(expectedLastNameError, errorMsgs.getLastNameError());</span>
-<span class="fc" id="L93">		assertEquals(expectedAddressError, errorMsgs.getAddressError());</span>
-<span class="fc" id="L94">		assertEquals(expectedEmailError, errorMsgs.getEmailError());</span>
-<span class="fc" id="L95">		assertEquals(expectedPhoneError, errorMsgs.getPhoneError());</span>
-<span class="fc" id="L96">		assertEquals(expectedRegNumError, errorMsgs.getRegNumberError());</span>
-<span class="fc" id="L97">		assertEquals(expectedUtaIdError, errorMsgs.getUtaIdError());</span>
-<span class="fc" id="L98">		assertEquals(expectedUserNameError, errorMsgs.getUsernameError());</span>
-<span class="fc" id="L99">		assertEquals(expectedHashPassError, errorMsgs.getHashedPasswordError());</span>
-<span class="fc" id="L100">		assertEquals(expectedConfirmPassError, errorMsgs.getConfirmPasswordError());</span>
-<span class="fc" id="L101">		assertEquals(expectedDlError, errorMsgs.getDrivingLicenseError());</span>
-<span class="fc" id="L102">		assertEquals(expectedDlExpiryError, errorMsgs.getDrivingLicenseExpiry());</span>
-<span class="fc" id="L103">		assertEquals(expectedDobError, errorMsgs.getBirthDateError());</span>
-<span class="fc" id="L104">	}</span>
+<span class="fc" id="L88">		assertEquals(expectedError, errorMsgs.getErrorMsg());</span>
+<span class="fc" id="L89">		assertEquals(expectedRoleError, errorMsgs.getRoleError());</span>
+<span class="fc" id="L90">		assertEquals(expectedPermitError, errorMsgs.getPermitTypeError());</span>
+<span class="fc" id="L91">		assertEquals(expectedFirstNameError, errorMsgs.getFirstNameError());</span>
+<span class="fc" id="L92">		assertEquals(expectedMiddleNameError, errorMsgs.getMiddleNameError());</span>
+<span class="fc" id="L93">		assertEquals(expectedLastNameError, errorMsgs.getLastNameError());</span>
+<span class="fc" id="L94">		assertEquals(expectedAddressError, errorMsgs.getAddressError());</span>
+<span class="fc" id="L95">		assertEquals(expectedEmailError, errorMsgs.getEmailError());</span>
+<span class="fc" id="L96">		assertEquals(expectedPhoneError, errorMsgs.getPhoneError());</span>
+<span class="fc" id="L97">		assertEquals(expectedRegNumError, errorMsgs.getRegNumberError());</span>
+<span class="fc" id="L98">		assertEquals(expectedUtaIdError, errorMsgs.getUtaIdError());</span>
+<span class="fc" id="L99">		assertEquals(expectedUserNameError, errorMsgs.getUsernameError());</span>
+<span class="fc" id="L100">		assertEquals(expectedHashPassError, errorMsgs.getHashedPasswordError());</span>
+<span class="fc" id="L101">		assertEquals(expectedConfirmPassError, errorMsgs.getConfirmPasswordError());</span>
+<span class="fc" id="L102">		assertEquals(expectedDlError, errorMsgs.getDrivingLicenseError());</span>
+<span class="fc" id="L103">		assertEquals(expectedDlExpiryError, errorMsgs.getDrivingLicenseExpiry());</span>
+<span class="fc" id="L104">		assertEquals(expectedDobError, errorMsgs.getBirthDateError());</span>
+<span class="fc" id="L105">	}</span>
+	
+	@Test
+	@FileParameters(&quot;tests/test/UpdatedUserDetailsDAOTest.csv&quot;)
+	public void daoTest(String userName, int userId){
+<span class="fc" id="L110">		UpdatedUserDetailsDAO dao = new UpdatedUserDetailsDAO();</span>
+<span class="fc" id="L111">		dao.searchByUsername(userName);</span>
+
+<span class="fc" id="L113">		updatedUserDetails.setUserID(userId);</span>
+<span class="fc" id="L114">		dao.updateUser(updatedUserDetails);</span>
+<span class="fc" id="L115">	}</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 28, 2019 10:57:19 PM)</div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 29, 2019 5:46:49 AM)</div></body></html>

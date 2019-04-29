@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>UserDetailsDAO.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 28, 2019 10:57:19 PM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">data</a> &gt; <span class="el_source">UserDetailsDAO.java</span></div><h1>UserDetailsDAO.java</h1><pre class="source lang-java linenums">package data;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>UserDetailsDAO.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 29, 2019 5:46:49 AM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">data</a> &gt; <span class="el_source">UserDetailsDAO.java</span></div><h1>UserDetailsDAO.java</h1><pre class="source lang-java linenums">package data;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,448 +16,294 @@ import com.sun.istack.internal.logging.Logger;
 import model.*;
 import util.SQLConnection;
 
-<span class="nc" id="L19">public class UserDetailsDAO {</span>
+<span class="fc" id="L19">public class UserDetailsDAO {</span>
 
 <span class="fc" id="L21">	private static final Logger LOG = Logger.getLogger(UserDetailsDAO.class.getName(), UserDetailsDAO.class);</span>
 <span class="fc" id="L22">	static SQLConnection DBMgr = SQLConnection.getInstance();</span>
-	
-//	private static ArrayList&lt;UserDetails&gt; ReturnMatchingUsers (String queryString) {
-//		ArrayList&lt;UserDetails&gt; userListInDB = new ArrayList&lt;UserDetails&gt;();
-//		
-//			Statement stmt = null;
-//			Connection conn = SQLConnection.getDBConnection();  
-//		try {
-//			stmt = conn.createStatement();
-//			ResultSet usersList = stmt.executeQuery(queryString);
-//			while (usersList.next())
-//			{
-//				UserDetails userDetails = new UserDetails(); 
-//				userDetails.setUserID(usersList.getInt(&quot;User_Id&quot;));
-//				userDetails.setFirstName(usersList.getString(&quot;FirstName&quot;));
-//				userDetails.setMiddleName(usersList.getString(&quot;MiddleName&quot;));
-//				userDetails.setLastName(usersList.getString(&quot;LastName&quot;));  
-//				userDetails.setAddress(usersList.getString(&quot;Address&quot;));
-//				userDetails.setDrivingLicenseExpiry(usersList.getDate(&quot;DL_Expiry&quot;).toString());
-//				userDetails.setDrivingLicenseNo(usersList.getString(&quot;DL_Number&quot;));
-//				userDetails.setEmail(usersList.getString(&quot;Email&quot;));
-//				userDetails.setBirthDate(usersList.getDate(&quot;DOB&quot;).toString());  
-//				userDetails.setSex(usersList.getString(&quot;Sex&quot;));
-//				userDetails.setRegistrationNumber(usersList.getString(&quot;Reg_Number&quot;));
-//				userDetails.setPhone(usersList.getString(&quot;Phone&quot;));
-//				userDetails.setUta_Id(usersList.getString(&quot;uta_Id&quot;));
-//				
-//				userListInDB.add(userDetails);					
-//			}
-//		} catch (SQLException e) {
-//			LOG.log(Level.SEVERE, &quot;Sql Error: &quot;, e);
-//		} finally {
-//			try {
-//				conn.close();
-//				stmt.close();
-//			} catch (SQLException e) {
-//				LOG.log(Level.SEVERE, &quot;Sql Error: &quot;, e);
-//			}
-//		}
-//		return userListInDB;
-//	}
-	
-	private static Boolean StoreListinDB (UserDetails userDetails,String queryString) {
-<span class="fc" id="L65">		Statement stmt = null;</span>
-<span class="fc" id="L66">		Boolean isSuccess = false;</span>
-<span class="fc" id="L67">		Connection conn = SQLConnection.getDBConnection();  </span>
+
+	private static Boolean StoreListinDB(UserDetails userDetails, String queryString) {
+<span class="fc" id="L25">		Statement stmt = null;</span>
+<span class="fc" id="L26">		Boolean isSuccess = false;</span>
+<span class="fc" id="L27">		Connection conn = SQLConnection.getDBConnection();</span>
 		try {
-<span class="fc" id="L69">			stmt = conn.createStatement();</span>
-<span class="fc" id="L70">			String insertUserDetails = queryString + &quot; VALUES ('&quot;  </span>
-<span class="fc" id="L71">					+ userDetails.getUserID()  + &quot;','&quot;</span>
-<span class="fc" id="L72">					+ userDetails.getFirstName() + &quot;','&quot;	</span>
-<span class="fc" id="L73">					+ userDetails.getMiddleName() + &quot;','&quot;	</span>
-<span class="fc" id="L74">					+ userDetails.getLastName() + &quot;','&quot;	</span>
-<span class="fc" id="L75">					+ userDetails.getSex() + &quot;','&quot; </span>
-<span class="fc" id="L76">					+ userDetails.getBirthDate() + &quot;','&quot;</span>
-<span class="fc" id="L77">					+ userDetails.getAddress() + &quot;','&quot;</span>
-<span class="fc" id="L78">					+ userDetails.getEmail() + &quot;','&quot;</span>
-<span class="fc" id="L79">					+ userDetails.getPhone() + &quot;','&quot;</span>
-<span class="fc" id="L80">					+ userDetails.getDrivingLicenseNo() + &quot;','&quot;</span>
-<span class="fc" id="L81">					+ userDetails.getDrivingLicenseExpiry() + &quot;','&quot;</span>
-<span class="fc" id="L82">					+ userDetails.getRegistrationNumber() + &quot;','&quot;</span>
-<span class="fc" id="L83">					+ userDetails.getUta_Id() + &quot;'&quot;</span>
-<span class="fc" id="L84">					+ ')';</span>
-<span class="fc" id="L85">			stmt.executeUpdate(insertUserDetails);	</span>
-<span class="fc" id="L86">			conn.commit(); </span>
-<span class="fc" id="L87">			isSuccess  = true;</span>
-<span class="fc" id="L88">		} </span>
-<span class="nc" id="L89">		catch (SQLException e) {</span>
-<span class="nc" id="L90">			e.printStackTrace();</span>
-<span class="nc" id="L91">			isSuccess = false;</span>
-		} 
-		finally 
-		{
-			try 
-			{
-<span class="fc" id="L97">				conn.close();</span>
-<span class="fc" id="L98">				stmt.close();</span>
-<span class="fc" id="L99">				isSuccess = true;</span>
-<span class="pc" id="L100">			} catch (SQLException e) {</span>
-<span class="nc" id="L101">				LOG.log(Level.SEVERE, &quot;Sql Error: &quot;, e);</span>
-<span class="nc" id="L102">				isSuccess = false;</span>
-			}
-		}
-
-<span class="fc" id="L106">		return isSuccess;</span>
-	}
-
-	public static Boolean insertUserDetails(UserDetails userDetails) 	
-	{  
-<span class="fc" id="L111">		Boolean isSuccess = false;</span>
-		try
-		{
-
-<span class="fc" id="L115">			userDetails.setUserID(ReturnUserID(userDetails.getUsername()));</span>
-<span class="fc" id="L116">			isSuccess = StoreListinDB(userDetails,&quot;INSERT INTO user_details (User_Id,FirstName,MiddleName,LastName,Sex,DOB, Address, Email, Phone, DL_Number,DL_Expiry,Reg_Number,uta_Id)&quot;);	</span>
-<span class="fc" id="L117">			return isSuccess;</span>
-<span class="nc" id="L118">		} catch (Exception ex) {</span>
-<span class="nc" id="L119">			LOG.log(Level.SEVERE, &quot;Sql Error: &quot;, ex);</span>
-<span class="nc" id="L120">			return isSuccess;</span>
-		}
-	}
-//	public static ArrayList&lt;UserDetails&gt;  listUsers() 
-//	{  
-//		return ReturnMatchingUsers(&quot; SELECT * from user_details ORDER BY User_Id&quot;);
-//	}
-	
-	//determine if companyID is unique
-	public static Integer ReturnUserID(String username)  
-	{  	
-<span class="fc" id="L131">		int userID = 1;</span>
-<span class="fc" id="L132">		Statement stmt = null;</span>
-<span class="fc" id="L133">		Connection conn = SQLConnection.getDBConnection(); </span>
-<span class="fc" id="L134">		String queryString =  &quot;SELECT User_Id,UserName from system_users WHERE UserName ='&quot; + username +&quot;'&quot;;</span>
-		try 
-		{
-<span class="fc" id="L137">			stmt = conn.createStatement();</span>
-<span class="fc" id="L138">			ResultSet result = stmt.executeQuery(queryString);</span>
-<span class="fc" id="L139">			result.next();</span>
-<span class="fc" id="L140">			userID = result.getInt(&quot;User_Id&quot;);</span>
-<span class="pc" id="L141">		} catch (SQLException e) {</span>
-<span class="nc" id="L142">			LOG.log(Level.SEVERE, &quot;Sql Error: &quot;, e);</span>
+<span class="fc" id="L29">			stmt = conn.createStatement();</span>
+<span class="fc" id="L30">			String insertUserDetails = queryString + &quot; VALUES ('&quot; + userDetails.getUserID() + &quot;','&quot;</span>
+<span class="fc" id="L31">					+ userDetails.getFirstName() + &quot;','&quot; + userDetails.getMiddleName() + &quot;','&quot;</span>
+<span class="fc" id="L32">					+ userDetails.getLastName() + &quot;','&quot; + userDetails.getSex() + &quot;','&quot; + userDetails.getBirthDate()</span>
+<span class="fc" id="L33">					+ &quot;','&quot; + userDetails.getAddress() + &quot;','&quot; + userDetails.getEmail() + &quot;','&quot; + userDetails.getPhone()</span>
+<span class="fc" id="L34">					+ &quot;','&quot; + userDetails.getDrivingLicenseNo() + &quot;','&quot; + userDetails.getDrivingLicenseExpiry() + &quot;','&quot;</span>
+<span class="fc" id="L35">					+ userDetails.getRegistrationNumber() + &quot;','&quot; + userDetails.getUta_Id() + &quot;'&quot; + ')';</span>
+<span class="fc" id="L36">			stmt.executeUpdate(insertUserDetails);</span>
+<span class="fc" id="L37">			conn.commit();</span>
+<span class="fc" id="L38">			isSuccess = true;</span>
+<span class="fc" id="L39">		} catch (SQLException e) {</span>
+<span class="fc" id="L40">			e.printStackTrace();</span>
+<span class="fc" id="L41">			isSuccess = false;</span>
 		} finally {
 			try {
-<span class="fc" id="L145">				conn.close();</span>
-<span class="fc" id="L146">				stmt.close();</span>
-<span class="pc" id="L147">			} catch (SQLException e) {</span>
-<span class="nc" id="L148">				LOG.log(Level.SEVERE, &quot;Sql Error: &quot;, e);</span>
+<span class="fc" id="L44">				conn.close();</span>
+<span class="fc" id="L45">				stmt.close();</span>
+<span class="fc" id="L46">				isSuccess = true;</span>
+<span class="pc" id="L47">			} catch (SQLException e) {</span>
+<span class="nc" id="L48">				LOG.log(Level.SEVERE, &quot;Sql Error: &quot;, e);</span>
+<span class="nc" id="L49">				isSuccess = false;</span>
+			}
+		}
+
+<span class="fc" id="L53">		return isSuccess;</span>
+	}
+
+	public static Boolean insertUserDetails(UserDetails userDetails) {
+<span class="fc" id="L57">		Boolean isSuccess = false;</span>
+		try {
+
+<span class="fc" id="L60">			userDetails.setUserID(ReturnUserID(userDetails.getUsername()));</span>
+<span class="fc" id="L61">			isSuccess = StoreListinDB(userDetails,</span>
+<span class="fc" id="L62">					&quot;INSERT INTO user_details (User_Id,FirstName,MiddleName,LastName,Sex,DOB, Address, Email, Phone, DL_Number,DL_Expiry,Reg_Number,uta_Id)&quot;);</span>
+<span class="fc" id="L63">			return isSuccess;</span>
+<span class="nc" id="L64">		} catch (Exception ex) {</span>
+<span class="nc" id="L65">			LOG.log(Level.SEVERE, &quot;Sql Error: &quot;, ex);</span>
+<span class="nc" id="L66">			return isSuccess;</span>
+		}
+	}
+
+	// determine if companyID is unique
+	public static Integer ReturnUserID(String username) {
+<span class="fc" id="L72">		int userID = 1;</span>
+<span class="fc" id="L73">		Statement stmt = null;</span>
+<span class="fc" id="L74">		Connection conn = SQLConnection.getDBConnection();</span>
+<span class="fc" id="L75">		String queryString = &quot;SELECT User_Id,UserName from system_users WHERE UserName ='&quot; + username + &quot;'&quot;;</span>
+		try {
+<span class="fc" id="L77">			stmt = conn.createStatement();</span>
+<span class="fc" id="L78">			ResultSet result = stmt.executeQuery(queryString);</span>
+<span class="fc" id="L79">			result.next();</span>
+<span class="fc" id="L80">			userID = result.getInt(&quot;User_Id&quot;);</span>
+<span class="fc" id="L81">		} catch (SQLException e) {</span>
+<span class="fc" id="L82">			LOG.log(Level.SEVERE, &quot;Sql Error: &quot;, e);</span>
+		} finally {
+			try {
+<span class="fc" id="L85">				conn.close();</span>
+<span class="fc" id="L86">				stmt.close();</span>
+<span class="pc" id="L87">			} catch (SQLException e) {</span>
+<span class="nc" id="L88">				LOG.log(Level.SEVERE, &quot;Sql Error: &quot;, e);</span>
 			}
 
 		}
-<span class="fc" id="L152">		return userID;</span>
+<span class="fc" id="L92">		return userID;</span>
 	}
-	
+
 	public static List&lt;UserDetails&gt; searchByUsername(String userName) {
-<span class="fc" id="L156">		List&lt;UserDetails&gt; userListInDB = new ArrayList&lt;UserDetails&gt;();</span>
-<span class="fc" id="L157">		Statement stmt = null;</span>
-<span class="fc" id="L158">		Connection conn = SQLConnection.getDBConnection();</span>
-<span class="fc" id="L159">		DateFormat df = new SimpleDateFormat(&quot;yyyy-mm-dd&quot;);</span>
+<span class="fc" id="L96">		List&lt;UserDetails&gt; userListInDB = new ArrayList&lt;UserDetails&gt;();</span>
+<span class="fc" id="L97">		Statement stmt = null;</span>
+<span class="fc" id="L98">		Connection conn = SQLConnection.getDBConnection();</span>
+<span class="fc" id="L99">		DateFormat df = new SimpleDateFormat(&quot;yyyy-mm-dd&quot;);</span>
 		try {
-<span class="fc" id="L161">			stmt = conn.createStatement();</span>
-<span class="fc" id="L162">			PreparedStatement pst = null;</span>
-<span class="fc" id="L163">			String sql = &quot;SELECT su.PermitType,su.Role,ud.* FROM parking_management.system_users su JOIN user_details ud ON su.user_id=ud.user_id where su.UserName=?&quot;;</span>
-<span class="fc" id="L164">			pst = conn.prepareStatement(sql);</span>
-<span class="fc" id="L165">			pst.setString(1, userName);</span>
-<span class="fc" id="L166">			ResultSet rs2 = pst.executeQuery();</span>
-<span class="fc bfc" id="L167" title="All 2 branches covered.">			while (rs2.next())</span>
-			{
-<span class="fc" id="L169">				UserDetails userDetails = new UserDetails();</span>
-<span class="fc" id="L170">				userDetails.setAddress(rs2.getString(&quot;Address&quot;));</span>
-<span class="fc" id="L171">				userDetails.setDrivingLicenseExpiry(df.format(rs2.getDate(&quot;DL_Expiry&quot;)));</span>
-<span class="fc" id="L172">				userDetails.setBirthDate(df.format(rs2.getDate(&quot;DOB&quot;)));</span>
-<span class="fc" id="L173">				userDetails.setFirstName(rs2.getString(&quot;FirstName&quot;));</span>
-<span class="fc" id="L174">				userDetails.setMiddleName(rs2.getString(&quot;MiddleName&quot;));</span>
-<span class="fc" id="L175">				userDetails.setLastName(rs2.getString(&quot;LastName&quot;));</span>
-<span class="fc" id="L176">				userDetails.setSex(rs2.getString(&quot;Sex&quot;));</span>
-<span class="fc" id="L177">				userDetails.setEmail(rs2.getString(&quot;Email&quot;));</span>
-<span class="fc" id="L178">				userDetails.setPhone(rs2.getString(&quot;Phone&quot;));</span>
-<span class="fc" id="L179">				userDetails.setDrivingLicenseNo(rs2.getString(&quot;DL_Number&quot;));</span>
-<span class="fc" id="L180">				userDetails.setRegistrationNumber(rs2.getString(&quot;Reg_Number&quot;));</span>
-<span class="fc" id="L181">				userDetails.setUta_Id(rs2.getString(&quot;uta_id&quot;));</span>
-<span class="fc" id="L182">				userDetails.setUsername(userName);</span>
-<span class="fc" id="L183">				userListInDB.add(userDetails);</span>
-			}	
-<span class="pc" id="L185">		} catch (SQLException e) {</span>
-<span class="nc" id="L186">			LOG.log(Level.SEVERE, &quot;Sql Error: &quot;, e);</span>
+<span class="fc" id="L101">			stmt = conn.createStatement();</span>
+<span class="fc" id="L102">			PreparedStatement pst = null;</span>
+<span class="fc" id="L103">			String sql = &quot;SELECT su.PermitType,su.Role,ud.* FROM parking_management.system_users su JOIN user_details ud ON su.user_id=ud.user_id where su.UserName=?&quot;;</span>
+<span class="fc" id="L104">			pst = conn.prepareStatement(sql);</span>
+<span class="fc" id="L105">			pst.setString(1, userName);</span>
+<span class="fc" id="L106">			ResultSet rs2 = pst.executeQuery();</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">			while (rs2.next()) {</span>
+<span class="fc" id="L108">				UserDetails userDetails = new UserDetails();</span>
+<span class="fc" id="L109">				userDetails.setAddress(rs2.getString(&quot;Address&quot;));</span>
+<span class="fc" id="L110">				userDetails.setDrivingLicenseExpiry(df.format(rs2.getDate(&quot;DL_Expiry&quot;)));</span>
+<span class="fc" id="L111">				userDetails.setBirthDate(df.format(rs2.getDate(&quot;DOB&quot;)));</span>
+<span class="fc" id="L112">				userDetails.setFirstName(rs2.getString(&quot;FirstName&quot;));</span>
+<span class="fc" id="L113">				userDetails.setMiddleName(rs2.getString(&quot;MiddleName&quot;));</span>
+<span class="fc" id="L114">				userDetails.setLastName(rs2.getString(&quot;LastName&quot;));</span>
+<span class="fc" id="L115">				userDetails.setSex(rs2.getString(&quot;Sex&quot;));</span>
+<span class="fc" id="L116">				userDetails.setEmail(rs2.getString(&quot;Email&quot;));</span>
+<span class="fc" id="L117">				userDetails.setPhone(rs2.getString(&quot;Phone&quot;));</span>
+<span class="fc" id="L118">				userDetails.setDrivingLicenseNo(rs2.getString(&quot;DL_Number&quot;));</span>
+<span class="fc" id="L119">				userDetails.setRegistrationNumber(rs2.getString(&quot;Reg_Number&quot;));</span>
+<span class="fc" id="L120">				userDetails.setUta_Id(rs2.getString(&quot;uta_id&quot;));</span>
+<span class="fc" id="L121">				userDetails.setUsername(userName);</span>
+<span class="fc" id="L122">				userListInDB.add(userDetails);</span>
+			}
+<span class="pc" id="L124">		} catch (SQLException e) {</span>
+<span class="nc" id="L125">			LOG.log(Level.SEVERE, &quot;Sql Error: &quot;, e);</span>
 		} finally {
 			try {
-<span class="fc" id="L189">				conn.close();</span>
-<span class="fc" id="L190">				stmt.close();</span>
-<span class="pc" id="L191">			} catch (SQLException e) {</span>
-<span class="nc" id="L192">				LOG.log(Level.SEVERE, &quot;Sql Error: &quot;, e);</span>
+<span class="fc" id="L128">				conn.close();</span>
+<span class="fc" id="L129">				stmt.close();</span>
+<span class="pc" id="L130">			} catch (SQLException e) {</span>
+<span class="nc" id="L131">				LOG.log(Level.SEVERE, &quot;Sql Error: &quot;, e);</span>
 			}
 		}
-<span class="fc" id="L195">		return userListInDB;</span>
-	}	
-	
+<span class="fc" id="L134">		return userListInDB;</span>
+	}
+
 	public static List&lt;UserDetails&gt; getLastNames() {
-<span class="fc" id="L199">		List&lt;UserDetails&gt; userListInDB = new ArrayList&lt;UserDetails&gt;();</span>
-<span class="fc" id="L200">		Statement stmt = null;</span>
-<span class="fc" id="L201">		Connection conn = SQLConnection.getDBConnection();</span>
-<span class="fc" id="L202">		LOG.info(&quot;Getting LastNames.....&quot;);</span>
+<span class="fc" id="L138">		List&lt;UserDetails&gt; userListInDB = new ArrayList&lt;UserDetails&gt;();</span>
+<span class="fc" id="L139">		Statement stmt = null;</span>
+<span class="fc" id="L140">		Connection conn = SQLConnection.getDBConnection();</span>
+<span class="fc" id="L141">		LOG.info(&quot;Getting LastNames.....&quot;);</span>
 		try {
-<span class="fc" id="L204">			stmt = conn.createStatement();</span>
-<span class="fc" id="L205">			PreparedStatement pst = null;</span>
-<span class="fc" id="L206">			String sql = &quot;SELECT LastName FROM parking_management.user_details&quot;;</span>
-<span class="fc" id="L207">			pst = conn.prepareStatement(sql);</span>
-<span class="fc" id="L208">			ResultSet rs = pst.executeQuery();</span>
-<span class="fc bfc" id="L209" title="All 2 branches covered.">			while (rs.next())</span>
-			{
-<span class="fc" id="L211">				UserDetails userDetails = new UserDetails();</span>
-<span class="fc" id="L212">				userDetails.setLastName(rs.getString(&quot;LastName&quot;));</span>
-<span class="fc" id="L213">				userListInDB.add(userDetails);</span>
+<span class="fc" id="L143">			stmt = conn.createStatement();</span>
+<span class="fc" id="L144">			PreparedStatement pst = null;</span>
+<span class="fc" id="L145">			String sql = &quot;SELECT LastName FROM parking_management.user_details&quot;;</span>
+<span class="fc" id="L146">			pst = conn.prepareStatement(sql);</span>
+<span class="fc" id="L147">			ResultSet rs = pst.executeQuery();</span>
+<span class="fc bfc" id="L148" title="All 2 branches covered.">			while (rs.next()) {</span>
+<span class="fc" id="L149">				UserDetails userDetails = new UserDetails();</span>
+<span class="fc" id="L150">				userDetails.setLastName(rs.getString(&quot;LastName&quot;));</span>
+<span class="fc" id="L151">				userListInDB.add(userDetails);</span>
 			}
-<span class="pc" id="L215">		} catch (SQLException e) {</span>
-<span class="nc" id="L216">			LOG.log(Level.SEVERE, &quot;Sql Error: &quot;, e);</span>
+<span class="pc" id="L153">		} catch (SQLException e) {</span>
+<span class="nc" id="L154">			LOG.log(Level.SEVERE, &quot;Sql Error: &quot;, e);</span>
 		} finally {
 			try {
-<span class="fc" id="L219">				conn.close();</span>
-<span class="fc" id="L220">				stmt.close();</span>
-<span class="pc" id="L221">			} catch (SQLException e) {</span>
-<span class="nc" id="L222">				LOG.log(Level.SEVERE, &quot;Sql Error: &quot;, e);</span>
+<span class="fc" id="L157">				conn.close();</span>
+<span class="fc" id="L158">				stmt.close();</span>
+<span class="pc" id="L159">			} catch (SQLException e) {</span>
+<span class="nc" id="L160">				LOG.log(Level.SEVERE, &quot;Sql Error: &quot;, e);</span>
 			}
 		}
-<span class="fc" id="L225">		return userListInDB;</span>
+<span class="fc" id="L163">		return userListInDB;</span>
 	}
 
 	public static List&lt;UserDetails&gt; getUserNames() {
-<span class="fc" id="L229">		List&lt;UserDetails&gt; userListInDB = new ArrayList&lt;UserDetails&gt;();</span>
-<span class="fc" id="L230">		Statement stmt = null;</span>
-<span class="fc" id="L231">		Connection conn = SQLConnection.getDBConnection();</span>
+<span class="fc" id="L167">		List&lt;UserDetails&gt; userListInDB = new ArrayList&lt;UserDetails&gt;();</span>
+<span class="fc" id="L168">		Statement stmt = null;</span>
+<span class="fc" id="L169">		Connection conn = SQLConnection.getDBConnection();</span>
 
 		try {
-<span class="fc" id="L234">			stmt = conn.createStatement();</span>
-<span class="fc" id="L235">			PreparedStatement pst = null;</span>
-<span class="fc" id="L236">			String sql = &quot;SELECT UserName FROM parking_management.system_users&quot;;</span>
-<span class="fc" id="L237">			pst = conn.prepareStatement(sql);</span>
-<span class="fc" id="L238">			ResultSet rs = pst.executeQuery();</span>
-<span class="fc bfc" id="L239" title="All 2 branches covered.">			while (rs.next())</span>
-			{
+<span class="fc" id="L172">			stmt = conn.createStatement();</span>
+<span class="fc" id="L173">			PreparedStatement pst = null;</span>
+<span class="fc" id="L174">			String sql = &quot;SELECT UserName FROM parking_management.system_users&quot;;</span>
+<span class="fc" id="L175">			pst = conn.prepareStatement(sql);</span>
+<span class="fc" id="L176">			ResultSet rs = pst.executeQuery();</span>
+<span class="fc bfc" id="L177" title="All 2 branches covered.">			while (rs.next()) {</span>
 
-<span class="fc" id="L242">				UserDetails userDetails = new UserDetails();</span>
-<span class="fc" id="L243">				userDetails.setUsername(rs.getString(&quot;UserName&quot;));</span>
-<span class="fc" id="L244">				userListInDB.add(userDetails);</span>
+<span class="fc" id="L179">				UserDetails userDetails = new UserDetails();</span>
+<span class="fc" id="L180">				userDetails.setUsername(rs.getString(&quot;UserName&quot;));</span>
+<span class="fc" id="L181">				userListInDB.add(userDetails);</span>
 
 			}
-<span class="pc" id="L247">		} catch (SQLException e) {</span>
-<span class="nc" id="L248">			LOG.log(Level.SEVERE, &quot;Sql Error: &quot;, e);</span>
+<span class="pc" id="L184">		} catch (SQLException e) {</span>
+<span class="nc" id="L185">			LOG.log(Level.SEVERE, &quot;Sql Error: &quot;, e);</span>
 		} finally {
 			try {
-<span class="fc" id="L251">				conn.close();</span>
-<span class="fc" id="L252">				stmt.close();</span>
-<span class="pc" id="L253">			} catch (SQLException e) {</span>
-<span class="nc" id="L254">				LOG.log(Level.SEVERE, &quot;Sql Error: &quot;, e);</span>
+<span class="fc" id="L188">				conn.close();</span>
+<span class="fc" id="L189">				stmt.close();</span>
+<span class="pc" id="L190">			} catch (SQLException e) {</span>
+<span class="nc" id="L191">				LOG.log(Level.SEVERE, &quot;Sql Error: &quot;, e);</span>
 			}
 		}
-<span class="fc" id="L257">		return userListInDB;</span>
+<span class="fc" id="L194">		return userListInDB;</span>
 	}
 
-	public static boolean revokeUser(String type, String value, Boolean isRevoked,String comment) {
-<span class="fc" id="L261">		Statement stmt = null;</span>
-<span class="fc" id="L262">		Connection conn = SQLConnection.getDBConnection();</span>
-<span class="fc" id="L263">		boolean isSuccessful = true;</span>
-//		if (type != null) 
-//		{
-//			if (type.equalsIgnoreCase(&quot;UserName&quot;)) {
+	public static boolean revokeUser(String type, String value, Boolean isRevoked, String comment) {
+<span class="fc" id="L198">		Statement stmt = null;</span>
+<span class="fc" id="L199">		Connection conn = SQLConnection.getDBConnection();</span>
+<span class="fc" id="L200">		boolean isSuccessful = true;</span>
 
-				try {
-<span class="fc" id="L269">					stmt = conn.createStatement();</span>
-<span class="fc" id="L270">					PreparedStatement pst = null;</span>
-<span class="fc" id="L271">					String sql = &quot;UPDATE parking_management.system_users SET IsRevoked=?,comment=? where UserName=?&quot;;</span>
-<span class="fc" id="L272">					pst = conn.prepareStatement(sql);</span>
-<span class="fc" id="L273">					pst.setBoolean(1, isRevoked);</span>
-<span class="fc" id="L274">					pst.setString(2, comment);</span>
-<span class="fc" id="L275">					pst.setString(3, value);</span>
-<span class="fc" id="L276">					pst.executeUpdate();</span>
+		try {
+<span class="fc" id="L203">			stmt = conn.createStatement();</span>
+<span class="fc" id="L204">			PreparedStatement pst = null;</span>
+<span class="fc" id="L205">			String sql = &quot;UPDATE parking_management.system_users SET IsRevoked=?,comment=? where UserName=?&quot;;</span>
+<span class="fc" id="L206">			pst = conn.prepareStatement(sql);</span>
+<span class="fc" id="L207">			pst.setBoolean(1, isRevoked);</span>
+<span class="fc" id="L208">			pst.setString(2, comment);</span>
+<span class="fc" id="L209">			pst.setString(3, value);</span>
+<span class="fc" id="L210">			pst.executeUpdate();</span>
 
-<span class="pc" id="L278">				} catch (SQLException e) {</span>
-<span class="nc" id="L279">					LOG.log(Level.SEVERE, &quot;Sql Error: &quot;, e);</span>
-<span class="nc" id="L280">					isSuccessful = false;</span>
-				} finally {
-					try {
-<span class="fc" id="L283">						conn.commit();</span>
-<span class="fc" id="L284">						conn.close();</span>
-<span class="fc" id="L285">						stmt.close();</span>
-<span class="pc" id="L286">					} catch (SQLException e) {</span>
-<span class="nc" id="L287">						LOG.log(Level.SEVERE, &quot;Sql Error: &quot;, e);</span>
-<span class="nc" id="L288">						isSuccessful = false;</span>
-					}
-				}
-//			} 
-//		else {
-//				int userId;
-//				try {
-//					stmt = conn.createStatement();
-//					PreparedStatement pst = null;
-//					String sql = &quot;SELECT * FROM parking_management.user_details where LastName=?&quot;;
-//					pst = conn.prepareStatement(sql);
-//					pst.setString(1, value);
-//					ResultSet rs = pst.executeQuery();
-//
-//					if (!rs.isBeforeFirst()) {
-//						LOG.info(&quot;No Data Available&quot;);
-//						isSuccessful = false;
-//					} else if (rs.next()) {
-//						userId = rs.getInt(&quot;User_Id&quot;);
-//						stmt = conn.createStatement();
-//						PreparedStatement pst2 = null;
-//						String sql2 = &quot;UPDATE parking_management.system_users SET IsRevoked=?,comment=? where User_Id=?&quot;;
-//						pst2 = conn.prepareStatement(sql2);
-//						pst2.setBoolean(1, isRevoked);
-//						pst.setString(2, comment);
-//						pst2.setInt(3, userId);
-//						pst2.executeUpdate();
-//					}
-//				} catch (SQLException e) {
-//					LOG.log(Level.SEVERE, &quot;Sql Error: &quot;, e);
-//					isSuccessful = false;
-//				} finally {
-//					try {
-//						conn.commit();
-//						conn.close();
-//						stmt.close();
-//					} catch (SQLException e) {
-//						LOG.log(Level.SEVERE, &quot;Sql Error: &quot;, e);
-//						isSuccessful = false;
-//					}
-//				}
-//			}
-//		}
-//		else 
-//		{
-//			isSuccessful = false;
-//		}
+<span class="pc" id="L212">		} catch (SQLException e) {</span>
+<span class="nc" id="L213">			LOG.log(Level.SEVERE, &quot;Sql Error: &quot;, e);</span>
+<span class="nc" id="L214">			isSuccessful = false;</span>
+		} finally {
+			try {
+<span class="fc" id="L217">				conn.commit();</span>
+<span class="fc" id="L218">				conn.close();</span>
+<span class="fc" id="L219">				stmt.close();</span>
+<span class="pc" id="L220">			} catch (SQLException e) {</span>
+<span class="nc" id="L221">				LOG.log(Level.SEVERE, &quot;Sql Error: &quot;, e);</span>
+<span class="nc" id="L222">				isSuccessful = false;</span>
+			}
+		}
 
-<span class="fc" id="L336">		return isSuccessful;</span>
+<span class="fc" id="L226">		return isSuccessful;</span>
 	}
 
 	public static boolean changeRole(String type, String value, String role) {
-<span class="fc" id="L340">		Statement stmt = null;</span>
-<span class="fc" id="L341">		Connection conn = SQLConnection.getDBConnection();</span>
-<span class="fc" id="L342">		boolean isSuccessful = true;</span>
-//		if (type != null) 
-//		{
-//			if (type.equalsIgnoreCase(&quot;UserName&quot;)) 
-//			{
-				try {
-<span class="fc" id="L348">					stmt = conn.createStatement();</span>
+<span class="fc" id="L230">		Statement stmt = null;</span>
+<span class="fc" id="L231">		Connection conn = SQLConnection.getDBConnection();</span>
+<span class="fc" id="L232">		boolean isSuccessful = true;</span>
 
-<span class="fc" id="L350">					PreparedStatement pst = null;</span>
+		try {
+<span class="fc" id="L235">			stmt = conn.createStatement();</span>
 
-<span class="fc" id="L352">					String sql = &quot;UPDATE parking_management.system_users SET Role=? where UserName=?&quot;;</span>
-<span class="fc" id="L353">					pst = conn.prepareStatement(sql);</span>
-<span class="fc" id="L354">					pst.setString(1, role);</span>
-<span class="fc" id="L355">					pst.setString(2, value);</span>
-<span class="fc" id="L356">					pst.executeUpdate();</span>
+<span class="fc" id="L237">			PreparedStatement pst = null;</span>
 
-<span class="pc" id="L358">				} catch (SQLException e) {</span>
-<span class="nc" id="L359">					isSuccessful = false;</span>
-<span class="nc" id="L360">					LOG.log(Level.SEVERE, &quot;Sql Error: &quot;, e);</span>
-				} finally {
-					try {
-<span class="fc" id="L363">						conn.commit();</span>
-<span class="fc" id="L364">						conn.close();</span>
-<span class="fc" id="L365">						stmt.close();</span>
-<span class="pc" id="L366">					} catch (SQLException e) {</span>
-<span class="nc" id="L367">						isSuccessful = false;</span>
-<span class="nc" id="L368">						LOG.log(Level.SEVERE, &quot;Sql Error: &quot;, e);</span>
-					}
-				}
-//			} else {
-//				int userId;
-//				try {
-//					stmt = conn.createStatement();
-//					PreparedStatement pst = null;
-//					String sql = &quot;SELECT * FROM parking_management.user_details where LastName=?&quot;;
-//					pst = conn.prepareStatement(sql);
-//					pst.setString(1, value);
-//					ResultSet rs = pst.executeQuery();
-//
-//					if (!rs.isBeforeFirst()) {
-//						isSuccessful = false;
-//						LOG.info(&quot;No Data Available&quot;);
-//					} else if (rs.next()) {
-//						userId = rs.getInt(&quot;User_Id&quot;);
-//						stmt = conn.createStatement();
-//						PreparedStatement pst2 = null;
-//						String sql2 = &quot;UPDATE parking_management.system_users SET Role=? where User_Id=?&quot;;
-//						pst2 = conn.prepareStatement(sql2);
-//						pst2.setString(1, role);
-//						pst2.setInt(2, userId);
-//						pst2.executeUpdate();
-//					}
-//				} catch (SQLException e) {
-//					isSuccessful = false;
-//					LOG.log(Level.SEVERE, &quot;Sql Error: &quot;, e);
-//				} finally {
-//					try {
-//						conn.commit();
-//						conn.close();
-//						stmt.close();
-//					} catch (SQLException e) {
-//						isSuccessful = false;
-//						LOG.log(Level.SEVERE, &quot;Sql Error: &quot;, e);
-//					}
-//				}
-//			}
-//		} else {
-//			isSuccessful = false;
-//		}
+<span class="fc" id="L239">			String sql = &quot;UPDATE parking_management.system_users SET Role=? where UserName=?&quot;;</span>
+<span class="fc" id="L240">			pst = conn.prepareStatement(sql);</span>
+<span class="fc" id="L241">			pst.setString(1, role);</span>
+<span class="fc" id="L242">			pst.setString(2, value);</span>
+<span class="fc" id="L243">			pst.executeUpdate();</span>
 
-<span class="fc" id="L412">		return isSuccessful;</span>
+<span class="pc" id="L245">		} catch (SQLException e) {</span>
+<span class="nc" id="L246">			isSuccessful = false;</span>
+<span class="nc" id="L247">			LOG.log(Level.SEVERE, &quot;Sql Error: &quot;, e);</span>
+		} finally {
+			try {
+<span class="fc" id="L250">				conn.commit();</span>
+<span class="fc" id="L251">				conn.close();</span>
+<span class="fc" id="L252">				stmt.close();</span>
+<span class="pc" id="L253">			} catch (SQLException e) {</span>
+<span class="nc" id="L254">				isSuccessful = false;</span>
+<span class="nc" id="L255">				LOG.log(Level.SEVERE, &quot;Sql Error: &quot;, e);</span>
+			}
+		}
+
+<span class="fc" id="L259">		return isSuccessful;</span>
 	}
 
 	public static List&lt;UserDetails&gt; searchByLastName(String lastName) {
-<span class="fc" id="L416">		List&lt;UserDetails&gt; userListInDB = new ArrayList&lt;UserDetails&gt;();</span>
-<span class="fc" id="L417">		Statement stmt = null;</span>
-<span class="fc" id="L418">		Connection conn = SQLConnection.getDBConnection();</span>
-<span class="fc" id="L419">		DateFormat df = new SimpleDateFormat(&quot;yyyy-mm-dd&quot;);</span>
+<span class="fc" id="L263">		List&lt;UserDetails&gt; userListInDB = new ArrayList&lt;UserDetails&gt;();</span>
+<span class="fc" id="L264">		Statement stmt = null;</span>
+<span class="fc" id="L265">		Connection conn = SQLConnection.getDBConnection();</span>
+<span class="fc" id="L266">		DateFormat df = new SimpleDateFormat(&quot;yyyy-mm-dd&quot;);</span>
 
 		try {
-<span class="fc" id="L422">			stmt = conn.createStatement();</span>
-<span class="fc" id="L423">			PreparedStatement pst = null;</span>
-<span class="fc" id="L424">			String sql = &quot;SELECT su.UserName,su.Role,ud.* FROM parking_management.user_details ud JOIN system_users su ON su.user_id=ud.user_id where ud.LastName=?&quot;;</span>
-<span class="fc" id="L425">			pst = conn.prepareStatement(sql);</span>
-<span class="fc" id="L426">			pst.setString(1, lastName);</span>
-<span class="fc" id="L427">			ResultSet rs = pst.executeQuery();</span>
-<span class="fc bfc" id="L428" title="All 2 branches covered.">			while (rs.next()) </span>
-			{
-<span class="fc" id="L430">				String dob = df.format(rs.getDate(&quot;DOB&quot;));</span>
-<span class="fc" id="L431">				LOG.info(&quot;DOB: &quot; + dob);</span>
-<span class="fc" id="L432">				UserDetails userDetails = new UserDetails();</span>
-<span class="fc" id="L433">				userDetails.setAddress(rs.getString(&quot;Address&quot;));</span>
-<span class="fc" id="L434">				userDetails.setDrivingLicenseExpiry(df.format(rs.getDate(&quot;DL_Expiry&quot;)));</span>
-<span class="fc" id="L435">				userDetails.setBirthDate(df.format(rs.getDate(&quot;DOB&quot;)));</span>
-<span class="fc" id="L436">				userDetails.setFirstName(rs.getString(&quot;FirstName&quot;));</span>
-<span class="fc" id="L437">				userDetails.setMiddleName(rs.getString(&quot;MiddleName&quot;));</span>
-<span class="fc" id="L438">				userDetails.setLastName(rs.getString(&quot;LastName&quot;));</span>
-<span class="fc" id="L439">				userDetails.setSex(rs.getString(&quot;Sex&quot;));</span>
-<span class="fc" id="L440">				userDetails.setEmail(rs.getString(&quot;Email&quot;));</span>
-<span class="fc" id="L441">				userDetails.setPhone(rs.getString(&quot;Phone&quot;));</span>
-<span class="fc" id="L442">				userDetails.setDrivingLicenseNo(rs.getString(&quot;DL_Number&quot;));</span>
-<span class="fc" id="L443">				userDetails.setRegistrationNumber(rs.getString(&quot;Reg_Number&quot;));</span>
-<span class="fc" id="L444">				userDetails.setUta_Id(rs.getString(&quot;uta_id&quot;));</span>
-<span class="fc" id="L445">				userDetails.setUsername(rs.getString(&quot;UserName&quot;));</span>
-<span class="fc" id="L446">				userListInDB.add(userDetails);	</span>
+<span class="fc" id="L269">			stmt = conn.createStatement();</span>
+<span class="fc" id="L270">			PreparedStatement pst = null;</span>
+<span class="fc" id="L271">			String sql = &quot;SELECT su.UserName,su.Role,ud.* FROM parking_management.user_details ud JOIN system_users su ON su.user_id=ud.user_id where ud.LastName=?&quot;;</span>
+<span class="fc" id="L272">			pst = conn.prepareStatement(sql);</span>
+<span class="fc" id="L273">			pst.setString(1, lastName);</span>
+<span class="fc" id="L274">			ResultSet rs = pst.executeQuery();</span>
+<span class="fc bfc" id="L275" title="All 2 branches covered.">			while (rs.next()) {</span>
+<span class="fc" id="L276">				String dob = df.format(rs.getDate(&quot;DOB&quot;));</span>
+<span class="fc" id="L277">				LOG.info(&quot;DOB: &quot; + dob);</span>
+<span class="fc" id="L278">				UserDetails userDetails = new UserDetails();</span>
+<span class="fc" id="L279">				userDetails.setAddress(rs.getString(&quot;Address&quot;));</span>
+<span class="fc" id="L280">				userDetails.setDrivingLicenseExpiry(df.format(rs.getDate(&quot;DL_Expiry&quot;)));</span>
+<span class="fc" id="L281">				userDetails.setBirthDate(df.format(rs.getDate(&quot;DOB&quot;)));</span>
+<span class="fc" id="L282">				userDetails.setFirstName(rs.getString(&quot;FirstName&quot;));</span>
+<span class="fc" id="L283">				userDetails.setMiddleName(rs.getString(&quot;MiddleName&quot;));</span>
+<span class="fc" id="L284">				userDetails.setLastName(rs.getString(&quot;LastName&quot;));</span>
+<span class="fc" id="L285">				userDetails.setSex(rs.getString(&quot;Sex&quot;));</span>
+<span class="fc" id="L286">				userDetails.setEmail(rs.getString(&quot;Email&quot;));</span>
+<span class="fc" id="L287">				userDetails.setPhone(rs.getString(&quot;Phone&quot;));</span>
+<span class="fc" id="L288">				userDetails.setDrivingLicenseNo(rs.getString(&quot;DL_Number&quot;));</span>
+<span class="fc" id="L289">				userDetails.setRegistrationNumber(rs.getString(&quot;Reg_Number&quot;));</span>
+<span class="fc" id="L290">				userDetails.setUta_Id(rs.getString(&quot;uta_id&quot;));</span>
+<span class="fc" id="L291">				userDetails.setUsername(rs.getString(&quot;UserName&quot;));</span>
+<span class="fc" id="L292">				userListInDB.add(userDetails);</span>
 			}
 
-<span class="pc" id="L449">		} catch (SQLException e) {</span>
-<span class="nc" id="L450">			LOG.log(Level.SEVERE, &quot;Sql Error: &quot;, e);</span>
+<span class="pc" id="L295">		} catch (SQLException e) {</span>
+<span class="nc" id="L296">			LOG.log(Level.SEVERE, &quot;Sql Error: &quot;, e);</span>
 		} finally {
 			try {
-<span class="fc" id="L453">				conn.close();</span>
-<span class="fc" id="L454">				stmt.close();</span>
-<span class="pc" id="L455">			} catch (SQLException e) {</span>
-<span class="nc" id="L456">				LOG.log(Level.SEVERE, &quot;Sql Error: &quot;, e);</span>
+<span class="fc" id="L299">				conn.close();</span>
+<span class="fc" id="L300">				stmt.close();</span>
+<span class="pc" id="L301">			} catch (SQLException e) {</span>
+<span class="nc" id="L302">				LOG.log(Level.SEVERE, &quot;Sql Error: &quot;, e);</span>
 			}
 		}
-<span class="fc" id="L459">		return userListInDB;</span>
+<span class="fc" id="L305">		return userListInDB;</span>
 	}
-	
+
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 28, 2019 10:57:19 PM)</div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 29, 2019 5:46:49 AM)</div></body></html>

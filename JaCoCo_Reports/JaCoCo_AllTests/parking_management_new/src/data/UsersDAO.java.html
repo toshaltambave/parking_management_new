@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>UsersDAO.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 28, 2019 10:57:19 PM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">data</a> &gt; <span class="el_source">UsersDAO.java</span></div><h1>UsersDAO.java</h1><pre class="source lang-java linenums">package data;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>UsersDAO.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 29, 2019 5:46:49 AM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">data</a> &gt; <span class="el_source">UsersDAO.java</span></div><h1>UsersDAO.java</h1><pre class="source lang-java linenums">package data;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -58,8 +58,8 @@ import util.SQLConnection;
 <span class="fc" id="L58">			conn.commit();</span>
 <span class="fc" id="L59">			conn.close();</span>
 <span class="fc" id="L60">			stmt.close();</span>
-<span class="pc" id="L61">		} catch (SQLException e) {</span>
-<span class="nc" id="L62">			e.printStackTrace();</span>
+<span class="fc" id="L61">		} catch (SQLException e) {</span>
+<span class="fc" id="L62">			e.printStackTrace();</span>
 		} 
 <span class="fc" id="L64">	}</span>
 
@@ -98,85 +98,38 @@ import util.SQLConnection;
 <span class="fc" id="L98">		storeUser(user,&quot;INSERT INTO system_users (UserName,HashedPassword,Role,IsRevoked,PermitType) &quot;);</span>
 <span class="fc" id="L99">	} </span>
 	
-//	public static ArrayList&lt;Users&gt;  listUsers() {  
-//			return ReturnMatchingUsers(&quot; SELECT * from system_users ORDER BY UserName&quot;);
-//	}
-	
 	//determine if username is unique
 	public Boolean Usernameunique(String username)  {  
-<span class="fc" id="L107">			return (ReturnMatchingUsers(&quot; SELECT * from system_users WHERE UserName = '&quot;+username+&quot;' ORDER BY UserName&quot;).isEmpty());</span>
+<span class="fc" id="L103">			return (ReturnMatchingUsers(&quot; SELECT * from system_users WHERE UserName = '&quot;+username+&quot;' ORDER BY UserName&quot;).isEmpty());</span>
 	}
 	
-	//determine if username is unique
-//	public ArrayList&lt;Users&gt; UsernameuniqueList(String username)  {  
-//			return ReturnMatchingUsers(&quot; SELECT * from system_users WHERE UserName = '&quot;+username+&quot;' ORDER BY UserName&quot;);
-//	}
-
-//	public static List&lt;Users&gt; searchByUsername(String userName) {
-//		ArrayList&lt;Users&gt; userListInDB = new ArrayList&lt;Users&gt;();
-//		Statement stmt = null;
-//		Connection conn = SQLConnection.getDBConnection();
-//		try {
-//			stmt = conn.createStatement();
-//			PreparedStatement pst = null;
-//			String sql = &quot;SELECT * FROM parking_management.system_users where username=?&quot;;
-//			pst = conn.prepareStatement(sql);
-//			pst.setString(1, userName);
-//			ResultSet rs = pst.executeQuery();
-//
-//			if (!rs.isBeforeFirst()) {
-//				System.out.println(&quot;No data&quot;);
-//			} else
-//
-//				while (rs.next()) {
-//					Users user = new Users(new UsersDAO());
-//					user.setUsername(rs.getString(&quot;UserName&quot;));
-//					user.setHashedPassword(rs.getString(&quot;HashedPassword&quot;));
-//					user.setRole(rs.getString(&quot;Role&quot;));
-//					user.setisRevoked(rs.getBoolean(&quot;IsRevoked&quot;));
-//					user.setPermitType(rs.getString(&quot;PermitType&quot;));
-//					userListInDB.add(user);
-//				}
-//
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		} finally {
-//			try {
-//				conn.close();
-//				stmt.close();
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		return userListInDB;
-//	}
 	
 	public static Integer getUserIdbyUsername(String userName) {
-<span class="fc" id="L155">		Integer user_Id = 0;</span>
-<span class="fc" id="L156">		Statement stmt = null;</span>
-<span class="fc" id="L157">		Connection conn = SQLConnection.getDBConnection();</span>
+<span class="fc" id="L108">		Integer user_Id = 0;</span>
+<span class="fc" id="L109">		Statement stmt = null;</span>
+<span class="fc" id="L110">		Connection conn = SQLConnection.getDBConnection();</span>
 		try {
-<span class="fc" id="L159">			stmt = conn.createStatement();</span>
-<span class="fc" id="L160">			PreparedStatement pst = null;</span>
-<span class="fc" id="L161">			String sql = &quot;SELECT * FROM parking_management.system_users where username=?&quot;;</span>
-<span class="fc" id="L162">			pst = conn.prepareStatement(sql);</span>
-<span class="fc" id="L163">			pst.setString(1, userName);</span>
-<span class="fc" id="L164">			ResultSet rs = pst.executeQuery();</span>
+<span class="fc" id="L112">			stmt = conn.createStatement();</span>
+<span class="fc" id="L113">			PreparedStatement pst = null;</span>
+<span class="fc" id="L114">			String sql = &quot;SELECT * FROM parking_management.system_users where username=?&quot;;</span>
+<span class="fc" id="L115">			pst = conn.prepareStatement(sql);</span>
+<span class="fc" id="L116">			pst.setString(1, userName);</span>
+<span class="fc" id="L117">			ResultSet rs = pst.executeQuery();</span>
 
-<span class="pc bpc" id="L166" title="1 of 2 branches missed.">			if (!rs.isBeforeFirst()) {</span>
-<span class="nc" id="L167">				System.out.println(&quot;No data&quot;);</span>
-<span class="nc" id="L168">			} </span>
+<span class="pc bpc" id="L119" title="1 of 2 branches missed.">			if (!rs.isBeforeFirst()) {</span>
+<span class="nc" id="L120">				System.out.println(&quot;No data&quot;);</span>
+<span class="nc" id="L121">			} </span>
 			else
 			{
-<span class="fc" id="L171">				rs.next();</span>
-<span class="fc" id="L172">				user_Id = rs.getInt(&quot;User_Id&quot;);	</span>
+<span class="fc" id="L124">				rs.next();</span>
+<span class="fc" id="L125">				user_Id = rs.getInt(&quot;User_Id&quot;);	</span>
 			}
-<span class="fc" id="L174">			conn.close();</span>
-<span class="fc" id="L175">			stmt.close();</span>
-<span class="pc" id="L176">		} catch (SQLException e) {</span>
-<span class="nc" id="L177">			e.printStackTrace();</span>
+<span class="fc" id="L127">			conn.close();</span>
+<span class="fc" id="L128">			stmt.close();</span>
+<span class="pc" id="L129">		} catch (SQLException e) {</span>
+<span class="nc" id="L130">			e.printStackTrace();</span>
 		}
-<span class="fc" id="L179">		return user_Id;</span>
+<span class="fc" id="L132">		return user_Id;</span>
 	}
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 28, 2019 10:57:19 PM)</div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 29, 2019 5:46:49 AM)</div></body></html>

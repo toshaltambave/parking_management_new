@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ParkingAreaDAO.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 28, 2019 10:57:19 PM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">data</a> &gt; <span class="el_source">ParkingAreaDAO.java</span></div><h1>ParkingAreaDAO.java</h1><pre class="source lang-java linenums">package data;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ParkingAreaDAO.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 29, 2019 5:46:49 AM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">data</a> &gt; <span class="el_source">ParkingAreaDAO.java</span></div><h1>ParkingAreaDAO.java</h1><pre class="source lang-java linenums">package data;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -52,7 +52,7 @@ import util.SQLConnection;
 			}};
 <span class="fc" id="L53">			return true;</span>
 	}
-	private static void insertparkingareas(ParkingAreaHelper area, Connection conn, PreparedStatement pst2)
+	public static void insertparkingareas(ParkingAreaHelper area, Connection conn, PreparedStatement pst2)
 			throws SQLException {
 <span class="fc" id="L57">		PreparedStatement pst3 = null;</span>
 <span class="fc" id="L58">		String insertArea = &quot;INSERT INTO parking_area (Area_Name) VALUES (?)&quot;;</span>
@@ -75,7 +75,7 @@ import util.SQLConnection;
 		}		
 <span class="fc" id="L76">	}</span>
 
-	private static void insertparkingspots(ParkingAreaHelper area, Connection conn, ResultSet rs3) throws SQLException {
+	public static void insertparkingspots(ParkingAreaHelper area, Connection conn, ResultSet rs3) throws SQLException {
 <span class="fc" id="L79">		PreparedStatement pst4 = null;</span>
 <span class="fc" id="L80">		String parkingareafloors = &quot;INSERT INTO parking_area_floors (`Area_Id`,`Floor_Number`,`PermitType`,`No_Spots`)VALUES(?,?,?,?)&quot;;</span>
 <span class="fc" id="L81">		pst4 = conn.prepareStatement(parkingareafloors);</span>
@@ -109,7 +109,7 @@ import util.SQLConnection;
 <span class="fc" id="L109">				pst2.setInt(2, floorNumber);</span>
 <span class="fc" id="L110">				pst2.setString(3, permitType);</span>
 <span class="fc" id="L111">				ResultSet rs = pst2.executeQuery();</span>
-<span class="pc bpc" id="L112" title="1 of 2 branches missed.">				if(rs.next()) </span>
+<span class="fc bfc" id="L112" title="All 2 branches covered.">				if(rs.next()) </span>
 				{
 <span class="fc" id="L114">					int NoSpots = rs.getInt(&quot;No_Spots&quot;);</span>
 <span class="fc" id="L115">					NoSpots = NoSpots + 1;				</span>
@@ -136,9 +136,9 @@ import util.SQLConnection;
 <span class="fc" id="L136">				}</span>
 				else
 				{
-<span class="nc" id="L139">					System.out.println(&quot;Do Nothing.&quot;);</span>
+<span class="fc" id="L139">					System.out.println(&quot;Do Nothing.&quot;);</span>
 				}		
-<span class="nc" id="L141">		}</span>
+<span class="fc" id="L141">		}</span>
 <span class="nc" id="L142">		catch(Exception ex)</span>
 		{
 <span class="nc" id="L144">			ex.printStackTrace();</span>
@@ -148,4 +148,4 @@ import util.SQLConnection;
 	}
 	
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 28, 2019 10:57:19 PM)</div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 29, 2019 5:46:49 AM)</div></body></html>
