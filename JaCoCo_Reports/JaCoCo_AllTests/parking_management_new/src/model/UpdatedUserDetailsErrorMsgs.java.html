@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>UpdatedUserDetailsErrorMsgs.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 28, 2019 10:09:51 PM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">model</a> &gt; <span class="el_source">UpdatedUserDetailsErrorMsgs.java</span></div><h1>UpdatedUserDetailsErrorMsgs.java</h1><pre class="source lang-java linenums">package model;
+
+<span class="fc" id="L3">public class UpdatedUserDetailsErrorMsgs {</span>
+
+<span class="fc" id="L5">	private String errorMsg = &quot;&quot;;</span>
+	private String FirstNameError;
+<span class="fc" id="L7">	private String MiddleNameError = &quot;&quot;;</span>
+	private String LastNameError;
+	private String BirthDateError;
+	private String AddressError;
+	private String EmailError;
+	private String PhoneError;
+	private String DrivingLicenseError;
+	private String DrivingLicenseExpiry;
+	private String RegNumberError;
+	private String utaIdError;
+	private String usernameError;
+	private String HashedPasswordError;
+	private String ConfirmPasswordError;
+	private String RoleError;
+	private String PermitTypeError;
+
+
+	public String getRoleError() {
+<span class="fc" id="L25">		return RoleError;</span>
+	}
+
+	public String getPermitTypeError() {
+<span class="fc" id="L29">		return PermitTypeError;</span>
+	}
+
+	public void setPermitTypeError(String permitTypeError) {
+<span class="fc" id="L33">		PermitTypeError = permitTypeError;</span>
+<span class="fc" id="L34">	}</span>
+
+	public void setRoleError(String roleError) {
+<span class="fc" id="L37">		RoleError = roleError;</span>
+<span class="fc" id="L38">	}</span>
+
+	public String getFirstNameError() {
+<span class="fc" id="L41">		return FirstNameError;</span>
+	}
+
+	public void setFirstNameError(String firstNameError) {
+<span class="fc" id="L45">		FirstNameError = firstNameError;</span>
+<span class="fc" id="L46">	}</span>
+
+	public String getMiddleNameError() {
+<span class="fc" id="L49">		return MiddleNameError;</span>
+	}
+
+	public void setMiddleNameError(String middleNameError) {
+<span class="fc" id="L53">		MiddleNameError = middleNameError;</span>
+<span class="fc" id="L54">	}</span>
+
+	public String getLastNameError() {
+<span class="fc" id="L57">		return LastNameError;</span>
+	}
+
+	public void setLastNameError(String lastNameError) {
+<span class="fc" id="L61">		LastNameError = lastNameError;</span>
+<span class="fc" id="L62">	}</span>
+
+	public String getAddressError() {
+<span class="fc" id="L65">		return AddressError;</span>
+	}
+
+	public void setAddressError(String addressError) {
+<span class="fc" id="L69">		AddressError = addressError;</span>
+<span class="fc" id="L70">	}</span>
+
+	public String getEmailError() {
+<span class="fc" id="L73">		return EmailError;</span>
+	}
+
+	public void setEmailError(String emailError) {
+<span class="fc" id="L77">		EmailError = emailError;</span>
+<span class="fc" id="L78">	}</span>
+
+	public String getPhoneError() {
+<span class="fc" id="L81">		return PhoneError;</span>
+	}
+
+	public void setPhoneError(String phoneError) {
+<span class="fc" id="L85">		PhoneError = phoneError;</span>
+<span class="fc" id="L86">	}</span>
+
+	public String getRegNumberError() {
+<span class="fc" id="L89">		return RegNumberError;</span>
+	}
+
+	public void setRegNumberError(String regNumberError) {
+<span class="fc" id="L93">		RegNumberError = regNumberError;</span>
+<span class="fc" id="L94">	}</span>
+
+	public String getUtaIdError() {
+<span class="fc" id="L97">		return utaIdError;</span>
+	}
+
+	public void setUtaIdError(String utaIdError) {
+<span class="fc" id="L101">		this.utaIdError = utaIdError;</span>
+<span class="fc" id="L102">	}</span>
+
+	public String getUsernameError() {
+<span class="fc" id="L105">		return usernameError;</span>
+	}
+
+	public void setUsernameError(String usernameError) {
+<span class="fc" id="L109">		this.usernameError = usernameError;</span>
+<span class="fc" id="L110">	}</span>
+
+	public String getHashedPasswordError() {
+<span class="fc" id="L113">		return HashedPasswordError;</span>
+	}
+
+	public void setHashedPasswordError(String hashedPasswordError) {
+<span class="fc" id="L117">		HashedPasswordError = hashedPasswordError;</span>
+<span class="fc" id="L118">	}</span>
+
+	public String getConfirmPasswordError() {
+<span class="fc" id="L121">		return ConfirmPasswordError;</span>
+	}
+
+	public void setConfirmPasswordError(String confirmPasswordError) {
+<span class="fc" id="L125">		ConfirmPasswordError = confirmPasswordError;</span>
+<span class="fc" id="L126">	}</span>
+
+	public String getDrivingLicenseError() {
+<span class="fc" id="L129">		return DrivingLicenseError;</span>
+	}
+
+	public void setDrivingLicenseError(String drivingLicenseError) {
+<span class="fc" id="L133">		DrivingLicenseError = drivingLicenseError;</span>
+<span class="fc" id="L134">	}</span>
+
+	public String getDrivingLicenseExpiry() {
+<span class="fc" id="L137">		return DrivingLicenseExpiry;</span>
+	}
+
+	public void setDrivingLicenseExpiry(String drivingLicenseExpiry) {
+<span class="fc" id="L141">		DrivingLicenseExpiry = drivingLicenseExpiry;</span>
+<span class="fc" id="L142">	}</span>
+
+	public String getErrorMsg() {
+<span class="fc" id="L145">		return errorMsg;</span>
+	}
+	
+	public String getBirthDateError() {
+<span class="fc" id="L149">		return BirthDateError;</span>
+	}
+
+	public void setBirthDateError(String birthDateError) {
+<span class="fc" id="L153">		BirthDateError = birthDateError;</span>
+<span class="fc" id="L154">	}</span>
+
+	public void setErrorMsg(String action) {
+<span class="fc bfc" id="L157" title="All 6 branches covered.">		if (!FirstNameError.equals(&quot;&quot;) || !MiddleNameError.equals(&quot;&quot;) || !LastNameError.equals(&quot;&quot;)</span>
+<span class="fc bfc" id="L158" title="All 6 branches covered.">				|| !BirthDateError.equals(&quot;&quot;) || !AddressError.equals(&quot;&quot;) || !EmailError.equals(&quot;&quot;)</span>
+<span class="fc bfc" id="L159" title="All 6 branches covered.">				|| !PhoneError.equals(&quot;&quot;) || !DrivingLicenseError.equals(&quot;&quot;) || !DrivingLicenseExpiry.equals(&quot;&quot;)</span>
+<span class="fc bfc" id="L160" title="All 6 branches covered.">				|| !RegNumberError.equals(&quot;&quot;) || !utaIdError.equals(&quot;&quot;) || !usernameError.equals(&quot;&quot;)</span>
+<span class="fc bfc" id="L161" title="All 2 branches covered.">				|| !HashedPasswordError.equals(&quot;&quot;) </span>
+<span class="fc bfc" id="L162" title="All 2 branches covered.">				|| !ConfirmPasswordError.equals(&quot;&quot;) </span>
+<span class="fc bfc" id="L163" title="All 2 branches covered.">				|| !RoleError.equals(&quot;&quot;)</span>
+<span class="fc bfc" id="L164" title="All 2 branches covered.">				|| !PermitTypeError.equals(&quot;&quot;))</span>
+<span class="fc" id="L165">			this.errorMsg = &quot;Please correct the following errors&quot;;</span>
+<span class="fc" id="L166">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 28, 2019 10:09:51 PM)</div></body></html>

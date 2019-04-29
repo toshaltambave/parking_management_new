@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ReservationTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 28, 2019 10:09:51 PM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">tests</a> &gt; <a href="index.source.html" class="el_package">test</a> &gt; <span class="el_source">ReservationTest.java</span></div><h1>ReservationTest.java</h1><pre class="source lang-java linenums">package test;
+
+import static org.junit.Assert.*;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import junitparams.FileParameters;
+import junitparams.JUnitParamsRunner;
+import model.Reservation;
+import model.ReservationError;
+import model.ReservationsHelper;
+
+@RunWith(JUnitParamsRunner.class)
+<span class="fc" id="L22">public class ReservationTest {</span>
+
+	private Reservation reservation;
+	private ReservationError resError;
+
+	@Before
+	public void setUp() throws Exception {
+<span class="fc" id="L29">		reservation = new Reservation();</span>
+<span class="fc" id="L30">		resError = new ReservationError();</span>
+<span class="fc" id="L31">	}</span>
+
+	@Test
+	@FileParameters(&quot;tests/test/ReservationDateTest.csv&quot;)
+	public void test(int startTime, int endTime, String errorMsg, String startTimeError, String endTimeError,
+			String compareError) {
+<span class="fc" id="L37">		Calendar startCal = Calendar.getInstance();</span>
+<span class="fc" id="L38">		Calendar endCal = Calendar.getInstance();</span>
+<span class="fc" id="L39">		SimpleDateFormat dateFormat = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);</span>
+<span class="fc" id="L40">		String startTimeString = &quot;&quot;;</span>
+<span class="fc" id="L41">		String endTimeString = &quot;&quot;;</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">		if (startTime != 99999) {</span>
+<span class="fc" id="L43">			startCal.add(Calendar.MINUTE, startTime);</span>
+<span class="fc" id="L44">			startTimeString = dateFormat.format(startCal.getTime());</span>
+		}
+<span class="fc bfc" id="L46" title="All 2 branches covered.">		if (endTime != 99999) {</span>
+<span class="fc" id="L47">			endCal.add(Calendar.MINUTE, endTime);</span>
+<span class="fc" id="L48">			endTimeString = dateFormat.format(endCal.getTime());</span>
+		}
+
+<span class="fc" id="L51">		reservation.validateDateTime(startTimeString, endTimeString, resError);</span>
+<span class="fc" id="L52">		assertEquals(resError.getErrorMsg(), errorMsg);</span>
+<span class="fc" id="L53">		assertEquals(resError.getStartTimeError(), startTimeError);</span>
+<span class="fc" id="L54">		assertEquals(resError.getEndTimeError(), endTimeError);</span>
+<span class="fc" id="L55">		assertEquals(resError.getCompareError(), compareError);</span>
+<span class="fc" id="L56">	}</span>
+	
+	@Test
+	@FileParameters(&quot;tests/test/ReservationException.csv&quot;)
+	public void ExceptionTest(String startTime, String endTime, String isNormalHour) throws ParseException {
+<span class="fc" id="L61">	    SimpleDateFormat formatter=new SimpleDateFormat(&quot;dd-MMM-yyyy&quot;); </span>
+<span class="fc" id="L62">		Date startdate = formatter.parse(startTime);</span>
+<span class="fc" id="L63">		Date enddate = formatter.parse(endTime);</span>
+<span class="fc" id="L64">		reservation.validateDateTime(startTime, endTime, resError);</span>
+<span class="fc" id="L65">	}</span>
+
+	@Test
+	@FileParameters(&quot;tests/Excel/CheckNormalHours.csv&quot;)
+	public void normalHoursTest(String startTime, String endTime, String isNormalHour) throws ParseException {
+<span class="fc" id="L70">		SimpleDateFormat formatter = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);</span>
+<span class="fc" id="L71">		Date startdate = formatter.parse(startTime);</span>
+<span class="fc" id="L72">		Date enddate = formatter.parse(endTime);</span>
+<span class="fc" id="L73">		int startDay = startdate.getDay();</span>
+<span class="fc" id="L74">		assertEquals(Boolean.parseBoolean(isNormalHour), reservation.checkNormalHours(startdate, enddate));</span>
+<span class="fc" id="L75">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 28, 2019 10:09:51 PM)</div></body></html>

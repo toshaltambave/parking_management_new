@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>HomeController.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 28, 2019 10:09:51 PM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">controller</a> &gt; <span class="el_source">HomeController.java</span></div><h1>HomeController.java</h1><pre class="source lang-java linenums">package controller;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;  
+import java.util.Date;  
+import data.*;
+import data.ReservationsDAO;
+import model.*;
+
+
+@WebServlet(&quot;/HomeController&quot;)
+<span class="fc" id="L25">public class HomeController extends HttpServlet {</span>
+	private static final long serialVersionUID = 1L;
+	
+	
+	
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+<span class="fc" id="L31">		HttpSession session = req.getSession();</span>
+<span class="fc" id="L32">		String url = &quot;&quot;;</span>
+<span class="fc bfc" id="L33" title="All 2 branches covered.">		if(session.getAttribute(&quot;User&quot;) != null)</span>
+		{
+<span class="fc" id="L35">			Users user = (Users) session.getAttribute(&quot;User&quot;);</span>
+			
+<span class="fc bfc" id="L37" title="All 2 branches covered.">			if (user.getRole().equals(&quot;ParkingManager&quot;)){</span>
+<span class="fc" id="L38">				url=&quot;/parkingManagementHomePage.jsp&quot;;</span>
+<span class="fc" id="L39">			}</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">			else if (user.getRole().equals(&quot;Admin&quot;)){</span>
+<span class="fc" id="L41">				url=&quot;/adminHomePage.jsp&quot;;</span>
+<span class="fc" id="L42">			}</span>
+			else
+			{
+<span class="fc" id="L45">				url=&quot;/parkingUserHomePage.jsp&quot;;</span>
+			}
+		}
+<span class="fc" id="L48">		getServletContext().getRequestDispatcher(url).forward(req, resp);</span>
+
+<span class="fc" id="L50">	}</span>
+
+
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 28, 2019 10:09:51 PM)</div></body></html>

@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Users.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 28, 2019 10:09:51 PM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">model</a> &gt; <span class="el_source">Users.java</span></div><h1>Users.java</h1><pre class="source lang-java linenums">package model;
+
+import data.*;
+
+public class Users {
+
+	// private static final long serialVersionUID = 3L;
+	private Integer UserID;
+	private String Username;
+	private String HashedPassword;
+	private String ConfirmPassword;
+	private String Role;
+	private Integer IsRevoked;
+	private String Comment;
+	private String PermitType;
+	/**
+	 * @return the comment
+	 */
+	public String getComment() {
+<span class="fc" id="L20">		return this.Comment;</span>
+	}
+
+	/**
+	 * @param comment the comment to set
+	 */
+	public void setComment(String comment) {
+<span class="fc" id="L27">		Comment = comment;</span>
+<span class="fc" id="L28">	}</span>
+
+	private UsersDAO usersDAO;
+
+<span class="fc" id="L32">	public Users(UsersDAO usersDAO) {</span>
+<span class="fc" id="L33">		this.usersDAO = usersDAO;</span>
+<span class="fc" id="L34">	}</span>
+
+	public void setUser(String username, String hashedPassword, String confirmPassword, String role, String permitType,
+			Boolean isRevoked,String comment) {
+<span class="fc" id="L38">		setUsername(username);</span>
+<span class="fc" id="L39">		setHashedPassword(hashedPassword);</span>
+<span class="fc" id="L40">		setConfirmPassword(confirmPassword);</span>
+<span class="fc" id="L41">		setRole(role);</span>
+<span class="fc" id="L42">		setPermitType(permitType);</span>
+<span class="fc" id="L43">		setisRevoked(isRevoked);</span>
+<span class="fc" id="L44">		setComment(comment);</span>
+<span class="fc" id="L45">	}</span>
+
+	public Integer getUserID() {
+<span class="fc" id="L48">		return UserID;</span>
+	}
+
+	public void setUserID(Integer userID) {
+<span class="fc" id="L52">		UserID = userID;</span>
+<span class="fc" id="L53">	}</span>
+
+	public String getUsername() {
+<span class="fc" id="L56">		return Username;</span>
+	}
+
+	public void setUsername(String username) {
+<span class="fc" id="L60">		Username = username;</span>
+<span class="fc" id="L61">	}</span>
+
+	public String getHashedPassword() {
+<span class="fc" id="L64">		return HashedPassword;</span>
+	}
+
+	public void setHashedPassword(String hashedPassword) {
+<span class="fc" id="L68">		HashedPassword = hashedPassword;</span>
+<span class="fc" id="L69">	}</span>
+
+	public String getConfirmPassword() {
+<span class="fc" id="L72">		return ConfirmPassword;</span>
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+<span class="fc" id="L76">		ConfirmPassword = confirmPassword;</span>
+<span class="fc" id="L77">	}</span>
+
+	public String getRole() {
+<span class="fc" id="L80">		return Role;</span>
+	}
+
+	public void setRole(String role) {
+<span class="fc" id="L84">		Role = role;</span>
+<span class="fc" id="L85">	}</span>
+
+	public String getPermitType() {
+<span class="fc" id="L88">		return PermitType;</span>
+	}
+
+	public void setPermitType(String permitType) {
+<span class="fc" id="L92">		PermitType = permitType;</span>
+<span class="fc" id="L93">	}</span>
+
+	public Integer getisRevoked() {
+<span class="fc" id="L96">		return IsRevoked;</span>
+	}
+
+	public void setisRevoked(Boolean isRevoked) {
+<span class="fc bfc" id="L100" title="All 2 branches covered.">		if (isRevoked)</span>
+<span class="fc" id="L101">			this.IsRevoked = 1;</span>
+		else
+<span class="fc" id="L103">			this.IsRevoked = 0;</span>
+
+<span class="fc" id="L105">	}</span>
+
+	public void validateUser(String action, Users user, UsersErrorMsgs errorMsgs) {
+<span class="fc bfc" id="L108" title="All 2 branches covered.">		if (action.equals(&quot;saveUser&quot;)) {</span>
+<span class="fc" id="L109">			errorMsgs.setusernameError(validateUsername(action, user.getUsername()));</span>
+<span class="fc" id="L110">			errorMsgs.setpasswordError(validatePassword(action, user.getHashedPassword()));</span>
+<span class="fc" id="L111">			errorMsgs.setconfirmpasswordError(</span>
+<span class="fc" id="L112">					validateConfirmPassword(user.getHashedPassword(), user.getConfirmPassword()));</span>
+<span class="fc" id="L113">			errorMsgs.setroleError(validateRole(user.getRole()));</span>
+<span class="fc" id="L114">			errorMsgs.setpermitTypeError(validatePermitType(user.getPermitType(), user.getRole()));</span>
+<span class="fc" id="L115">			errorMsgs.setErrorMsg(action);</span>
+		}
+<span class="fc" id="L117">	}</span>
+
+	private String validateUsername(String action, String username) {
+<span class="fc" id="L120">		String result = &quot;&quot;;</span>
+<span class="fc bfc" id="L121" title="All 2 branches covered.">		if (action.equals(&quot;saveUser&quot;)) {</span>
+<span class="fc bfc" id="L122" title="All 2 branches covered.">			if (!stringSize(username, 4, 10))</span>
+<span class="fc" id="L123">				result = &quot;Your username must between 4 and 10 characters&quot;;</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">			else if (!usersDAO.Usernameunique(username))</span>
+<span class="fc" id="L125">				result = &quot;Username is already in database&quot;;</span>
+<span class="fc bfc" id="L126" title="All 2 branches covered.">		} else if (action.equals(&quot;Login&quot;)) {</span>
+<span class="fc" id="L127">			result = &quot;username or password is incorrect.&quot;;</span>
+		}
+<span class="fc" id="L129">		return result;</span>
+	}
+
+	private String validatePassword(String action, String password) {
+<span class="fc" id="L133">		String result = &quot;&quot;;</span>
+<span class="fc bfc" id="L134" title="All 2 branches covered.">		if (action.equals(&quot;saveUser&quot;)) {</span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">			if (!stringSize(password, 4, 10))</span>
+<span class="fc" id="L136">				result = &quot;Your password must between 4 and 10 characters.&quot;;</span>
+			else {
+<span class="fc" id="L138">				boolean hasUpper = password.matches(&quot;.*[A-Z].*&quot;);</span>
+<span class="fc" id="L139">				boolean hasNums = password.matches(&quot;.*[0-9].*&quot;);</span>
+
+<span class="fc bfc" id="L141" title="All 2 branches covered.">				if (!hasNums) {</span>
+<span class="fc" id="L142">					result = &quot;Password must contain at least one number.&quot;;</span>
+				}
+
+<span class="fc bfc" id="L145" title="All 2 branches covered.">				if (!hasUpper) {</span>
+<span class="fc" id="L146">					result = &quot;Password must contain at least one uppercase.&quot;;</span>
+				}
+
+<span class="fc bfc" id="L149" title="All 4 branches covered.">				if (!hasUpper &amp;&amp; !hasNums) {</span>
+<span class="fc" id="L150">					result = &quot;Password must contain at least one uppercase and one number.&quot;;</span>
+				}
+			}
+<span class="fc bfc" id="L153" title="All 2 branches covered.">		} else if (action.equals(&quot;Login&quot;)) {</span>
+<span class="fc" id="L154">			result = &quot;username or password is incorrect.&quot;;</span>
+		}
+<span class="fc" id="L156">		return result;</span>
+	}
+
+	private String validateConfirmPassword(String password, String confirmPassword) {
+<span class="fc" id="L160">		String result = &quot;&quot;;</span>
+<span class="fc bfc" id="L161" title="All 2 branches covered.">		if (!password.contentEquals(confirmPassword))</span>
+<span class="fc" id="L162">			result = &quot;Passwords do not match.&quot;;</span>
+		else
+<span class="fc" id="L164">			result = &quot;&quot;;</span>
+<span class="fc" id="L165">		return result;</span>
+	}
+
+	private String validateRole(String role) {
+<span class="fc" id="L169">		String result = &quot;&quot;;</span>
+<span class="fc bfc" id="L170" title="All 2 branches covered.">		if (role.contentEquals(&quot;Select User Role&quot;))</span>
+<span class="fc" id="L171">			result = &quot;Select the role of the user.&quot;;</span>
+		else
+<span class="fc" id="L173">			result = &quot;&quot;;</span>
+<span class="fc" id="L174">		return result;</span>
+	}
+
+	private String validatePermitType(String permitType, String role) {
+<span class="fc" id="L178">		String result = &quot;&quot;;</span>
+<span class="fc bfc" id="L179" title="All 4 branches covered.">		if (role.contentEquals(&quot;ParkingUser&quot;) &amp;&amp; permitType.contentEquals(&quot;Select Permit Type&quot;)) {</span>
+<span class="fc" id="L180">			result = &quot;Permit type is mandatory for Parking User.&quot;;</span>
+		}
+
+<span class="fc" id="L183">		return result;</span>
+	}
+
+	public void validateLogin(String action, Users user, UsersErrorMsgs errorMsgs) {
+<span class="fc bfc" id="L187" title="All 2 branches covered.">		if (user == null) {</span>
+<span class="fc" id="L188">			errorMsgs.setusernameError(validateUsername(action, &quot;&quot;));</span>
+<span class="fc" id="L189">			errorMsgs.setpasswordError(validatePassword(action, &quot;&quot;));</span>
+<span class="fc" id="L190">			errorMsgs.setErrorMsg(action);</span>
+		}
+<span class="fc" id="L192">	}</span>
+
+	// This section is for general purpose methods used internally in this class
+	private boolean stringSize(String string, int min, int max) {
+<span class="fc bfc" id="L196" title="All 4 branches covered.">		return string.length() &gt;= min &amp;&amp; string.length() &lt;= max;</span>
+	}	
+	
+	public String validateComment(String comment) {
+<span class="fc bfc" id="L200" title="All 2 branches covered.">		if (comment.equals(&quot;&quot;))</span>
+<span class="fc" id="L201">			return &quot;Comment is mandatory.&quot;;	</span>
+		else
+<span class="fc" id="L203">			return &quot;&quot;;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 28, 2019 10:09:51 PM)</div></body></html>

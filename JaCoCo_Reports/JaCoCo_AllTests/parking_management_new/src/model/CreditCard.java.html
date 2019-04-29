@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>CreditCard.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 28, 2019 10:09:51 PM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">model</a> &gt; <span class="el_source">CreditCard.java</span></div><h1>CreditCard.java</h1><pre class="source lang-java linenums">package model;
+
+<span class="fc" id="L3">public class CreditCard {</span>
+
+	private String CardNumber;
+	private String Month;
+	private String Year;
+	private String cvv;
+	private String CardType;
+	/**
+	 * @return the cardType
+	 */
+	public String getCardType() {
+<span class="fc" id="L14">		return CardType;</span>
+	}
+	/**
+	 * @param cardType the cardType to set
+	 */
+	public void setCardType(String cardType) {
+<span class="fc" id="L20">		CardType = cardType;</span>
+<span class="fc" id="L21">	}</span>
+	/**
+	 * @return the cardNumber
+	 */
+	public String getCardNumber() {
+<span class="fc" id="L26">		return CardNumber;</span>
+	}
+	/**
+	 * @param cardNumber the cardNumber to set
+	 */
+	public void setCardNumber(String cardNumber) {
+<span class="fc" id="L32">		CardNumber = cardNumber;</span>
+<span class="fc" id="L33">	}</span>
+	/**
+	 * @return the month
+	 */
+	public String getMonth() {
+<span class="fc" id="L38">		return Month;</span>
+	}
+	/**
+	 * @param month the month to set
+	 */
+	public void setMonth(String month) {
+<span class="fc" id="L44">		Month = month;</span>
+<span class="fc" id="L45">	}</span>
+	/**
+	 * @return the year
+	 */
+	public String getYear() {
+<span class="fc" id="L50">		return Year;</span>
+	}
+	/**
+	 * @param year the year to set
+	 */
+	public void setYear(String year) {
+<span class="fc" id="L56">		Year = year;</span>
+<span class="fc" id="L57">	}</span>
+	/**
+	 * @return the cvv
+	 */
+	public String getCvv() {
+<span class="fc" id="L62">		return cvv;</span>
+	}
+	/**
+	 * @param cvv the cvv to set
+	 */
+	public void setCvv(String cvv) {
+<span class="fc" id="L68">		this.cvv = cvv;</span>
+<span class="fc" id="L69">	}</span>
+	
+	public void validatecreditcarddetails(CreditCard cc,CreditCardError errorMsgs) {
+<span class="fc" id="L72">		errorMsgs.setCardNumberError(validateCardNumber(cc.getCardNumber(),cc.getCardType()));</span>
+<span class="fc" id="L73">		errorMsgs.setCvvError(validateCVV(cc.getCvv()));</span>
+<span class="fc" id="L74">		errorMsgs.setMonthError(validateMonth(cc.getMonth()));</span>
+<span class="fc" id="L75">		errorMsgs.setYearError(validateYear(cc.getYear()));</span>
+<span class="fc" id="L76">		errorMsgs.setErrorMsg(&quot;error&quot;);</span>
+<span class="fc" id="L77">	}</span>
+	
+	private String validateMonth(String expMonth) {
+<span class="fc bfc" id="L80" title="All 2 branches covered.">		if(expMonth.isEmpty())</span>
+<span class="fc" id="L81">			return &quot;This field is required.&quot;;</span>
+		else
+		{
+<span class="fc bfc" id="L84" title="All 2 branches covered.">			if (!stringSize(expMonth,2,2))</span>
+			{
+<span class="fc" id="L86">				return &quot;Month must be 2 digits.&quot;;</span>
+			}
+			else
+			{
+<span class="fc bfc" id="L90" title="All 2 branches covered.">				if(!isTextAnInteger(expMonth))</span>
+<span class="fc" id="L91">					return &quot;Month must only digits.&quot;;</span>
+				else
+				{
+<span class="fc" id="L94">					int month = Integer.parseInt(expMonth);</span>
+<span class="fc bfc" id="L95" title="All 4 branches covered.">					if(month ==00 || month &gt;= 13)</span>
+<span class="fc" id="L96">						return &quot;Month can only be between 01 to 12&quot;;</span>
+					else
+<span class="fc" id="L98">						return &quot;&quot;;</span>
+				}
+			}
+		}
+	}
+
+	private String validateCVV(String cvv) {
+<span class="fc bfc" id="L105" title="All 2 branches covered.">		if(cvv.isEmpty())</span>
+<span class="fc" id="L106">			return &quot;This field is required.&quot;;</span>
+		else
+		{
+<span class="fc bfc" id="L109" title="All 2 branches covered.">			if (!stringSize(cvv,3,3))</span>
+			{
+<span class="fc" id="L111">				return &quot;CVV must be 3 digits.&quot;;</span>
+			}
+			else
+			{
+<span class="fc bfc" id="L115" title="All 2 branches covered.">				if(!isTextAnInteger(cvv))</span>
+<span class="fc" id="L116">					return &quot;CVV must only digits.&quot;;</span>
+				else
+<span class="fc" id="L118">					return &quot;&quot;;</span>
+			}
+		}
+	}
+
+	private String validateCardNumber(String cardNumber, String cardType) {
+<span class="fc bfc" id="L124" title="All 2 branches covered.">		if(cardNumber.isEmpty())</span>
+<span class="fc" id="L125">			return &quot;This field is required.&quot;;</span>
+		else
+		{
+<span class="fc bfc" id="L128" title="All 2 branches covered.">			if(!isTextAnInteger(cardNumber))</span>
+<span class="fc" id="L129">				return &quot;Card number must only digits.&quot;;</span>
+			else
+			{
+<span class="fc bfc" id="L132" title="All 6 branches covered.">				if(cardType.equalsIgnoreCase(&quot;VISA&quot;) || cardType.equalsIgnoreCase(&quot;MASTERCARD&quot;) || cardType.equalsIgnoreCase(&quot;DISCOVER&quot;))</span>
+				{
+<span class="fc bfc" id="L134" title="All 2 branches covered.">					if (!stringSize(cardNumber,16,16))</span>
+					{
+<span class="fc" id="L136">						return &quot;Card number must be 16 digits.&quot;;</span>
+					}
+					else
+					{ 
+<span class="fc bfc" id="L140" title="All 2 branches covered.">						if(cardType.equalsIgnoreCase(&quot;VISA&quot;))</span>
+						{
+<span class="fc bfc" id="L142" title="All 2 branches covered.">							if(!cardNumber.substring(0,1).equalsIgnoreCase(&quot;4&quot;))</span>
+							{
+<span class="fc" id="L144">								return &quot;This is not a VISA card as it starts with 4.&quot;;</span>
+							}
+							else
+<span class="fc" id="L147">								return &quot;&quot;;</span>
+						}
+<span class="fc bfc" id="L149" title="All 2 branches covered.">						else if (cardType.equalsIgnoreCase(&quot;MASTERCARD&quot;))</span>
+						{
+<span class="fc bfc" id="L151" title="All 2 branches covered.">							if(!(cardNumber.substring(0,2).equalsIgnoreCase(&quot;51&quot;)</span>
+<span class="fc bfc" id="L152" title="All 2 branches covered.">									|| cardNumber.substring(0,2).equalsIgnoreCase(&quot;52&quot;)</span>
+<span class="fc bfc" id="L153" title="All 2 branches covered.">									|| cardNumber.substring(0,2).equalsIgnoreCase(&quot;53&quot;)</span>
+<span class="fc bfc" id="L154" title="All 2 branches covered.">									|| cardNumber.substring(0,2).equalsIgnoreCase(&quot;54&quot;)</span>
+<span class="fc bfc" id="L155" title="All 2 branches covered.">									|| cardNumber.substring(0,2).equalsIgnoreCase(&quot;55&quot;)))</span>
+							{
+<span class="fc" id="L157">								return &quot;This is not a Master card as it starts with 51/52/53/54/55.&quot;;</span>
+							}
+							else
+<span class="fc" id="L160">								return &quot;&quot;;</span>
+						}
+						else 
+						{
+<span class="fc bfc" id="L164" title="All 2 branches covered.">							if(!(cardNumber.substring(0,4).equalsIgnoreCase(&quot;6011&quot;)</span>
+<span class="fc bfc" id="L165" title="All 2 branches covered.">									|| cardNumber.substring(0,2).equalsIgnoreCase(&quot;65&quot;)))</span>
+<span class="fc" id="L166">									return &quot;This is not a Discover card as it starts with 6011/65.&quot;;						</span>
+								else
+<span class="fc" id="L168">									return &quot;&quot;;</span>
+									
+						}
+					}
+				}
+				else 
+				{
+<span class="fc bfc" id="L175" title="All 2 branches covered.">					if (!stringSize(cardNumber,15,15))</span>
+					{
+<span class="fc" id="L177">						return &quot;Card number must be 15 digits.&quot;;</span>
+					}
+					else
+					{
+<span class="fc bfc" id="L181" title="All 2 branches covered.">						if(!(cardNumber.substring(0,2).equalsIgnoreCase(&quot;37&quot;)</span>
+<span class="fc bfc" id="L182" title="All 2 branches covered.">								|| cardNumber.substring(0,2).equalsIgnoreCase(&quot;34&quot;)))</span>
+<span class="fc" id="L183">							return &quot;This is not a AMEX card as it starts with 34/37.&quot;;						</span>
+						else
+<span class="fc" id="L185">							return &quot;&quot;;</span>
+					}
+				}
+				
+			}
+		}
+	}
+
+	private String validateYear(String expYear) {
+<span class="fc bfc" id="L194" title="All 2 branches covered.">		if(expYear.isEmpty())</span>
+<span class="fc" id="L195">			return &quot;This field is required.&quot;;</span>
+		else
+		{
+<span class="fc bfc" id="L198" title="All 2 branches covered.">			if (!stringSize(expYear,4,4))</span>
+			{
+<span class="fc" id="L200">				return &quot;Year must be 4 digits.&quot;;</span>
+			}
+			else
+			{
+<span class="fc bfc" id="L204" title="All 2 branches covered.">				if(!isTextAnInteger(expYear))</span>
+<span class="fc" id="L205">					return &quot;Year must only digits.&quot;;</span>
+				else
+<span class="fc" id="L207">					return &quot;&quot;;</span>
+			}
+		}
+	}
+	
+	private boolean isTextAnInteger (String string) {
+        boolean result;
+		try
+        {
+<span class="fc" id="L216">            Long.parseLong(string);</span>
+<span class="fc" id="L217">            result=true;</span>
+<span class="fc" id="L218">        } </span>
+<span class="fc" id="L219">        catch (NumberFormatException e) </span>
+        {
+<span class="fc" id="L221">            result=false;</span>
+        }
+<span class="fc" id="L223">		return result;</span>
+	}
+	
+	private boolean stringSize(String string, int min, int max) {
+<span class="fc bfc" id="L227" title="All 4 branches covered.">		return string.length()&gt;=min &amp;&amp; string.length()&lt;=max;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 28, 2019 10:09:51 PM)</div></body></html>

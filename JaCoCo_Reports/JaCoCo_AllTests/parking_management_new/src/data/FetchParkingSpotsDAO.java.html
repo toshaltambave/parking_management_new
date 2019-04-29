@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>FetchParkingSpotsDAO.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 28, 2019 10:09:51 PM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">data</a> &gt; <span class="el_source">FetchParkingSpotsDAO.java</span></div><h1>FetchParkingSpotsDAO.java</h1><pre class="source lang-java linenums">package data;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import model.*;
+import util.SQLConnection;
+
+<span class="nc" id="L14">public class FetchParkingSpotsDAO {</span>
+	
+<span class="fc" id="L16">	static SQLConnection DBMgr = SQLConnection.getInstance();</span>
+	
+	public static ArrayList&lt;ParkingArea&gt; getAllParkingAreas () {
+
+<span class="fc" id="L20">		ArrayList&lt;ParkingArea&gt; parkingAreasInDb = new ArrayList&lt;ParkingArea&gt;();</span>
+		
+<span class="fc" id="L22">			Statement stmt = null;</span>
+<span class="fc" id="L23">			Connection conn = SQLConnection.getDBConnection();  </span>
+		try {
+<span class="fc" id="L25">			stmt = conn.createStatement();</span>
+<span class="fc" id="L26">			String query = &quot;SELECT * FROM parking_area&quot;;</span>
+<span class="fc" id="L27">			ResultSet areaList = stmt.executeQuery(query);</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">			while (areaList.next()) {</span>
+<span class="fc" id="L29">				ParkingArea area = new ParkingArea(); </span>
+<span class="fc" id="L30">				area.setArea_Id(areaList.getInt(&quot;Area_Id&quot;));</span>
+<span class="fc" id="L31">				area.setArea_Name(areaList.getString(&quot;Area_Name&quot;));</span>
+<span class="fc" id="L32">				parkingAreasInDb.add(area);					</span>
+			}
+<span class="pc" id="L34">		} catch (SQLException e) {</span>
+<span class="nc" id="L35">			e.printStackTrace();</span>
+		} finally {
+			try {
+<span class="fc" id="L38">				conn.close();</span>
+<span class="fc" id="L39">				stmt.close();</span>
+<span class="pc" id="L40">			} catch (SQLException e) {</span>
+<span class="nc" id="L41">				e.printStackTrace();</span>
+			};
+		}
+<span class="fc" id="L44">		return parkingAreasInDb;</span>
+	}
+	
+	public static ParkingArea getspecificParkingArea(Integer areaId){
+<span class="fc" id="L48">		ParkingArea filteredArea = new ParkingArea();</span>
+<span class="fc" id="L49">		Iterator &lt;ParkingArea&gt; AreaList = FetchParkingSpotsDAO.getAllParkingAreas().iterator();</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">		while (AreaList.hasNext()) {</span>
+<span class="fc" id="L51">			ParkingArea currentArea = AreaList.next();</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">			if(currentArea.getArea_Id() == areaId)</span>
+			{
+<span class="fc" id="L54">				filteredArea.setArea_Id(currentArea.getArea_Id());</span>
+<span class="fc" id="L55">				filteredArea.setArea_Name(currentArea.getArea_Name());</span>
+<span class="fc" id="L56">			}</span>
+			else
+			{
+<span class="fc" id="L59">				System.out.println(&quot;Do Nothing.&quot;);</span>
+			}		
+		}
+<span class="fc" id="L62">		return filteredArea;</span>
+	}
+	
+//	public static ArrayList&lt;ParkingAreaFloors&gt; getAllParkingAreaFloors () {
+//
+//		ArrayList&lt;ParkingAreaFloors&gt; parkingAreaFloorsInDb = new ArrayList&lt;ParkingAreaFloors&gt;();
+//		
+//			Statement stmt = null;
+//			Connection conn = SQLConnection.getDBConnection();  
+//		try {
+//			stmt = conn.createStatement();
+//			String query = &quot;SELECT * FROM parking_area_floors;&quot;;
+//			ResultSet floorList = stmt.executeQuery(query);
+//			while (floorList.next()) {
+//				ParkingAreaFloors floor = new ParkingAreaFloors(); 
+//				floor.setArea_Id(floorList.getInt(&quot;Area_Id&quot;));
+//				floor.setFloor_Number(floorList.getInt(&quot;Floor_Number&quot;));
+//				floor.setNo_Spots(floorList.getInt(&quot;No_Spots&quot;));
+//				floor.setPermitType(floorList.getString(&quot;PermitType&quot;));
+//				parkingAreaFloorsInDb.add(floor);					
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} finally {
+//			try {
+//				conn.close();
+//				stmt.close();
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			};
+//		}
+//		return parkingAreaFloorsInDb;
+//	}
+
+	public static ArrayList&lt;ParkingAreaFloors&gt; getFloorsbyParkingAreaId(int areaId, String permitType){
+<span class="fc" id="L97">		ArrayList&lt;ParkingAreaFloors&gt; filteredFloors = new ArrayList&lt;ParkingAreaFloors&gt;();</span>
+<span class="fc" id="L98">		Iterator &lt;ParkingAreaFloors&gt; floorsList = FetchParkingSpotsDAO.getFilteredParkingAreaFloors().iterator();</span>
+<span class="fc bfc" id="L99" title="All 2 branches covered.">		while (floorsList.hasNext()) {</span>
+<span class="fc" id="L100">			ParkingAreaFloors currentFloor = floorsList.next();</span>
+			//TODO: Make PermitType mandatory
+<span class="fc bfc" id="L102" title="All 2 branches covered.">			if(permitType.equalsIgnoreCase(&quot;access&quot;)){</span>
+<span class="fc bfc" id="L103" title="All 4 branches covered.">				if(currentFloor.getArea_Id().equals(areaId) &amp;&amp; (currentFloor.getPermitType().equalsIgnoreCase(&quot;access&quot;)))</span>
+				{
+<span class="fc" id="L105">					filteredFloors.add(currentFloor);</span>
+<span class="fc" id="L106">				}</span>
+				else
+				{
+<span class="fc" id="L109">					System.out.println(&quot;Do Nothing.&quot;);</span>
+				}		
+<span class="fc" id="L111">			}</span>
+<span class="fc bfc" id="L112" title="All 2 branches covered.">			else if(permitType.equalsIgnoreCase(&quot;premium&quot;)){</span>
+<span class="fc bfc" id="L113" title="All 4 branches covered.">				if(currentFloor.getArea_Id().equals(areaId) &amp;&amp; (currentFloor.getPermitType().equalsIgnoreCase(&quot;premium&quot;)</span>
+<span class="fc bfc" id="L114" title="All 2 branches covered.">						|| currentFloor.getPermitType().equalsIgnoreCase(&quot;midrange&quot;)</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">						|| currentFloor.getPermitType().equalsIgnoreCase(&quot;basic&quot;)))</span>
+				{
+<span class="fc" id="L117">					filteredFloors.add(currentFloor);</span>
+<span class="fc" id="L118">				}</span>
+				else
+				{
+<span class="fc" id="L121">					System.out.println(&quot;Do Nothing.&quot;);</span>
+				}		
+<span class="fc" id="L123">			}</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">			else if(permitType.equalsIgnoreCase(&quot;midrange&quot;)){</span>
+<span class="fc bfc" id="L125" title="All 4 branches covered.">				if(currentFloor.getArea_Id().equals(areaId) &amp;&amp; (currentFloor.getPermitType().equalsIgnoreCase(&quot;midrange&quot;)</span>
+<span class="fc bfc" id="L126" title="All 2 branches covered.">						|| currentFloor.getPermitType().equalsIgnoreCase(&quot;basic&quot;)))</span>
+				{
+<span class="fc" id="L128">					filteredFloors.add(currentFloor);</span>
+<span class="fc" id="L129">				}</span>
+				else
+				{
+<span class="fc" id="L132">					System.out.println(&quot;Do Nothing.&quot;);</span>
+				}		
+<span class="fc" id="L134">			}</span>
+			else{
+<span class="fc bfc" id="L136" title="All 4 branches covered.">				if(currentFloor.getArea_Id().equals(areaId) &amp;&amp; currentFloor.getPermitType().equalsIgnoreCase(&quot;basic&quot;))</span>
+				{
+<span class="fc" id="L138">					filteredFloors.add(currentFloor);</span>
+<span class="fc" id="L139">				}</span>
+				else
+				{
+<span class="fc" id="L142">					System.out.println(&quot;Do Nothing.&quot;);</span>
+				}		
+			}				
+		}
+<span class="fc" id="L146">		return filteredFloors;</span>
+	}
+	
+	
+	public static ArrayList&lt;ParkingAreaFloors&gt; getFilteredFloorsbyParkingAreaId(int areaId, String permitType){
+<span class="fc" id="L151">		ArrayList&lt;ParkingAreaFloors&gt; filteredFloors = new ArrayList&lt;ParkingAreaFloors&gt;();</span>
+<span class="fc" id="L152">		Iterator &lt;ParkingAreaFloors&gt; floorsList = FetchParkingSpotsDAO.getFilteredParkingAreaFloors().iterator();</span>
+<span class="fc bfc" id="L153" title="All 2 branches covered.">		while (floorsList.hasNext()) {</span>
+<span class="fc" id="L154">			ParkingAreaFloors currentFloor = floorsList.next();</span>
+<span class="fc bfc" id="L155" title="All 2 branches covered.">				if(currentFloor.getArea_Id().equals(areaId))</span>
+				{
+<span class="fc" id="L157">					filteredFloors.add(currentFloor);</span>
+<span class="fc" id="L158">				}</span>
+				else
+				{
+<span class="fc" id="L161">					System.out.println(&quot;Do Nothing.&quot;);</span>
+				}		
+		}
+<span class="fc" id="L164">		return filteredFloors;</span>
+	}
+
+	public static ArrayList&lt;ParkingAreaFloors&gt; getFilteredParkingAreaFloors () {
+
+<span class="fc" id="L169">		ArrayList&lt;ParkingAreaFloors&gt; parkingAreaFloorsInDb = new ArrayList&lt;ParkingAreaFloors&gt;();</span>
+		
+<span class="fc" id="L171">			Statement stmt = null;</span>
+<span class="fc" id="L172">			Connection conn = SQLConnection.getDBConnection();  </span>
+		try {
+<span class="fc" id="L174">			stmt = conn.createStatement();</span>
+<span class="fc" id="L175">			String query = &quot;SELECT ps.Area_Id as Area_Id,ps.Floor_Number AS Floor_Number, ps.PermitType AS PermitType, Count(ps.Spot_Id) AS No_Spots FROM parking_area_floors AS paf &quot; + </span>
+&quot; JOIN parking_spots ps ON ps.Area_Id = paf.Area_Id AND ps.PermitType= paf.PermitType&quot;+
+&quot; AND ps.Floor_Number = paf.Floor_Number AND ps.IsBlocked= 0&quot; +
+&quot; group by ps.Area_Id,ps.Floor_Number, ps.PermitType;&quot;;
+<span class="fc" id="L179">			ResultSet floorList = stmt.executeQuery(query);</span>
+<span class="fc bfc" id="L180" title="All 2 branches covered.">			while (floorList.next()) {</span>
+<span class="fc" id="L181">				ParkingAreaFloors floor = new ParkingAreaFloors(); </span>
+<span class="fc" id="L182">				floor.setArea_Id(floorList.getInt(&quot;Area_Id&quot;));</span>
+<span class="fc" id="L183">				floor.setFloor_Number(floorList.getInt(&quot;Floor_Number&quot;));</span>
+<span class="fc" id="L184">				floor.setNo_Spots(floorList.getInt(&quot;No_Spots&quot;));</span>
+<span class="fc" id="L185">				floor.setPermitType(floorList.getString(&quot;PermitType&quot;));</span>
+<span class="fc" id="L186">				parkingAreaFloorsInDb.add(floor);					</span>
+			}
+<span class="pc" id="L188">		} catch (SQLException e) {</span>
+<span class="nc" id="L189">			e.printStackTrace();</span>
+		} finally {
+			try {
+<span class="fc" id="L192">				conn.close();</span>
+<span class="fc" id="L193">				stmt.close();</span>
+<span class="pc" id="L194">			} catch (SQLException e) {</span>
+<span class="nc" id="L195">				e.printStackTrace();</span>
+			};
+		}
+<span class="fc" id="L198">		return parkingAreaFloorsInDb;</span>
+	}
+	
+
+//	public static ArrayList&lt;ParkingAreaFloors&gt; getFloorsbyAvailability(int areaId, String permitType, String start_time, String end_time){
+//		ArrayList&lt;ParkingAreaFloors&gt; filteredFloors = new ArrayList&lt;ParkingAreaFloors&gt;();
+//		Iterator &lt;ParkingAreaFloors&gt; FloorList = FetchParkingSpotsDAO.getFloorsbyParkingAreaId(areaId, permitType).iterator();
+//		while (FloorList.hasNext()) {
+//			ParkingAreaFloors currentFloor = FloorList.next();
+//			if(currentFloor.getArea_Id().equals(areaId) &amp;&amp; currentFloor.getFloor_Number() == floorNumber)
+//			{
+//				currentFloor.
+//				filteredFloors.add(currentFloor);
+//			}
+//		}
+//		return filteredFloors;
+//	}
+	
+	
+//	public static ArrayList&lt;ParkingSpots&gt; getAllSpots () {
+//
+//		ArrayList&lt;ParkingSpots&gt; parkingSpotsInDb = new ArrayList&lt;ParkingSpots&gt;();
+//		
+//			Statement stmt = null;
+//			Connection conn = SQLConnection.getDBConnection();  
+//		try {
+//			stmt = conn.createStatement();
+//			String query = &quot;SELECT * FROM parking_spots&quot;;
+//			ResultSet spotsList = stmt.executeQuery(query);
+//			while (spotsList.next()) {
+//				ParkingSpots spot = new ParkingSpots(); 
+//				spot.setArea_Id(spotsList.getInt(&quot;Area_Id&quot;));
+//				spot.setFloor_Number(spotsList.getInt(&quot;Floor_Number&quot;));
+//				spot.setIsBlocked(spotsList.getBoolean(&quot;isBlocked&quot;));
+//				spot.setPermitType(spotsList.getString(&quot;permitType&quot;));
+//				spot.setSpot_Id(spotsList.getInt(&quot;Spot_Id&quot;));
+//				parkingSpotsInDb.add(spot);					
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} finally {
+//			try {
+//				conn.close();
+//				stmt.close();
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			};
+//		}
+//		return parkingSpotsInDb;
+//	}
+	
+	public static ArrayList&lt;ParkingSpots&gt; getSpotsByAreaFloorPermitFromDb (int areaId, int floorNumber, String permitType) {
+
+<span class="fc" id="L251">		ArrayList&lt;ParkingSpots&gt; parkingSpotsInDb = new ArrayList&lt;ParkingSpots&gt;();</span>
+		
+<span class="fc" id="L253">			Statement stmt = null;</span>
+<span class="fc" id="L254">			Connection conn = SQLConnection.getDBConnection();  </span>
+		try {
+<span class="fc" id="L256">			stmt = conn.createStatement();</span>
+<span class="fc" id="L257">			String query = &quot;SELECT * from parking_spots WHERE Area_Id = '&quot;+areaId+&quot;' AND Floor_Number = '&quot;+floorNumber+&quot;' AND PermitType ='&quot;+permitType+&quot;' &quot;;</span>
+<span class="fc" id="L258">			ResultSet spotsList = stmt.executeQuery(query);</span>
+<span class="fc bfc" id="L259" title="All 2 branches covered.">			while (spotsList.next()) {</span>
+<span class="fc" id="L260">				ParkingSpots spot = new ParkingSpots(); </span>
+<span class="fc" id="L261">				spot.setArea_Id(spotsList.getInt(&quot;Area_Id&quot;));</span>
+<span class="fc" id="L262">				spot.setFloor_Number(spotsList.getInt(&quot;Floor_Number&quot;));</span>
+<span class="fc" id="L263">				spot.setIsBlocked(spotsList.getBoolean(&quot;isBlocked&quot;));</span>
+<span class="fc" id="L264">				spot.setPermitType(spotsList.getString(&quot;permitType&quot;));</span>
+<span class="fc" id="L265">				spot.setSpot_Id(spotsList.getInt(&quot;Spot_Id&quot;));</span>
+<span class="fc" id="L266">				spot.setSpot_UID(spotsList.getInt(&quot;Spot_UID&quot;));</span>
+<span class="fc" id="L267">				parkingSpotsInDb.add(spot);					</span>
+			}
+<span class="pc" id="L269">		} catch (SQLException e) {</span>
+<span class="nc" id="L270">			e.printStackTrace();</span>
+		} finally {
+			try {
+<span class="fc" id="L273">				conn.close();</span>
+<span class="fc" id="L274">				stmt.close();</span>
+<span class="pc" id="L275">			} catch (SQLException e) {</span>
+<span class="nc" id="L276">				e.printStackTrace();</span>
+			};
+		}
+<span class="fc" id="L279">		return parkingSpotsInDb;</span>
+	}
+	
+//	public static ArrayList&lt;ParkingSpots&gt; getSpotsByAreaAndFloor(int areaId, int floorNumber){
+//		ArrayList&lt;ParkingSpots&gt; filteredSpots = new ArrayList&lt;ParkingSpots&gt;();
+//		Iterator &lt;ParkingSpots&gt; spotsList = FetchParkingSpotsDAO.getAllSpots().iterator();
+//		while (spotsList.hasNext()) {
+//			ParkingSpots currentSpot = spotsList.next();
+//			if(currentSpot.getArea_Id().equals(areaId) &amp;&amp; currentSpot.getFloor_Number() == floorNumber)
+//			{
+//				filteredSpots.add(currentSpot);
+//			}
+//			else
+//			{
+//				System.out.println(&quot;Do Nothing.&quot;);
+//			}		
+//		}
+//		return filteredSpots;
+//	}
+
+	public static Boolean blockSpot(int spotUID, int isBlocked) {
+<span class="fc" id="L300">		 Connection conn = SQLConnection.getDBConnection();</span>
+		 try{
+<span class="fc bfc" id="L302" title="All 2 branches covered.">			 if(isBlocked == 1)</span>
+			 {
+<span class="fc" id="L304">				 isBlocked=0;</span>
+<span class="fc" id="L305">			 }</span>
+			 else
+			 {
+<span class="fc" id="L308">				 isBlocked=1;</span>
+			 }
+<span class="fc" id="L310">			 	PreparedStatement pst3 = null;</span>
+<span class="fc" id="L311">				String queryString=&quot;UPDATE `parking_spots` SET `IsBlocked` = ? WHERE `Spot_UID` = ?&quot;;</span>
+<span class="fc" id="L312">				pst3 = conn.prepareStatement(queryString);</span>
+<span class="fc" id="L313">				pst3.setInt(1, isBlocked);</span>
+<span class="fc" id="L314">				pst3.setInt(2, spotUID);</span>
+<span class="fc" id="L315">				pst3.executeUpdate();</span>
+<span class="fc" id="L316">				conn.commit();</span>
+				
+<span class="pc" id="L318">		 }catch (SQLException e) {</span>
+<span class="nc" id="L319">			 e.printStackTrace();</span>
+<span class="nc" id="L320">			 return false;</span>
+		 } finally {
+				try {
+<span class="fc" id="L323">					conn.close();</span>
+<span class="pc" id="L324">				} catch (SQLException e) {</span>
+<span class="nc" id="L325">					e.printStackTrace();</span>
+<span class="nc" id="L326">					return false;</span>
+				}
+			}
+		 
+<span class="fc" id="L330">		 return true;</span>
+
+	}
+	
+	public static Boolean updateParkingAreaName(int areaId, String areaName){
+<span class="fc" id="L335">		 Connection conn = SQLConnection.getDBConnection();</span>
+		 try
+		 {
+<span class="fc" id="L338">			PreparedStatement pst3 = null;</span>
+<span class="fc" id="L339">			String queryString=&quot;UPDATE `parking_area` SET `Area_Name` = ? WHERE `Area_Id` = ?&quot;;</span>
+<span class="fc" id="L340">			pst3 = conn.prepareStatement(queryString);</span>
+<span class="fc" id="L341">			pst3.setString(1, areaName);</span>
+<span class="fc" id="L342">			pst3.setInt(2, areaId);</span>
+<span class="fc" id="L343">			pst3.executeUpdate();</span>
+<span class="fc" id="L344">			conn.commit();</span>
+				
+<span class="pc" id="L346">		 }catch (SQLException e) {</span>
+<span class="nc" id="L347">			 e.printStackTrace();</span>
+<span class="nc" id="L348">			 return false;</span>
+		 } finally {
+				try {
+<span class="fc" id="L351">					conn.close();</span>
+<span class="pc" id="L352">				} catch (SQLException e) {</span>
+<span class="nc" id="L353">					e.printStackTrace();</span>
+<span class="nc" id="L354">					return false;</span>
+				}
+			}	 
+<span class="fc" id="L357">		 return true;</span>
+	}
+
+//	public static Boolean updateParkingPermitType(int areaId, int floorno, String permitType, String oldpermitType,int Spots) {
+//		 Connection conn = SQLConnection.getDBConnection();
+//		 ArrayList&lt;ParkingAreaFloors&gt; parkingFloorInDb = new ArrayList&lt;ParkingAreaFloors&gt;();
+//		 try
+//		 {
+//			 PreparedStatement  pst = null;
+//			 String query = &quot;SELECT * FROM parking_area_floors where Area_Id=? and Floor_Number=? and PermitType=?&quot;;
+//			 pst = conn.prepareStatement(query);
+//			 pst.setString(3, permitType);
+//			 pst.setInt(1, areaId);
+//			 pst.setInt(2, floorno);
+//			 ResultSet floorList = pst.executeQuery();
+//			 while (floorList.next()) {
+//					ParkingAreaFloors floor = new ParkingAreaFloors(); 
+//					floor.setArea_Id(floorList.getInt(&quot;Area_Id&quot;));
+//					floor.setFloor_Number(floorList.getInt(&quot;Floor_Number&quot;));
+//					floor.setNo_Spots(floorList.getInt(&quot;No_Spots&quot;));
+//					floor.setPermitType(floorList.getString(&quot;PermitType&quot;));
+//					parkingFloorInDb.add(floor);					
+//				} 
+//			
+//			 if(parkingFloorInDb.size() &gt; 0)
+//			 {
+//				 return false;
+//			 }
+//			 else
+//			 {			 			 
+//				PreparedStatement pst3 = null;
+//				String insertString=&quot;INSERT INTO parking_area_floors (`Area_Id`,`Floor_Number`,`PermitType`,`No_Spots`)VALUES(?,?,?,?)&quot;;
+//				pst3 = conn.prepareStatement(insertString);
+//				pst3.setString(3, permitType);
+//				pst3.setInt(1, areaId);
+//				pst3.setInt(2, floorno);
+//				pst3.setInt(4, Spots);
+//				pst3.executeUpdate();
+//				conn.commit();
+//				 
+//					PreparedStatement pst4 = null;
+//					String updString=&quot;UPDATE `parking_area_floors` SET `PermitType` = ? WHERE `Area_Id` = ? and Floor_Number=?&quot;;
+//					pst4 = conn.prepareStatement(updString);
+//					pst4.setString(1, permitType);
+//					pst4.setInt(2, areaId);
+//					pst4.setInt(3, floorno);
+//					pst4.executeUpdate();
+//					conn.commit();
+//				
+//				PreparedStatement pst4 = null;
+//				String updString=&quot;UPDATE `parking_spots` SET `PermitType` = ? WHERE `Area_Id` = ? and Floor_Number=?&quot;;
+//				pst4 = conn.prepareStatement(updString);
+//				pst4.setString(1, permitType);
+//				pst4.setInt(2, areaId);
+//				pst4.setInt(3, floorno);
+//				pst4.executeUpdate();
+//				conn.commit();
+				
+//				PreparedStatement pst5 = null;
+//				String delString=&quot;DELETE from `parking_area_floors` WHERE `Area_Id` = ? and Floor_Number=? and PermitType =?&quot;;
+//				pst5 = conn.prepareStatement(delString);
+//				pst5.setString(3, oldpermitType);
+//				pst5.setInt(1, areaId);
+//				pst5.setInt(2, floorno);
+//				pst5.executeUpdate();
+//				conn.commit();
+//			 }
+//				
+//		 }catch (SQLException e) {
+//			 e.printStackTrace();
+//			 return false;
+//		 } finally {
+//				try {
+//					conn.close();
+//				} catch (SQLException e) {
+//					e.printStackTrace();
+//					return false;
+//				}
+//			}	 
+//		 return true;
+//	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 28, 2019 10:09:51 PM)</div></body></html>

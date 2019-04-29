@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ParkingAreaController.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 28, 2019 10:09:51 PM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">controller</a> &gt; <span class="el_source">ParkingAreaController.java</span></div><h1>ParkingAreaController.java</h1><pre class="source lang-java linenums">package controller;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.ListIterator;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import data.*;
+import model.*;
+
+@WebServlet(&quot;/ParkingAreaController&quot;)
+<span class="fc" id="L23">public class ParkingAreaController extends HttpServlet {</span>
+	private static final long serialVersionUID = 1L;
+
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+<span class="fc" id="L27">		String action = req.getParameter(&quot;action&quot;);	</span>
+		
+<span class="fc bfc" id="L29" title="All 2 branches covered.">		if(action != null)</span>
+		{
+<span class="fc bfc" id="L31" title="All 2 branches covered.">			if (action.equalsIgnoreCase(&quot;editParkingArea&quot;)) {</span>
+<span class="fc" id="L32">				showParkingAreaEdit(req, resp);</span>
+<span class="fc" id="L33">			}</span>
+			else
+			{
+<span class="fc" id="L36">				System.out.println(&quot;Do Nothing.&quot;);</span>
+			}		
+<span class="fc" id="L38">		}</span>
+		else
+		{
+<span class="fc" id="L41">			listAreas(req, resp);</span>
+<span class="fc" id="L42">			listPermitTypes(req, resp);</span>
+<span class="fc" id="L43">			RequestDispatcher dispatcher = req.getRequestDispatcher(&quot;/CreatingParkingArea.jsp&quot;);</span>
+<span class="fc" id="L44">			dispatcher.forward(req, resp);</span>
+		}
+		
+<span class="fc" id="L47">	}</span>
+
+	private void showParkingAreaEdit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException  {
+<span class="fc" id="L50">		listAreas(req, resp);</span>
+<span class="fc" id="L51">		RequestDispatcher dispatcher = req.getRequestDispatcher(&quot;/EditParkingArea.jsp&quot;);</span>
+<span class="fc" id="L52">        dispatcher.forward(req, resp);</span>
+			
+<span class="fc" id="L54">	}</span>
+
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+<span class="fc" id="L57">		String action = req.getParameter(&quot;action&quot;);</span>
+<span class="fc" id="L58">		String url = &quot;&quot;;</span>
+<span class="fc" id="L59">		HttpSession session = req.getSession();</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">		if (action.equalsIgnoreCase(&quot;addtoList&quot;)) </span>
+		{
+<span class="fc" id="L62">			url = addtoList(req, resp);</span>
+<span class="fc" id="L63">			listPermitTypes(req, resp);</span>
+<span class="fc" id="L64">		} </span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">		else if (action.equalsIgnoreCase(&quot;saveArea&quot;)) {</span>
+<span class="fc" id="L66">			url = saveArea(req, resp);</span>
+<span class="fc" id="L67">			listPermitTypes(req, resp);</span>
+<span class="fc" id="L68">		}</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">		 else if (action.equalsIgnoreCase(&quot;getAreaFloors&quot;))</span>
+		 {
+<span class="fc" id="L71">			 listAreas(req, resp);</span>
+<span class="fc" id="L72">			 listPermitTypes(req, resp);</span>
+<span class="fc" id="L73">			 int areaId = Integer.parseInt(req.getParameter(&quot;areaDropDrown&quot;));</span>
+<span class="fc" id="L74">		     req.setAttribute(&quot;selectedAreaId&quot;, areaId);</span>
+<span class="fc" id="L75">			 url = listFloorsForSelectedArea(req, resp,areaId);</span>
+<span class="fc" id="L76">		 }</span>
+<span class="fc bfc" id="L77" title="All 2 branches covered.">		 else if (action.equalsIgnoreCase(&quot;getFloorSpots&quot;))</span>
+		 {
+<span class="fc" id="L79">			 listAreas(req, resp);</span>
+<span class="fc" id="L80">			 int areaId = Integer.parseInt(req.getParameter(&quot;selectedAreaId&quot;));</span>
+<span class="fc" id="L81">			 int selectedFloorNumber = Integer.parseInt(req.getParameter(&quot;selectedFloorNumber&quot;));</span>
+<span class="fc" id="L82">			 String selectedPermitType = req.getParameter(&quot;selectedPermitType&quot;);</span>
+<span class="fc" id="L83">			 req.setAttribute(&quot;selectedAreaId&quot;, areaId);</span>
+<span class="fc" id="L84">		     session.setAttribute(&quot;selectedAreaId&quot;, areaId);</span>
+<span class="fc" id="L85">		     session.setAttribute(&quot;selectedFloorNumber&quot;, selectedFloorNumber);</span>
+<span class="fc" id="L86">		     session.setAttribute(&quot;selectedPermitType&quot;, selectedPermitType);</span>
+<span class="fc" id="L87">			 url = listSpotsForSelectedFloor(req, resp,areaId,selectedFloorNumber,selectedPermitType);</span>
+<span class="fc" id="L88">		 }</span>
+<span class="fc bfc" id="L89" title="All 2 branches covered.">		 else if(action.equalsIgnoreCase(&quot;toggleBlock&quot;)){</span>
+<span class="fc" id="L90">			listAreas(req, resp);</span>
+<span class="fc" id="L91">			int spotUID = Integer.parseInt(req.getParameter(&quot;selectedSpotUId&quot;));</span>
+<span class="fc" id="L92">			int isBlocked = convertBoolToInt(req.getParameter(&quot;isBlocked&quot;));</span>
+<span class="fc" id="L93">			int areaId = (int)session.getAttribute(&quot;selectedAreaId&quot;);</span>
+<span class="fc" id="L94">			int selectedFloorNumber = (int) session.getAttribute(&quot;selectedFloorNumber&quot;);</span>
+<span class="fc" id="L95">			String selectedPermitType = (String) session.getAttribute(&quot;selectedPermitType&quot;);</span>
+<span class="fc" id="L96">			req.setAttribute(&quot;selectedAreaId&quot;, areaId);</span>
+<span class="fc" id="L97">		    session.setAttribute(&quot;selectedAreaId&quot;, areaId);</span>
+<span class="fc" id="L98">		    session.setAttribute(&quot;selectedFloorNumber&quot;, selectedFloorNumber);</span>
+<span class="fc" id="L99">		    session.setAttribute(&quot;selectedPermitType&quot;, selectedPermitType);</span>
+<span class="fc" id="L100">			toggleBlock(spotUID,isBlocked,req, resp);</span>
+<span class="fc" id="L101">			url = listSpotsForSelectedFloor(req, resp, areaId, selectedFloorNumber, selectedPermitType);</span>
+<span class="fc" id="L102">		}</span>
+<span class="fc bfc" id="L103" title="All 2 branches covered.">		 else if (action.equalsIgnoreCase(&quot;addSpot&quot;))</span>
+		 {
+<span class="fc" id="L105">			 listAreas(req, resp);</span>
+<span class="fc" id="L106">			 int areaId = (int)session.getAttribute(&quot;selectedAreaId&quot;);</span>
+<span class="fc" id="L107">			 int selectedFloorNumber = (int) session.getAttribute(&quot;selectedFloorNumber&quot;);</span>
+<span class="fc" id="L108">			 String selectedPermitType = (String) session.getAttribute(&quot;selectedPermitType&quot;);</span>
+<span class="fc" id="L109">			 req.setAttribute(&quot;selectedAreaId&quot;, areaId);</span>
+<span class="fc" id="L110">		     session.setAttribute(&quot;selectedAreaId&quot;, areaId);</span>
+<span class="fc" id="L111">		     session.setAttribute(&quot;selectedFloorNumber&quot;, selectedFloorNumber);</span>
+<span class="fc" id="L112">		     session.setAttribute(&quot;selectedPermitType&quot;, selectedPermitType);</span>
+<span class="fc" id="L113">			 addParkingSpot(req,resp,areaId,selectedFloorNumber,selectedPermitType);</span>
+<span class="fc" id="L114">			 url = listSpotsForSelectedFloor(req, resp,areaId,selectedFloorNumber,selectedPermitType);</span>
+<span class="fc" id="L115">		 }</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">		else if (action.equalsIgnoreCase(&quot;editAreaName&quot;)) {</span>
+<span class="fc" id="L117">			listAreas(req, resp);</span>
+<span class="fc" id="L118">			url = editAreaName(req, resp);</span>
+<span class="fc" id="L119">		}</span>
+		else
+		{
+<span class="fc" id="L122">			System.out.println(&quot;Do Nothing.&quot;);</span>
+		}		
+//		else if (action.equalsIgnoreCase(&quot;editPermitType&quot;)) {
+//			listAreas(req, resp);
+//			url = editPermitType(req, resp);
+//		}
+<span class="fc" id="L128">		getServletContext().getRequestDispatcher(url).forward(req, resp);</span>
+<span class="fc" id="L129">	}</span>
+
+	private void listAreas(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException 
+	{
+<span class="fc" id="L134">		ArrayList&lt;ParkingArea&gt; allAreas = FetchParkingSpotsDAO.getAllParkingAreas();</span>
+<span class="fc" id="L135">		request.setAttribute(&quot;Areas&quot;, allAreas);</span>
+<span class="fc" id="L136">	}</span>
+	
+
+	private void addParkingSpot(HttpServletRequest request, HttpServletResponse response,int AreaId, int FloorNumber, String PermitType)
+			throws ServletException, IOException
+	{
+<span class="fc" id="L142">		HttpSession session = request.getSession();</span>
+<span class="fc" id="L143">		Boolean isadded = true;</span>
+<span class="fc" id="L144">		isadded = ParkingAreaDAO.addParkingSpot(AreaId,FloorNumber,PermitType);</span>
+<span class="fc" id="L145">		request.setAttribute(&quot;isParkingSpotAdded&quot;, isadded);		</span>
+<span class="fc" id="L146">	}</span>
+	
+	public static Integer convertBoolToInt(String actual){
+<span class="fc bfc" id="L149" title="All 2 branches covered.">		if(actual.equalsIgnoreCase(&quot;true&quot;))</span>
+		{
+<span class="fc" id="L151">			return 1;</span>
+		}
+		else
+		{
+<span class="fc" id="L155">			return 0;</span>
+		}
+	}
+	
+	private String editAreaName(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	{
+<span class="fc" id="L161">		String areaName = request.getParameter(&quot;txteditAreaName&quot;);</span>
+<span class="fc" id="L162">		String url = &quot;&quot;;</span>
+<span class="fc bfc" id="L163" title="All 2 branches covered.">		if(areaName.isEmpty())</span>
+		{
+<span class="fc" id="L165">			String areanameError=&quot;Please select area first.&quot;;</span>
+<span class="fc" id="L166">			request.setAttribute(&quot;areanameError&quot;, areanameError);</span>
+<span class="fc" id="L167">			url = &quot;/EditParkingArea.jsp&quot;;</span>
+<span class="fc" id="L168">		}</span>
+		else
+		{
+<span class="fc" id="L171">			int areaId = Integer.parseInt(request.getParameter(&quot;txteditAreaNumber&quot;));</span>
+<span class="fc" id="L172">			Boolean isParkingAreaUpdate = FetchParkingSpotsDAO.updateParkingAreaName(areaId, areaName); </span>
+<span class="fc" id="L173">			request.setAttribute(&quot;isParkingAreaUpdate&quot;, isParkingAreaUpdate);	</span>
+<span class="fc" id="L174">		 	showParkingAreaEdit(request,response);</span>
+		}
+<span class="fc" id="L176">		return url;</span>
+	}
+	
+//	private String editPermitType(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+//	{
+//		 String url = &quot;&quot;;
+//		 int areaId = Integer.parseInt(request.getParameter(&quot;selectedAreaId&quot;));
+//		 int floorno = Integer.parseInt(request.getParameter(&quot;selectedFloorNumber&quot;));
+//		 int spots = Integer.parseInt(request.getParameter(&quot;selectedSpots&quot;));
+//		 String permitType = request.getParameter(&quot;permitType&quot;);
+//		 String oldpermitType = request.getParameter(&quot;selectedPermitType&quot;);
+//		 Boolean isPermitTypeUpdate = FetchParkingSpotsDAO.updateParkingPermitType(areaId, floorno,permitType,oldpermitType,spots); 
+//		 if(isPermitTypeUpdate)
+//		 {
+//		 	request.setAttribute(&quot;isPermitUpdate&quot;, isPermitTypeUpdate);
+//		 }
+//		 else
+//		 {
+//			request.setAttribute(&quot;isPermitError&quot;, true);
+//		 }
+//		 showParkingAreaEdit(request,response);
+//		 return url;
+//	}
+	
+	private void toggleBlock(int spotUID,int isBlocked,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	{
+<span class="fc" id="L202">		HttpSession session = request.getSession();</span>
+<span class="fc" id="L203">		Boolean isblocksuccess = FetchParkingSpotsDAO.blockSpot(spotUID,isBlocked); </span>
+<span class="fc" id="L204">	 	request.setAttribute(&quot;isblocksuccess&quot;, isblocksuccess);</span>
+	
+<span class="fc" id="L206">	}</span>
+	
+	
+	private String listFloorsForSelectedArea(HttpServletRequest request, HttpServletResponse response, Integer areaId) throws ServletException, IOException 
+	{
+<span class="fc" id="L211">		String url = &quot;&quot;;</span>
+
+//			HttpSession session = request.getSession();
+<span class="fc" id="L214">		ParkingArea selectedArea = FetchParkingSpotsDAO.getspecificParkingArea(areaId);</span>
+//			Users user = (Users) session.getAttribute(&quot;User&quot;);
+<span class="fc" id="L216">		ArrayList&lt;ParkingAreaFloors&gt; floorDetails = FetchParkingSpotsDAO.getFilteredFloorsbyParkingAreaId(areaId,&quot;Premium&quot;);</span>
+<span class="fc" id="L217">		request.setAttribute(&quot;selectedArea&quot;, selectedArea);</span>
+<span class="fc" id="L218">		request.setAttribute(&quot;allFloors&quot;, floorDetails);</span>
+<span class="fc" id="L219">		request.setAttribute(&quot;selectedAreaName&quot;, selectedArea.getArea_Name());</span>
+<span class="fc" id="L220">		url = &quot;/EditParkingArea.jsp&quot;;</span>
+<span class="fc" id="L221">		return url;</span>
+    }
+	private String listSpotsForSelectedFloor( HttpServletRequest request, HttpServletResponse response, Integer areaId, Integer floorNumber ,String permitType ) throws ServletException, IOException 
+	{
+<span class="fc" id="L225">		String url = &quot;&quot;;</span>
+<span class="fc" id="L226">		ParkingArea selectedArea = FetchParkingSpotsDAO.getspecificParkingArea(areaId);</span>
+<span class="fc" id="L227">		ArrayList&lt;ParkingSpots&gt; spotsList = FetchParkingSpotsDAO.getSpotsByAreaFloorPermitFromDb(areaId, floorNumber, permitType);</span>
+<span class="fc" id="L228">		request.setAttribute(&quot;selectedArea&quot;, selectedArea);</span>
+<span class="fc" id="L229">		request.setAttribute(&quot;selectedFloorNumber&quot;, floorNumber);</span>
+<span class="fc" id="L230">		request.setAttribute(&quot;selectedPermitType&quot;, permitType);</span>
+<span class="fc" id="L231">		request.setAttribute(&quot;spotsList&quot;, spotsList);</span>
+<span class="fc" id="L232">		url = &quot;/EditParkingSpots.jsp&quot;;</span>
+<span class="fc" id="L233">		return url;</span>
+    }
+
+	protected void listPermitTypes(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+<span class="fc" id="L238">		ArrayList&lt;PermitType&gt; listPermitTypes = new ArrayList&lt;PermitType&gt;(Arrays.asList(PermitType.values()));</span>
+<span class="fc" id="L239">		request.setAttribute(&quot;allPermitTypes&quot;, listPermitTypes);</span>
+<span class="fc" id="L240">	}</span>
+
+	private String addtoList(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+<span class="fc" id="L244">		HttpSession session = request.getSession();</span>
+<span class="fc" id="L245">		String action = request.getParameter(&quot;action&quot;);</span>
+<span class="fc" id="L246">		String url = &quot;/CreatingParkingArea.jsp&quot;;</span>
+<span class="fc" id="L247">		ParkingAreaHelperError error = new ParkingAreaHelperError();</span>
+<span class="fc" id="L248">		getError(request, session, error, action);</span>
+<span class="fc" id="L249">		request.setAttribute(&quot;parkingAreaError&quot;, error);</span>
+<span class="pc bpc" id="L250" title="1 of 4 branches missed.">		if (error.getAreaNameError().isEmpty() &amp;&amp; error.getFloorNumberError().isEmpty()</span>
+<span class="pc bpc" id="L251" title="1 of 2 branches missed.">				&amp;&amp; error.getNumberofSpotsError().isEmpty())</span>
+		{
+<span class="fc" id="L253">			String areaName = request.getParameter(&quot;parkingareaname&quot;);</span>
+<span class="fc" id="L254">			String permitType = request.getParameter(&quot;permitType&quot;);</span>
+<span class="fc" id="L255">			Integer numberofSpots = Integer.parseInt(request.getParameter(&quot;numberofSpots&quot;));</span>
+<span class="fc" id="L256">			Integer floorno = Integer.parseInt(request.getParameter(&quot;floornumber&quot;));</span>
+<span class="fc" id="L257">			request.setAttribute(&quot;selectedpermitType&quot;, permitType);</span>
+
+<span class="fc" id="L259">			ParkingAreaHelper parkingArea = new ParkingAreaHelper();</span>
+<span class="fc" id="L260">			parkingArea.setDetails(areaName, permitType, numberofSpots, floorno);</span>
+<span class="fc" id="L261">			request.setAttribute(&quot;parkingArea&quot;, parkingArea);</span>
+<span class="fc" id="L262">			ArrayList&lt;ParkingAreaHelper&gt; uniqueListAreas = null;</span>
+<span class="fc" id="L263">			ArrayList&lt;ParkingAreaHelper&gt; copy = new ArrayList&lt;ParkingAreaHelper&gt;();</span>
+<span class="fc" id="L264">			copy = (ArrayList&lt;ParkingAreaHelper&gt;) session.getAttribute(&quot;areastobeadded&quot;);</span>
+
+<span class="fc bfc" id="L266" title="All 4 branches covered.">			if (copy == null || copy.isEmpty()) </span>
+			{
+<span class="fc" id="L268">				uniqueListAreas = new ArrayList&lt;ParkingAreaHelper&gt;();</span>
+<span class="fc" id="L269">				uniqueListAreas.add(parkingArea);</span>
+				// uniqueListAreas.addAll(Collections.singleton(parkingArea));
+				//request.setAttribute(&quot;areastobeadded&quot;, uniqueListAreas);
+<span class="fc" id="L272">				session.setAttribute(&quot;areastobeadded&quot;, uniqueListAreas);</span>
+<span class="fc" id="L273">			} </span>
+			else 
+			{
+<span class="fc" id="L276">				copy.add(parkingArea);</span>
+<span class="fc" id="L277">				int index = 0;</span>
+<span class="fc bfc" id="L278" title="All 2 branches covered.">				for (ListIterator&lt;ParkingAreaHelper&gt; iterator = copy.listIterator(); iterator.hasNext();) {</span>
+<span class="fc" id="L279">					ParkingAreaHelper area = iterator.next();</span>
+					
+<span class="fc" id="L281">					CompareArea(area, parkingArea, copy, index );</span>
+		
+<span class="fc" id="L283">					index++;</span>
+				}
+<span class="fc" id="L285">				HashSet&lt;ParkingAreaHelper&gt; listToSet = new HashSet&lt;ParkingAreaHelper&gt;(copy);</span>
+				// Creating Arraylist without duplicate values
+<span class="fc" id="L287">				List&lt;ParkingAreaHelper&gt; listWithoutDuplicates = new ArrayList&lt;ParkingAreaHelper&gt;(listToSet);</span>
+				// copy.addAll(Collections.singleton(parkingArea));
+				//request.setAttribute(&quot;areastobeadded&quot;, listWithoutDuplicates);
+<span class="fc" id="L290">				session.setAttribute(&quot;areastobeadded&quot;, listWithoutDuplicates);</span>
+			}
+		}
+<span class="fc" id="L293">		return url;</span>
+	}
+
+	public void getError(HttpServletRequest request, HttpSession session, ParkingAreaHelperError error, String action) {
+<span class="fc" id="L297">		request.setAttribute(&quot;isAreaListEmpty&quot;, false);</span>
+<span class="fc" id="L298">		error.setAreaNameError(error.validateEmpty(request.getParameter(&quot;parkingareaname&quot;)));</span>
+<span class="fc" id="L299">		error.setNumberofSpotsError(error.validateEmpty(request.getParameter(&quot;numberofSpots&quot;)));</span>
+<span class="fc" id="L300">		error.setFloorNumberError(error.validateEmpty(request.getParameter(&quot;floornumber&quot;)));</span>
+<span class="fc bfc" id="L301" title="All 2 branches covered.">		if (action.equals(&quot;addtoList&quot;))</span>
+		{
+<span class="fc" id="L303">			error.setErrorMsg(action);</span>
+<span class="fc" id="L304">		}</span>
+		else
+		{
+<span class="fc" id="L307">			System.out.println(&quot;Do Nothing.&quot;);</span>
+		}		
+<span class="fc" id="L309">	}</span>
+
+	private String saveArea(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+<span class="fc" id="L313">		HttpSession session = request.getSession();</span>
+<span class="fc" id="L314">		String url = &quot;&quot;;</span>
+<span class="fc" id="L315">		Boolean isadded = true;</span>
+<span class="fc" id="L316">		ArrayList&lt;ParkingAreaHelper&gt; copy = new ArrayList&lt;ParkingAreaHelper&gt;();</span>
+<span class="fc" id="L317">		copy = (ArrayList&lt;ParkingAreaHelper&gt;) session.getAttribute(&quot;areastobeadded&quot;);</span>
+<span class="fc bfc" id="L318" title="All 2 branches covered.">		if (copy == null) </span>
+		{
+<span class="fc" id="L320">			request.setAttribute(&quot;isAreaListEmpty&quot;, true);</span>
+<span class="fc" id="L321">			url=&quot;/CreatingParkingArea.jsp&quot;;</span>
+<span class="fc" id="L322">		} </span>
+		else 
+		{
+<span class="fc bfc" id="L325" title="All 2 branches covered.">			for (ListIterator&lt;ParkingAreaHelper&gt; iterator = copy.listIterator(); iterator.hasNext();)</span>
+			{
+<span class="fc" id="L327">				ParkingAreaHelper area = iterator.next();</span>
+<span class="fc" id="L328">				isadded = ParkingAreaDAO.saveArea(area);</span>
+<span class="fc" id="L329">				url=&quot;/CreatingParkingArea.jsp&quot;;</span>
+			}
+
+<span class="fc" id="L332">			session.setAttribute(&quot;areastobeadded&quot;, new ArrayList&lt;ParkingAreaHelper&gt;());</span>
+<span class="fc" id="L333">			request.setAttribute(&quot;isAreaAdded&quot;, isadded);</span>
+	
+		}
+<span class="fc" id="L336">		return url;</span>
+
+	}
+
+	public void CompareArea(ParkingAreaHelper area, ParkingAreaHelper parkingArea, ArrayList&lt;ParkingAreaHelper&gt; copy, Integer index ){
+<span class="fc bfc" id="L341" title="All 2 branches covered.">		if (area.getAreaname().equals(parkingArea.getAreaname()))</span>
+		{
+<span class="fc bfc" id="L343" title="All 2 branches covered.">			if (area.getFloornumber().equals(parkingArea.getFloornumber()))</span>
+			{
+<span class="fc bfc" id="L345" title="All 2 branches covered.">				if (area.getPermittype().equals(parkingArea.getPermittype()))</span>
+				{
+<span class="fc" id="L347">					area = parkingArea;</span>
+<span class="fc" id="L348">					copy.set(index, area);</span>
+				}	
+			}		
+		}
+<span class="fc" id="L352">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 28, 2019 10:09:51 PM)</div></body></html>

@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ReservationsController.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 28, 2019 10:09:51 PM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">controller</a> &gt; <span class="el_source">ReservationsController.java</span></div><h1>ReservationsController.java</h1><pre class="source lang-java linenums">package controller;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;  
+import java.util.Date;  
+import data.*;
+import data.ReservationsDAO;
+import model.*;
+
+@WebServlet(&quot;/ReservationsController&quot;)
+<span class="fc" id="L24">public class ReservationsController extends HttpServlet {</span>
+	private static final long serialVersionUID = 1L;
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+<span class="fc" id="L29">		reservationLandingPage(request, response);	</span>
+<span class="fc" id="L30">	}</span>
+
+	@Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException 
+	{
+<span class="fc" id="L36">		String action = request.getParameter(&quot;action&quot;);</span>
+		//1st page - Get Start End Times &amp; Area
+<span class="fc bfc" id="L38" title="All 2 branches covered.">		if (action.equalsIgnoreCase(&quot;Search&quot;) )</span>
+		{  
+<span class="fc" id="L40">			String startTime = request.getParameter(&quot;start_time&quot;);		</span>
+<span class="fc" id="L41">			String endTime = request.getParameter(&quot;end_time&quot;);</span>
+<span class="fc" id="L42">			ReservationError error = new ReservationError();</span>
+<span class="fc" id="L43">			Reservation reservation = new Reservation();</span>
+			
+<span class="fc" id="L45">			reservation.validateDateTime(startTime,endTime, error);</span>
+<span class="fc" id="L46">			request.setAttribute(&quot;endTimeError&quot;, error.getEndTimeError());</span>
+<span class="fc" id="L47">			request.setAttribute(&quot;startTimeError&quot;, error.getStartTimeError());</span>
+<span class="fc" id="L48">			request.setAttribute(&quot;compareError&quot;, error.getCompareError());</span>
+			
+<span class="fc bfc" id="L50" title="All 2 branches covered.">			if(error.getErrorMsg().equals(&quot;&quot;))</span>
+			{
+<span class="fc" id="L52">				int areaId = Integer.parseInt(request.getParameter(&quot;areaDropDrown&quot;));</span>
+<span class="fc" id="L53">		        request.setAttribute(&quot;selectedAreaId&quot;, areaId);</span>
+<span class="fc" id="L54">		        listFloorsAndAvailableSpots(request, response, areaId, startTime, endTime);</span>
+<span class="fc" id="L55">			}</span>
+			else
+			{
+<span class="fc" id="L58">				reservationLandingPage(request, response);	</span>
+			}
+
+<span class="fc" id="L61">		}</span>
+		// 2nd Page - Floor &amp; Permit Type
+<span class="fc bfc" id="L63" title="All 2 branches covered.">		else if (action.equalsIgnoreCase(&quot;getSpotsForFloor&quot;) ) {  </span>
+<span class="fc" id="L64">			int areaId = Integer.parseInt(request.getParameter(&quot;selectedAreaId&quot;));</span>
+<span class="fc" id="L65">			int selectedFloorNumber = Integer.parseInt(request.getParameter(&quot;selectedFloorNumber&quot;));</span>
+<span class="fc" id="L66">			String selectedPermitType = request.getParameter(&quot;selectedPermitType&quot;);</span>
+<span class="fc" id="L67">			String selectedStartTime = request.getParameter(&quot;selectedStartTime&quot;);</span>
+<span class="fc" id="L68">			String selectedEndTime = request.getParameter(&quot;selectedEndTime&quot;);</span>
+<span class="fc" id="L69">	        request.setAttribute(&quot;selectedAreaId&quot;, areaId);</span>
+<span class="fc" id="L70">	        listSpotsForSelectedFloor(request, response, areaId, selectedFloorNumber, selectedPermitType, selectedStartTime, selectedEndTime);</span>
+<span class="fc" id="L71">		}</span>
+		
+		// Get Spot UID &amp; Spot Id 
+<span class="fc bfc" id="L74" title="All 2 branches covered.">		else if (action.equalsIgnoreCase(&quot;startReservation&quot;) ) {  </span>
+<span class="fc" id="L75">			int areaId = Integer.parseInt(request.getParameter(&quot;selectedAreaId&quot;));</span>
+<span class="fc" id="L76">			int selectedFloorNumber = Integer.parseInt(request.getParameter(&quot;selectedFloorNumber&quot;));</span>
+<span class="fc" id="L77">			String selectedPermitType = request.getParameter(&quot;selectedPermitType&quot;);</span>
+<span class="fc" id="L78">			int spotUID = Integer.parseInt(request.getParameter(&quot;selectedSpotUID&quot;));</span>
+<span class="fc" id="L79">			int spotId = Integer.parseInt(request.getParameter(&quot;selectedSpotId&quot;));</span>
+<span class="fc" id="L80">			String selectedStartTime = request.getParameter(&quot;selectedStartTime&quot;);</span>
+<span class="fc" id="L81">			String selectedEndTime = request.getParameter(&quot;selectedEndTime&quot;);</span>
+<span class="fc" id="L82">	        includeOptions(request, response, areaId, selectedFloorNumber, selectedPermitType, spotUID, spotId, selectedStartTime, selectedEndTime);</span>
+<span class="fc" id="L83">		}</span>
+		
+		// Get Options selected 
+<span class="fc bfc" id="L86" title="All 2 branches covered.">		else if (action.equalsIgnoreCase(&quot;checkout&quot;) ) {  </span>
+<span class="fc" id="L87">			HttpSession session = request.getSession();</span>
+<span class="fc" id="L88">			String cart = request.getParameter(&quot;cart&quot;);</span>
+<span class="fc" id="L89">			String camera = request.getParameter(&quot;camera&quot;);</span>
+<span class="fc" id="L90">			String history = request.getParameter(&quot;history&quot;);</span>
+<span class="fc" id="L91">			session.setAttribute(&quot;cart&quot;, cart);</span>
+<span class="fc" id="L92">			session.setAttribute(&quot;camera&quot;, camera);</span>
+<span class="fc" id="L93">			session.setAttribute(&quot;history&quot;, camera);</span>
+			
+<span class="fc" id="L95">	        double cart_price = Double.parseDouble(request.getParameter(&quot;cart_price&quot;));</span>
+<span class="fc" id="L96">	        double total = calculateTotal(cart, camera, history, cart_price);</span>
+<span class="fc bfc" id="L97" title="All 2 branches covered.">	        if(cart.equals(&quot;true&quot;)){</span>
+<span class="fc" id="L98">	        	request.setAttribute(&quot;finalCartPrice&quot;, cart_price );</span>
+<span class="fc" id="L99">			}</span>
+	        else
+<span class="fc" id="L101">	        	request.setAttribute(&quot;finalCartPrice&quot;, 0.0 );</span>
+<span class="fc bfc" id="L102" title="All 2 branches covered.">			if(camera.equals(&quot;true&quot;)){</span>
+<span class="fc" id="L103">				request.setAttribute(&quot;finalCameraPrice&quot;, 2.95 );</span>
+<span class="fc" id="L104">			}</span>
+			else
+<span class="fc" id="L106">				request.setAttribute(&quot;finalCameraPrice&quot;, 0.0 );</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">			if(history.equals(&quot;true&quot;)){</span>
+<span class="fc" id="L108">				request.setAttribute(&quot;finalHistoryPrice&quot;, 1.95 );</span>
+<span class="fc" id="L109">			}</span>
+			else
+<span class="fc" id="L111">				request.setAttribute(&quot;finalHistoryPrice&quot;, 0.0 );</span>
+<span class="fc" id="L112">			request.setAttribute(&quot;finalTotal&quot;, total );</span>
+<span class="fc" id="L113">			request.setAttribute(&quot;finalTax&quot;, total * 0.0825 );</span>
+<span class="fc" id="L114">			listCreditCardTypes(request, response);</span>
+<span class="fc" id="L115">	        RequestDispatcher dispatcher = request.getRequestDispatcher(&quot;/ReserveComplete.jsp&quot;);</span>
+<span class="fc" id="L116">	        dispatcher.forward(request, response);</span>
+<span class="fc" id="L117">		}</span>
+		
+<span class="fc bfc" id="L119" title="All 2 branches covered.">		else if (action.equalsIgnoreCase(&quot;makeReservation&quot;) ) {  </span>
+<span class="fc" id="L120">			Boolean isReservationSuccessful = true;</span>
+<span class="fc" id="L121">			HttpSession session = request.getSession();		</span>
+<span class="fc" id="L122">			double totalAmount = Double.parseDouble(request.getParameter(&quot;total&quot;));</span>
+<span class="fc" id="L123">			request.setAttribute(&quot;finalTotal&quot;, totalAmount );</span>
+<span class="fc" id="L124">			session.setAttribute(&quot;finalTotal&quot;, totalAmount );</span>
+<span class="fc" id="L125">			Users user = (Users)session.getAttribute(&quot;User&quot;);</span>
+			
+<span class="fc bfc" id="L127" title="All 2 branches covered.">			if(totalAmount &gt; 0.0)</span>
+			{
+<span class="fc" id="L129">				String cardNumber = request.getParameter(&quot;cardNumber&quot;);</span>
+<span class="fc" id="L130">				String expMonth = request.getParameter(&quot;expiryMonth&quot;);</span>
+<span class="fc" id="L131">				String expYear = request.getParameter(&quot;expiryYear&quot;);</span>
+<span class="fc" id="L132">				String cardType = request.getParameter(&quot;cardType&quot;);</span>
+<span class="fc" id="L133">				String cvv = request.getParameter(&quot;cvvCode&quot;);</span>
+<span class="fc" id="L134">				CreditCard creditcard = new CreditCard();</span>
+<span class="fc" id="L135">				creditcard.setCardNumber(cardNumber);</span>
+<span class="fc" id="L136">				creditcard.setCardType(cardType);</span>
+<span class="fc" id="L137">				creditcard.setCvv(cvv);</span>
+<span class="fc" id="L138">				creditcard.setMonth(expMonth);</span>
+<span class="fc" id="L139">				creditcard.setYear(expYear);</span>
+<span class="fc" id="L140">		        request.setAttribute(&quot;creditcard&quot;, creditcard);</span>
+<span class="fc" id="L141">				CreditCardError errorMsgs = new CreditCardError();</span>
+<span class="fc" id="L142">				creditcard.validatecreditcarddetails(creditcard,errorMsgs);</span>
+<span class="fc bfc" id="L143" title="All 2 branches covered.">				if (!errorMsgs.getErrorMsg().equals(&quot;&quot;))</span>
+				{
+<span class="fc" id="L145">					session.setAttribute(&quot;creditcarderrorMsgs&quot;, errorMsgs);</span>
+<span class="fc" id="L146">			        request.setAttribute(&quot;selectedcreditcard&quot;, cardType);</span>
+<span class="fc" id="L147">					String permitType = request.getParameter(&quot;permitType&quot;);</span>
+<span class="fc" id="L148">			        request.setAttribute(&quot;selectedpermitType&quot;, permitType);</span>
+
+<span class="fc" id="L150">					listCreditCardTypes(request, response);</span>
+<span class="fc" id="L151">			        RequestDispatcher dispatcher = request.getRequestDispatcher(&quot;/ReserveComplete.jsp&quot;);</span>
+<span class="fc" id="L152">			        dispatcher.forward(request, response);</span>
+<span class="fc" id="L153">				}</span>
+				
+				else
+				{
+<span class="fc" id="L157">					isReservationSuccessful = storeReservation(session, user);</span>
+<span class="fc" id="L158">					request.setAttribute(&quot;isReservationSuccessful&quot;, isReservationSuccessful);</span>
+<span class="fc" id="L159">					String url = &quot;&quot;;</span>
+<span class="pc bpc" id="L160" title="1 of 2 branches missed.">					if (user.getRole().equals(&quot;ParkingManager&quot;)){</span>
+<span class="nc" id="L161">						url=&quot;/parkingManagementHomePage.jsp&quot;;</span>
+<span class="nc" id="L162">					}</span>
+					else
+					{
+<span class="fc" id="L165">						url=&quot;/parkingUserHomePage.jsp&quot;;</span>
+					}
+<span class="fc" id="L167">			        RequestDispatcher dispatcher = request.getRequestDispatcher(url);</span>
+<span class="fc" id="L168">			        dispatcher.forward(request, response);</span>
+				}
+<span class="fc" id="L170">			}</span>
+			else
+			{
+<span class="fc" id="L173">				isReservationSuccessful = storeReservation(session, user);	</span>
+<span class="fc" id="L174">				request.setAttribute(&quot;isReservationSuccessful&quot;, isReservationSuccessful);</span>
+<span class="fc" id="L175">				String url = &quot;&quot;;</span>
+<span class="pc bpc" id="L176" title="1 of 2 branches missed.">				if (user.getRole().equals(&quot;ParkingManager&quot;)){</span>
+<span class="nc" id="L177">					url=&quot;/parkingManagementHomePage.jsp&quot;;</span>
+<span class="nc" id="L178">				}</span>
+				else
+				{
+<span class="fc" id="L181">					url=&quot;/parkingUserHomePage.jsp&quot;;</span>
+				}
+<span class="fc" id="L183">				RequestDispatcher dispatcher = request.getRequestDispatcher(url);</span>
+<span class="fc" id="L184">		        dispatcher.forward(request, response);</span>
+				
+			}
+<span class="fc" id="L187">		}</span>
+		else
+		{
+<span class="fc" id="L190">			System.out.println(&quot;Do Nothing.&quot;);</span>
+		}		
+
+<span class="fc" id="L193">    }</span>
+
+//	public String validateDateTime(String startTime, String endTime,HttpServletRequest request) {
+//		String startTimeError =&quot;&quot;;
+//		String endTimeError =&quot;&quot;;
+//		String compareError =&quot;&quot;;
+//		SimpleDateFormat formatter = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);
+//		if(startTime.isEmpty())
+//		{
+//			startTimeError = &quot;This field is required.&quot;;
+//		}
+//		else
+//		{
+//			try
+//			{
+//			Date startdate = formatter.parse(startTime);	
+//			Date date = new Date();
+//			int startHours = startdate.getHours();
+//			int startMins =  startdate.getMinutes();
+//			int currentHours = date.getHours();
+//			int currentMins = date.getMinutes();
+//				if(startHours &lt; currentHours)
+//				{
+//					startTimeError = &quot;Start time cannot be before current time.&quot;;
+//				}
+//				else
+//				{
+//					if(startHours == currentHours &amp;&amp; startMins &lt; currentMins)
+//					{
+//						startTimeError = &quot;Start time cannot be before current time.&quot;;
+//					}
+//					else
+//					{
+//					    startTimeError =&quot;&quot;;	
+//					}
+//				}
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}	
+//		}
+//		if(endTime.isEmpty())
+//		{
+//			endTimeError = &quot;This field is required.&quot;;
+//		}
+//		else
+//		{
+//			try
+//			{
+//			Date enddate = formatter.parse(endTime);
+//			Date date  = new Date();
+//			int endHours = enddate.getHours();
+//			int endMins =  enddate.getMinutes();
+//			int currentHours = date.getHours();
+//			int currentMins = date.getMinutes();
+//			
+//			if(endHours &lt; currentHours)
+//			{
+//				endTimeError = &quot;End time cannot be before current time.&quot;;
+//			}
+//			else
+//			{
+//				if(endHours == currentHours &amp;&amp; endMins &lt; currentMins)
+//				{
+//					endTimeError = &quot;End time cannot be before current time.&quot;;
+//				}
+//				else
+//				{
+//					endTimeError =&quot;&quot;;	
+//				}
+//			}
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}	
+//		}
+//		if(!endTime.isEmpty() &amp;&amp; !startTime.isEmpty())
+//		{
+//			Date enddate;
+//			try {
+//				enddate = formatter.parse(endTime);
+//			
+//			Date startdate;
+//				startdate = formatter.parse(startTime);
+//			int endHours = enddate.getHours();
+//			int endMins =  enddate.getMinutes();
+//			int startHours = startdate.getHours();
+//			int startMins =  startdate.getMinutes();
+//			int diffHours = endHours - startHours;
+//			int diffMins = (endHours*60 + endMins) - (startHours*60 + startMins);
+//			
+//			
+//			if(startdate.after(enddate))
+//			{
+//				compareError = &quot;Start time cannot be after end time.&quot;;
+//			}
+//			else if(startdate.equals(enddate))
+//			{
+//				compareError = &quot;Start time and end time cannot be same.&quot;;
+//			}
+//			else if(diffHours &gt;3)
+//			{
+//				compareError = &quot;Reservation cannot be for more than 3 hours.&quot;;
+//			}
+//			//TODO: Maybe remove this  
+//			else if(diffMins &gt;180)
+//			{
+//				compareError = &quot;Reservation cannot be for more than 3 hours.&quot;;
+//			}
+//			else
+//			{
+//				compareError = &quot;&quot;;
+//			}
+//			} catch (ParseException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}	
+//			
+//		}
+//		
+//		if(request != null){
+//			request.setAttribute(&quot;endTimeError&quot;, endTimeError);
+//			request.setAttribute(&quot;startTimeError&quot;, startTimeError);
+//			request.setAttribute(&quot;compareError&quot;, compareError);
+//		}
+//		
+//		if(!compareError.isEmpty() || !startTimeError.isEmpty() || !endTimeError.isEmpty())
+//			return &quot;There are time errors.&quot;;
+//		else
+//			return &quot;&quot;;
+//	}
+
+	
+	private Boolean storeReservation(HttpSession session, Users user) {
+<span class="fc" id="L327">		Reservation reserve = new Reservation();</span>
+<span class="fc bfc" id="L328" title="All 2 branches covered.">		if(((String)session.getAttribute(&quot;camera&quot;)).equals(&quot;true&quot;)){</span>
+<span class="fc" id="L329">			reserve.setCamera(true);</span>
+<span class="fc" id="L330">		}</span>
+		else
+<span class="fc" id="L332">			reserve.setCamera(false);</span>
+<span class="fc bfc" id="L333" title="All 2 branches covered.">		if(((String)session.getAttribute(&quot;cart&quot;)).equals(&quot;true&quot;)){</span>
+<span class="fc" id="L334">			reserve.setCart(true);</span>
+<span class="fc" id="L335">		}</span>
+		else
+<span class="fc" id="L337">			reserve.setCart(false);</span>
+<span class="fc bfc" id="L338" title="All 2 branches covered.">		if(((String)session.getAttribute(&quot;history&quot;)).equals(&quot;true&quot;)){</span>
+<span class="fc" id="L339">			reserve.setHistory(true);</span>
+<span class="fc" id="L340">		}</span>
+		else
+<span class="fc" id="L342">			reserve.setHistory(false);</span>
+<span class="fc" id="L343">		reserve.setEndTime((String)session.getAttribute(&quot;resselectedEndTime&quot;));</span>
+<span class="fc" id="L344">		reserve.setStartTime((String)session.getAttribute(&quot;resselectedStartTime&quot;));</span>
+<span class="fc" id="L345">		reserve.setNoShow(false);</span>
+<span class="fc" id="L346">		reserve.setOverStay(false);</span>
+<span class="fc" id="L347">		reserve.setSpotUID((Integer)session.getAttribute(&quot;resspotUID&quot;));</span>
+<span class="fc" id="L348">		reserve.setUserID(user.getUserID());</span>
+<span class="fc" id="L349">		Integer resIdForEdit = (Integer) session.getAttribute(&quot;editReservationId&quot;);</span>
+<span class="fc" id="L350">		Boolean previousReservationDeleted = false;</span>
+<span class="fc" id="L351">		reserve.setTotal((Double)(session.getAttribute(&quot;finalTotal&quot;)));</span>
+<span class="fc bfc" id="L352" title="All 2 branches covered.">		if(resIdForEdit != null){</span>
+<span class="fc" id="L353">			previousReservationDeleted = ReservationsDAO.deleteReservationbyResId(resIdForEdit);</span>
+<span class="fc" id="L354">		}</span>
+		else
+		{
+<span class="fc" id="L357">			System.out.println(&quot;Do Nothing.&quot;);</span>
+		}		
+<span class="fc" id="L359">		Boolean isReservationSuccessful = ReservationsDAO.StoreReservationsInDB(reserve);</span>
+<span class="fc" id="L360">		return isReservationSuccessful;</span>
+	}
+	
+	protected void listCreditCardTypes(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+
+<span class="fc" id="L366">		ArrayList&lt;CreditCardTypes&gt; listCreditCardTypes = new ArrayList&lt;CreditCardTypes&gt;(Arrays.asList(CreditCardTypes.values()));</span>
+<span class="fc" id="L367">		request.setAttribute(&quot;allCardTypes&quot;, listCreditCardTypes);</span>
+
+<span class="fc" id="L369">    }</span>
+
+	private double calculateTotal(String cart, String camera, String history, double cart_price) {
+<span class="fc" id="L372">		double total = 0.0;</span>
+<span class="fc" id="L373">        double tax = 1.0825;</span>
+<span class="fc bfc" id="L374" title="All 2 branches covered.">		if(cart.equals(&quot;true&quot;)){</span>
+<span class="fc" id="L375">			total += cart_price;</span>
+<span class="fc" id="L376">		}</span>
+		else
+		{
+<span class="fc" id="L379">			System.out.println(&quot;Do Nothing.&quot;);</span>
+		}		
+<span class="fc bfc" id="L381" title="All 2 branches covered.">		if(camera.equals(&quot;true&quot;)){</span>
+<span class="fc" id="L382">			total += 2.95;</span>
+<span class="fc" id="L383">		}</span>
+		else
+		{
+<span class="fc" id="L386">			System.out.println(&quot;Do Nothing.&quot;);</span>
+		}		
+<span class="fc bfc" id="L388" title="All 2 branches covered.">		if(history.equals(&quot;true&quot;)){</span>
+<span class="fc" id="L389">			total += 1.95;</span>
+<span class="fc" id="L390">		}</span>
+		else
+		{
+<span class="fc" id="L393">			System.out.println(&quot;Do Nothing.&quot;);</span>
+		}		
+<span class="fc" id="L395">		return total = total * tax;</span>
+	}
+	
+	private void reservationLandingPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+
+<span class="fc" id="L401">		HttpSession session = request.getSession();</span>
+<span class="fc" id="L402">		Users user = (Users) session.getAttribute(&quot;User&quot;);</span>
+<span class="fc" id="L403">		Boolean isRevoked = MakeReservationsDAO.CheckRevoked(user.getUserID());</span>
+<span class="fc" id="L404">		Integer numberOfReservations = MakeReservationsDAO.CountReservationsInDay(user.getUserID());</span>
+<span class="fc bfc" id="L405" title="All 2 branches covered.">		if(isRevoked == true){</span>
+<span class="fc" id="L406">			request.setAttribute(&quot;isRevoked&quot;, isRevoked );</span>
+<span class="fc" id="L407">			RequestDispatcher dispatcher = request.getRequestDispatcher(&quot;/parkingUserHomePage.jsp&quot;);</span>
+<span class="fc" id="L408">            dispatcher.forward(request, response);</span>
+<span class="fc" id="L409">		}</span>
+<span class="fc bfc" id="L410" title="All 2 branches covered.">		else if(numberOfReservations &gt;= 3){</span>
+<span class="fc" id="L411">			request.setAttribute(&quot;isMax&quot;, true );</span>
+<span class="fc" id="L412">			RequestDispatcher dispatcher = request.getRequestDispatcher(&quot;/parkingUserHomePage.jsp&quot;);</span>
+<span class="fc" id="L413">            dispatcher.forward(request, response);</span>
+<span class="fc" id="L414">		}</span>
+		else{
+<span class="fc" id="L416">			ArrayList&lt;ParkingArea&gt; allAreas = FetchParkingSpotsDAO.getAllParkingAreas();</span>
+<span class="fc" id="L417">			request.setAttribute(&quot;Areas&quot;, allAreas);</span>
+<span class="fc" id="L418">			RequestDispatcher dispatcher = request.getRequestDispatcher(&quot;/Reserve.jsp&quot;);</span>
+<span class="fc" id="L419">            dispatcher.forward(request, response);</span>
+		}
+		
+
+<span class="fc" id="L423">    }</span>
+	
+	private void listFloorsAndAvailableSpots(HttpServletRequest request, HttpServletResponse response, Integer areaId, String startTime, String endTime) throws ServletException, IOException 
+	{
+
+<span class="fc" id="L428">		HttpSession session = request.getSession();</span>
+<span class="fc" id="L429">		ParkingArea selectedArea = FetchParkingSpotsDAO.getspecificParkingArea(areaId);</span>
+<span class="fc" id="L430">		Users user = (Users) session.getAttribute(&quot;User&quot;);</span>
+<span class="fc" id="L431">		ArrayList&lt;ParkingAreaFloors&gt; floorDetails = ReservationsDAO.getFloorSpotsCountByTimeFiltered(areaId, startTime, endTime, user.getPermitType());</span>
+<span class="fc" id="L432">		request.setAttribute(&quot;selectedArea&quot;, selectedArea);</span>
+<span class="fc" id="L433">		request.setAttribute(&quot;allFloors&quot;, floorDetails);</span>
+<span class="fc" id="L434">		request.setAttribute(&quot;startTime&quot;, startTime);</span>
+<span class="fc" id="L435">		request.setAttribute(&quot;endTime&quot;, endTime);</span>
+<span class="fc" id="L436">		RequestDispatcher dispatcher = request.getRequestDispatcher(&quot;/Reserve_Floor.jsp&quot;);</span>
+<span class="fc" id="L437">        dispatcher.forward(request, response);</span>
+
+<span class="fc" id="L439">    }</span>
+	
+	private void listSpotsForSelectedFloor
+	(	
+			HttpServletRequest request, 
+			HttpServletResponse response, 
+			Integer areaId, 
+			Integer floorNumber, 
+			String permitType ,
+			String selectedStartTime ,
+			String selectedEndTime
+	) throws ServletException, IOException 
+	{
+
+<span class="fc" id="L453">		ParkingArea selectedArea = FetchParkingSpotsDAO.getspecificParkingArea(areaId);</span>
+<span class="fc" id="L454">		ArrayList&lt;ParkingSpots&gt; spotsList = ReservationsDAO.getSpotsByAreaFloorPermitFromDb(areaId, floorNumber, permitType, selectedStartTime, selectedEndTime);</span>
+<span class="fc" id="L455">		request.setAttribute(&quot;selectedArea&quot;, selectedArea);</span>
+<span class="fc" id="L456">		request.setAttribute(&quot;selectedFloorNumber&quot;, floorNumber);</span>
+<span class="fc" id="L457">		request.setAttribute(&quot;selectedPermitType&quot;, permitType);</span>
+<span class="fc" id="L458">		request.setAttribute(&quot;selectedStartTime&quot;, selectedStartTime);</span>
+<span class="fc" id="L459">		request.setAttribute(&quot;selectedEndTime&quot;, selectedEndTime);</span>
+<span class="fc" id="L460">		request.setAttribute(&quot;spotsList&quot;, spotsList);</span>
+<span class="fc" id="L461">		RequestDispatcher dispatcher = request.getRequestDispatcher(&quot;/Reserve_Spot.jsp&quot;);</span>
+<span class="fc" id="L462">        dispatcher.forward(request, response);</span>
+
+<span class="fc" id="L464">    }</span>
+	
+	private void includeOptions
+	(HttpServletRequest request, 
+			HttpServletResponse response,
+			Integer areaId,
+			Integer selectedFloorNumber,
+			String selectedPermitType,
+			Integer spotUID,
+			Integer spotID,
+			String startTime, 
+			String endTime)throws ServletException, IOException
+	{
+		try{
+<span class="fc" id="L478">			HttpSession session = request.getSession();</span>
+<span class="fc" id="L479">			ParkingArea selectedArea = FetchParkingSpotsDAO.getspecificParkingArea(areaId);</span>
+<span class="fc" id="L480">			session.setAttribute(&quot;resSelectedArea&quot;, selectedArea);</span>
+<span class="fc" id="L481">			session.setAttribute(&quot;resselectedFloorNumber&quot;, selectedFloorNumber);</span>
+<span class="fc" id="L482">			session.setAttribute(&quot;resselectedPermitType&quot;, selectedPermitType);</span>
+<span class="fc" id="L483">			session.setAttribute(&quot;resspotUID&quot;, spotUID);</span>
+<span class="fc" id="L484">			session.setAttribute(&quot;resspotID&quot;, spotID);</span>
+<span class="fc" id="L485">			session.setAttribute(&quot;resselectedStartTime&quot;, startTime);</span>
+<span class="fc" id="L486">			session.setAttribute(&quot;resselectedEndTime&quot;, endTime);</span>
+			  
+<span class="fc" id="L488">			SimpleDateFormat formatter = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);</span>
+<span class="fc" id="L489">			Date startdate = formatter.parse(startTime);</span>
+<span class="fc" id="L490">			Date enddate = formatter.parse(endTime);</span>
+<span class="fc" id="L491">			double cartPrice = 15.95;</span>
+<span class="fc" id="L492">			double cameraPrice = 2.95;</span>
+<span class="fc" id="L493">			double historyPrice = 1.95;</span>
+<span class="fc" id="L494">			Reservation res = new Reservation();</span>
+<span class="fc" id="L495">			boolean normalHours = res.checkNormalHours(startdate, enddate);</span>
+<span class="pc bpc" id="L496" title="1 of 2 branches missed.">			if(normalHours){</span>
+<span class="nc" id="L497">				request.setAttribute(&quot;cartPrice&quot;, cartPrice );</span>
+<span class="nc" id="L498">				request.setAttribute(&quot;cameraPrice&quot;, cameraPrice );</span>
+<span class="nc" id="L499">				request.setAttribute(&quot;historyPrice&quot;, historyPrice );</span>
+<span class="nc" id="L500">			}</span>
+			else{
+<span class="fc" id="L502">				request.setAttribute(&quot;cartPrice&quot;, 2 * cartPrice );</span>
+<span class="fc" id="L503">				request.setAttribute(&quot;cameraPrice&quot;, cameraPrice );</span>
+<span class="fc" id="L504">				request.setAttribute(&quot;historyPrice&quot;, historyPrice );</span>
+			}
+<span class="fc" id="L506">			RequestDispatcher dispatcher = request.getRequestDispatcher(&quot;/Reserve_Options.jsp&quot;);</span>
+<span class="fc" id="L507">	        dispatcher.forward(request, response);</span>
+<span class="fc" id="L508">		}</span>
+<span class="nc" id="L509">		catch (Exception e) </span>
+		{
+<span class="nc" id="L511">			e.printStackTrace();</span>
+<span class="nc" id="L512">			throw new ServletException(e);</span>
+		}
+		
+<span class="fc" id="L515">	}</span>
+
+//	private boolean checkNormalHours(Date startdate, Date enddate) {
+//		int startDay = startdate.getDay();
+//		int startHours = startdate.getHours();
+//		int endHours = enddate.getHours();
+//		boolean normalHours = true;
+//		if(5 &lt;= startDay &amp;&amp; startDay &gt;=1 ){
+//			//Monday to Friday
+//			if(startHours &gt;= 6 &amp;&amp; (endHours &lt;= 19 &amp;&amp; enddate.getMinutes() &lt;= 59 &amp;&amp; enddate.getSeconds() &lt;= 59)){
+//				// 6am to 7.59pm
+//				return normalHours;
+//			}
+//			else{
+//				normalHours = false;
+//				return normalHours;
+//			}
+//		}
+//		else if(startDay == 6 ){
+//			//Saturday
+//			if(startHours &gt;= 8 &amp;&amp; (endHours &lt;= 4 &amp;&amp; enddate.getMinutes() &lt;= 59 &amp;&amp; enddate.getSeconds() &lt;= 59)){
+//				// 8am to 4.59pm
+//				return normalHours;
+//			}
+//			else{
+//				normalHours = false;
+//				return normalHours;
+//			}
+//		}
+//		else{
+//			//Sunday
+//			if(startHours &gt;= 12 &amp;&amp; (endHours &lt;= 4 &amp;&amp; enddate.getMinutes() &lt;= 59 &amp;&amp; enddate.getSeconds() &lt;= 59)){
+//				// 8am to 4.59pm
+//				return normalHours;
+//			}
+//			else{
+//				normalHours = false;
+//				return normalHours;
+//			}
+//		}
+//	}
+	
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 28, 2019 10:09:51 PM)</div></body></html>
