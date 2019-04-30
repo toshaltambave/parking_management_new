@@ -50,6 +50,7 @@ public class FetchParkingSpotsDAO {
 		Iterator<ParkingArea> AreaList = FetchParkingSpotsDAO.getAllParkingAreas().iterator();
 		while (AreaList.hasNext()) {
 			ParkingArea currentArea = AreaList.next();
+			System.out.printf("Current Area_id: " + currentArea.getArea_Id() + "My Id: "+areaId+"\n");
 			if (currentArea.getArea_Id() == areaId) {
 				filteredArea.setArea_Id(currentArea.getArea_Id());
 				filteredArea.setArea_Name(currentArea.getArea_Name());

@@ -140,7 +140,7 @@ public class ParkingAreaHelperTest {
 		FetchParkingSpotsDAO.getFilteredFloorsbyParkingAreaId(areaId, permitType);
 		FetchParkingSpotsDAO.getFilteredParkingAreaFloors();
 		FetchParkingSpotsDAO.getFloorsbyParkingAreaId(areaId, permitType);
-		FetchParkingSpotsDAO.getspecificParkingArea(1);
+		FetchParkingSpotsDAO.getspecificParkingArea(spotUuid);
 		FetchParkingSpotsDAO.getSpotsByAreaFloorPermitFromDb(areaId, floorNum, permitType);
 		FetchParkingSpotsDAO.updateParkingAreaName(areaId, areaName);
 
