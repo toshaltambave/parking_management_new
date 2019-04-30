@@ -111,17 +111,17 @@ public class UserDetailsController extends HttpServlet {
 			userdetails.setUsername(user.getUsername());		
 		getUserDetailsParam(request, userdetails);
 		userdetails.validateUserDetails(action, userdetails, errorMsgs);
-		session.setAttribute("userdetails", userdetails);
+		request.setAttribute("userdetails", userdetails);
 		if (!errorMsgs.getErrorMsg().equals("")) {
 			getUserDetailsParam(request, userdetails);
-			session.setAttribute("userDetailsErrorMsgs", errorMsgs);
+			request.setAttribute("userDetailsErrorMsgs", errorMsgs);
 			url = "/formUserDetails.jsp";
 		} else {// if no error messages
 			Boolean isSuccess = false;
 			isSuccess = UserDetailsDAO.insertUserDetails(userdetails);
 			request.setAttribute("isSuccessful", isSuccess);
 			UserDetailsErrorMsgs errorMsgsuser = new UserDetailsErrorMsgs();
-			session.setAttribute("userDetailsErrorMsgs", errorMsgsuser);
+			request.setAttribute("userDetailsErrorMsgs", errorMsgsuser);
 			url = "/index.jsp";	
 		}
 		return url;

@@ -186,12 +186,10 @@ public class UsersController extends HttpServlet {
 		//Login Failed
 		else
 		{
-			if(user.getUserID() == null)
-			{
-				user.validateLogin(action,null,errorMsgs);
-				session.setAttribute("loginerrorMsgs", errorMsgs);
-				url = "/index.jsp";
-			}
+			user.validateLogin(action,null,errorMsgs);
+			session.setAttribute("loginerrorMsgs", errorMsgs);
+			url = "/index.jsp";
+
 		}
 
 		return url;

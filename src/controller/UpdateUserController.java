@@ -55,13 +55,13 @@ public class UpdateUserController extends HttpServlet {
 
 		if (action.equalsIgnoreCase("update")) {
 			String userName = request.getParameter("username");
-			if (request.getParameter("userId") != null && !request.getParameter("userId").isEmpty()) {
+			//if (request.getParameter("userId") != null && !request.getParameter("userId").isEmpty()) {
 				Integer userId = Integer.valueOf(request.getParameter("userId"));
 				userdetails.setUserID(userId);
 				listPermitTypes(request,response);
 				listRoles(request,response);
 				url = handleUpdate(request, action, userName, session, userdetails, errorMsgs);
-			} 
+			//} 
 		} 
 		else
 		{
