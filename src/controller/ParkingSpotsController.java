@@ -24,61 +24,42 @@ public class ParkingSpotsController extends HttpServlet  {
 
 	private void listAreas(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		try 
-		{
-			ArrayList<ParkingArea> allAreas = FetchParkingSpotsDAO.getAllParkingAreas();
-			request.setAttribute("Areas", allAreas);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/ParkingArea.jsp");
-            dispatcher.forward(request, response);
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			throw new ServletException(e);
-		}
+		ArrayList<ParkingArea> allAreas = FetchParkingSpotsDAO.getAllParkingAreas();
+		request.setAttribute("Areas", allAreas);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/ParkingArea.jsp");
+        dispatcher.forward(request, response);
+
     }
 	private void listFloorsForSelectedArea(HttpServletRequest request, HttpServletResponse response, Integer areaId) throws ServletException, IOException 
 	{
-		try 
-		{
-			HttpSession session = request.getSession();
-			ParkingArea selectedArea = FetchParkingSpotsDAO.getspecificParkingArea(areaId);
-			Users user = (Users) session.getAttribute("User");
-			ArrayList<ParkingAreaFloors> floorDetails = FetchParkingSpotsDAO.getFilteredFloorsbyParkingAreaId(areaId, user.getPermitType());
-			request.setAttribute("selectedArea", selectedArea);
-			request.setAttribute("allFloors", floorDetails);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/ParkingSpotFloors.jsp");
-            dispatcher.forward(request, response);
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			throw new ServletException(e);
-		}
+
+		HttpSession session = request.getSession();
+		ParkingArea selectedArea = FetchParkingSpotsDAO.getspecificParkingArea(areaId);
+		Users user = (Users) session.getAttribute("User");
+		ArrayList<ParkingAreaFloors> floorDetails = FetchParkingSpotsDAO.getFilteredFloorsbyParkingAreaId(areaId, user.getPermitType());
+		request.setAttribute("selectedArea", selectedArea);
+		request.setAttribute("allFloors", floorDetails);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/ParkingSpotFloors.jsp");
+        dispatcher.forward(request, response);
+
     }
 	private void listSpotsForSelectedFloor
 	(HttpServletRequest request, HttpServletResponse response, Integer areaId, Integer floorNumber,String permitType ) throws ServletException, IOException 
 	{
 		HttpSession session = request.getSession();
-		try 
-		{
-			ParkingArea selectedArea = FetchParkingSpotsDAO.getspecificParkingArea(areaId);
-			ArrayList<ParkingSpots> spotsList = FetchParkingSpotsDAO.getSpotsByAreaFloorPermitFromDb(areaId, floorNumber, permitType);
-			request.setAttribute("selectedArea", selectedArea);
-			request.setAttribute("selectedFloorNumber", floorNumber);
-			request.setAttribute("selectedPermitType", permitType);
-			request.setAttribute("spotsList", spotsList);
-			session.setAttribute("selectedArea", selectedArea);
-			session.setAttribute("selectedFloorNumber", floorNumber);
-			session.setAttribute("selectedPermitType", permitType);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/ParkingSpots.jsp");
-            dispatcher.forward(request, response);
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			throw new ServletException(e);
-		}
+
+		ParkingArea selectedArea = FetchParkingSpotsDAO.getspecificParkingArea(areaId);
+		ArrayList<ParkingSpots> spotsList = FetchParkingSpotsDAO.getSpotsByAreaFloorPermitFromDb(areaId, floorNumber, permitType);
+		request.setAttribute("selectedArea", selectedArea);
+		request.setAttribute("selectedFloorNumber", floorNumber);
+		request.setAttribute("selectedPermitType", permitType);
+		request.setAttribute("spotsList", spotsList);
+		session.setAttribute("selectedArea", selectedArea);
+		session.setAttribute("selectedFloorNumber", floorNumber);
+		session.setAttribute("selectedPermitType", permitType);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/ParkingSpots.jsp");
+        dispatcher.forward(request, response);
+
     }
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
@@ -122,13 +103,6 @@ public class ParkingSpotsController extends HttpServlet  {
 	{
 		HttpSession session = request.getSession();
 		Boolean isblocksuccess = FetchParkingSpotsDAO.blockSpot(spotUID,isBlocked); 
-	 	if(isblocksuccess)
-	 	{
-	 		request.setAttribute("isblocksuccess", isblocksuccess);
-	 	}
-		else
-		{
-			System.out.println("Do Nothing.");
-		}		
+	 	request.setAttribute("isblocksuccess", isblocksuccess);
 	}
 }

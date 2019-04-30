@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ModifyReservationController.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 29, 2019 5:46:49 AM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">controller</a> &gt; <span class="el_source">ModifyReservationController.java</span></div><h1>ModifyReservationController.java</h1><pre class="source lang-java linenums">package controller;
+
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import data.FetchParkingSpotsDAO;
+import data.MakeReservationsDAO;
+import data.ReservationsDAO;
+import data.UsersDAO;
+import model.*;
+
+@WebServlet(&quot;/ModifyReservationController&quot;)
+<span class="fc" id="L24">public class ModifyReservationController extends HttpServlet {</span>
+	private static final long serialVersionUID = 1L;
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+<span class="fc" id="L29">		String action = request.getParameter(&quot;action&quot;);	</span>
+		
+<span class="fc bfc" id="L31" title="All 2 branches covered.">		if(action != null)</span>
+		{
+<span class="fc bfc" id="L33" title="All 2 branches covered.">			if (action.equalsIgnoreCase(&quot;editReservation&quot;)) {</span>
+<span class="fc" id="L34">				showReservationsForEdit(request, response);</span>
+<span class="fc" id="L35">			}</span>
+			else
+			{
+<span class="fc" id="L38">				System.out.println(&quot;Do Nothing.&quot;);</span>
+			}			
+<span class="fc" id="L40">		}</span>
+		else
+		{
+<span class="fc" id="L43">			showRelevantReservations(request, response);</span>
+		}
+<span class="fc" id="L45">	}</span>
+	
+	@Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException 
+	{
+<span class="fc" id="L51">        String action = request.getParameter(&quot;action&quot;);</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">		if (action.equalsIgnoreCase(&quot;deleteReservation&quot;) ) {  </span>
+<span class="fc" id="L53">			int resId = Integer.parseInt(request.getParameter(&quot;reservationID&quot;));</span>
+<span class="fc" id="L54">			Boolean result = ReservationsDAO.deleteReservationbyResId(resId);</span>
+<span class="fc" id="L55">			request.setAttribute(&quot;isNoShow&quot;, result);</span>
+<span class="fc" id="L56">			showRelevantReservations(request, response);</span>
+<span class="fc" id="L57">		}</span>
+				
+<span class="fc bfc" id="L59" title="All 2 branches covered.">		else if (action.equalsIgnoreCase(&quot;editReservation&quot;) ) { </span>
+<span class="fc" id="L60">			HttpSession session = request.getSession();</span>
+<span class="fc" id="L61">			int resId = Integer.parseInt(request.getParameter(&quot;reservationID&quot;));</span>
+<span class="fc" id="L62">			session.setAttribute(&quot;editReservationId&quot;, resId);</span>
+<span class="fc" id="L63">			ArrayList&lt;ParkingArea&gt; allAreas = FetchParkingSpotsDAO.getAllParkingAreas();</span>
+<span class="fc" id="L64">			request.setAttribute(&quot;Areas&quot;, allAreas);</span>
+<span class="fc" id="L65">			RequestDispatcher dispatcher = request.getRequestDispatcher(&quot;/Reserve.jsp&quot;);</span>
+<span class="fc" id="L66">            dispatcher.forward(request, response);	</span>
+<span class="fc" id="L67">		}</span>
+		else
+		{
+<span class="fc" id="L70">			System.out.println(&quot;Do Nothing.&quot;);</span>
+		}		
+
+<span class="fc" id="L73">    }</span>
+	
+	private void showRelevantReservations(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+
+<span class="fc" id="L78">			HttpSession session = request.getSession();</span>
+<span class="fc" id="L79">			Users user = (Users) session.getAttribute(&quot;User&quot;);</span>
+<span class="fc bfc" id="L80" title="All 2 branches covered.">			if(user.getRole().equals(&quot;ParkingUser&quot;)){</span>
+<span class="fc" id="L81">				ArrayList&lt;ReservationsHelper&gt; allReservations = MakeReservationsDAO.GetReservationsByUserId(user.getUserID());</span>
+<span class="fc" id="L82">				request.setAttribute(&quot;allreservations&quot;, allReservations);</span>
+<span class="fc" id="L83">				RequestDispatcher dispatcher = request.getRequestDispatcher(&quot;/DeleteReservation.jsp&quot;);</span>
+<span class="fc" id="L84">	            dispatcher.forward(request, response);</span>
+<span class="fc" id="L85">			}</span>
+			else {
+<span class="fc" id="L87">				String timeStamp = new SimpleDateFormat(&quot;yyyy-dd-MM HH:mm:ss&quot;).format(Calendar.getInstance().getTime());</span>
+<span class="fc" id="L88">				ArrayList&lt;ReservationsHelper&gt; allReservations = MakeReservationsDAO.GetReservationsByReservationDate(timeStamp);</span>
+<span class="fc" id="L89">				request.setAttribute(&quot;allreservations&quot;, allReservations);</span>
+<span class="fc" id="L90">				RequestDispatcher dispatcher = request.getRequestDispatcher(&quot;/DeleteReservation.jsp&quot;);</span>
+<span class="fc" id="L91">	            dispatcher.forward(request, response);</span>
+			}	
+
+<span class="fc" id="L94">    }</span>
+
+	private void showReservationsForEdit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+<span class="fc" id="L98">			HttpSession session = request.getSession();</span>
+<span class="fc" id="L99">			Users user = (Users) session.getAttribute(&quot;User&quot;);</span>
+<span class="fc bfc" id="L100" title="All 2 branches covered.">			if(user.getRole().equals(&quot;ParkingUser&quot;)){</span>
+<span class="fc" id="L101">				ArrayList&lt;ReservationsHelper&gt; allReservations = MakeReservationsDAO.GetReservationsByUserId(user.getUserID());</span>
+<span class="fc" id="L102">				request.setAttribute(&quot;allreservations&quot;, allReservations);</span>
+<span class="fc" id="L103">				RequestDispatcher dispatcher = request.getRequestDispatcher(&quot;/EditReservation.jsp&quot;);</span>
+<span class="fc" id="L104">	            dispatcher.forward(request, response);</span>
+<span class="fc" id="L105">			}</span>
+			else {
+<span class="fc" id="L107">				String timeStamp = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;).format(Calendar.getInstance().getTime());</span>
+<span class="fc" id="L108">				ArrayList&lt;ReservationsHelper&gt; allReservations = MakeReservationsDAO.GetReservationsByReservationDate(timeStamp);</span>
+<span class="fc" id="L109">				request.setAttribute(&quot;allreservations&quot;, allReservations);</span>
+<span class="fc" id="L110">				RequestDispatcher dispatcher = request.getRequestDispatcher(&quot;/EditReservation.jsp&quot;);</span>
+<span class="fc" id="L111">	            dispatcher.forward(request, response);</span>
+			}	
+
+<span class="fc" id="L114">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 29, 2019 5:46:49 AM)</div></body></html>

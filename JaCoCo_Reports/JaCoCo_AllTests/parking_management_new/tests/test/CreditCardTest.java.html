@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>CreditCardTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 29, 2019 5:46:49 AM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">tests</a> &gt; <a href="index.source.html" class="el_package">test</a> &gt; <span class="el_source">CreditCardTest.java</span></div><h1>CreditCardTest.java</h1><pre class="source lang-java linenums"><span class="fc" id="L1">package test;</span>
+
+import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import controller.ReservationsController;
+import junitparams.FileParameters;
+import junitparams.JUnitParamsRunner;
+import model.CreditCard;
+import model.CreditCardError;
+import model.CreditCardTypes;
+
+@RunWith(JUnitParamsRunner.class)
+<span class="fc" id="L21">public class CreditCardTest {</span>
+
+	private CreditCard creditCard;
+	private ReservationsController controller;
+	private CreditCardError errorMsgs;
+	private String[] creditCardTypes;
+
+	@Before
+	public void setUp() throws Exception {
+<span class="fc" id="L30">		creditCard = new CreditCard();</span>
+<span class="fc" id="L31">		controller = new ReservationsController();</span>
+<span class="fc" id="L32">		errorMsgs = new CreditCardError();</span>
+<span class="fc" id="L33">	}</span>
+
+
+	@Test
+	@FileParameters(&quot;tests/test/CreditCardTest.csv&quot;)
+	public void test(String cardNumber, String creditCardType, String cvv, String month, String year,
+			String excpetedErrorMsg, String exceptedCardNumError, String cvvError, String expectedMonthError, String expectedYearError) {
+<span class="fc" id="L40">		creditCard.setCardNumber(cardNumber);</span>
+<span class="fc" id="L41">		creditCard.setCardType(CreditCardTypes.valueOf(creditCardType).toString());</span>
+<span class="fc" id="L42">		creditCard.setCvv(cvv);</span>
+<span class="fc" id="L43">		creditCard.setMonth(month);</span>
+<span class="fc" id="L44">		creditCard.setYear(year);</span>
+<span class="fc" id="L45">		creditCard.validatecreditcarddetails(creditCard, errorMsgs);</span>
+<span class="fc" id="L46">		creditCardTypes = Arrays.stream(CreditCardTypes.values()).map(Enum::name).toArray(String[]::new);</span>
+
+<span class="fc" id="L48">		assertEquals(excpetedErrorMsg, errorMsgs.getErrorMsg());</span>
+<span class="fc" id="L49">		assertEquals(exceptedCardNumError, errorMsgs.getCardNumberError());</span>
+<span class="fc" id="L50">		assertEquals(cvvError, errorMsgs.getCvvError());</span>
+<span class="fc" id="L51">		assertEquals(expectedMonthError, errorMsgs.getMonthError());</span>
+<span class="fc" id="L52">		assertEquals(expectedYearError, errorMsgs.getYearError());</span>
+<span class="fc" id="L53">		assertTrue(Arrays.asList(creditCardTypes).contains(&quot;VISA&quot;));</span>
+<span class="fc" id="L54">		assertTrue(Arrays.asList(creditCardTypes).contains(&quot;AMEX&quot;));</span>
+<span class="fc" id="L55">		assertTrue(Arrays.asList(creditCardTypes).contains(&quot;MASTERCARD&quot;));</span>
+<span class="fc" id="L56">		assertTrue(Arrays.asList(creditCardTypes).contains(&quot;DISCOVER&quot;));</span>
+<span class="fc" id="L57">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 29, 2019 5:46:49 AM)</div></body></html>

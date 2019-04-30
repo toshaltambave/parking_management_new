@@ -24,41 +24,29 @@ public class SpotSearchController extends HttpServlet {
 
 	private void listAreas(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		try 
-		{
-			ArrayList<ParkingArea> allAreas = FetchParkingSpotsDAO.getAllParkingAreas();
-			request.setAttribute("Areas", allAreas);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/SearchSpot.jsp");
-            dispatcher.forward(request, response);
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			throw new ServletException(e);
-		}
+
+		ArrayList<ParkingArea> allAreas = FetchParkingSpotsDAO.getAllParkingAreas();
+		request.setAttribute("Areas", allAreas);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/SearchSpot.jsp");
+        dispatcher.forward(request, response);
+
     }
 	private void listFloorsForSelectedArea(HttpServletRequest request, HttpServletResponse response, Integer areaId) throws ServletException, IOException 
 	{
-		try 
-		{
-			HttpSession session = request.getSession();
-			ParkingArea selectedArea = FetchParkingSpotsDAO.getspecificParkingArea(areaId);
-			Users user = (Users) session.getAttribute("User");
-			ArrayList<ParkingAreaFloors> floorDetails = new ArrayList<ParkingAreaFloors>();
-			if (user.getRole().equals(Role.ParkingManager.toString()))
-				floorDetails = FetchParkingSpotsDAO.getFilteredFloorsbyParkingAreaId(areaId, "Premium");
-			else
-				floorDetails = FetchParkingSpotsDAO.getFloorsbyParkingAreaId(areaId, user.getPermitType());
-			request.setAttribute("selectedArea", selectedArea);
-			request.setAttribute("allFloors", floorDetails);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/SearchSpot_Floor.jsp");
-            dispatcher.forward(request, response);
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			throw new ServletException(e);
-		}
+
+		HttpSession session = request.getSession();
+		ParkingArea selectedArea = FetchParkingSpotsDAO.getspecificParkingArea(areaId);
+		Users user = (Users) session.getAttribute("User");
+		ArrayList<ParkingAreaFloors> floorDetails = new ArrayList<ParkingAreaFloors>();
+		if (user.getRole().equals(Role.ParkingManager.toString()))
+			floorDetails = FetchParkingSpotsDAO.getFilteredFloorsbyParkingAreaId(areaId, "Premium");
+		else
+			floorDetails = FetchParkingSpotsDAO.getFloorsbyParkingAreaId(areaId, user.getPermitType());
+		request.setAttribute("selectedArea", selectedArea);
+		request.setAttribute("allFloors", floorDetails);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/SearchSpot_Floor.jsp");
+        dispatcher.forward(request, response);
+
     }
 	private void listSpotsForSelectedFloor
 	(	
@@ -69,22 +57,16 @@ public class SpotSearchController extends HttpServlet {
 			String permitType 
 	) throws ServletException, IOException 
 	{
-		try 
-		{
-			ParkingArea selectedArea = FetchParkingSpotsDAO.getspecificParkingArea(areaId);
-			ArrayList<ParkingSpots> spotsList = FetchParkingSpotsDAO.getSpotsByAreaFloorPermitFromDb(areaId, floorNumber, permitType);
-			request.setAttribute("selectedArea", selectedArea);
-			request.setAttribute("selectedFloorNumber", floorNumber);
-			request.setAttribute("selectedPermitType", permitType);
-			request.setAttribute("spotsList", spotsList);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/SearchSpot_SelectSpot.jsp");
-            dispatcher.forward(request, response);
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			throw new ServletException(e);
-		}
+
+		ParkingArea selectedArea = FetchParkingSpotsDAO.getspecificParkingArea(areaId);
+		ArrayList<ParkingSpots> spotsList = FetchParkingSpotsDAO.getSpotsByAreaFloorPermitFromDb(areaId, floorNumber, permitType);
+		request.setAttribute("selectedArea", selectedArea);
+		request.setAttribute("selectedFloorNumber", floorNumber);
+		request.setAttribute("selectedPermitType", permitType);
+		request.setAttribute("spotsList", spotsList);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/SearchSpot_SelectSpot.jsp");
+        dispatcher.forward(request, response);
+
     }
 	@Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

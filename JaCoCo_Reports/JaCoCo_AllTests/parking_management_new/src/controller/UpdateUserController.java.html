@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>UpdateUserController.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 29, 2019 5:46:49 AM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">controller</a> &gt; <span class="el_source">UpdateUserController.java</span></div><h1>UpdateUserController.java</h1><pre class="source lang-java linenums">package controller;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import data.*;
+import model.*;
+
+@WebServlet(&quot;/UpdateUserController&quot;)
+<span class="fc" id="L19">public class UpdateUserController extends HttpServlet {</span>
+
+	private static final long serialVersionUID = 1L;
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+<span class="fc" id="L25">		String action = request.getParameter(&quot;action&quot;);</span>
+<span class="fc" id="L26">		listPermitTypes(request,response);</span>
+<span class="fc" id="L27">		listRoles(request,response);</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">		if (action.equals(&quot;getList&quot;)) {</span>
+			// get parameters from the request
+<span class="fc" id="L30">			Users user = (Users) request.getSession().getAttribute(&quot;User&quot;);</span>
+<span class="fc" id="L31">			java.util.List&lt;UpdatedUserDetails&gt; userList = UpdatedUserDetailsDAO.searchByUsername(user.getUsername());</span>
+<span class="fc" id="L32">			UpdatedUserDetails updatedUserDetails = userList.get(0);</span>
+<span class="fc" id="L33">			request.getSession().setAttribute(&quot;oldusername&quot;, updatedUserDetails.getOldusername());</span>
+<span class="fc" id="L34">			String role = updatedUserDetails.getRole();</span>
+<span class="fc" id="L35">	        request.setAttribute(&quot;selectedrole&quot;, role);</span>
+<span class="fc" id="L36">			String permitType = updatedUserDetails.getPermitType();</span>
+<span class="fc" id="L37">	        request.setAttribute(&quot;selectedpermitType&quot;, permitType);</span>
+<span class="fc" id="L38">			request.setAttribute(&quot;updatedUserDetails&quot;, updatedUserDetails);</span>
+
+<span class="fc" id="L40">			RequestDispatcher dispatcher = request.getRequestDispatcher(&quot;/EditProfile.jsp&quot;);</span>
+<span class="fc" id="L41">			dispatcher.forward(request, response);</span>
+<span class="fc" id="L42">		}</span>
+		else
+<span class="fc" id="L44">			doPost(request, response);</span>
+<span class="fc" id="L45">	}</span>
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+<span class="fc" id="L50">		boolean isDispatch = false;</span>
+<span class="fc" id="L51">		HttpSession session = request.getSession();</span>
+<span class="fc" id="L52">		UpdatedUserDetails userdetails = new UpdatedUserDetails(new UsersDAO());</span>
+<span class="fc" id="L53">		UpdatedUserDetailsErrorMsgs errorMsgs = new UpdatedUserDetailsErrorMsgs();</span>
+<span class="fc" id="L54">		String action = request.getParameter(&quot;action&quot;), url = &quot;&quot;;</span>
+
+<span class="fc bfc" id="L56" title="All 2 branches covered.">		if (action.equalsIgnoreCase(&quot;update&quot;)) {</span>
+<span class="fc" id="L57">			String userName = request.getParameter(&quot;username&quot;);</span>
+<span class="pc bpc" id="L58" title="2 of 4 branches missed.">			if (request.getParameter(&quot;userId&quot;) != null &amp;&amp; !request.getParameter(&quot;userId&quot;).isEmpty()) {</span>
+<span class="fc" id="L59">				Integer userId = Integer.valueOf(request.getParameter(&quot;userId&quot;));</span>
+<span class="fc" id="L60">				userdetails.setUserID(userId);</span>
+<span class="fc" id="L61">				listPermitTypes(request,response);</span>
+<span class="fc" id="L62">				listRoles(request,response);</span>
+<span class="fc" id="L63">				url = handleUpdate(request, action, userName, session, userdetails, errorMsgs);</span>
+			} 
+<span class="fc" id="L65">		} </span>
+		else
+		{
+<span class="fc" id="L68">			String type = request.getParameter(&quot;type&quot;);</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">			if (type != null) {</span>
+<span class="fc" id="L70">				isDispatch = true;</span>
+<span class="fc" id="L71">				listPermitTypes(request,response);</span>
+<span class="fc" id="L72">				listRoles(request,response);</span>
+<span class="fc" id="L73">				String value = request.getParameter(&quot;value&quot;);</span>
+<span class="fc" id="L74">				java.util.List&lt;UpdatedUserDetails&gt; userList = UpdatedUserDetailsDAO.searchByUsername(value);</span>
+<span class="fc" id="L75">				UpdatedUserDetails updatedUserDetails = userList.get(0);</span>
+<span class="fc" id="L76">				request.getSession().setAttribute(&quot;oldusername&quot;, updatedUserDetails.getOldusername());</span>
+<span class="fc" id="L77">				String role = updatedUserDetails.getRole();</span>
+<span class="fc" id="L78">		        request.setAttribute(&quot;selectedrole&quot;, role);</span>
+<span class="fc" id="L79">				String permitType = updatedUserDetails.getPermitType();</span>
+<span class="fc" id="L80">		        request.setAttribute(&quot;selectedpermitType&quot;, permitType);</span>
+<span class="fc" id="L81">				request.setAttribute(&quot;updatedUserDetails&quot;, updatedUserDetails);</span>
+
+<span class="fc" id="L83">				RequestDispatcher dispatcher = request.getRequestDispatcher(&quot;/EditProfile.jsp&quot;);</span>
+<span class="fc" id="L84">				dispatcher.forward(request, response);</span>
+
+<span class="fc" id="L86">			} </span>
+			else
+			{
+<span class="fc" id="L89">				url = &quot;/UpdateSelect.jsp&quot;;</span>
+			}
+		}
+<span class="fc bfc" id="L92" title="All 2 branches covered.">		if (!isDispatch) {</span>
+<span class="fc" id="L93">			getServletContext().getRequestDispatcher(url).forward(request, response);</span>
+<span class="fc" id="L94">		}</span>
+		else
+		{
+<span class="fc" id="L97">			System.out.println(&quot;Do Nothing.&quot;);</span>
+		}		
+<span class="fc" id="L99">	}</span>
+	
+	protected void listPermitTypes(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+<span class="fc" id="L103">			ArrayList&lt;PermitType&gt; listPermitTypes = new ArrayList&lt;PermitType&gt;(Arrays.asList(PermitType.values()));</span>
+<span class="fc" id="L104">			request.setAttribute(&quot;allPermitTypes&quot;, listPermitTypes);</span>
+<span class="fc" id="L105">    }</span>
+	
+	protected void listRoles(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+<span class="fc" id="L109">		ArrayList&lt;Role&gt; listRoles = new ArrayList&lt;Role&gt;(Arrays.asList(Role.values()));</span>
+<span class="fc" id="L110">		request.setAttribute(&quot;allRoles&quot;, listRoles);</span>
+<span class="fc" id="L111">    }</span>
+
+	private void getUpdatedUserDetailsParam(HttpServletRequest request, UpdatedUserDetails updatedUserdetails) {
+<span class="fc" id="L114">		updatedUserdetails.setUpdatedUserDetails(request.getParameter(&quot;firstname&quot;), request.getParameter(&quot;middlename&quot;),</span>
+<span class="fc" id="L115">				request.getParameter(&quot;lastname&quot;), request.getParameter(&quot;username&quot;), request.getParameter(&quot;sex&quot;),</span>
+<span class="fc" id="L116">				request.getParameter(&quot;dob&quot;), request.getParameter(&quot;address&quot;), request.getParameter(&quot;email&quot;),</span>
+<span class="fc" id="L117">				request.getParameter(&quot;phone&quot;), request.getParameter(&quot;dlno&quot;), request.getParameter(&quot;dlexpirydte&quot;),</span>
+<span class="fc" id="L118">				request.getParameter(&quot;regno&quot;), request.getParameter(&quot;utaid&quot;), request.getParameter(&quot;hashpass&quot;),</span>
+<span class="fc" id="L119">				request.getParameter(&quot;confirmpass&quot;), request.getParameter(&quot;role&quot;), request.getParameter(&quot;permitType&quot;));</span>
+<span class="fc" id="L120">	}</span>
+
+	private String handleUpdate(HttpServletRequest request, String action, String userName, HttpSession session,
+			UpdatedUserDetails userdetails, UpdatedUserDetailsErrorMsgs errorMsgs) {
+		String url;
+<span class="fc" id="L125">		Users user = (Users) session.getAttribute(&quot;User&quot;);</span>
+
+<span class="fc" id="L127">		userdetails.setUserName(user.getUsername());</span>
+<span class="fc" id="L128">		userdetails.setRole(user.getRole());</span>
+	
+<span class="fc" id="L130">		getUpdatedUserDetailsParam(request, userdetails);</span>
+		
+<span class="fc" id="L132">		String role = userdetails.getRole();</span>
+<span class="fc" id="L133">        request.setAttribute(&quot;selectedrole&quot;, role);</span>
+<span class="fc" id="L134">		String permitType = userdetails.getPermitType();</span>
+<span class="fc" id="L135">        request.setAttribute(&quot;selectedpermitType&quot;, permitType);</span>
+<span class="fc" id="L136">        userdetails.setOldusername((String)request.getSession().getAttribute(&quot;oldusername&quot;));</span>
+<span class="fc" id="L137">		userdetails.validateUserDetails(action, userdetails, errorMsgs);</span>
+<span class="fc" id="L138">		request.setAttribute(&quot;updatedUserDetails&quot;, userdetails);</span>
+<span class="fc bfc" id="L139" title="All 2 branches covered.">		if (!errorMsgs.getErrorMsg().equals(&quot;&quot;)) {</span>
+<span class="fc" id="L140">			getUpdatedUserDetailsParam(request, userdetails);</span>
+<span class="fc" id="L141">			request.setAttribute(&quot;updatedUserDetailsErrorMsgs&quot;, errorMsgs);</span>
+<span class="fc" id="L142">			url = &quot;/EditProfile.jsp?username=&quot; + userName;</span>
+<span class="fc" id="L143">		}</span>
+		else 
+		{
+			// if no error messages
+<span class="fc" id="L147">			boolean isSuccessful = UpdatedUserDetailsDAO.updateUser(userdetails);</span>
+<span class="fc" id="L148">			request.setAttribute(&quot;isSuccessful&quot;, isSuccessful);</span>
+<span class="fc" id="L149">			request.setAttribute(&quot;username&quot;, userName);</span>
+
+<span class="fc" id="L151">			UpdatedUserDetailsErrorMsgs errorMsgsuser = new UpdatedUserDetailsErrorMsgs();</span>
+<span class="fc" id="L152">			request.setAttribute(&quot;updatedUserDetailsErrorMsgs&quot;, errorMsgsuser);</span>
+			
+<span class="fc" id="L154">			url = &quot;&quot;;</span>
+
+<span class="fc bfc" id="L156" title="All 2 branches covered.">			if (user.getRole().equals(&quot;ParkingManager&quot;)){</span>
+<span class="fc" id="L157">				url=&quot;/parkingManagementHomePage.jsp&quot;;</span>
+<span class="fc" id="L158">			}</span>
+<span class="fc bfc" id="L159" title="All 2 branches covered.">			else if (user.getRole().equals(&quot;Admin&quot;)){</span>
+<span class="fc" id="L160">				url=&quot;/adminHomePage.jsp&quot;;</span>
+<span class="fc" id="L161">			}</span>
+			else
+			{
+<span class="fc" id="L164">				url=&quot;/parkingUserHomePage.jsp&quot;;</span>
+			}		
+
+		}
+<span class="fc" id="L168">		return url;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 29, 2019 5:46:49 AM)</div></body></html>

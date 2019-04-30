@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ReservationTest2.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 29, 2019 5:46:49 AM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">tests</a> &gt; <a href="index.source.html" class="el_package">test</a> &gt; <span class="el_source">ReservationTest2.java</span></div><h1>ReservationTest2.java</h1><pre class="source lang-java linenums">package test;
+
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import junitparams.FileParameters;
+import junitparams.JUnitParamsRunner;
+import model.Reservation;
+import model.ReservationsHelper;
+
+@RunWith(JUnitParamsRunner.class)
+<span class="fc" id="L15">public class ReservationTest2 {</span>
+
+	private Reservation reservation;
+	private ReservationsHelper helper;
+
+	@Before
+	public void setUp() throws Exception {
+<span class="fc" id="L22">		reservation = new Reservation();</span>
+<span class="fc" id="L23">		helper = new ReservationsHelper();</span>
+<span class="fc" id="L24">	}</span>
+
+	@Test
+	@FileParameters(&quot;tests/test/ReservationTest.csv&quot;)
+	public void test(Integer userId, Integer spotUID, String startTime, String endTime, boolean noShow,
+			boolean overStay, boolean cart, boolean camera, boolean history, Double total, Integer reservationId,
+			Integer floorNumber, Integer noShowNum, Integer overDue, Integer spotId, String areaName, String lastName,
+			String userName) {
+
+<span class="fc" id="L33">		reservation.makeReservation(userId, spotUID, startTime, endTime, noShow, overStay, cart, camera, history,</span>
+<span class="fc" id="L34">				total);</span>
+<span class="fc" id="L35">		reservation.setReservationID(reservationId);</span>
+
+<span class="fc" id="L37">		helper.setReservationID(reservationId);</span>
+<span class="fc" id="L38">		helper.setAreaName(areaName);</span>
+<span class="fc" id="L39">		helper.setEnd_Time(endTime);</span>
+<span class="fc" id="L40">		helper.setFloor_Number(floorNumber);</span>
+<span class="fc" id="L41">		helper.setIsNoShow(noShow);</span>
+<span class="fc" id="L42">		helper.setisNoShow(noShowNum);</span>
+<span class="fc" id="L43">		helper.setisOverDue(overDue);</span>
+<span class="fc" id="L44">		helper.setIsOverStay(overStay);</span>
+<span class="fc" id="L45">		helper.setLastName(lastName);</span>
+<span class="fc" id="L46">		helper.setSpot_Id(spotId);</span>
+<span class="fc" id="L47">		helper.setStart_Time(startTime);</span>
+<span class="fc" id="L48">		helper.setUserName(userName);</span>
+
+<span class="fc" id="L50">		assertEquals(camera, reservation.getCamera());</span>
+<span class="fc" id="L51">		assertEquals(cart, reservation.getCart());</span>
+<span class="fc" id="L52">		assertEquals(history, reservation.getHistory());</span>
+<span class="fc" id="L53">		assertEquals(noShow, reservation.getNoShow());</span>
+<span class="fc" id="L54">		assertEquals(overStay, reservation.getOverStay());</span>
+<span class="fc" id="L55">		assertEquals(endTime, reservation.getEndTime());</span>
+<span class="fc" id="L56">		assertEquals(startTime, reservation.getStartTime());</span>
+<span class="fc" id="L57">		assertEquals(reservationId, reservation.getReservationID());</span>
+<span class="fc" id="L58">		assertEquals(spotUID, reservation.getSpotUID());</span>
+<span class="fc" id="L59">		assertEquals(userId, reservation.getUserID());</span>
+<span class="fc" id="L60">		assertEquals(total, reservation.getTotal());</span>
+
+<span class="fc" id="L62">		assertEquals(noShow, helper.getIsNoShow());</span>
+<span class="fc" id="L63">		assertEquals(noShow, helper.getisNoShow());</span>
+<span class="fc" id="L64">		assertEquals(overStay, helper.getIsOverStay());</span>
+<span class="fc" id="L65">		assertEquals(overStay, helper.getisOverDue());</span>
+<span class="fc" id="L66">		assertEquals(floorNumber, helper.getFloor_Number());</span>
+<span class="fc" id="L67">		assertEquals(reservationId, helper.getReservationID());</span>
+<span class="fc" id="L68">		assertEquals(spotId, helper.getSpot_Id());</span>
+<span class="fc" id="L69">		assertEquals(endTime, helper.getEnd_Time());</span>
+<span class="fc" id="L70">		assertEquals(startTime, helper.getStart_Time());</span>
+<span class="fc" id="L71">		assertEquals(areaName, helper.getAreaName());</span>
+<span class="fc" id="L72">		assertEquals(lastName, helper.getLastName());</span>
+<span class="fc" id="L73">		assertEquals(userName, helper.getUserName());</span>
+
+<span class="fc" id="L75">		helper.setisNoShow(0);</span>
+<span class="fc" id="L76">		helper.setisOverDue(0);</span>
+
+<span class="fc" id="L78">		assertEquals(false, helper.getisNoShow());</span>
+<span class="fc" id="L79">		assertEquals(false, helper.getisOverDue());</span>
+<span class="fc" id="L80">		assertEquals(false, helper.getIsNoShow());</span>
+<span class="fc" id="L81">		assertEquals(false, helper.getIsOverStay());</span>
+
+<span class="fc" id="L83">		helper.setIsNoShow(true);</span>
+<span class="fc" id="L84">		helper.setIsOverStay(true);</span>
+
+<span class="fc" id="L86">		assertEquals(true, helper.getIsNoShow());</span>
+<span class="fc" id="L87">		assertEquals(true, helper.getisNoShow());</span>
+<span class="fc" id="L88">		assertEquals(true, helper.getisOverDue());</span>
+<span class="fc" id="L89">		assertEquals(true, helper.getIsOverStay());</span>
+
+<span class="fc" id="L91">		helper.setIsNoShow(true);</span>
+<span class="fc" id="L92">		helper.setisOverDue(1);</span>
+
+<span class="fc" id="L94">		assertEquals(true, helper.getIsNoShow());</span>
+<span class="fc" id="L95">		assertEquals(true, helper.getisNoShow());</span>
+<span class="fc" id="L96">		assertEquals(true, helper.getisOverDue());</span>
+<span class="fc" id="L97">		assertEquals(true, helper.getIsOverStay());</span>
+
+<span class="fc" id="L99">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 29, 2019 5:46:49 AM)</div></body></html>

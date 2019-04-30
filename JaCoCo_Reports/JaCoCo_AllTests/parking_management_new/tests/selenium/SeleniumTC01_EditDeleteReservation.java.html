@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>SeleniumTC01_EditDeleteReservation.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 28, 2019 10:57:19 PM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">tests</a> &gt; <a href="index.source.html" class="el_package">selenium</a> &gt; <span class="el_source">SeleniumTC01_EditDeleteReservation.java</span></div><h1>SeleniumTC01_EditDeleteReservation.java</h1><pre class="source lang-java linenums">package selenium;
+
+import java.io.FileInputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Properties;
+import java.util.concurrent.TimeUnit;
+import org.junit.*;
+import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
+
+import static org.junit.Assert.*;
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.Select;
+
+import controller.ReservationsController;
+import data.UsersDAO;
+import functions.BusinessFunctions;
+import junitparams.FileParameters;
+import junitparams.JUnitParamsRunner;
+import model.CreditCardError;
+import model.Role;
+import model.Users;
+import test.Data.TestDAO;
+import util.PasswordUtility;
+
+@RunWith(JUnitParamsRunner.class)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+<span class="fc" id="L32">public class SeleniumTC01_EditDeleteReservation extends BusinessFunctions {</span>
+	private WebDriver driver;
+//	private boolean acceptNextAlert = true;
+<span class="fc" id="L35">	private StringBuffer verificationErrors = new StringBuffer();</span>
+<span class="fc" id="L36">	private BusinessFunctions functions = new BusinessFunctions();</span>
+
+	private String appUrl;
+	private String sharedUIMapPath;
+	private UsersDAO UsersDAO;
+
+	@Before
+	public void setUp() throws Exception {
+		// Change to FireFoxDriver if using FireFox browser
+		//FireFox Driver
+<span class="fc" id="L46">		   System.setProperty(&quot;webdriver.firefox.marionette&quot;, &quot;C:\\GeckoSelenium\\geckodriver.exe&quot;);</span>
+<span class="fc" id="L47">		   driver = new FirefoxDriver();</span>
+//		System.setProperty(&quot;webdriver.chrome.driver&quot;, &quot;C:\\ChromeDriver\\chromedriver.exe&quot;);
+//		driver = new ChromeDriver();
+//		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+<span class="fc" id="L51">		prop = new Properties();</span>
+//		prop.load(new FileInputStream(&quot;./Configuration/login.properties&quot;));
+		
+<span class="fc" id="L54">		prop.load(new FileInputStream(&quot;./Configuration/Configuration.properties&quot;));</span>
+<span class="fc" id="L55">		appUrl = prop.getProperty(&quot;AppUrl&quot;);</span>
+<span class="fc" id="L56">		int timewait = (Integer.parseInt(prop.getProperty(&quot;wait_time&quot;)));</span>
+<span class="fc" id="L57">		driver.manage().timeouts().implicitlyWait(timewait, TimeUnit.SECONDS);</span>
+<span class="fc" id="L58">		sharedUIMapPath = prop.getProperty(&quot;SharedUIMapPath&quot;);</span>
+<span class="fc" id="L59">		prop.load(new FileInputStream(sharedUIMapPath));</span>
+<span class="fc" id="L60">	    UsersDAO = new UsersDAO();</span>
+<span class="fc" id="L61">		driver.get(appUrl);</span>
+<span class="fc" id="L62">		driver.manage().window().setSize(new Dimension(1440,850));</span>
+<span class="fc" id="L63">	}</span>
+	
+	  @Test
+	  @FileParameters(&quot;tests/Excel/ParkingUserMaxReservations.csv&quot;)
+	  public void dParkingUserEditCancelReservation(String userName, String password, String confirmPassword, String role,
+				String permitType, String firstName, String middleName, String lastName, String sex, String dayOfBirth,
+				String address, String email, String phoneNum, String dlNum, String dayOfExpiry, String regNum,
+				String utaId, String startdate, String enddate, String area, String reservationPermitType, Integer floorNum,
+				Integer spotNum, String ccNum, String expMon, String expYear, String cvv, String cardType, Boolean cart, Boolean camera, Boolean history,
+				String startTimeError, String endTimeError, String compareError, 
+				String cardNumError, String cardYearError, String cardMonthError, String cardCvvError) throws Exception 
+	  {
+<span class="fc" id="L75">		driver.get(appUrl);</span>
+<span class="fc" id="L76">		DateFormat dateFormat = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);</span>
+<span class="fc" id="L77">		Date date = new Date();</span>
+<span class="fc" id="L78">		startdate = dateFormat.format(date) +&quot; &quot;+startdate;</span>
+<span class="fc" id="L79">		enddate = dateFormat.format(date) +&quot; &quot;+enddate;</span>
+<span class="fc" id="L80">		String pmUserName = userName +1;</span>
+		//Register
+<span class="pc bpc" id="L82" title="1 of 2 branches missed.">		if (TestDAO.userExists(userName)) {</span>
+<span class="fc" id="L83">			TestDAO.deleteUser(pmUserName);</span>
+<span class="fc" id="L84">			TestDAO.deleteReservation(userName);</span>
+<span class="fc" id="L85">			TestDAO.deleteUser(userName);</span>
+		}
+<span class="fc" id="L87">		driver.findElement(By.id(prop.getProperty(&quot;Btn_Login_Register&quot;))).click();</span>
+<span class="fc" id="L88">		functions.Register(driver, userName, password, confirmPassword, role, permitType);</span>
+<span class="fc" id="L89">		functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dayOfBirth, address, email,</span>
+<span class="fc" id="L90">				phoneNum, dlNum, dayOfExpiry, regNum, utaId);</span>
+		//Assert user registered
+<span class="fc" id="L92">		assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_Register_Success&quot;))).getText()</span>
+<span class="fc" id="L93">				.equals(&quot;Registered Successfully.&quot;));</span>
+		//Login
+<span class="fc" id="L95">		functions.Login(driver, userName, password);</span>
+		//Reservation 1
+<span class="fc" id="L97">		functions.reservationTimeAndDate(driver, startdate, enddate, area);</span>
+<span class="fc" id="L98">		functions.reservationFloorAndSpot(driver, reservationPermitType, floorNum, spotNum);</span>
+<span class="fc" id="L99">		functions.makeReservation(driver, ccNum, expMon, expYear, cvv, cart, camera, history, cardType);</span>
+<span class="fc" id="L100">		assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_Reserve_Sucess&quot;))).getText()</span>
+<span class="fc" id="L101">						.equals(&quot;Reservation has been made successfully.&quot;));</span>
+		//Modify Reservation
+<span class="fc" id="L103">		functions.modifyreservation(driver,1);</span>
+<span class="fc" id="L104">		functions.editreservationTimeAndDate(driver, startdate, enddate, area);</span>
+<span class="fc" id="L105">		functions.reservationFloorAndSpot(driver, reservationPermitType, floorNum, spotNum);</span>
+<span class="fc" id="L106">		functions.makeReservation(driver, ccNum, expMon, expYear, cvv, cart, camera, history, cardType);</span>
+<span class="fc" id="L107">		assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_Reserve_Sucess&quot;))).getText()</span>
+<span class="fc" id="L108">						.equals(&quot;Reservation has been made successfully.&quot;));</span>
+		//Delete Reservation
+<span class="fc" id="L110">		functions.deletereservation(driver, 1);</span>
+<span class="fc" id="L111">		assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_Del_msg&quot;))).getText().equals(&quot;Deleted Successfully.&quot;));</span>
+<span class="fc" id="L112">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_User_Home_Page&quot;))).click();</span>
+		
+	    //Again Reserve for PM
+<span class="fc" id="L115">	    functions.reservationTimeAndDate(driver, startdate, enddate, area);</span>
+<span class="fc" id="L116">		functions.reservationFloorAndSpot(driver, reservationPermitType, floorNum, spotNum);</span>
+<span class="fc" id="L117">		functions.makeReservation(driver, ccNum, expMon, expYear, cvv, cart, camera, history, cardType);</span>
+<span class="fc" id="L118">		assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_Reserve_Sucess&quot;))).getText()</span>
+<span class="fc" id="L119">						.equals(&quot;Reservation has been made successfully.&quot;));</span>
+		
+<span class="fc" id="L121">		driver.findElement(By.id(prop.getProperty(&quot;Btn_User_Logout&quot;))).click();</span>
+		
+		
+<span class="fc" id="L124">		driver.findElement(By.id(prop.getProperty(&quot;Btn_Login_Register&quot;))).click();</span>
+<span class="fc" id="L125">		functions.Register(driver, pmUserName, password, confirmPassword, Role.ParkingManager.toString(), permitType);</span>
+<span class="fc" id="L126">		functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dayOfBirth, address, email,</span>
+<span class="fc" id="L127">				phoneNum, dlNum, dayOfExpiry, regNum, utaId);</span>
+		//Assert user registered
+<span class="fc" id="L129">		assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_Register_Success&quot;))).getText()</span>
+<span class="fc" id="L130">				.equals(&quot;Registered Successfully.&quot;));</span>
+	    
+<span class="fc" id="L132">		functions.Login(driver, pmUserName, password);</span>
+	    
+		//Modify Reservation
+<span class="fc" id="L135">		functions.modifyreservation(driver,1);</span>
+<span class="fc" id="L136">		driver.findElement(By.id(prop.getProperty(&quot;Btn_User_Home_Page&quot;))).click();</span>
+		//Delete Reservation
+<span class="fc" id="L138">		functions.deletereservation(driver, 2);</span>
+<span class="fc" id="L139">		assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_Del_msg&quot;))).getText().equals(&quot;Deleted Successfully.&quot;));</span>
+<span class="fc" id="L140">	    driver.findElement(By.id(prop.getProperty(&quot;Btn_User_Home_Page&quot;))).click();</span>
+<span class="fc" id="L141">		driver.findElement(By.id(prop.getProperty(&quot;Btn_User_Logout&quot;))).click();		</span>
+				
+<span class="fc" id="L143">	  }</span>
+		
+
+	@After
+	public void tearDown() throws Exception {
+<span class="fc" id="L148">		driver.quit();</span>
+<span class="fc" id="L149">		String verificationErrorString = verificationErrors.toString();</span>
+<span class="pc bpc" id="L150" title="1 of 2 branches missed.">		if (!&quot;&quot;.equals(verificationErrorString)) {</span>
+<span class="nc" id="L151">			fail(verificationErrorString);</span>
+		}
+<span class="fc" id="L153">	}</span>
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 28, 2019 10:57:19 PM)</div></body></html>

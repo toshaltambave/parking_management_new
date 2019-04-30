@@ -81,13 +81,10 @@ public class UserDetailsController extends HttpServlet {
 	
 	protected void listSex(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		try {
+
 			ArrayList<Sex> listSex = new ArrayList<Sex>(Arrays.asList(Sex.values()));
 			request.setAttribute("allSex", listSex);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new ServletException(e);
-		}
+
 	}
 
 
@@ -111,11 +108,7 @@ public class UserDetailsController extends HttpServlet {
 			UserDetails userdetails, UserDetailsErrorMsgs errorMsgs) {
 		Users user = (Users) session.getAttribute("user");
 		if (user != null && !user.getUsername().isEmpty())
-			userdetails.setUsername(user.getUsername());
-		else
-		{
-			System.out.println("Do Nothing.");
-		}		
+			userdetails.setUsername(user.getUsername());		
 		getUserDetailsParam(request, userdetails);
 		userdetails.validateUserDetails(action, userdetails, errorMsgs);
 		session.setAttribute("userdetails", userdetails);
@@ -126,16 +119,10 @@ public class UserDetailsController extends HttpServlet {
 		} else {// if no error messages
 			Boolean isSuccess = false;
 			isSuccess = UserDetailsDAO.insertUserDetails(userdetails);
-			if (isSuccess) {
-				request.setAttribute("isSuccessful", isSuccess);
-				UserDetailsErrorMsgs errorMsgsuser = new UserDetailsErrorMsgs();
-				session.setAttribute("userDetailsErrorMsgs", errorMsgsuser);
-				url = "/index.jsp";
-			}
-			else
-			{
-				System.out.println("Do Nothing.");
-			}		
+			request.setAttribute("isSuccessful", isSuccess);
+			UserDetailsErrorMsgs errorMsgsuser = new UserDetailsErrorMsgs();
+			session.setAttribute("userDetailsErrorMsgs", errorMsgsuser);
+			url = "/index.jsp";	
 		}
 		return url;
 	}

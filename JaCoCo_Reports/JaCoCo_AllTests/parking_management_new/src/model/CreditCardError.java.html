@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>CreditCardError.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 29, 2019 5:46:49 AM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">model</a> &gt; <span class="el_source">CreditCardError.java</span></div><h1>CreditCardError.java</h1><pre class="source lang-java linenums">package model;
+
+<span class="fc" id="L3">public class CreditCardError {</span>
+	
+	private String CardNumberError;
+	private String MonthError;
+	private String YearError;
+	private String cvvError;
+<span class="fc" id="L9">	private String errorMsg = &quot;&quot;;</span>
+	
+	
+	/**
+	 * @return the errorMsg
+	 */
+	public String getErrorMsg() {
+<span class="fc" id="L16">		return errorMsg;</span>
+	}
+	
+	/**
+	 * @param errorMsg the errorMsg to set
+	 */
+	public void setErrorMsg(String errorMsg) {
+		
+<span class="fc bfc" id="L24" title="All 4 branches covered.">		if (!CardNumberError.equals(&quot;&quot;) || !MonthError.equals(&quot;&quot;) </span>
+<span class="fc bfc" id="L25" title="All 4 branches covered.">				|| !YearError.equals(&quot;&quot;) || !cvvError.equals(&quot;&quot;))</span>
+<span class="fc" id="L26">			this.errorMsg=&quot;Please correct the following errors.&quot;;		</span>
+<span class="fc" id="L27">	}</span>
+
+	/**
+	 * @return the cardNumberError
+	 */
+	public String getCardNumberError() {
+<span class="fc" id="L33">		return CardNumberError;</span>
+	}
+	/**
+	 * @param cardNumberError the cardNumberError to set
+	 */
+	public void setCardNumberError(String cardNumberError) {
+<span class="fc" id="L39">		CardNumberError = cardNumberError;</span>
+<span class="fc" id="L40">	}</span>
+	/**
+	 * @return the monthError
+	 */
+	public String getMonthError() {
+<span class="fc" id="L45">		return MonthError;</span>
+	}
+	/**
+	 * @param monthError the monthError to set
+	 */
+	public void setMonthError(String monthError) {
+<span class="fc" id="L51">		MonthError = monthError;</span>
+<span class="fc" id="L52">	}</span>
+	/**
+	 * @return the yearError
+	 */
+	public String getYearError() {
+<span class="fc" id="L57">		return YearError;</span>
+	}
+	/**
+	 * @param yearError the yearError to set
+	 */
+	public void setYearError(String yearError) {
+<span class="fc" id="L63">		YearError = yearError;</span>
+<span class="fc" id="L64">	}</span>
+	/**
+	 * @return the cvvError
+	 */
+	public String getCvvError() {
+<span class="fc" id="L69">		return cvvError;</span>
+	}
+	/**
+	 * @param cvvError the cvvError to set
+	 */
+	public void setCvvError(String cvvError) {
+<span class="fc" id="L75">		this.cvvError = cvvError;</span>
+<span class="fc" id="L76">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 29, 2019 5:46:49 AM)</div></body></html>

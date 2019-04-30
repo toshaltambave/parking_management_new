@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ParkingAreaHelperError.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 29, 2019 5:46:49 AM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">model</a> &gt; <span class="el_source">ParkingAreaHelperError.java</span></div><h1>ParkingAreaHelperError.java</h1><pre class="source lang-java linenums">package model;
+
+<span class="fc" id="L3">public class ParkingAreaHelperError {</span>
+
+<span class="fc" id="L5">	private String errorMsg = &quot;&quot;;</span>
+	private String AreaNameError;
+	private String FloorNumberError;
+	private String NumberofSpotsError;
+
+	/**
+	 * @return the errorMsg
+	 */
+	public String getErrorMsg() {
+<span class="fc" id="L14">		return errorMsg;</span>
+	}
+
+	/**
+	 * @param errorMsg
+	 *            the errorMsg to set
+	 */
+	public void setErrorMsg(String errorMsg) {
+<span class="fc bfc" id="L22" title="All 6 branches covered.">		if (!AreaNameError.equals(&quot;&quot;) || !FloorNumberError.equals(&quot;&quot;) || !NumberofSpotsError.equals(&quot;&quot;))</span>
+<span class="fc" id="L23">			this.errorMsg = &quot;Please correct the following errors&quot;;</span>
+<span class="fc" id="L24">	}</span>
+	
+	public String validateEmpty(String value) {
+<span class="fc bfc" id="L27" title="All 2 branches covered.">		if (value.equals(&quot;&quot;))</span>
+<span class="fc" id="L28">			return &quot;This field is mandatory.&quot;;</span>
+		else
+<span class="fc" id="L30">			return &quot;&quot;;</span>
+	}
+
+	
+
+	/**
+	 * @return the areaNameError
+	 */
+	public String getAreaNameError() {
+<span class="fc" id="L39">		return AreaNameError;</span>
+	}
+
+	/**
+	 * @param areaNameError
+	 *            the areaNameError to set
+	 */
+	public void setAreaNameError(String areaNameError) {
+<span class="fc" id="L47">		AreaNameError = areaNameError;</span>
+<span class="fc" id="L48">	}</span>
+
+	/**
+	 * @return the floorNumberError
+	 */
+	public String getFloorNumberError() {
+<span class="fc" id="L54">		return FloorNumberError;</span>
+	}
+
+	/**
+	 * @param floorNumberError
+	 *            the floorNumberError to set
+	 */
+	public void setFloorNumberError(String floorNumberError) {
+<span class="fc" id="L62">		FloorNumberError = floorNumberError;</span>
+<span class="fc" id="L63">	}</span>
+
+	/**
+	 * @return the numberofSpotsError
+	 */
+	public String getNumberofSpotsError() {
+<span class="fc" id="L69">		return NumberofSpotsError;</span>
+	}
+
+	/**
+	 * @param numberofSpotsError
+	 *            the numberofSpotsError to set
+	 */
+	public void setNumberofSpotsError(String numberofSpotsError) {
+<span class="fc" id="L77">		NumberofSpotsError = numberofSpotsError;</span>
+<span class="fc" id="L78">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 29, 2019 5:46:49 AM)</div></body></html>

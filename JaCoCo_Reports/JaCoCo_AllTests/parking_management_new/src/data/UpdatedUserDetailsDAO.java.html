@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>UpdatedUserDetailsDAO.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 29, 2019 5:46:49 AM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">data</a> &gt; <span class="el_source">UpdatedUserDetailsDAO.java</span></div><h1>UpdatedUserDetailsDAO.java</h1><pre class="source lang-java linenums">package data;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.sun.istack.internal.logging.Logger;
+import model.UpdatedUserDetails;
+import util.PasswordUtility;
+import util.SQLConnection;
+
+<span class="fc" id="L18">public class UpdatedUserDetailsDAO {</span>
+	
+<span class="fc" id="L20">	private static final Logger LOG = Logger.getLogger(UpdatedUserDetailsDAO.class.getName(),UpdatedUserDetailsDAO.class);</span>
+<span class="fc" id="L21">	static SQLConnection DBMgr = SQLConnection.getInstance();</span>
+
+	public static List&lt;UpdatedUserDetails&gt; searchByUsername(String userName) {
+		
+<span class="fc" id="L25">		List&lt;UpdatedUserDetails&gt; userListInDB = new ArrayList&lt;UpdatedUserDetails&gt;();</span>
+<span class="fc" id="L26">		Statement stmt = null;</span>
+<span class="fc" id="L27">		Connection conn = SQLConnection.getDBConnection();</span>
+//		DateFormat df = new SimpleDateFormat(&quot;yyyy-mm-dd&quot;);
+//		int userId;
+		try {
+<span class="fc" id="L31">			stmt = conn.createStatement();</span>
+<span class="fc" id="L32">			PreparedStatement pst = null;</span>
+<span class="fc" id="L33">			String sql = &quot;SELECT su.PermitType,su.Role,ud.* FROM parking_management.system_users su JOIN user_details ud ON su.user_id=ud.user_id where su.UserName=?&quot;;</span>
+<span class="fc" id="L34">			pst = conn.prepareStatement(sql);</span>
+<span class="fc" id="L35">			pst.setString(1, userName);</span>
+<span class="fc" id="L36">			ResultSet rs2 = pst.executeQuery();</span>
+
+<span class="fc bfc" id="L38" title="All 2 branches covered.">			while(rs2.next()) {</span>
+<span class="fc" id="L39">					UpdatedUserDetails userDetails = new UpdatedUserDetails(new UsersDAO());</span>
+<span class="fc" id="L40">					userDetails.setAddress(rs2.getString(&quot;Address&quot;));</span>
+<span class="fc" id="L41">					userDetails.setDrivingLicenseExpiry(rs2.getString(&quot;DL_Expiry&quot;));</span>
+<span class="fc" id="L42">					userDetails.setBirthDate(rs2.getString(&quot;DOB&quot;));</span>
+<span class="fc" id="L43">					userDetails.setFirstName(rs2.getString(&quot;FirstName&quot;));</span>
+<span class="fc" id="L44">					userDetails.setMiddleName(rs2.getString(&quot;MiddleName&quot;));</span>
+<span class="fc" id="L45">					userDetails.setLastName(rs2.getString(&quot;LastName&quot;));</span>
+<span class="fc" id="L46">					userDetails.setSex(rs2.getString(&quot;Sex&quot;));</span>
+<span class="fc" id="L47">					userDetails.setEmail(rs2.getString(&quot;Email&quot;));</span>
+<span class="fc" id="L48">					userDetails.setPhone(rs2.getString(&quot;Phone&quot;));</span>
+<span class="fc" id="L49">					userDetails.setDrivingLicenseNo(rs2.getString(&quot;DL_Number&quot;));</span>
+<span class="fc" id="L50">					userDetails.setRegistrationNumber(rs2.getString(&quot;Reg_Number&quot;));</span>
+<span class="fc" id="L51">					userDetails.setUta_Id(rs2.getString(&quot;uta_id&quot;));</span>
+<span class="fc" id="L52">					userDetails.setUserID(rs2.getInt(&quot;User_Id&quot;));</span>
+<span class="fc" id="L53">					userDetails.setUserName(userName);</span>
+<span class="fc" id="L54">					userDetails.setOldusername(userName);</span>
+<span class="fc" id="L55">					userDetails.setPermitType(rs2.getString(&quot;PermitType&quot;));</span>
+<span class="fc" id="L56">					userDetails.setRole(rs2.getString(&quot;Role&quot;));</span>
+<span class="fc" id="L57">					userDetails.setConfirmPassword(&quot;&quot;);</span>
+<span class="fc" id="L58">					userDetails.setHashedPassword(&quot;&quot;);</span>
+<span class="fc" id="L59">					userListInDB.add(userDetails);</span>
+				}	
+
+<span class="pc" id="L62">		} catch (SQLException e) {</span>
+<span class="nc" id="L63">			e.printStackTrace();</span>
+		} finally {
+			try {
+<span class="fc" id="L66">				conn.close();</span>
+<span class="fc" id="L67">				stmt.close();</span>
+<span class="pc" id="L68">			} catch (SQLException e) {</span>
+<span class="nc" id="L69">				e.printStackTrace();</span>
+			}
+		}
+<span class="fc" id="L72">		return userListInDB;</span>
+	}
+	
+	public static boolean updateUser(UpdatedUserDetails userDetails){
+<span class="fc" id="L76">		Statement stmt = null;</span>
+<span class="fc" id="L77">		Connection conn = SQLConnection.getDBConnection();</span>
+<span class="fc" id="L78">		boolean isSuccessful = true;</span>
+		
+		try {
+<span class="fc" id="L81">			stmt = conn.createStatement();</span>
+<span class="fc" id="L82">			PreparedStatement pst = null;</span>
+<span class="fc" id="L83">			String sql =  &quot;UPDATE parking_management.user_details &quot; </span>
+					+ &quot;SET FirstName=?, MiddleName=?, LastName=?, Sex=?, DOB=?, Address=?, Email=?, Phone=?, DL_Number=?, DL_Expiry=?, Reg_Number=?, uta_Id =? &quot;
+					+ &quot;WHERE User_Id =?&quot;;
+<span class="fc" id="L86">			pst = conn.prepareStatement(sql);</span>
+<span class="fc" id="L87">			pst.setString(1, userDetails.getFirstName());</span>
+<span class="fc" id="L88">			pst.setString(2, userDetails.getMiddleName());</span>
+<span class="fc" id="L89">			pst.setString(3, userDetails.getLastName());</span>
+<span class="fc" id="L90">			pst.setString(4, userDetails.getSex());</span>
+<span class="fc" id="L91">			pst.setString(5, userDetails.getBirthDate());</span>
+<span class="fc" id="L92">			pst.setString(6, userDetails.getAddress());</span>
+<span class="fc" id="L93">			pst.setString(7, userDetails.getEmail());</span>
+<span class="fc" id="L94">			pst.setString(8, userDetails.getPhone());</span>
+<span class="fc" id="L95">			pst.setString(9, userDetails.getDrivingLicenseNo());</span>
+<span class="fc" id="L96">			pst.setString(10,  userDetails.getDrivingLicenseExpiry());</span>
+<span class="fc" id="L97">			pst.setString(11, userDetails.getRegistrationNumber());</span>
+<span class="fc" id="L98">			pst.setString(12, userDetails.getUta_Id());</span>
+<span class="fc" id="L99">			pst.setInt(13, userDetails.getUserID());</span>
+		
+<span class="fc" id="L101">			pst.executeUpdate();</span>
+<span class="fc" id="L102">			conn.commit();</span>
+<span class="fc" id="L103">			stmt.close();</span>
+			
+<span class="fc" id="L105">			stmt = conn.createStatement();</span>
+<span class="fc" id="L106">			pst = null;</span>
+			
+<span class="fc" id="L108">			String sql2 =  &quot;UPDATE parking_management.system_users &quot; </span>
+					+ &quot;SET UserName=?, HashedPassword=?, Role=?, PermitType=? &quot; 
+					+ &quot;WHERE User_Id=?&quot;;
+<span class="fc" id="L111">			pst = conn.prepareStatement(sql2);</span>
+<span class="fc" id="L112">			String mySecurePassword = &quot;&quot;;</span>
+<span class="fc" id="L113">			mySecurePassword = PasswordUtility.generatePassword(userDetails.getHashedPassword());</span>
+<span class="fc" id="L114">			pst.setString(1, userDetails.getUserName());</span>
+<span class="fc" id="L115">			pst.setString(2, mySecurePassword);</span>
+<span class="fc" id="L116">			pst.setString(3, userDetails.getRole());</span>
+<span class="fc" id="L117">			pst.setString(4, userDetails.getPermitType());</span>
+<span class="fc" id="L118">			pst.setInt(5, userDetails.getUserID());</span>
+<span class="fc" id="L119">			pst.executeUpdate();</span>
+<span class="fc" id="L120">			conn.commit();</span>
+			
+<span class="pc" id="L122">		} catch (SQLException e) {</span>
+<span class="nc" id="L123">			isSuccessful = false;</span>
+<span class="nc" id="L124">			e.printStackTrace();</span>
+		} finally {
+			try {
+<span class="fc" id="L127">				conn.close();</span>
+<span class="fc" id="L128">				stmt.close();</span>
+<span class="pc" id="L129">			} catch (SQLException e) {</span>
+<span class="nc" id="L130">				isSuccessful = false;</span>
+<span class="nc" id="L131">				e.printStackTrace();</span>
+			}
+		}
+		
+<span class="fc" id="L135">	return isSuccessful;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 29, 2019 5:46:49 AM)</div></body></html>

@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Reservation.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 29, 2019 5:46:49 AM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">model</a> &gt; <span class="el_source">Reservation.java</span></div><h1>Reservation.java</h1><pre class="source lang-java linenums">package model;
+
+import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+import org.joda.time.Minutes;
+
+import com.sun.istack.internal.logging.Logger;
+
+import data.*;
+
+<span class="fc" id="L21">public class Reservation implements Serializable {</span>
+
+<span class="fc" id="L23">	private static final Logger LOG = Logger.getLogger(Reservation.class.getName(), Reservation.class);</span>
+<span class="fc" id="L24">	private static final long serialVersionUID = 3L;</span>
+	private Integer ReservationID;
+	private Integer UserID;
+	private Integer SpotUID;
+	private String StartTime;
+	private String EndTime;
+	private Boolean NoShow;
+	private Boolean OverStay;
+	private Boolean Cart;
+	private Boolean Camera;
+	private Boolean History;
+	private Double Total;
+
+	public void makeReservation(Integer userID, Integer spotUID, String startTime, String endTime, Boolean noShow,
+			Boolean overStay, Boolean cart, Boolean camera, Boolean history, Double total) {
+<span class="fc" id="L39">		setUserID(userID);</span>
+<span class="fc" id="L40">		setSpotUID(spotUID);</span>
+<span class="fc" id="L41">		setStartTime(startTime);</span>
+<span class="fc" id="L42">		setEndTime(endTime);</span>
+<span class="fc" id="L43">		setNoShow(noShow);</span>
+<span class="fc" id="L44">		setOverStay(overStay);</span>
+<span class="fc" id="L45">		setCart(cart);</span>
+<span class="fc" id="L46">		setCamera(camera);</span>
+<span class="fc" id="L47">		setHistory(history);</span>
+<span class="fc" id="L48">		setTotal(total);</span>
+<span class="fc" id="L49">	}</span>
+
+	public Double getTotal() {
+<span class="fc" id="L52">		return Total;</span>
+	}
+
+	public void setTotal(Double total) {
+<span class="fc" id="L56">		Total = total;</span>
+<span class="fc" id="L57">	}</span>
+
+	public Integer getReservationID() {
+<span class="fc" id="L60">		return ReservationID;</span>
+	}
+
+	public void setReservationID(Integer reservationID) {
+<span class="fc" id="L64">		ReservationID = reservationID;</span>
+<span class="fc" id="L65">	}</span>
+
+	public Integer getUserID() {
+<span class="fc" id="L68">		return UserID;</span>
+	}
+
+	public void setUserID(Integer userID) {
+<span class="fc" id="L72">		UserID = userID;</span>
+<span class="fc" id="L73">	}</span>
+
+	public Integer getSpotUID() {
+<span class="fc" id="L76">		return SpotUID;</span>
+	}
+
+	public void setSpotUID(Integer spotUID) {
+<span class="fc" id="L80">		SpotUID = spotUID;</span>
+<span class="fc" id="L81">	}</span>
+
+	public String getStartTime() {
+<span class="fc" id="L84">		return StartTime;</span>
+	}
+
+	public void setStartTime(String startTime) {
+<span class="fc" id="L88">		StartTime = startTime;</span>
+<span class="fc" id="L89">	}</span>
+
+	public String getEndTime() {
+<span class="fc" id="L92">		return EndTime;</span>
+	}
+
+	public void setEndTime(String endTime) {
+<span class="fc" id="L96">		EndTime = endTime;</span>
+<span class="fc" id="L97">	}</span>
+
+	public Boolean getNoShow() {
+<span class="fc" id="L100">		return NoShow;</span>
+	}
+
+	public void setNoShow(Boolean noShow) {
+<span class="fc" id="L104">		NoShow = noShow;</span>
+<span class="fc" id="L105">	}</span>
+
+	public Boolean getOverStay() {
+<span class="fc" id="L108">		return OverStay;</span>
+	}
+
+	public void setOverStay(Boolean overStay) {
+<span class="fc" id="L112">		OverStay = overStay;</span>
+<span class="fc" id="L113">	}</span>
+
+	public Boolean getCart() {
+<span class="fc" id="L116">		return Cart;</span>
+	}
+
+	public void setCart(Boolean cart) {
+<span class="fc" id="L120">		Cart = cart;</span>
+<span class="fc" id="L121">	}</span>
+
+	public Boolean getCamera() {
+<span class="fc" id="L124">		return Camera;</span>
+	}
+
+	public void setCamera(Boolean camera) {
+<span class="fc" id="L128">		Camera = camera;</span>
+<span class="fc" id="L129">	}</span>
+
+	public Boolean getHistory() {
+<span class="fc" id="L132">		return History;</span>
+	}
+
+	public void setHistory(Boolean history) {
+<span class="fc" id="L136">		History = history;</span>
+<span class="fc" id="L137">	}</span>
+
+	public void validateDateTime(String startTime, String endTime, ReservationError resError) {
+
+		try {
+<span class="fc" id="L142">			SimpleDateFormat formatter = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);</span>
+<span class="fc bfc" id="L143" title="All 2 branches covered.">			if (startTime.isEmpty()) {</span>
+<span class="fc" id="L144">				resError.setStartTimeError(&quot;This field is required.&quot;);</span>
+<span class="fc" id="L145">			} else {</span>
+<span class="fc" id="L146">				Date startdate = formatter.parse(startTime);</span>
+<span class="fc" id="L147">				Date date = new Date();</span>
+
+<span class="fc bfc" id="L149" title="All 2 branches covered.">				if (startdate.before(date)) {</span>
+<span class="fc" id="L150">					resError.setStartTimeError(&quot;Start time cannot be before current time.&quot;);</span>
+<span class="fc" id="L151">				} else {</span>
+<span class="fc" id="L152">						resError.setStartTimeError(&quot;&quot;);	</span>
+				}
+			}
+<span class="fc bfc" id="L155" title="All 2 branches covered.">			if (endTime.isEmpty()) {</span>
+<span class="fc" id="L156">				resError.setEndTimeError(&quot;This field is required.&quot;);</span>
+<span class="fc" id="L157">			} else {</span>
+
+<span class="fc" id="L159">				Date enddate = formatter.parse(endTime);</span>
+<span class="fc" id="L160">				Date date = new Date();</span>
+
+<span class="fc bfc" id="L162" title="All 2 branches covered.">				if (enddate.before(date)) {</span>
+<span class="fc" id="L163">					resError.setEndTimeError(&quot;End time cannot be before current time.&quot;);</span>
+<span class="fc" id="L164">				} else {</span>
+<span class="fc" id="L165">					resError.setEndTimeError(&quot;&quot;);</span>
+				}
+
+			}
+<span class="fc bfc" id="L169" title="All 4 branches covered.">			if (!endTime.isEmpty() &amp;&amp; !startTime.isEmpty()) {</span>
+			
+				Date startdate;
+				Date enddate;
+				
+<span class="fc" id="L174">				startdate = formatter.parse(startTime);</span>
+<span class="fc" id="L175">				enddate = formatter.parse(endTime);</span>
+				
+<span class="fc" id="L177">		        DateTime start = new DateTime(startdate.getTime());</span>
+<span class="fc" id="L178">		        DateTime end = new DateTime(enddate.getTime());</span>
+
+<span class="fc" id="L180">				int minutes = Minutes.minutesBetween(start,end).getMinutes();</span>
+<span class="fc bfc" id="L181" title="All 2 branches covered.">				if (startdate.after(enddate)) {</span>
+<span class="fc" id="L182">					resError.setCompareError(&quot;Start time cannot be after end time.&quot;);</span>
+<span class="fc bfc" id="L183" title="All 2 branches covered.">				} else if (startdate.equals(enddate)) {</span>
+<span class="fc" id="L184">					resError.setCompareError(&quot;Start time and end time cannot be same.&quot;);</span>
+<span class="fc bfc" id="L185" title="All 2 branches covered.">				} else if (minutes &gt; 180) {</span>
+<span class="fc" id="L186">					resError.setCompareError(&quot;Reservation cannot be for more than 3 hours.&quot;);</span>
+				} 
+			}
+
+<span class="fc bfc" id="L190" title="All 4 branches covered.">			if (!resError.getCompareError().isEmpty() || !resError.getStartTimeError().isEmpty()</span>
+<span class="fc bfc" id="L191" title="All 2 branches covered.">					|| !resError.getEndTimeError().isEmpty())</span>
+<span class="fc" id="L192">				resError.setErrorMsg(&quot;There are time errors.&quot;);</span>
+			else
+<span class="fc" id="L194">				resError.setErrorMsg(&quot;&quot;);</span>
+<span class="fc" id="L195">		} catch (ParseException e) {</span>
+<span class="fc" id="L196">			LOG.info(&quot;ERROR: &quot;, e);</span>
+		}
+<span class="fc" id="L198">	}</span>
+
+	public boolean checkNormalHours(Date startdate, Date enddate) {
+<span class="fc" id="L201">		int startDay = startdate.getDay();</span>
+<span class="fc" id="L202">		int startHours = startdate.getHours();</span>
+<span class="fc" id="L203">		int endHours = enddate.getHours();</span>
+<span class="fc" id="L204">		boolean normalHours = true;</span>
+
+<span class="fc bfc" id="L206" title="All 2 branches covered.">		if (startDay == 6) {</span>
+			// Saturday
+<span class="fc bfc" id="L208" title="All 4 branches covered.">			if (startHours &lt; 8 || endHours &gt; 16) {</span>
+<span class="fc" id="L209">				normalHours = false;</span>
+			}
+<span class="fc bfc" id="L211" title="All 2 branches covered.">		} else if (startDay == 0) {</span>
+			// Sunday
+<span class="fc bfc" id="L213" title="All 4 branches covered.">			if (startHours &lt; 12 || endHours &gt; 16) {</span>
+<span class="fc" id="L214">				normalHours = false;</span>
+			}
+<span class="fc" id="L216">		} else {</span>
+			// Monday to Friday
+<span class="fc bfc" id="L218" title="All 4 branches covered.">			if (startHours &lt; 6 || endHours &gt; 19) {</span>
+<span class="fc" id="L219">				normalHours = false;</span>
+			}
+		}
+
+<span class="fc" id="L223">		return normalHours;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 29, 2019 5:46:49 AM)</div></body></html>

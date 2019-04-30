@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>SpotSearchController.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 29, 2019 5:46:49 AM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">controller</a> &gt; <span class="el_source">SpotSearchController.java</span></div><h1>SpotSearchController.java</h1><pre class="source lang-java linenums">package controller;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import data.FetchParkingSpotsDAO;
+import model.*;
+
+@WebServlet(&quot;/SpotSearchController&quot;)
+<span class="fc" id="L17">public class SpotSearchController extends HttpServlet {</span>
+	private static final long serialVersionUID = 1L;
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+<span class="fc" id="L22">		listAreas(request, response);	</span>
+<span class="fc" id="L23">	}</span>
+
+	private void listAreas(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+
+<span class="fc" id="L28">		ArrayList&lt;ParkingArea&gt; allAreas = FetchParkingSpotsDAO.getAllParkingAreas();</span>
+<span class="fc" id="L29">		request.setAttribute(&quot;Areas&quot;, allAreas);</span>
+<span class="fc" id="L30">		RequestDispatcher dispatcher = request.getRequestDispatcher(&quot;/SearchSpot.jsp&quot;);</span>
+<span class="fc" id="L31">        dispatcher.forward(request, response);</span>
+
+<span class="fc" id="L33">    }</span>
+	private void listFloorsForSelectedArea(HttpServletRequest request, HttpServletResponse response, Integer areaId) throws ServletException, IOException 
+	{
+
+<span class="fc" id="L37">		HttpSession session = request.getSession();</span>
+<span class="fc" id="L38">		ParkingArea selectedArea = FetchParkingSpotsDAO.getspecificParkingArea(areaId);</span>
+<span class="fc" id="L39">		Users user = (Users) session.getAttribute(&quot;User&quot;);</span>
+<span class="fc" id="L40">		ArrayList&lt;ParkingAreaFloors&gt; floorDetails = new ArrayList&lt;ParkingAreaFloors&gt;();</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">		if (user.getRole().equals(Role.ParkingManager.toString()))</span>
+<span class="fc" id="L42">			floorDetails = FetchParkingSpotsDAO.getFilteredFloorsbyParkingAreaId(areaId, &quot;Premium&quot;);</span>
+		else
+<span class="fc" id="L44">			floorDetails = FetchParkingSpotsDAO.getFloorsbyParkingAreaId(areaId, user.getPermitType());</span>
+<span class="fc" id="L45">		request.setAttribute(&quot;selectedArea&quot;, selectedArea);</span>
+<span class="fc" id="L46">		request.setAttribute(&quot;allFloors&quot;, floorDetails);</span>
+<span class="fc" id="L47">		RequestDispatcher dispatcher = request.getRequestDispatcher(&quot;/SearchSpot_Floor.jsp&quot;);</span>
+<span class="fc" id="L48">        dispatcher.forward(request, response);</span>
+
+<span class="fc" id="L50">    }</span>
+	private void listSpotsForSelectedFloor
+	(	
+			HttpServletRequest request, 
+			HttpServletResponse response, 
+			Integer areaId, 
+			Integer floorNumber, 
+			String permitType 
+	) throws ServletException, IOException 
+	{
+
+<span class="fc" id="L61">		ParkingArea selectedArea = FetchParkingSpotsDAO.getspecificParkingArea(areaId);</span>
+<span class="fc" id="L62">		ArrayList&lt;ParkingSpots&gt; spotsList = FetchParkingSpotsDAO.getSpotsByAreaFloorPermitFromDb(areaId, floorNumber, permitType);</span>
+<span class="fc" id="L63">		request.setAttribute(&quot;selectedArea&quot;, selectedArea);</span>
+<span class="fc" id="L64">		request.setAttribute(&quot;selectedFloorNumber&quot;, floorNumber);</span>
+<span class="fc" id="L65">		request.setAttribute(&quot;selectedPermitType&quot;, permitType);</span>
+<span class="fc" id="L66">		request.setAttribute(&quot;spotsList&quot;, spotsList);</span>
+<span class="fc" id="L67">		RequestDispatcher dispatcher = request.getRequestDispatcher(&quot;/SearchSpot_SelectSpot.jsp&quot;);</span>
+<span class="fc" id="L68">        dispatcher.forward(request, response);</span>
+
+<span class="fc" id="L70">    }</span>
+	@Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException 
+	{
+<span class="fc" id="L75">        String action = request.getParameter(&quot;action&quot;);</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">		if (action.equalsIgnoreCase(&quot;getSelectedArea&quot;) ) {  </span>
+<span class="fc" id="L77">			int areaId = Integer.parseInt(request.getParameter(&quot;areaDropDrown&quot;));</span>
+<span class="fc" id="L78">	        request.setAttribute(&quot;selectedAreaId&quot;, areaId);</span>
+<span class="fc" id="L79">	        listFloorsForSelectedArea(request, response, areaId);</span>
+<span class="fc" id="L80">		}</span>
+		
+<span class="fc bfc" id="L82" title="All 2 branches covered.">		else if (action.equalsIgnoreCase(&quot;getSpotsForFloor&quot;) ) {  </span>
+<span class="fc" id="L83">			int areaId = Integer.parseInt(request.getParameter(&quot;selectedAreaId&quot;));</span>
+<span class="fc" id="L84">			int selectedFloorNumber = Integer.parseInt(request.getParameter(&quot;selectedFloorNumber&quot;));</span>
+<span class="fc" id="L85">			String selectedPermitType = request.getParameter(&quot;selectedPermitType&quot;);</span>
+<span class="fc" id="L86">	        request.setAttribute(&quot;selectedAreaId&quot;, areaId);</span>
+<span class="fc" id="L87">	        listSpotsForSelectedFloor(request, response, areaId, selectedFloorNumber, selectedPermitType);</span>
+<span class="fc" id="L88">		}</span>
+		else
+		{
+<span class="fc" id="L91">			System.out.println(&quot;Do Nothing.&quot;);</span>
+		}		
+		
+		
+<span class="fc" id="L95">    }</span>
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 29, 2019 5:46:49 AM)</div></body></html>

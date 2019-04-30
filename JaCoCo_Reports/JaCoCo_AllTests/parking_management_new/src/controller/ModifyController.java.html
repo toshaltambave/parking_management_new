@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ModifyController.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 29, 2019 5:46:49 AM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">controller</a> &gt; <span class="el_source">ModifyController.java</span></div><h1>ModifyController.java</h1><pre class="source lang-java linenums">package controller;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import data.*;
+import model.*;
+
+@WebServlet(&quot;/ModifyController&quot;)
+<span class="fc" id="L17">public class ModifyController extends HttpServlet {</span>
+	
+	private static final long serialVersionUID = 1L;
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+<span class="fc" id="L22">        String action = request.getParameter(&quot;action&quot;);        </span>
+<span class="fc bfc" id="L23" title="All 2 branches covered.">        if(action.equalsIgnoreCase(&quot;setNoshow&quot;))</span>
+        {
+<span class="fc" id="L25">        	listNSReservations(request,response);</span>
+<span class="fc" id="L26">        }</span>
+<span class="fc bfc" id="L27" title="All 2 branches covered.">        else if (action.equalsIgnoreCase(&quot;viewReservations&quot;))</span>
+        {
+<span class="fc" id="L29">        	listUserReservations(request,response);</span>
+<span class="fc" id="L30">        }</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        else if (action.equalsIgnoreCase(&quot;viewNoShowViolation&quot;))</span>
+        {
+<span class="fc" id="L33">        	listUVReservations(request,response);</span>
+<span class="fc" id="L34">        }	</span>
+        else
+        {
+<span class="fc" id="L37">        	listODReservations(request,response);</span>
+        }
+        
+<span class="fc" id="L40">	}</span>
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException 
+	{
+<span class="fc" id="L45">    	int reservation_ID = Integer.parseInt(request.getParameter(&quot;reservationID&quot;));</span>
+<span class="fc" id="L46">    	String username = request.getParameter(&quot;selectedUsername&quot;);</span>
+<span class="fc" id="L47">    	Integer userId = UsersDAO.getUserIdbyUsername(username);</span>
+<span class="fc" id="L48">        String action = request.getParameter(&quot;action&quot;);</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">        if (action.equalsIgnoreCase(&quot;setNoshow&quot;)) </span>
+        { 
+<span class="fc" id="L51">        	Boolean Result = MakeReservationsDAO.SetNoShow(reservation_ID, userId);</span>
+<span class="fc" id="L52">        	request.setAttribute(&quot;isNoShow&quot;, Result);</span>
+<span class="fc" id="L53">        	listNSReservations(request, response);	</span>
+<span class="fc" id="L54">        }</span>
+        else
+        { 
+<span class="fc" id="L57">        	Boolean Result = MakeReservationsDAO.SetOverdue(reservation_ID, userId);</span>
+<span class="fc" id="L58">        	request.setAttribute(&quot;isOverDue&quot;, Result);</span>
+<span class="fc" id="L59">        	listODReservations(request, response);	</span>
+        }        
+<span class="fc" id="L61">    }</span>
+	
+	
+	private void listUserReservations(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+<span class="fc" id="L66">		HttpSession session = request.getSession();</span>
+<span class="fc" id="L67">			Users user = (Users)session.getAttribute(&quot;User&quot;);</span>
+<span class="fc" id="L68">			ArrayList&lt;ReservationsHelper&gt; allReservations = MakeReservationsDAO.GetReservationsByUserId(user.getUserID());</span>
+<span class="fc" id="L69">			request.setAttribute(&quot;allreservations&quot;, allReservations);</span>
+<span class="fc" id="L70">			RequestDispatcher dispatcher = request.getRequestDispatcher(&quot;/ReservationsByUserId.jsp&quot;);</span>
+<span class="fc" id="L71">            dispatcher.forward(request, response);</span>
+<span class="fc" id="L72">    }</span>
+	
+	private void listUVReservations(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+<span class="fc" id="L76">		java.util.Date dt = new java.util.Date();</span>
+
+<span class="fc" id="L78">		java.text.SimpleDateFormat sdf = </span>
+<span class="fc" id="L79">		     new java.text.SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);</span>
+
+<span class="fc" id="L81">		String currentTime = sdf.format(dt);</span>
+<span class="fc" id="L82">		HttpSession session = request.getSession();</span>
+<span class="fc" id="L83">			Users user = (Users)session.getAttribute(&quot;User&quot;);</span>
+<span class="fc" id="L84">			ArrayList&lt;ReservationsHelper&gt; allReservations = MakeReservationsDAO.GetReservationsViolations(currentTime,user.getUserID());</span>
+<span class="fc" id="L85">			Integer count=allReservations.size();</span>
+<span class="fc" id="L86">			request.setAttribute(&quot;allreservations&quot;, allReservations);</span>
+<span class="fc" id="L87">			request.setAttribute(&quot;count&quot;, count);</span>
+<span class="fc" id="L88">			RequestDispatcher dispatcher = request.getRequestDispatcher(&quot;/UserViolations.jsp&quot;);</span>
+<span class="fc" id="L89">            dispatcher.forward(request, response);</span>
+<span class="fc" id="L90">    }</span>
+	
+	private void listNSReservations(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+<span class="fc" id="L94">		java.util.Date dt = new java.util.Date();</span>
+
+<span class="fc" id="L96">		java.text.SimpleDateFormat sdf = </span>
+<span class="fc" id="L97">		     new java.text.SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);</span>
+
+<span class="fc" id="L99">		String currentTime = sdf.format(dt);</span>
+
+<span class="fc" id="L101">			ArrayList&lt;ReservationsHelper&gt; allReservations = MakeReservationsDAO.GetReservationsByReservationNoShow(currentTime);</span>
+<span class="fc" id="L102">			request.setAttribute(&quot;allreservations&quot;, allReservations);</span>
+<span class="fc" id="L103">			RequestDispatcher dispatcher = request.getRequestDispatcher(&quot;/SetNoShow.jsp&quot;);</span>
+<span class="fc" id="L104">            dispatcher.forward(request, response);</span>
+<span class="fc" id="L105">    }</span>
+	
+	
+	private void listODReservations(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+<span class="fc" id="L110">		java.util.Date dt = new java.util.Date();</span>
+
+<span class="fc" id="L112">		java.text.SimpleDateFormat sdf = </span>
+<span class="fc" id="L113">		     new java.text.SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);</span>
+
+<span class="fc" id="L115">		String currentTime = sdf.format(dt);</span>
+<span class="fc" id="L116">			ArrayList&lt;ReservationsHelper&gt; allReservations = MakeReservationsDAO.GetReservationsByReservationNoShow(currentTime);</span>
+<span class="fc" id="L117">			request.setAttribute(&quot;allreservations&quot;, allReservations);</span>
+<span class="fc" id="L118">			RequestDispatcher dispatcher = request.getRequestDispatcher(&quot;/SetOverDue.jsp&quot;);</span>
+<span class="fc" id="L119">            dispatcher.forward(request, response);</span>
+<span class="fc" id="L120">    }</span>
+	
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 29, 2019 5:46:49 AM)</div></body></html>

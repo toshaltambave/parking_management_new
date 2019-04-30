@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>SeleniumTC03.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 29, 2019 5:46:49 AM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">tests</a> &gt; <a href="index.source.html" class="el_package">selenium</a> &gt; <span class="el_source">SeleniumTC03.java</span></div><h1>SeleniumTC03.java</h1><pre class="source lang-java linenums">package selenium;
+
+import java.io.FileInputStream;
+import java.util.Properties;
+import java.util.concurrent.TimeUnit;
+import org.junit.*;
+import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
+
+import static org.junit.Assert.*;
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.Select;
+
+import functions.BusinessFunctions;
+import junitparams.FileParameters;
+import junitparams.JUnitParamsRunner;
+import model.Role;
+import test.Data.TestDAO;
+
+@RunWith(JUnitParamsRunner.class)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+<span class="fc" id="L24">public class SeleniumTC03 extends BusinessFunctions {</span>
+	private WebDriver driver;
+//	private boolean acceptNextAlert = true;
+<span class="fc" id="L27">	private StringBuffer verificationErrors = new StringBuffer();</span>
+<span class="fc" id="L28">	private BusinessFunctions functions = new BusinessFunctions();</span>
+
+	private String appUrl;
+	private String sharedUIMapPath;
+
+	@Before
+	public void setUp() throws Exception {
+		// Change to FireFoxDriver if using FireFox browser
+		//FireFox Driver
+<span class="fc" id="L37">		   System.setProperty(&quot;webdriver.firefox.marionette&quot;, &quot;C:\\GeckoSelenium\\geckodriver.exe&quot;);</span>
+<span class="fc" id="L38">		   driver = new FirefoxDriver();</span>
+//		System.setProperty(&quot;webdriver.chrome.driver&quot;, &quot;C:\\ChromeDriver\\chromedriver.exe&quot;);
+//		driver = new ChromeDriver();
+
+<span class="fc" id="L42">		prop = new Properties();</span>
+<span class="fc" id="L43">		prop.load(new FileInputStream(&quot;./Configuration/Configuration.properties&quot;));</span>
+<span class="fc" id="L44">		int timewait = (Integer.parseInt(prop.getProperty(&quot;wait_time&quot;)));</span>
+<span class="fc" id="L45">		driver.manage().timeouts().implicitlyWait(timewait, TimeUnit.SECONDS);</span>
+<span class="fc" id="L46">		appUrl = prop.getProperty(&quot;AppUrl&quot;);</span>
+<span class="fc" id="L47">		sharedUIMapPath = prop.getProperty(&quot;SharedUIMapPath&quot;);</span>
+<span class="fc" id="L48">		prop.load(new FileInputStream(sharedUIMapPath));</span>
+
+<span class="fc" id="L50">		driver.get(appUrl);</span>
+<span class="fc" id="L51">		driver.manage().window().setSize(new Dimension(1440,850));</span>
+<span class="fc" id="L52">	}</span>
+
+	/**
+	 * This Test all combinations of validation errors a user can see in the
+	 * login and registration screens.
+	 * 
+	 * @throws Exception
+	 */
+//	@Test
+//	@FileParameters(&quot;tests/Excel/RegisterFailures.csv&quot;)
+//	public void aAdminRegistration(String userName, String password, String confirmPassword, String role,
+//			String permitType, String exceptedErrorMsg, String expectedUsernameError, String expectedPasswordError,
+//			String expectedConfirmPaswordError) throws Exception {
+//		
+//		driver.findElement(By.id(prop.getProperty(&quot;Btn_Login_Register&quot;))).click();
+//		
+//		TestDAO.deleteUser(userName);
+////		if (&quot;Username is already in database&quot;.equals(expectedUsernameError) &amp;&amp; !TestDAO.userExists(userName)) {
+////				registerUser(userName, correctPassword,role,permitType,firstName,middleName,lastName,
+////						sex,dob,address,email,phoneNum,dlno,dlexpiry,regNum,utaId);
+////		}
+//		
+//		if (&quot;None&quot;.equals(userName)) {
+//			// Nothing entered - all errors present
+//			driver.findElement(By.id(prop.getProperty(&quot;Btn_Register_Register&quot;))).click();
+//		} else {
+//			// UserName all ready in DataBase
+//			functions.Register(driver, userName, password, confirmPassword, Role.Admin.toString(), permitType);
+//			if (&quot;Username is already in database&quot;.equals(expectedUsernameError)) {
+//				TestDAO.deleteUser(userName);
+//			}
+//		}
+//		assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_Login_CommonError&quot;))).getAttribute(&quot;value&quot;)
+//				.equals(exceptedErrorMsg));
+//		assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_Register_UsernameError&quot;))).getAttribute(&quot;value&quot;)
+//				.equals(expectedUsernameError));
+//		assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_Register_PasswordError&quot;))).getAttribute(&quot;value&quot;)
+//				.equals(expectedPasswordError));
+//		assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_Register_ConfirmPasswordError&quot;)))
+//				.getAttribute(&quot;value&quot;).equals(expectedConfirmPaswordError));
+//
+//	}
+//
+//	@Test
+//	@FileParameters(&quot;tests/Excel/UserDetailsFailures.csv&quot;)
+//	public void bAdminUserDetails(String firstName, String middleName, String lastName, String sex,
+//			String dob, String address, String email, String phoneNum, String dlNum, String expiryDate, String regNum,
+//			String utaId, String expectedErrorMsg, String expectedFirstNameError, String expectedMiddleNameError,
+//			String expectedLastNameError, String expectedDobError, String expectedAddressError,
+//			String expectedEmailError, String expectedPhoneNumError, String expectedDlNumError,
+//			String expectedDlExpiryError, String RegNumError, String utaIdError, String userName, String password, String confirmPassword, String role,
+//			String permitType) throws Exception {
+//		driver.findElement(By.id(prop.getProperty(&quot;Btn_Login_Register&quot;))).click();
+//		
+//		if (TestDAO.userExists(userName)) {
+//			TestDAO.deleteUser(userName);
+//		}
+//		
+//		functions.Register(driver, userName, password, confirmPassword, Role.Admin.toString(), permitType);
+//
+//
+//		if(&quot;None&quot;.equals(firstName)){
+//			 //Nothing Entered all errors present
+//			 driver.findElement(By.id(prop.getProperty(&quot;Btn_UserDetails_Submit&quot;))).click();
+//		}else{
+//			 functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dob, address, email, phoneNum, dlNum, expiryDate, regNum, utaId);
+//		}
+//		 assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_CommonError&quot;))).getAttribute(&quot;value&quot;).equals(expectedErrorMsg));
+//		 assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_FirstnameError&quot;))).getAttribute(&quot;value&quot;).equals(expectedFirstNameError));
+//		 assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_MiddlenameError&quot;))).getAttribute(&quot;value&quot;).equals(expectedMiddleNameError));
+//		 assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_LastnameError&quot;))).getAttribute(&quot;value&quot;).equals(expectedLastNameError));
+//		 assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_DOBError&quot;))).getAttribute(&quot;value&quot;).equals(expectedDobError));
+//		 assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_AddressError&quot;))).getAttribute(&quot;value&quot;).equals(expectedAddressError));
+//		 assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_EmailError&quot;))).getAttribute(&quot;value&quot;).equals(expectedEmailError));
+//		 assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_PhoneError&quot;))).getAttribute(&quot;value&quot;).equals(expectedPhoneNumError));
+//		 assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_DLNOError&quot;))).getAttribute(&quot;value&quot;).equals(expectedDlNumError));
+//		 assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_DLExpiryDteError&quot;))).getAttribute(&quot;value&quot;).equals(expectedDlExpiryError));
+//		 assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_REGNOError&quot;))).getAttribute(&quot;value&quot;).equals(RegNumError));
+//		 assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_UserDetails_UTAIDError&quot;))).getAttribute(&quot;value&quot;).equals(utaIdError));
+//
+//	}
+//	
+//	@Test
+//	@FileParameters(&quot;tests/Excel/RegisterLoginFailures.csv&quot;)
+//	public void cAdminLogin(String userName, String password, String expectedErrorMsg, String expectedUserNameError, String expectedPasswordError,String reguserName, String regpassword, String confirmPassword, String role,
+//			String permitType,String firstName, String middleName, String lastName, String sex,
+//			String dob, String address, String email, String phoneNum, String dlNum, String expiryDate, String regNum,
+//			String utaId){
+//		
+//		if (TestDAO.userExists(reguserName)) {
+//			TestDAO.deleteUser(reguserName);
+//		}
+//		driver.findElement(By.id(prop.getProperty(&quot;Btn_Login_Register&quot;))).click();
+//		
+//		functions.Register(driver, reguserName, regpassword, confirmPassword, Role.Admin.toString(), permitType);
+//		functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dob, address, email, phoneNum, dlNum, expiryDate, regNum, utaId);
+//		
+//		if(&quot;None&quot;.equals(userName)){
+//			functions.Login(driver, &quot;&quot;, &quot;&quot;);
+//		}else{
+//			functions.Login(driver, userName, password);
+//		}
+//		 assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_Login_CommonError&quot;))).getAttribute(&quot;value&quot;).equals(expectedErrorMsg));
+//		 assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_Login_UsernameError&quot;))).getAttribute(&quot;value&quot;).equals(expectedUserNameError));
+//		 assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_Login_UsernameError&quot;))).getAttribute(&quot;value&quot;).equals(expectedPasswordError));
+//		
+//	}
+	@Test
+	@FileParameters(&quot;tests/Excel/TC04Good.csv&quot;)
+	public void dAdminUpdateProfile(String userNameToUpdate, String userName, String updateUserName, String password,
+			String updatePassword, String confirmPassword, String updateConfirmPassword, String role, String permitType,
+			String updatePermitType, String firstName, String updateFirstName, String middleName,
+			String updateMiddleName, String lastName, String updateLastName, String sex, String updateSex, String dob,
+			String updateDob, String address, String updateAddress, String email, String updateEmail, String phoneNum,
+			String updatePhoneNum, String dlNum, String updateDlNum, String dlExpiry, String updateDlExpiry,
+			String regNum, String updateRegNum, String utaId, String updateUtaId) {
+<span class="fc" id="L168">		driver.get(appUrl);</span>
+<span class="pc bpc" id="L169" title="1 of 2 branches missed.">		assertTrue(!isElementPresent(driver, &quot;Txt_Register_Success&quot;));</span>
+<span class="fc" id="L170">		driver.findElement(By.id(prop.getProperty(&quot;Btn_Login_Register&quot;))).click();</span>
+<span class="pc bpc" id="L171" title="1 of 2 branches missed.">		if (TestDAO.userExists(userName)) {</span>
+<span class="fc" id="L172">			TestDAO.deleteUser(userName);</span>
+		}
+<span class="fc" id="L174">		functions.Register(driver, userName, password, confirmPassword, Role.Admin.toString(), permitType);</span>
+<span class="fc" id="L175">		functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dob, address, email, phoneNum,</span>
+<span class="fc" id="L176">				dlNum, dlExpiry, regNum, utaId);</span>
+<span class="fc" id="L177">		assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_Register_Success&quot;))).getText()</span>
+<span class="fc" id="L178">				.equals(&quot;Registered Successfully.&quot;));</span>
+<span class="fc" id="L179">		functions.Login(driver, userName, password);</span>
+<span class="fc" id="L180">		functions.UpdateUserProfile(driver, userNameToUpdate, updateFirstName, updateMiddleName, updateLastName,</span>
+<span class="fc" id="L181">				updateUserName, updateSex, updateDob, updateAddress, updateEmail, updatePhoneNum, updateDlNum,</span>
+<span class="fc" id="L182">				updateDlExpiry, updateRegNum, updateUtaId, updatePassword, updateConfirmPassword, updatePermitType);</span>
+<span class="fc" id="L183">		driver.findElement(By.id(prop.getProperty(&quot;Btn_User_Home_Page&quot;))).click();</span>
+<span class="fc" id="L184">		driver.findElement(By.id(prop.getProperty(&quot;Btn_User_Logout&quot;))).click();</span>
+
+<span class="fc" id="L186">	}</span>
+
+	@Test
+	@FileParameters(&quot;tests/Excel/AdminGoodTest.csv&quot;)
+	public void eAdminHappy(String userName, String password, String confirmPassword, String role,
+			String permitType, String firstName, String middleName, String lastName, String sex, String dayOfBirth,
+			String address, String email, String phoneNum, String dlNum, String dayOfExpiry, String regNum,
+			String utaId, String userToRevoke,String lastNameSearch,String userRoleChange,String chgRole,String comment,String userRevokePassword) throws Exception {
+<span class="fc" id="L194">		driver.get(appUrl);</span>
+<span class="pc bpc" id="L195" title="1 of 2 branches missed.">		assertTrue(!isElementPresent(driver, &quot;Txt_Register_Success&quot;));</span>
+<span class="fc" id="L196">		driver.findElement(By.id(prop.getProperty(&quot;Btn_Login_Register&quot;))).click();</span>
+<span class="pc bpc" id="L197" title="1 of 2 branches missed.">		if (TestDAO.userExists(userName)) {</span>
+<span class="fc" id="L198">			TestDAO.deleteUser(userName);</span>
+		}
+<span class="fc" id="L200">		functions.Register(driver, userName, password, confirmPassword, Role.Admin.toString(), permitType);</span>
+<span class="fc" id="L201">		functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dayOfBirth, address, email,</span>
+<span class="fc" id="L202">				phoneNum, dlNum, dayOfExpiry, regNum, utaId);</span>
+<span class="fc" id="L203">		assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_Register_Success&quot;))).getText()</span>
+<span class="fc" id="L204">				.equals(&quot;Registered Successfully.&quot;));</span>
+<span class="fc" id="L205">		functions.Login(driver, userName, password);</span>
+<span class="fc" id="L206">		functions.searchUser(driver);</span>
+<span class="fc" id="L207">		driver.findElement(By.id(prop.getProperty(&quot;Btn_User_Home_Page&quot;))).click();</span>
+<span class="fc" id="L208">		functions.searchUserbyUserName(driver, userToRevoke);</span>
+<span class="fc" id="L209">		driver.findElement(By.id(prop.getProperty(&quot;Btn_User_Home_Page&quot;))).click();</span>
+<span class="fc" id="L210">		functions.searchUserbyLastName(driver, lastNameSearch);</span>
+<span class="fc" id="L211">		driver.findElement(By.id(prop.getProperty(&quot;Btn_User_Home_Page&quot;))).click();</span>
+<span class="fc" id="L212">		functions.revokeUser(driver, userToRevoke,comment);</span>
+<span class="fc" id="L213">		driver.findElement(By.id(prop.getProperty(&quot;Btn_User_Home_Page&quot;))).click();</span>
+<span class="fc" id="L214">		driver.findElement(By.id(prop.getProperty(&quot;Btn_User_Logout&quot;))).click();</span>
+<span class="fc" id="L215">		functions.Login(driver, userToRevoke, userRevokePassword);</span>
+<span class="fc" id="L216">		driver.findElement(By.id(prop.getProperty(&quot;Btn_Reservation_Reserve&quot;))).click();</span>
+<span class="pc bpc" id="L217" title="1 of 2 branches missed.">		if (prop.getProperty(&quot;test_delay&quot;).equals(&quot;delay&quot;)) {</span>
+			try {
+<span class="fc" id="L219">				Thread.sleep((Integer.parseInt(prop.getProperty(&quot;thread_sleep&quot;))));</span>
+<span class="pc" id="L220">			} catch (NumberFormatException e) {</span>
+				// TODO Auto-generated catch block
+<span class="nc" id="L222">				e.printStackTrace();</span>
+<span class="nc" id="L223">			} catch (InterruptedException e) {</span>
+				// TODO Auto-generated catch block
+<span class="nc" id="L225">				e.printStackTrace();</span>
+			}
+		}
+<span class="fc" id="L228">		assertTrue(driver.findElement(By.id(prop.getProperty(&quot;Txt_Revoked&quot;))).getText().contains(&quot;Your Account has been revoked please contact manager, reason:&quot;));</span>
+<span class="fc" id="L229">		driver.findElement(By.id(prop.getProperty(&quot;Btn_User_Logout&quot;))).click();</span>
+<span class="fc" id="L230">		functions.Login(driver, userName, password);</span>
+<span class="fc" id="L231">		functions.unrevokeUser(driver, userToRevoke);</span>
+<span class="fc" id="L232">		driver.findElement(By.id(prop.getProperty(&quot;Btn_User_Home_Page&quot;))).click();</span>
+<span class="fc" id="L233">		functions.setRole(driver, userRoleChange, chgRole);</span>
+<span class="fc" id="L234">		driver.findElement(By.id(prop.getProperty(&quot;Btn_User_Home_Page&quot;))).click();</span>
+<span class="fc" id="L235">		driver.findElement(By.id(prop.getProperty(&quot;Btn_User_Logout&quot;))).click();</span>
+<span class="fc" id="L236">	}</span>
+	
+
+
+	@After
+	public void tearDown() throws Exception {
+<span class="fc" id="L242">		driver.quit();</span>
+<span class="fc" id="L243">		String verificationErrorString = verificationErrors.toString();</span>
+<span class="pc bpc" id="L244" title="1 of 2 branches missed.">		if (!&quot;&quot;.equals(verificationErrorString)) {</span>
+<span class="nc" id="L245">			fail(verificationErrorString);</span>
+		}
+<span class="fc" id="L247">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 29, 2019 5:46:49 AM)</div></body></html>

@@ -41,7 +41,7 @@ public class UsersController extends HttpServlet {
 //				searchuserdetails(request);
 //			} 
 //			else // redirect all other gets to post
-				doPost(request, response);
+//				doPost(request, response);
 //		}
 
 	}
@@ -70,15 +70,7 @@ public class UsersController extends HttpServlet {
 			{
 				listPermitTypes(request,response);
 				listRoles(request,response);
-			}
-			else
-			{
-				System.out.println("Do Nothing.");
 			}		
-		}
-		else
-		{
-			System.out.println("Do Nothing.");
 		}		
 		getServletContext().getRequestDispatcher(url).forward(request, response);
 	}
@@ -106,48 +98,26 @@ public class UsersController extends HttpServlet {
 	
 	protected void listSex(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		try 
-		{
-			ArrayList<Sex> listSex = new ArrayList<Sex>(Arrays.asList(Sex.values()));
-			request.setAttribute("allSex", listSex);
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			throw new ServletException(e);
-		}
+
+		ArrayList<Sex> listSex = new ArrayList<Sex>(Arrays.asList(Sex.values()));
+		request.setAttribute("allSex", listSex);
+
     }
 	
 	protected void listPermitTypes(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		try 
-		{
-			ArrayList<PermitType> listPermitTypes = new ArrayList<PermitType>(Arrays.asList(PermitType.values()));
-			request.setAttribute("allPermitTypes", listPermitTypes);
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			throw new ServletException(e);
-		}
+		ArrayList<PermitType> listPermitTypes = new ArrayList<PermitType>(Arrays.asList(PermitType.values()));
+		request.setAttribute("allPermitTypes", listPermitTypes);
     }
 	
 	protected void listRoles(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		try 
-		{
-			//request.getSession().invalidate();
-			ArrayList<Role> listRoles = new ArrayList<Role>(Arrays.asList(Role.values()));
-			request.setAttribute("allRoles", listRoles);
-			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/formRegistration.jsp");
-            dispatcher.forward(request, response);
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			throw new ServletException(e);
-		}
+		//request.getSession().invalidate();
+		ArrayList<Role> listRoles = new ArrayList<Role>(Arrays.asList(Role.values()));
+		request.setAttribute("allRoles", listRoles);
+	
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/formRegistration.jsp");
+        dispatcher.forward(request, response);
     }
 		
 
@@ -177,19 +147,15 @@ public class UsersController extends HttpServlet {
 		return url;
 	}
 
-	private String logout(HttpServletRequest request) {
+	private String logout(HttpServletRequest request) throws ServletException {
 		String url;
 		url = "/index.jsp";
-		try {
-			user = new Users(new UsersDAO());
-			request.logout();	
-			request.getSession().setAttribute("User", null);
-			request.getSession().invalidate();
-		}
-		catch (ServletException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+		user = new Users(new UsersDAO());
+		request.logout();	
+		request.getSession().setAttribute("User", null);
+		request.getSession().invalidate();
+
 		return url;
 	}
 
@@ -226,14 +192,6 @@ public class UsersController extends HttpServlet {
 				session.setAttribute("loginerrorMsgs", errorMsgs);
 				url = "/index.jsp";
 			}
-			else
-			{
-				System.out.println("Do Nothing.");
-			}		
-//			else
-//			{
-//				System.out.println("Login Failed.");
-//			}
 		}
 
 		return url;

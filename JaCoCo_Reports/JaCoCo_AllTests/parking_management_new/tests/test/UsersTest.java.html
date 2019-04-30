@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>UsersTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 29, 2019 5:46:49 AM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">tests</a> &gt; <a href="index.source.html" class="el_package">test</a> &gt; <span class="el_source">UsersTest.java</span></div><h1>UsersTest.java</h1><pre class="source lang-java linenums">package test;
+
+import static org.junit.Assert.*;
+
+import org.easymock.EasyMock;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import data.UsersDAO;
+import junitparams.FileParameters;
+import junitparams.JUnitParamsRunner;
+import model.Users;
+import model.UsersErrorMsgs;
+
+@RunWith(JUnitParamsRunner.class)
+<span class="fc" id="L17">public class UsersTest {</span>
+
+	private Users users;
+	private UsersErrorMsgs usersErrorMsgs;
+	private UsersErrorMsgs usersLoginErrorMsgs;
+	private UsersDAO mockUsersDAO;
+
+	@Before
+	public void setUp() throws Exception {
+<span class="fc" id="L26">		usersErrorMsgs = new UsersErrorMsgs();</span>
+<span class="fc" id="L27">		usersLoginErrorMsgs = new UsersErrorMsgs();</span>
+<span class="fc" id="L28">		mockUsersDAO = EasyMock.createMock(UsersDAO.class);</span>
+<span class="fc" id="L29">		users = new Users(mockUsersDAO);</span>
+<span class="fc" id="L30">	}</span>
+	
+	public Integer getisRevokedValue(Boolean isRevoked) {
+<span class="fc bfc" id="L33" title="All 2 branches covered.">		if (isRevoked)</span>
+<span class="fc" id="L34">			return 1;</span>
+		else
+<span class="fc" id="L36">			return 0;</span>
+
+	}
+
+	@Test
+	@FileParameters(&quot;tests/test/UsersTest.csv&quot;)
+	public void test(Integer userId, String action, String userName, String hashedPassword, String confirmPassword,
+			String role, String permitType, boolean isRevoked, boolean mockBoolean, String comment, String expectedErrorMsg,
+			String expectedUserNameError, String expectedHashPasswordError, String expectedConfirmPasswordError,
+			String expectedRoleError, String expectedPermitError, String expectedLoginErrorMsg,
+			String expectedLoginUserNameError, String expectedLoginPasswordError, String expectedCommentError) {
+
+<span class="fc" id="L48">		EasyMock.expect(mockUsersDAO.Usernameunique(userName)).andReturn(mockBoolean);</span>
+<span class="fc" id="L49">		EasyMock.replay(mockUsersDAO);</span>
+
+<span class="fc" id="L51">		users.setUserID(userId);</span>
+<span class="fc" id="L52">		users.setUser(userName, hashedPassword, confirmPassword, role, permitType, isRevoked,comment);</span>
+<span class="fc" id="L53">		users.validateLogin(action, users, usersErrorMsgs);</span>
+<span class="fc" id="L54">		users.validateUser(action, users, usersErrorMsgs);</span>
+<span class="fc" id="L55">		usersErrorMsgs.setCommentError(users.validateComment(comment));</span>
+
+<span class="fc" id="L57">		assertEquals(expectedErrorMsg, usersErrorMsgs.getErrorMsg());</span>
+<span class="fc" id="L58">		assertEquals(expectedUserNameError, usersErrorMsgs.getusernameError());</span>
+<span class="fc" id="L59">		assertEquals(expectedHashPasswordError, usersErrorMsgs.getpasswordError());</span>
+<span class="fc" id="L60">		assertEquals(expectedConfirmPasswordError, usersErrorMsgs.getconfirmpasswordError());</span>
+<span class="fc" id="L61">		assertEquals(expectedRoleError, usersErrorMsgs.getroleError());</span>
+<span class="fc" id="L62">		assertEquals(expectedPermitError, usersErrorMsgs.getpermitTypeError());</span>
+<span class="fc" id="L63">		assertEquals(getisRevokedValue(isRevoked), users.getisRevoked());</span>
+<span class="fc" id="L64">		assertEquals(expectedCommentError, usersErrorMsgs.getCommentError());</span>
+<span class="fc" id="L65">		assertEquals(users.getComment(), comment);</span>
+<span class="fc" id="L66">		assertEquals(userId, users.getUserID());</span>
+<span class="fc" id="L67">		assertEquals(comment, users.getComment());</span>
+
+<span class="fc" id="L69">		users.validateLogin(action, null, usersLoginErrorMsgs);</span>
+
+<span class="fc" id="L71">		assertEquals(expectedLoginErrorMsg, usersLoginErrorMsgs.getErrorMsg());</span>
+<span class="fc" id="L72">		assertEquals(expectedLoginUserNameError, usersLoginErrorMsgs.getusernameError());</span>
+<span class="fc" id="L73">		assertEquals(expectedLoginPasswordError, usersLoginErrorMsgs.getpasswordError());</span>
+<span class="fc" id="L74">	}</span>
+	
+	@Test
+	@FileParameters(&quot;tests/test/UsersDAOTest.csv&quot;)
+	public void DAOtest(String userName, String password){
+<span class="fc" id="L79">		UsersDAO dao = new UsersDAO();</span>
+<span class="fc" id="L80">		dao.Usernameunique(userName);</span>
+<span class="fc" id="L81">		dao.getUserIdbyUsername(userName);</span>
+<span class="fc" id="L82">		dao.insertUser(users);</span>
+<span class="fc" id="L83">		dao.userExists(userName, password, users);</span>
+<span class="fc" id="L84">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 29, 2019 5:46:49 AM)</div></body></html>

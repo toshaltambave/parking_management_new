@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>UserDetailsTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 29, 2019 5:46:49 AM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">tests</a> &gt; <a href="index.source.html" class="el_package">test</a> &gt; <span class="el_source">UserDetailsTest.java</span></div><h1>UserDetailsTest.java</h1><pre class="source lang-java linenums">package test;
+
+import static org.junit.Assert.*;
+
+import org.easymock.EasyMock;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import data.UserDetailsDAO;
+import data.UsersDAO;
+import junitparams.FileParameters;
+import junitparams.JUnitParamsRunner;
+import model.UserDetails;
+import model.UserDetailsErrorMsgs;
+
+@RunWith(JUnitParamsRunner.class)
+<span class="fc" id="L18">public class UserDetailsTest {</span>
+
+	private UserDetails userDetails;
+	private UserDetailsErrorMsgs userErrors;
+
+	@Before
+	public void setUp() throws Exception {
+<span class="fc" id="L25">		userDetails = new UserDetails();</span>
+<span class="fc" id="L26">		userErrors = new UserDetailsErrorMsgs();</span>
+<span class="fc" id="L27">	}</span>
+	
+	public String checkForNull(String attribute) {
+<span class="fc bfc" id="L30" title="All 2 branches covered.">		if (&quot;null&quot;.equals(attribute)) {</span>
+<span class="fc" id="L31">			return null;</span>
+		}
+<span class="fc" id="L33">		return attribute;</span>
+	}
+
+	@Test
+	@FileParameters(&quot;tests/test/UserDetailsTest.csv&quot;)
+	public void test(String action, String firstName, String middleName, String lastName, Integer userId, String userName, String sex, String dob,
+			String address, String email, String phone, String dlNumber, String dlExpiry, String regNumber,
+			String utaId, String expectedErrorMsg, String expectedFirstNameError, String expectedMiddleNameError,
+			String expectedLastNameError, String expectedDobError, String expectedAddressError,
+			String expectedEmailError, String expectedPhoneError, String expectedDlError, String expectedDlExpiryError,
+			String expectedRegNumberError, String expectedUtaIdError) {
+
+<span class="fc" id="L45">		userDetails.setUserDetails(checkForNull(firstName), checkForNull(middleName), checkForNull(lastName), checkForNull(sex), checkForNull(dob), checkForNull(address), checkForNull(email), checkForNull(phone), checkForNull(dlNumber), checkForNull(dlExpiry),</span>
+<span class="fc" id="L46">				checkForNull(regNumber), checkForNull(utaId));</span>
+<span class="fc" id="L47">		userDetails.setUserID(userId);</span>
+<span class="fc" id="L48">		userDetails.setUsername(userName);</span>
+<span class="fc" id="L49">		userDetails.validateUserDetails(action, userDetails, userErrors);</span>
+
+<span class="fc" id="L51">		assertEquals(expectedErrorMsg, userErrors.getErrorMsg());</span>
+<span class="fc" id="L52">		assertEquals(expectedFirstNameError, userErrors.getFirstNameError());</span>
+<span class="fc" id="L53">		assertEquals(expectedMiddleNameError, userErrors.getMiddleNameError());</span>
+<span class="fc" id="L54">		assertEquals(expectedLastNameError, userErrors.getLastNameError());</span>
+<span class="fc" id="L55">		assertEquals(expectedDobError, userErrors.getBirthDateError());</span>
+<span class="fc" id="L56">		assertEquals(expectedAddressError, userErrors.getAddressError());</span>
+<span class="fc" id="L57">		assertEquals(expectedEmailError, userErrors.getEmailError());</span>
+<span class="fc" id="L58">		assertEquals(expectedPhoneError, userErrors.getPhoneError());</span>
+<span class="fc" id="L59">		assertEquals(expectedDlError, userErrors.getDrivingLicenseError());</span>
+<span class="fc" id="L60">		assertEquals(expectedDlExpiryError, userErrors.getDrivingLicenseExpiry());</span>
+<span class="fc" id="L61">		assertEquals(expectedRegNumberError, userErrors.getRegNumberError());</span>
+<span class="fc" id="L62">		assertEquals(expectedUtaIdError, userErrors.getUtaIdError());</span>
+<span class="fc" id="L63">		assertEquals(userId, userDetails.getUserID());</span>
+<span class="fc" id="L64">		assertEquals(userName, userDetails.getUsername());</span>
+<span class="fc" id="L65">		assertEquals(sex, userDetails.getSex());</span>
+
+<span class="fc" id="L67">	}</span>
+	
+	@Test
+	@FileParameters(&quot;tests/test/UserDetailsDAOTest.csv&quot;)
+	public void DAOtest(String type, String value, String role, boolean isRevoked, String userName, String comment, String lastName){
+<span class="fc" id="L72">		UserDetailsDAO dao = new UserDetailsDAO();</span>
+<span class="fc" id="L73">		dao.changeRole(type, value, role);</span>
+<span class="fc" id="L74">		dao.getLastNames();</span>
+<span class="fc" id="L75">		dao.getUserNames();</span>
+<span class="fc" id="L76">		dao.insertUserDetails(userDetails);</span>
+<span class="fc" id="L77">		dao.ReturnUserID(userName);</span>
+<span class="fc" id="L78">		dao.revokeUser(type, value, isRevoked, comment);</span>
+<span class="fc" id="L79">		dao.searchByLastName(lastName);</span>
+<span class="fc" id="L80">		dao.searchByUsername(userName);</span>
+<span class="fc" id="L81">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 29, 2019 5:46:49 AM)</div></body></html>

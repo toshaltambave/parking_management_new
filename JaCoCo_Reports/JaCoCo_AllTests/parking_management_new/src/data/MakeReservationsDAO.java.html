@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>MakeReservationsDAO.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 29, 2019 5:46:49 AM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">data</a> &gt; <span class="el_source">MakeReservationsDAO.java</span></div><h1>MakeReservationsDAO.java</h1><pre class="source lang-java linenums">package data;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+import javax.servlet.http.HttpSession;
+
+import model.*;
+import util.SQLConnection;
+
+<span class="nc" id="L14">public class MakeReservationsDAO {</span>
+
+<span class="fc" id="L16">	static SQLConnection DBMgr = SQLConnection.getInstance();</span>
+
+	public static ArrayList&lt;ReservationsHelper&gt; GetReservationsByReservationDate(String current_date) {
+<span class="fc" id="L19">		ArrayList&lt;ReservationsHelper&gt; ReservationsByDate = new ArrayList&lt;ReservationsHelper&gt;();</span>
+<span class="fc" id="L20">		Statement stmt = null;</span>
+<span class="fc" id="L21">		Connection conn = SQLConnection.getDBConnection();</span>
+		try {
+<span class="fc" id="L23">			stmt = conn.createStatement();</span>
+<span class="fc" id="L24">			String queryString = &quot;SELECT r.Reservation_Id,s.UserName,s_u.LastName,p_a.Area_Name, p.Floor_Number,p.Spot_Id,r.Start_Time,r.End_Time, r.NoShow, r.OverStay &quot;</span>
+					+ &quot;from reservations as r &quot; + &quot;Inner join system_users as s on r.User_ID=s.User_ID &quot;
+					+ &quot;Inner join user_details as s_u on r.User_ID=s_u.User_ID &quot;
+					+ &quot;Inner join parking_spots as p on r.Spot_UID=p.Spot_UID &quot;
+					+ &quot;Inner join parking_area as p_a on p.Area_Id=p_a.Area_Id;&quot;;
+			// +&quot;where r.Start_Time &gt;=&quot;+current_date+&quot;;&quot;;
+<span class="fc" id="L30">			ResultSet reservationList = stmt.executeQuery(queryString);</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">			while (reservationList.next()) {</span>
+<span class="fc" id="L32">				ReservationsHelper reservation = new ReservationsHelper();</span>
+<span class="fc" id="L33">				reservation.setReservationID(reservationList.getInt(&quot;Reservation_Id&quot;));</span>
+<span class="fc" id="L34">				reservation.setUserName(reservationList.getString(&quot;UserName&quot;));</span>
+<span class="fc" id="L35">				reservation.setLastName(reservationList.getString(&quot;LastName&quot;));</span>
+<span class="fc" id="L36">				reservation.setAreaName(reservationList.getString(&quot;Area_Name&quot;));</span>
+<span class="fc" id="L37">				reservation.setFloor_Number(reservationList.getInt(&quot;Floor_Number&quot;));</span>
+<span class="fc" id="L38">				reservation.setSpot_Id(reservationList.getInt(&quot;Spot_Id&quot;));</span>
+<span class="fc" id="L39">				reservation.setStart_Time(reservationList.getString(&quot;Start_Time&quot;));</span>
+<span class="fc" id="L40">				reservation.setEnd_Time(reservationList.getString(&quot;End_Time&quot;));</span>
+<span class="fc" id="L41">				reservation.setisNoShow(reservationList.getInt(&quot;NoShow&quot;));</span>
+<span class="fc" id="L42">				reservation.setisOverDue(reservationList.getInt(&quot;OverStay&quot;));</span>
+<span class="fc" id="L43">				ReservationsByDate.add(reservation);</span>
+			}
+<span class="fc" id="L45">			conn.close();</span>
+<span class="fc" id="L46">			stmt.close();</span>
+<span class="pc" id="L47">		} catch (SQLException e) {</span>
+<span class="nc" id="L48">			e.printStackTrace();</span>
+		}
+<span class="fc" id="L50">		return ReservationsByDate;</span>
+	}
+
+	public static ArrayList&lt;ReservationsHelper&gt; GetReservationsByReservationNoShow(String current_date) {
+<span class="fc" id="L54">		ArrayList&lt;ReservationsHelper&gt; ReservationsNoShow = new ArrayList&lt;ReservationsHelper&gt;();</span>
+<span class="fc" id="L55">		Statement stmt = null;</span>
+<span class="fc" id="L56">		Connection conn = SQLConnection.getDBConnection();</span>
+		try {
+<span class="fc" id="L58">			stmt = conn.createStatement();</span>
+<span class="fc" id="L59">			String queryString = &quot;SELECT r.Reservation_Id,s.UserName,s_u.LastName,p_a.Area_Name, p.Floor_Number,p.Spot_Id,r.Start_Time,r.End_Time,r.NoShow,r.OverStay &quot;</span>
+					+ &quot;from reservations as r &quot; + &quot;Inner join system_users as s on r.User_ID=s.User_ID &quot;
+					+ &quot;Inner join user_details as s_u on r.User_ID=s_u.User_ID &quot;
+					+ &quot;Inner join parking_spots as p on r.Spot_UID=p.Spot_UID &quot;
+					+ &quot;Inner join parking_area as p_a on p.Area_Id=p_a.Area_Id;&quot;;
+<span class="fc" id="L64">			ResultSet reservationList = stmt.executeQuery(queryString);</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">			while (reservationList.next()) {</span>
+<span class="fc" id="L66">				ReservationsHelper reservation = new ReservationsHelper();</span>
+<span class="fc" id="L67">				reservation.setReservationID(reservationList.getInt(&quot;Reservation_Id&quot;));</span>
+<span class="fc" id="L68">				reservation.setUserName(reservationList.getString(&quot;UserName&quot;));</span>
+<span class="fc" id="L69">				reservation.setLastName(reservationList.getString(&quot;LastName&quot;));</span>
+<span class="fc" id="L70">				reservation.setAreaName(reservationList.getString(&quot;Area_Name&quot;));</span>
+<span class="fc" id="L71">				reservation.setFloor_Number(reservationList.getInt(&quot;Floor_Number&quot;));</span>
+<span class="fc" id="L72">				reservation.setSpot_Id(reservationList.getInt(&quot;Spot_Id&quot;));</span>
+<span class="fc" id="L73">				reservation.setStart_Time(reservationList.getString(&quot;Start_Time&quot;));</span>
+<span class="fc" id="L74">				reservation.setEnd_Time(reservationList.getString(&quot;End_Time&quot;));</span>
+<span class="fc" id="L75">				reservation.setisNoShow(reservationList.getInt(&quot;NoShow&quot;));</span>
+<span class="fc" id="L76">				reservation.setisOverDue(reservationList.getInt(&quot;OverStay&quot;));</span>
+<span class="fc" id="L77">				ReservationsNoShow.add(reservation);</span>
+			}
+<span class="fc" id="L79">			conn.close();</span>
+<span class="fc" id="L80">			stmt.close();</span>
+<span class="pc" id="L81">		} catch (SQLException e) {</span>
+<span class="nc" id="L82">			e.printStackTrace();</span>
+		}
+<span class="fc" id="L84">		return ReservationsNoShow;</span>
+	}
+
+	public static Boolean SetNoShow(Integer reservationID, Integer user_id) {
+<span class="fc" id="L88">		Statement stmt = null;</span>
+<span class="fc" id="L89">		Connection conn = SQLConnection.getDBConnection();</span>
+		try {
+
+<span class="fc" id="L92">			stmt = conn.createStatement();</span>
+<span class="fc" id="L93">			String fetchqueryString = &quot;select NoShow from reservations where Reservation_Id=&quot; + reservationID + &quot;;&quot;;</span>
+<span class="fc" id="L94">			ResultSet rs = stmt.executeQuery(fetchqueryString);</span>
+<span class="fc bfc" id="L95" title="All 2 branches covered.">			if (rs.next()) {</span>
+<span class="fc" id="L96">				int NoShow = rs.getInt(&quot;NoShow&quot;);</span>
+<span class="fc bfc" id="L97" title="All 2 branches covered.">				if (NoShow == 0) {</span>
+<span class="fc" id="L98">					NoShow = 1;</span>
+<span class="fc" id="L99">				} else {</span>
+<span class="fc" id="L100">					NoShow = 0;</span>
+				}
+<span class="fc" id="L102">				String queryString = &quot;update reservations set NoShow=&quot; + NoShow + &quot; where Reservation_Id=&quot;</span>
+<span class="fc" id="L103">						+ reservationID + &quot;;&quot;;</span>
+<span class="fc" id="L104">				stmt.executeUpdate(queryString);</span>
+<span class="fc" id="L105">				conn.commit();</span>
+<span class="fc" id="L106">				String queryString1 = &quot;select count(*) AS Count from reservations where reservations.User_Id=&quot; + user_id</span>
+<span class="fc" id="L107">						+ &quot; and reservations.NoShow=1&quot;;</span>
+<span class="fc" id="L108">				ResultSet count = stmt.executeQuery(queryString1);</span>
+<span class="fc" id="L109">				count.next();</span>
+<span class="fc" id="L110">				Integer totalCount = count.getInt(&quot;Count&quot;);</span>
+<span class="fc bfc" id="L111" title="All 2 branches covered.">				if (totalCount &gt; 2) {</span>
+<span class="fc" id="L112">					String queryString2 = &quot;Update System_users set isRevoked=1,comment=&quot; + &quot;'No Show Violation'&quot;</span>
+<span class="fc" id="L113">							+ &quot; where user_id=&quot; + user_id + &quot;;&quot;;</span>
+<span class="fc" id="L114">					stmt.executeUpdate(queryString2);</span>
+<span class="fc" id="L115">				} else {</span>
+<span class="fc" id="L116">					String queryString2 = &quot;Update System_users set isRevoked=0,comment=&quot; + &quot;''&quot; + &quot; where user_id=&quot;</span>
+<span class="fc" id="L117">							+ user_id + &quot;;&quot;;</span>
+<span class="fc" id="L118">					stmt.executeUpdate(queryString2);</span>
+				}
+<span class="fc" id="L120">				conn.commit();</span>
+<span class="fc" id="L121">			} else {</span>
+<span class="fc" id="L122">				System.out.println(&quot;Do Nothing.&quot;);</span>
+			}
+<span class="fc" id="L124">			conn.close();</span>
+<span class="fc" id="L125">			stmt.close();</span>
+<span class="pc" id="L126">		} catch (SQLException e) {</span>
+<span class="nc" id="L127">			e.printStackTrace();</span>
+<span class="nc" id="L128">			return false;</span>
+		}
+<span class="fc" id="L130">		return true;</span>
+	}
+
+	public static Boolean SetOverdue(Integer reservationID, Integer user_id) {
+<span class="fc" id="L134">		Statement stmt = null;</span>
+<span class="fc" id="L135">		Connection conn = SQLConnection.getDBConnection();</span>
+		try {
+<span class="fc" id="L137">			stmt = conn.createStatement();</span>
+<span class="fc" id="L138">			String fetchqueryString = &quot;select OverStay from reservations where Reservation_Id=&quot; + reservationID + &quot;;&quot;;</span>
+<span class="fc" id="L139">			ResultSet rs = stmt.executeQuery(fetchqueryString);</span>
+<span class="fc bfc" id="L140" title="All 2 branches covered.">			if (rs.next()) {</span>
+<span class="fc" id="L141">				int OverStay = rs.getInt(&quot;OverStay&quot;);</span>
+<span class="fc bfc" id="L142" title="All 2 branches covered.">				if (OverStay == 0) {</span>
+<span class="fc" id="L143">					OverStay = 1;</span>
+<span class="fc" id="L144">				} else {</span>
+<span class="fc" id="L145">					OverStay = 0;</span>
+				}
+<span class="fc" id="L147">				String queryString = &quot;update reservations set OverStay=&quot; + OverStay + &quot; where Reservation_Id=&quot;</span>
+<span class="fc" id="L148">						+ reservationID + &quot;;&quot;;</span>
+<span class="fc" id="L149">				stmt.executeUpdate(queryString);</span>
+<span class="fc" id="L150">				conn.commit();</span>
+<span class="fc" id="L151">				String queryString1 = &quot;select count(*) AS Count from reservations where reservations.User_Id=&quot; + user_id</span>
+<span class="fc" id="L152">						+ &quot; and reservations.OverStay=1&quot;;</span>
+<span class="fc" id="L153">				ResultSet count = stmt.executeQuery(queryString1);</span>
+<span class="fc" id="L154">				count.next();</span>
+<span class="fc" id="L155">				Integer totalCount = count.getInt(&quot;Count&quot;);</span>
+<span class="fc bfc" id="L156" title="All 2 branches covered.">				if (totalCount &gt; 0) {</span>
+<span class="fc" id="L157">					String queryString2 = &quot;Update System_users set isRevoked=1,comment=&quot; + &quot;'Overstayed'&quot;</span>
+<span class="fc" id="L158">							+ &quot;  where user_id=&quot; + user_id + &quot;;&quot;;</span>
+<span class="fc" id="L159">					stmt.executeUpdate(queryString2);</span>
+<span class="fc" id="L160">				} else {</span>
+<span class="fc" id="L161">					String queryString2 = &quot;Update System_users set isRevoked=0,comment=&quot; + &quot;''&quot; + &quot;  where user_id=&quot;</span>
+<span class="fc" id="L162">							+ user_id + &quot;;&quot;;</span>
+<span class="fc" id="L163">					stmt.executeUpdate(queryString2);</span>
+				}
+<span class="fc" id="L165">				conn.commit();</span>
+<span class="fc" id="L166">			} else {</span>
+<span class="fc" id="L167">				System.out.println(&quot;Do Nothing.&quot;);</span>
+			}
+<span class="fc" id="L169">			conn.close();</span>
+<span class="fc" id="L170">			stmt.close();</span>
+<span class="pc" id="L171">		} catch (SQLException e) {</span>
+<span class="nc" id="L172">			e.printStackTrace();</span>
+<span class="nc" id="L173">			return false;</span>
+		}
+<span class="fc" id="L175">		return true;</span>
+	}
+
+	public static Boolean CheckRevoked(Integer user_id) {
+<span class="fc" id="L179">		Statement stmt = null;</span>
+<span class="fc" id="L180">		Connection conn = SQLConnection.getDBConnection();</span>
+		try {
+<span class="fc" id="L182">			stmt = conn.createStatement();</span>
+<span class="fc" id="L183">			String queryString = &quot;select IsRevoked AS Count from system_users where User_Id =&quot; + user_id + &quot;;&quot;;</span>
+<span class="fc" id="L184">			ResultSet count = stmt.executeQuery(queryString);</span>
+<span class="fc" id="L185">			count.next();</span>
+<span class="fc" id="L186">			Integer isRevoked = count.getInt(&quot;Count&quot;);</span>
+<span class="fc bfc" id="L187" title="All 2 branches covered.">			if (isRevoked == 0) {</span>
+<span class="fc" id="L188">				conn.close();</span>
+<span class="fc" id="L189">				stmt.close();</span>
+<span class="fc" id="L190">				return false;</span>
+			} else {
+<span class="fc" id="L192">				conn.close();</span>
+<span class="fc" id="L193">				stmt.close();</span>
+<span class="fc" id="L194">				return true;</span>
+			}
+<span class="fc" id="L196">		} catch (SQLException e) {</span>
+<span class="fc" id="L197">			e.printStackTrace();</span>
+<span class="fc" id="L198">			return false;</span>
+
+		}
+	}
+
+	public static ArrayList&lt;ReservationsHelper&gt; GetReservationsByUserId(Integer user_id) {
+<span class="fc" id="L204">		ArrayList&lt;ReservationsHelper&gt; ReservationsById = new ArrayList&lt;ReservationsHelper&gt;();</span>
+<span class="fc" id="L205">		Statement stmt = null;</span>
+<span class="fc" id="L206">		Connection conn = SQLConnection.getDBConnection();</span>
+		try {
+<span class="fc" id="L208">			stmt = conn.createStatement();</span>
+<span class="fc" id="L209">			String queryString = &quot;SELECT r.Reservation_Id,s.UserName,s_u.LastName,p_a.Area_Name, p.Floor_Number,p.Spot_Id,r.Start_Time,r.End_Time,r.NoShow,r.OverStay &quot;</span>
+					+ &quot;from reservations as r &quot; + &quot;Inner join system_users as s on r.User_ID=s.User_ID &quot;
+					+ &quot;Inner join user_details as s_u on r.User_ID=s_u.User_ID &quot;
+					+ &quot;Inner join parking_spots as p on r.Spot_UID=p.Spot_UID &quot;
+<span class="fc" id="L213">					+ &quot;Inner join parking_area as p_a on p.Area_Id=p_a.Area_Id &quot; + &quot;where s.User_Id =&quot; + user_id + &quot;;&quot;;</span>
+<span class="fc" id="L214">			ResultSet reservationList = stmt.executeQuery(queryString);</span>
+<span class="fc bfc" id="L215" title="All 2 branches covered.">			while (reservationList.next()) {</span>
+<span class="fc" id="L216">				ReservationsHelper reservation = new ReservationsHelper();</span>
+<span class="fc" id="L217">				reservation.setReservationID(reservationList.getInt(&quot;Reservation_Id&quot;));</span>
+<span class="fc" id="L218">				reservation.setUserName(reservationList.getString(&quot;UserName&quot;));</span>
+<span class="fc" id="L219">				reservation.setLastName(reservationList.getString(&quot;LastName&quot;));</span>
+<span class="fc" id="L220">				reservation.setAreaName(reservationList.getString(&quot;Area_Name&quot;));</span>
+<span class="fc" id="L221">				reservation.setFloor_Number(reservationList.getInt(&quot;Floor_Number&quot;));</span>
+<span class="fc" id="L222">				reservation.setSpot_Id(reservationList.getInt(&quot;Spot_Id&quot;));</span>
+<span class="fc" id="L223">				reservation.setStart_Time(reservationList.getString(&quot;Start_Time&quot;));</span>
+<span class="fc" id="L224">				reservation.setEnd_Time(reservationList.getString(&quot;End_Time&quot;));</span>
+<span class="fc" id="L225">				reservation.setisNoShow(reservationList.getInt(&quot;NoShow&quot;));</span>
+<span class="fc" id="L226">				reservation.setisOverDue(reservationList.getInt(&quot;OverStay&quot;));</span>
+<span class="fc" id="L227">				ReservationsById.add(reservation);</span>
+
+			}
+<span class="fc" id="L230">			conn.close();</span>
+<span class="fc" id="L231">			stmt.close();</span>
+<span class="pc" id="L232">		} catch (SQLException e) {</span>
+<span class="nc" id="L233">			e.printStackTrace();</span>
+		}
+<span class="fc" id="L235">		return ReservationsById;</span>
+	}
+
+	public static ArrayList&lt;ReservationsHelper&gt; GetReservationsViolations(String current_date, Integer user_id) {
+<span class="fc" id="L239">		ArrayList&lt;ReservationsHelper&gt; ReservationsViolations = new ArrayList&lt;ReservationsHelper&gt;();</span>
+<span class="fc" id="L240">		Statement stmt = null;</span>
+<span class="fc" id="L241">		Connection conn = SQLConnection.getDBConnection();</span>
+		try {
+<span class="fc" id="L243">			stmt = conn.createStatement();</span>
+<span class="fc" id="L244">			String queryString = &quot;SELECT r.Reservation_Id,s.UserName,s_u.LastName,p_a.Area_Name, p.Floor_Number,p.Spot_Id,r.Start_Time,r.End_Time,r.NoShow,r.OverStay &quot;</span>
+					+ &quot;from reservations as r &quot; + &quot;Inner join system_users as s on r.User_ID=s.User_ID &quot;
+					+ &quot;Inner join user_details as s_u on r.User_ID=s_u.User_ID &quot;
+					+ &quot;Inner join parking_spots as p on r.Spot_UID=p.Spot_UID &quot;
+<span class="fc" id="L248">					+ &quot;Inner join parking_area as p_a on p.Area_Id=p_a.Area_Id &quot; + &quot;where r.End_Time &lt;='&quot; + current_date</span>
+<span class="fc" id="L249">					+ &quot;' &quot; + &quot;And (r.NoShow=1 or r.OverStay=1) &quot; + &quot;And s.User_Id=&quot; + user_id + &quot;;&quot;;</span>
+<span class="fc" id="L250">			ResultSet reservationList = stmt.executeQuery(queryString);</span>
+<span class="fc bfc" id="L251" title="All 2 branches covered.">			while (reservationList.next()) {</span>
+<span class="fc" id="L252">				ReservationsHelper reservation = new ReservationsHelper();</span>
+<span class="fc" id="L253">				reservation.setReservationID(reservationList.getInt(&quot;Reservation_Id&quot;));</span>
+<span class="fc" id="L254">				reservation.setUserName(reservationList.getString(&quot;UserName&quot;));</span>
+<span class="fc" id="L255">				reservation.setLastName(reservationList.getString(&quot;LastName&quot;));</span>
+<span class="fc" id="L256">				reservation.setAreaName(reservationList.getString(&quot;Area_Name&quot;));</span>
+<span class="fc" id="L257">				reservation.setFloor_Number(reservationList.getInt(&quot;Floor_Number&quot;));</span>
+<span class="fc" id="L258">				reservation.setSpot_Id(reservationList.getInt(&quot;Spot_Id&quot;));</span>
+<span class="fc" id="L259">				reservation.setStart_Time(reservationList.getString(&quot;Start_Time&quot;));</span>
+<span class="fc" id="L260">				reservation.setEnd_Time(reservationList.getString(&quot;End_Time&quot;));</span>
+<span class="fc" id="L261">				reservation.setisNoShow(reservationList.getInt(&quot;NoShow&quot;));</span>
+<span class="fc" id="L262">				reservation.setisOverDue(reservationList.getInt(&quot;OverStay&quot;));</span>
+<span class="fc" id="L263">				ReservationsViolations.add(reservation);</span>
+
+			}
+<span class="fc" id="L266">			conn.close();</span>
+<span class="fc" id="L267">			stmt.close();</span>
+<span class="pc" id="L268">		} catch (SQLException e) {</span>
+<span class="nc" id="L269">			e.printStackTrace();</span>
+		}
+<span class="fc" id="L271">		return ReservationsViolations;</span>
+	}
+
+	public static Integer CountReservationsInDay(Integer user_id) {
+<span class="fc" id="L275">		Statement stmt = null;</span>
+<span class="fc" id="L276">		Connection conn = SQLConnection.getDBConnection();</span>
+<span class="fc" id="L277">		Integer totalCount = 0;</span>
+		try {
+<span class="fc" id="L279">			stmt = conn.createStatement();</span>
+<span class="fc" id="L280">			java.util.Date dt = new java.util.Date();</span>
+<span class="fc" id="L281">			java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(&quot;yyyy-MM-dd&quot;);</span>
+<span class="fc" id="L282">			String currentTime = sdf.format(dt);</span>
+<span class="fc" id="L283">			String queryString = &quot;select count(*) as Count &quot; + &quot;from reservations &quot; + &quot;where Start_Time&gt;='&quot;</span>
+<span class="fc" id="L284">					+ currentTime + &quot;%' &quot; + &quot;and User_Id=&quot; + user_id + &quot;;&quot;;</span>
+<span class="fc" id="L285">			ResultSet count = stmt.executeQuery(queryString);</span>
+<span class="fc" id="L286">			count.next();</span>
+<span class="fc" id="L287">			totalCount = count.getInt(&quot;Count&quot;);</span>
+
+<span class="fc" id="L289">			conn.close();</span>
+<span class="fc" id="L290">			stmt.close();</span>
+<span class="pc" id="L291">		} catch (SQLException e) {</span>
+<span class="nc" id="L292">			e.printStackTrace();</span>
+		}
+<span class="fc" id="L294">		return totalCount;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 29, 2019 5:46:49 AM)</div></body></html>

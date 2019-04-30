@@ -14,8 +14,8 @@ import util.SQLConnection;
 public class ReservationsDAO {
 static SQLConnection DBMgr = SQLConnection.getInstance();
 	
-	public static ArrayList<ParkingAreaFloors> getFloorSpotsCountByTime (Integer area_id, String start_time, String end_time) {
-
+	public static ArrayList<ParkingAreaFloors> getFloorSpotsCountByTime (Integer area_id, String start_time, String end_time) 
+	{
 		ArrayList<ParkingAreaFloors> parkingAreasFloorsUpdatedCount = new ArrayList<ParkingAreaFloors>();
 		
 			Statement stmt = null;
@@ -41,16 +41,11 @@ static SQLConnection DBMgr = SQLConnection.getInstance();
 				floorWithUpdatedCount.setNo_Spots(floorList.getInt("AvailableSpots"));
 				parkingAreasFloorsUpdatedCount.add(floorWithUpdatedCount);					
 			}
+			conn.close();
+			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				conn.close();
-				stmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			};
-		}
+		} 
 		return parkingAreasFloorsUpdatedCount;
 	}
 
@@ -93,7 +88,7 @@ static SQLConnection DBMgr = SQLConnection.getInstance();
 					System.out.println("Do Nothing.");
 				}		
 			}
-			else if(permitType.equalsIgnoreCase("basic")){
+			else{
 				if(currentFloor.getPermitType().equalsIgnoreCase("basic"))
 				{
 					filteredFloors.add(currentFloor);
@@ -102,12 +97,7 @@ static SQLConnection DBMgr = SQLConnection.getInstance();
 				{
 					System.out.println("Do Nothing.");
 				}		
-			}
-			else
-			{
-				System.out.println("Do Nothing.");
-			}		
-			
+			}				
 		}
 		return filteredFloors;
 	}
@@ -147,23 +137,19 @@ static SQLConnection DBMgr = SQLConnection.getInstance();
 				spot.setSpot_UID(spotsList.getInt("Spot_UID"));
 				parkingSpotsInDb.add(spot);					
 			}
+			conn.close();
+			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				conn.close();
-				stmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			};
-		}
+		} 
 		return parkingSpotsInDb;
 	}
 
 	public static Boolean StoreReservationsInDB (Reservation reservations) {
 		Statement stmt = null;
 		Connection conn = SQLConnection.getDBConnection();  
-		try {
+		try 
+		{
 			stmt = conn.createStatement();
 			String insertReservation = "INSERT INTO reservations (User_Id, Spot_UID,Start_Time,End_Time,NoShow,OverStay,Cart,Camera,Total, History) VALUES ('"  
 					+ reservations.getUserID()  + "','"
@@ -177,19 +163,14 @@ static SQLConnection DBMgr = SQLConnection.getInstance();
 					+ reservations.getTotal() + "','"
 					+ convertBoolToInt(reservations.getHistory()) + "'" + ')';
 			stmt.executeUpdate(insertReservation);	
-			conn.commit(); 
+			conn.commit();
+			conn.close();
+			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
-		} finally {
-			try {
-				conn.close();
-				stmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-				return false;
-			}};
-			return true;
+		}
+		return true;
 	}
 	
 	public static Boolean deleteReservationbyResId(Integer resId){
@@ -200,138 +181,14 @@ static SQLConnection DBMgr = SQLConnection.getInstance();
 			String delete = "Delete from parking_management.reservations Where Reservation_id ="+resId+";";
 			stmt.executeUpdate(delete);	
 			conn.commit(); 
+			conn.close();
+			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
-		} finally {
-			try {
-				conn.close();
-				stmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}}
+		}
 		return true;
 	}
-	
-//	public static ArrayList<ReservationsHelper> GetReservationsByName (String firstName, String lastName) {
-//		ArrayList<ReservationsHelper> ReservationsByName = new ArrayList<ReservationsHelper>();
-//		Statement stmt = null;
-//		Connection conn = SQLConnection.getDBConnection();
-//		try{
-//			stmt=conn.createStatement();
-//			String queryString="SELECT r.Reservation_Id,s.UserName,s_u.LastName,p_a.Area_Name, p.Floor_Number,p.Spot_Id,r.Start_Time,r.End_Time"
-//							+"from reservations as r"
-//							+"Inner join system_users as s on r.User_ID=s.User_ID"
-//							+"Inner join user_details as s_u on r.User_ID=s_u.User_ID"
-//							+"Inner join parking_spots as p on r.Spot_UID=p.Spot_UID"
-//							+"Inner join parking_area as p_a on p.Area_Id=p_a.Area_Id"
-//							+"where s_u.FirstName="+firstName+"and s_u.LastName="+lastName+";";
-//			ResultSet reservationList = stmt.executeQuery(queryString);
-//			while (reservationList.next()) {
-//				ReservationsHelper reservation = new ReservationsHelper();
-//				reservation.setReservationID(reservationList.getInt("Reservavtion_Id"));
-//				reservation.setUserName(reservationList.getString("UserName"));
-//				reservation.setLastName(reservationList.getString("LastName"));
-//				reservation.setAreaName(reservationList.getString("Area_Name"));
-//				reservation.setFloor_Number(reservationList.getInt("Floor_Number"));
-//				reservation.setSpot_Id(reservationList.getInt("Spot_Id"));
-//				reservation.setStart_Time(reservationList.getString("Start_Time"));
-//				reservation.setEnd_Time(reservationList.getString("End_Time"));
-//				ReservationsByName.add(reservation);	
-//			
-//			}
-//		}catch (SQLException e) {
-//			e.printStackTrace();
-//		} finally {
-//			try {
-//				conn.close();
-//				stmt.close();
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		return ReservationsByName;
-//	}
-//	
-//	public static ArrayList<ReservationsHelper> GetReservationsByReservationId (Integer reservation_Id) {
-//		ArrayList<ReservationsHelper> ReservationsById = new ArrayList<ReservationsHelper>();
-//		Statement stmt = null;
-//		Connection conn = SQLConnection.getDBConnection();
-//		try{
-//			stmt=conn.createStatement();
-//			String queryString="SELECT r.Reservation_Id,s.UserName,s_u.LastName,p_a.Area_Name, p.Floor_Number,p.Spot_Id,r.Start_Time,r.End_Time"
-//							+"from reservations as r"
-//							+"Inner join system_users as s on r.User_ID=s.User_ID"
-//							+"Inner join user_details as s_u on r.User_ID=s_u.User_ID"
-//							+"Inner join parking_spots as p on r.Spot_UID=p.Spot_UID"
-//							+"Inner join parking_area as p_a on p.Area_Id=p_a.Area_Id"
-//							+"where r.Reservation_Id="+reservation_Id+";";
-//			ResultSet reservationList = stmt.executeQuery(queryString);
-//			while (reservationList.next()) {
-//				ReservationsHelper reservation = new ReservationsHelper();
-//				reservation.setReservationID(reservationList.getInt("Reservavtion_Id"));
-//				reservation.setUserName(reservationList.getString("UserName"));
-//				reservation.setLastName(reservationList.getString("LastName"));
-//				reservation.setAreaName(reservationList.getString("Area_Name"));
-//				reservation.setFloor_Number(reservationList.getInt("Floor_Number"));
-//				reservation.setSpot_Id(reservationList.getInt("Spot_Id"));
-//				reservation.setStart_Time(reservationList.getString("Start_Time"));
-//				reservation.setEnd_Time(reservationList.getString("End_Time"));
-//				ReservationsById.add(reservation);	
-//			
-//			}
-//		}catch (SQLException e) {
-//			e.printStackTrace();
-//		} finally {
-//			try {
-//				conn.close();
-//				stmt.close();
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		return ReservationsById;
-//	}
-//	
-//	public static ArrayList<ReservationsHelper> GetReservationsByReservationDate (String current_date) {
-//		ArrayList<ReservationsHelper> ReservationsByDate = new ArrayList<ReservationsHelper>();
-//		Statement stmt = null;
-//		Connection conn = SQLConnection.getDBConnection();
-//		try{
-//			stmt=conn.createStatement();
-//			String queryString="SELECT r.Reservation_Id,s.UserName,s_u.LastName,p_a.Area_Name, p.Floor_Number,p.Spot_Id,r.Start_Time,r.End_Time"
-//							+"from reservations as r"
-//							+"Inner join system_users as s on r.User_ID=s.User_ID"
-//							+"Inner join user_details as s_u on r.User_ID=s_u.User_ID"
-//							+"Inner join parking_spots as p on r.Spot_UID=p.Spot_UID"
-//							+"Inner join parking_area as p_a on p.Area_Id=p_a.Area_Id"
-//							+"where r.Start_Time >="+current_date+";";
-//			ResultSet reservationList = stmt.executeQuery(queryString);
-//			while (reservationList.next()) {
-//				ReservationsHelper reservation = new ReservationsHelper();
-//				reservation.setReservationID(reservationList.getInt("Reservavtion_Id"));
-//				reservation.setUserName(reservationList.getString("UserName"));
-//				reservation.setLastName(reservationList.getString("LastName"));
-//				reservation.setAreaName(reservationList.getString("Area_Name"));
-//				reservation.setFloor_Number(reservationList.getInt("Floor_Number"));
-//				reservation.setSpot_Id(reservationList.getInt("Spot_Id"));
-//				reservation.setStart_Time(reservationList.getString("Start_Time"));
-//				reservation.setEnd_Time(reservationList.getString("End_Time"));
-//				ReservationsByDate.add(reservation);
-//			
-//			}
-//		}catch (SQLException e) {
-//			e.printStackTrace();
-//		} finally {
-//			try {
-//				conn.close();
-//				stmt.close();
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		return ReservationsByDate;
-//	}
 	
 	public static Integer convertBoolToInt(Boolean actual){
 		if(actual == true){
@@ -342,4 +199,3 @@ static SQLConnection DBMgr = SQLConnection.getInstance();
 	}
 	
 }
-

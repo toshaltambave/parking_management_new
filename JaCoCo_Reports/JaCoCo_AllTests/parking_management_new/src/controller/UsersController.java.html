@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>UsersController.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 29, 2019 5:46:49 AM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">controller</a> &gt; <span class="el_source">UsersController.java</span></div><h1>UsersController.java</h1><pre class="source lang-java linenums">package controller;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import data.*;
+import model.*;
+import util.PasswordUtility;
+
+@WebServlet(&quot;/UsersController&quot;)
+<span class="fc" id="L21">public class UsersController extends HttpServlet {</span>
+
+	private static final long serialVersionUID = 1L;
+	
+<span class="fc" id="L25">	Users user = new Users(new UsersDAO());</span>
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+<span class="fc" id="L29">		String action = request.getParameter(&quot;action&quot;);		</span>
+<span class="fc" id="L30">		listPermitTypes(request,response);</span>
+<span class="fc" id="L31">		listRoles(request,response);</span>
+		// List users
+//		if(action != null)
+//		{
+//			if (action.equalsIgnoreCase(&quot;listUsers&quot;)) {
+//				ArrayList&lt;Users&gt; usersInDB = new ArrayList&lt;Users&gt;();
+//				usersInDB = UsersDAO.listUsers();
+//				getServletContext().getRequestDispatcher(&quot;/RevokeUser.jsp&quot;).forward(request, response);
+//			}
+//			else if(action.equalsIgnoreCase(&quot;search&quot;)){
+//				searchuserdetails(request);
+//			} 
+//			else // redirect all other gets to post
+//				doPost(request, response);
+//		}
+
+<span class="fc" id="L47">	}</span>
+	
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+<span class="fc" id="L53">		String action = request.getParameter(&quot;action&quot;), url = &quot;&quot;;</span>
+<span class="fc" id="L54">		String userName = request.getParameter(&quot;username&quot;);</span>
+<span class="fc" id="L55">		HttpSession session = request.getSession();</span>
+		
+<span class="fc" id="L57">		UsersErrorMsgs errorMsgs = new UsersErrorMsgs();</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">		if(action.equalsIgnoreCase(&quot;Login&quot;)){</span>
+<span class="fc" id="L59">			url = login(request, action, url, session, errorMsgs);</span>
+<span class="fc" id="L60">		} </span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">		else if (action.equalsIgnoreCase(&quot;logout&quot;))</span>
+		{
+<span class="fc" id="L63">			url = logout(request);</span>
+<span class="fc" id="L64">			getServletContext().getRequestDispatcher(url);</span>
+		
+<span class="fc bfc" id="L66" title="All 2 branches covered.">		} else if(action.equalsIgnoreCase(&quot;saveUser&quot;)){</span>
+<span class="fc" id="L67">			url = register(request, action, session, errorMsgs);</span>
+<span class="fc" id="L68">			listSex(request,response);</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">			if(url == &quot;/formRegistration.jsp&quot;)</span>
+			{
+<span class="fc" id="L71">				listPermitTypes(request,response);</span>
+<span class="fc" id="L72">				listRoles(request,response);</span>
+			}		
+		}		
+<span class="fc" id="L75">		getServletContext().getRequestDispatcher(url).forward(request, response);</span>
+<span class="fc" id="L76">	}</span>
+	
+//	private void searchuserdetails(HttpServletRequest request) {
+//		String type = request.getParameter(&quot;type&quot;);
+//		String query = request.getParameter(&quot;query&quot;);
+//		
+//		if (&quot;UserName&quot;.equals(type)) {
+//			List&lt;Users&gt; userList = new ArrayList&lt;Users&gt;();
+//			userList = UsersDAO.searchByUsername(query);
+//			for(Users user: userList){
+//				System.out.println(user.getUsername());
+//			}
+//		} else if (&quot;LastName&quot;.equals(type)) {
+//			System.out.println(&quot;Search by LastName&quot;);
+//		}
+//	}
+//	
+	private void getUserParam(HttpServletRequest request) {
+<span class="fc" id="L94">		user.setUser(request.getParameter(&quot;username&quot;), request.getParameter(&quot;hashedPassword&quot;),</span>
+<span class="fc" id="L95">				 request.getParameter(&quot;confirmPassword&quot;),request.getParameter(&quot;role&quot;),</span>
+<span class="fc" id="L96">				 request.getParameter(&quot;permitType&quot;), false, &quot;&quot;);</span>
+<span class="fc" id="L97">	}</span>
+	
+	protected void listSex(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+
+<span class="fc" id="L102">		ArrayList&lt;Sex&gt; listSex = new ArrayList&lt;Sex&gt;(Arrays.asList(Sex.values()));</span>
+<span class="fc" id="L103">		request.setAttribute(&quot;allSex&quot;, listSex);</span>
+
+<span class="fc" id="L105">    }</span>
+	
+	protected void listPermitTypes(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+<span class="fc" id="L109">		ArrayList&lt;PermitType&gt; listPermitTypes = new ArrayList&lt;PermitType&gt;(Arrays.asList(PermitType.values()));</span>
+<span class="fc" id="L110">		request.setAttribute(&quot;allPermitTypes&quot;, listPermitTypes);</span>
+<span class="fc" id="L111">    }</span>
+	
+	protected void listRoles(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		//request.getSession().invalidate();
+<span class="fc" id="L116">		ArrayList&lt;Role&gt; listRoles = new ArrayList&lt;Role&gt;(Arrays.asList(Role.values()));</span>
+<span class="fc" id="L117">		request.setAttribute(&quot;allRoles&quot;, listRoles);</span>
+	
+<span class="fc" id="L119">		RequestDispatcher dispatcher = request.getRequestDispatcher(&quot;/formRegistration.jsp&quot;);</span>
+<span class="fc" id="L120">        dispatcher.forward(request, response);</span>
+<span class="fc" id="L121">    }</span>
+		
+
+	private String register(HttpServletRequest request, String action, HttpSession session, UsersErrorMsgs errorMsgs) 
+	{
+		String url;
+<span class="fc" id="L127">		getUserParam(request);</span>
+<span class="fc" id="L128">		user.validateUser(action,user,errorMsgs);</span>
+<span class="fc" id="L129">		session.setAttribute(&quot;user&quot;, user);</span>
+<span class="fc bfc" id="L130" title="All 2 branches covered.">		if (!errorMsgs.getErrorMsg().equals(&quot;&quot;))</span>
+		{// if error messages
+<span class="fc" id="L132">			getUserParam(request);</span>
+<span class="fc" id="L133">			request.setAttribute(&quot;registererrorMsgs&quot;, errorMsgs);</span>
+<span class="fc" id="L134">			String role = request.getParameter(&quot;role&quot;);</span>
+<span class="fc" id="L135">	        request.setAttribute(&quot;selectedrole&quot;, role);</span>
+<span class="fc" id="L136">			String permitType = request.getParameter(&quot;permitType&quot;);</span>
+<span class="fc" id="L137">	        request.setAttribute(&quot;selectedpermitType&quot;, permitType);</span>
+<span class="fc" id="L138">			url = &quot;/formRegistration.jsp&quot;;</span>
+<span class="fc" id="L139">		} </span>
+		else 
+		{// if no error messages
+<span class="fc" id="L142">			UsersDAO.insertUser(user);</span>
+<span class="fc" id="L143">			UsersErrorMsgs errorMsgsuser = new UsersErrorMsgs();</span>
+<span class="fc" id="L144">			request.setAttribute(&quot;registererrorMsgs&quot;, errorMsgsuser);</span>
+<span class="fc" id="L145">			url = &quot;/formUserDetails.jsp&quot;;</span>
+		}
+<span class="fc" id="L147">		return url;</span>
+	}
+
+	private String logout(HttpServletRequest request) throws ServletException {
+		String url;
+<span class="fc" id="L152">		url = &quot;/index.jsp&quot;;</span>
+
+<span class="fc" id="L154">		user = new Users(new UsersDAO());</span>
+<span class="fc" id="L155">		request.logout();	</span>
+<span class="fc" id="L156">		request.getSession().setAttribute(&quot;User&quot;, null);</span>
+<span class="fc" id="L157">		request.getSession().invalidate();</span>
+
+<span class="fc" id="L159">		return url;</span>
+	}
+
+	private String login(HttpServletRequest request, String action, String url, HttpSession session,
+			UsersErrorMsgs errorMsgs) 
+	{
+        // Protect user's password. The generated value can be stored in DB.
+<span class="fc" id="L166">        String mySecurePassword = PasswordUtility.generatePassword(request.getParameter(&quot;hashedPassword&quot;));		</span>
+<span class="fc" id="L167">		UsersDAO.userExists(request.getParameter(&quot;username&quot;), mySecurePassword, user);</span>
+		//Set Attributes of Logged in User in session for further pages
+<span class="fc" id="L169">		session.setAttribute(&quot;User&quot;, user);</span>
+<span class="fc bfc" id="L170" title="All 2 branches covered.">		if(user.getUserID() != null)</span>
+		{
+<span class="fc bfc" id="L172" title="All 2 branches covered.">			if(&quot;Admin&quot;.equalsIgnoreCase(user.getRole()))</span>
+			{
+<span class="fc" id="L174">				url = &quot;/adminHomePage.jsp&quot;;</span>
+<span class="fc" id="L175">			}</span>
+<span class="fc bfc" id="L176" title="All 2 branches covered.">			else if(&quot;ParkingManager&quot;.equalsIgnoreCase(user.getRole()))</span>
+			{
+<span class="fc" id="L178">				url = &quot;/parkingManagementHomePage.jsp&quot;;</span>
+<span class="fc" id="L179">			}</span>
+			else 
+			{
+<span class="fc" id="L182">				url = &quot;/parkingUserHomePage.jsp&quot;;				</span>
+			}
+					
+<span class="fc" id="L185">		}</span>
+		//Login Failed
+		else
+		{
+<span class="pc bpc" id="L189" title="1 of 2 branches missed.">			if(user.getUserID() == null)</span>
+			{
+<span class="fc" id="L191">				user.validateLogin(action,null,errorMsgs);</span>
+<span class="fc" id="L192">				session.setAttribute(&quot;loginerrorMsgs&quot;, errorMsgs);</span>
+<span class="fc" id="L193">				url = &quot;/index.jsp&quot;;</span>
+			}
+		}
+
+<span class="fc" id="L197">		return url;</span>
+
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 29, 2019 5:46:49 AM)</div></body></html>

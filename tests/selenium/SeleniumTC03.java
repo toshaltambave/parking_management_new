@@ -156,10 +156,38 @@ public class SeleniumTC03 extends BusinessFunctions {
 //		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Login_UsernameError"))).getAttribute("value").equals(expectedPasswordError));
 //		
 //	}
+	@Test
+	@FileParameters("tests/Excel/TC04Good.csv")
+	public void dAdminUpdateProfile(String userNameToUpdate, String userName, String updateUserName, String password,
+			String updatePassword, String confirmPassword, String updateConfirmPassword, String role, String permitType,
+			String updatePermitType, String firstName, String updateFirstName, String middleName,
+			String updateMiddleName, String lastName, String updateLastName, String sex, String updateSex, String dob,
+			String updateDob, String address, String updateAddress, String email, String updateEmail, String phoneNum,
+			String updatePhoneNum, String dlNum, String updateDlNum, String dlExpiry, String updateDlExpiry,
+			String regNum, String updateRegNum, String utaId, String updateUtaId) {
+		driver.get(appUrl);
+		assertTrue(!isElementPresent(driver, "Txt_Register_Success"));
+		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
+		if (TestDAO.userExists(userName)) {
+			TestDAO.deleteUser(userName);
+		}
+		functions.Register(driver, userName, password, confirmPassword, Role.Admin.toString(), permitType);
+		functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dob, address, email, phoneNum,
+				dlNum, dlExpiry, regNum, utaId);
+		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Register_Success"))).getText()
+				.equals("Registered Successfully."));
+		functions.Login(driver, userName, password);
+		functions.UpdateUserProfile(driver, userNameToUpdate, updateFirstName, updateMiddleName, updateLastName,
+				updateUserName, updateSex, updateDob, updateAddress, updateEmail, updatePhoneNum, updateDlNum,
+				updateDlExpiry, updateRegNum, updateUtaId, updatePassword, updateConfirmPassword, updatePermitType);
+		driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
+		driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
+
+	}
 
 	@Test
 	@FileParameters("tests/Excel/AdminGoodTest.csv")
-	public void dAdminHappy(String userName, String password, String confirmPassword, String role,
+	public void eAdminHappy(String userName, String password, String confirmPassword, String role,
 			String permitType, String firstName, String middleName, String lastName, String sex, String dayOfBirth,
 			String address, String email, String phoneNum, String dlNum, String dayOfExpiry, String regNum,
 			String utaId, String userToRevoke,String lastNameSearch,String userRoleChange,String chgRole,String comment,String userRevokePassword) throws Exception {
@@ -186,6 +214,17 @@ public class SeleniumTC03 extends BusinessFunctions {
 		driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
 		functions.Login(driver, userToRevoke, userRevokePassword);
 		driver.findElement(By.id(prop.getProperty("Btn_Reservation_Reserve"))).click();
+		if (prop.getProperty("test_delay").equals("delay")) {
+			try {
+				Thread.sleep((Integer.parseInt(prop.getProperty("thread_sleep"))));
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Revoked"))).getText().contains("Your Account has been revoked please contact manager, reason:"));
 		driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
 		functions.Login(driver, userName, password);
@@ -197,14 +236,6 @@ public class SeleniumTC03 extends BusinessFunctions {
 	}
 	
 
-//	private void registerUser(String userName) {
-//		driver.get(appUrl);
-//		functions.Register(driver, userName, userName, userName, "Admin", "Basic");
-//		functions.RegisterUserDetails(driver, "Lex", "", "Luthor", "Male", "1", "LexCorp", "Lex@aol.com", "4693332514",
-//				"14412552", "30", "12332147", "1000212003");
-//		functions.Login(driver, "User7", "User7");
-//		driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
-//	}
 
 	@After
 	public void tearDown() throws Exception {

@@ -12,6 +12,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import data.MakeReservationsDAO;
+import data.ReservationsDAO;
 import junitparams.FileParameters;
 import junitparams.JUnitParamsRunner;
 import model.Reservation;
@@ -54,11 +56,11 @@ public class ReservationTest {
 		assertEquals(resError.getEndTimeError(), endTimeError);
 		assertEquals(resError.getCompareError(), compareError);
 	}
-	
+
 	@Test
 	@FileParameters("tests/test/ReservationException.csv")
 	public void ExceptionTest(String startTime, String endTime, String isNormalHour) throws ParseException {
-	    SimpleDateFormat formatter=new SimpleDateFormat("dd-MMM-yyyy"); 
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
 		Date startdate = formatter.parse(startTime);
 		Date enddate = formatter.parse(endTime);
 		reservation.validateDateTime(startTime, endTime, resError);
@@ -72,6 +74,34 @@ public class ReservationTest {
 		Date enddate = formatter.parse(endTime);
 		int startDay = startdate.getDay();
 		assertEquals(Boolean.parseBoolean(isNormalHour), reservation.checkNormalHours(startdate, enddate));
+	}
+
+	@Test
+	@FileParameters("tests/test/ReservationDAOTest.csv")
+	public void DAOTest(boolean actualBoolean, int resId, int areaId, String startDate, String endDate,
+			String permitType, int floorNum, boolean noShow, boolean overStay, boolean camera, boolean cart, boolean history, int userId) throws ParseException {
+
+		ReservationsDAO.convertBoolToInt(actualBoolean);
+		ReservationsDAO.deleteReservationbyResId(resId);
+		ReservationsDAO.getFloorSpotsCountByTime(areaId, startDate, endDate);
+		ReservationsDAO.getFloorSpotsCountByTimeFiltered(areaId, startDate, endDate, permitType);
+		ReservationsDAO.getSpotsByAreaFloorPermitFromDb(areaId, floorNum, permitType, startDate, endDate);
+		reservation.setNoShow(false);
+		reservation.setOverStay(false);
+		reservation.setCamera(false);
+		reservation.setCart(false);
+		reservation.setHistory(false);
+		ReservationsDAO.StoreReservationsInDB(reservation);
+
+		MakeReservationsDAO.CheckRevoked(userId);
+		MakeReservationsDAO.CountReservationsInDay(userId);
+		MakeReservationsDAO.GetReservationsByReservationDate(startDate);
+		MakeReservationsDAO.GetReservationsByReservationNoShow(startDate);
+		MakeReservationsDAO.GetReservationsByUserId(userId);
+		MakeReservationsDAO.GetReservationsViolations(startDate, userId);
+		MakeReservationsDAO.SetNoShow(resId, userId);
+		MakeReservationsDAO.SetOverdue(resId, userId);
+
 	}
 
 }
