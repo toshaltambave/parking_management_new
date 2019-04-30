@@ -121,6 +121,28 @@ public void editreservationTimeAndDate(WebDriver driver, String start, String en
 			}
 		}
 	}
+	public void reservationModifyTimeAndDate(WebDriver driver, String start, String end, String area) throws Exception {
+
+		driver.findElement(By.id(prop.getProperty("Txt_Reservation_StartTime"))).clear();
+		driver.findElement(By.id(prop.getProperty("Txt_Reservation_EndTime"))).clear();
+		driver.findElement(By.id(prop.getProperty("Txt_Reservation_StartTime"))).sendKeys(start);
+		driver.findElement(By.id(prop.getProperty("Txt_Reservation_EndTime"))).sendKeys(end);
+		new Select(driver.findElement(By.id(prop.getProperty("Txt_Reservation_AreaDropDown"))))
+				.selectByVisibleText(area);
+		Thread.sleep(1000);
+		driver.findElement(By.id(prop.getProperty("Btn_Reservation_Search"))).click();
+		if (prop.getProperty("test_delay").equals("delay")) {
+			try {
+				Thread.sleep((Integer.parseInt(prop.getProperty("thread_sleep"))));
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 	public void deletereservation(WebDriver driver, Integer spot){
 
 		driver.findElement(By.id(prop.getProperty("Btn_ParkingUser_DelRes"))).click();
@@ -697,6 +719,35 @@ public void editreservationTimeAndDate(WebDriver driver, String start, String en
 			}
 		}
 	    assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Parking_Area_Exception"))).getText().equals("Add Area(s) to the list."));
+	    driver.findElement(By.id(prop.getProperty("Txt_Parking_Area_Name"))).clear();
+	    driver.findElement(By.id(prop.getProperty("Txt_Parking_Area_Name"))).sendKeys(AreaName);
+	    driver.findElement(By.id(prop.getProperty("Txt_Parking_Floor_No"))).clear();
+	    driver.findElement(By.id(prop.getProperty("Txt_Parking_Floor_No"))).sendKeys(FloorNo);
+	    driver.findElement(By.id(prop.getProperty("Btn_Parking_Area_AddList"))).click();
+	    driver.findElement(By.id(prop.getProperty("Txt_Parking_Floor_No"))).clear();
+	    driver.findElement(By.id(prop.getProperty("Txt_Parking_Floor_No"))).sendKeys(FloorNo);
+	    driver.findElement(By.id(prop.getProperty("Btn_Parking_Area_AddList"))).click();
+	    driver.findElement(By.id(prop.getProperty("Txt_Parking_Area_Name"))).clear();
+	    new Select(driver.findElement(By.id(prop.getProperty("Txt_Parking_Area_PermitType")))).selectByVisibleText(PermitType);
+	    driver.findElement(By.id(prop.getProperty("Txt_Parking_Floor_No"))).clear();
+	    driver.findElement(By.id(prop.getProperty("Txt_Parking_Floor_No"))).sendKeys(FloorNo);
+	    driver.findElement(By.id(prop.getProperty("Btn_Parking_Area_AddList"))).click();
+//	    driver.findElement(By.id(prop.getProperty("Txt_Parking_Floor_No"))).clear();
+	    driver.findElement(By.id(prop.getProperty("Txt_Parking_Area_Name"))).sendKeys(AreaName);
+	    driver.findElement(By.name(prop.getProperty("Txt_Parking_Spot_No"))).clear();
+	    driver.findElement(By.name(prop.getProperty("Txt_Parking_Spot_No"))).sendKeys(SpotsNo);
+	    driver.findElement(By.id(prop.getProperty("Btn_Parking_Area_AddList"))).click();
+		if (prop.getProperty("test_delay").equals("delay")) {
+			try {
+				Thread.sleep((Integer.parseInt(prop.getProperty("thread_sleep"))));
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	    driver.findElement(By.id(prop.getProperty("Txt_Parking_Area_Name"))).clear();
 	    driver.findElement(By.id(prop.getProperty("Txt_Parking_Area_Name"))).sendKeys(AreaName);
 	    new Select(driver.findElement(By.id(prop.getProperty("Txt_Parking_Area_PermitType")))).selectByVisibleText(PermitType);

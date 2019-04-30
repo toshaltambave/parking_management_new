@@ -119,18 +119,16 @@ public class SeleniumTC04 extends BusinessFunctions {
 		driver.findElement(By.id(prop.getProperty("Btn_User_Logout"))).click();
 	}
 
-//	
-//	@Test
-//	@FileParameters("tests/Excel/TCedgecase.csv")
-//	public void bTestEdgeCases(String one,String two, String three, String four, String five, String six, String seven,
-//			String eight, String nine, String ten, String eleven, String twelve, String thirteen) {
-//		driver.get(appUrl);
-//		driver.get(fakeUrl);
-//		testEdgeCase(driver,one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen,fakeUrl);
-//	}
+	
+	@Test
+	@FileParameters("tests/Excel/TCedgecase.csv")
+	public void bTestEdgeCases(String one,String two, String three, String four, String five, String six, String seven,
+			String eight, String nine, String ten, String eleven, String twelve, String thirteen) {
+		driver.get(appUrl);
+		driver.get(fakeUrl);
+		testEdgeCase(driver,one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen,fakeUrl);
+	}
 
-	
-	
 
 	@After
 	public void tearDown() throws Exception {

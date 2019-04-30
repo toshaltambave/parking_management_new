@@ -64,105 +64,105 @@ public class SeleniumTC02 extends BusinessFunctions {
 	 * 
 	 * @throws Exception
 	 */
-//	@Test
-//	@FileParameters("tests/Excel/RegisterFailures.csv")
-//	public void aParkingManagerRegistration(String userName, String password, String confirmPassword, String role,
-//			String permitType, String exceptedErrorMsg, String expectedUsernameError, String expectedPasswordError,
-//			String expectedConfirmPaswordError) throws Exception {
-//		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
-//		
-//		TestDAO.deleteUser(userName);
-////		if ("Username is already in database".equals(expectedUsernameError) && !TestDAO.userExists(userName)) {
-////			registerUser(userName, correctPassword,role,permitType,firstName,middleName,lastName,
-////					sex,dob,address,email,phoneNum,dlno,dlexpiry,regNum,utaId);
-////		}
-//		
-//		if ("None".equals(userName)) {
-//			// Nothing entered - all errors present
-//			driver.findElement(By.id(prop.getProperty("Btn_Register_Register"))).click();
-//		} else {
-//			// UserName all ready in DataBase
-//			functions.Register(driver, userName, password, confirmPassword, Role.ParkingManager.toString(), permitType);
-//			if ("Username is already in database".equals(expectedUsernameError)) {
-//				TestDAO.deleteUser(userName);
-//			}
+	@Test
+	@FileParameters("tests/Excel/RegisterFailures.csv")
+	public void aParkingManagerRegistration(String userName, String password, String confirmPassword, String role,
+			String permitType, String exceptedErrorMsg, String expectedUsernameError, String expectedPasswordError,
+			String expectedConfirmPaswordError) throws Exception {
+		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
+		
+		TestDAO.deleteUser(userName);
+//		if ("Username is already in database".equals(expectedUsernameError) && !TestDAO.userExists(userName)) {
+//			registerUser(userName, correctPassword,role,permitType,firstName,middleName,lastName,
+//					sex,dob,address,email,phoneNum,dlno,dlexpiry,regNum,utaId);
 //		}
-//		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Login_CommonError"))).getAttribute("value")
-//				.equals(exceptedErrorMsg));
-//		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Register_UsernameError"))).getAttribute("value")
-//				.equals(expectedUsernameError));
-//		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Register_PasswordError"))).getAttribute("value")
-//				.equals(expectedPasswordError));
-//		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Register_ConfirmPasswordError")))
-//				.getAttribute("value").equals(expectedConfirmPaswordError));
-//
-//	}
-//
-//	@Test
-//	@FileParameters("tests/Excel/UserDetailsFailures.csv")
-//	public void bParkingManagerUserDetails(String firstName, String middleName, String lastName, String sex,
-//			String dob, String address, String email, String phoneNum, String dlNum, String expiryDate, String regNum,
-//			String utaId, String expectedErrorMsg, String expectedFirstNameError, String expectedMiddleNameError,
-//			String expectedLastNameError, String expectedDobError, String expectedAddressError,
-//			String expectedEmailError, String expectedPhoneNumError, String expectedDlNumError,
-//			String expectedDlExpiryError, String RegNumError, String utaIdError, String userName, String password, String confirmPassword, String role,
-//			String permitType) throws Exception {
-//		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
-//		
-//		if (TestDAO.userExists(userName)) {
-//			TestDAO.deleteUser(userName);
-//		}
-//		
-//		functions.Register(driver, userName, password, confirmPassword, Role.ParkingManager.toString(), permitType);
-//
-//
-//		if("None".equals(firstName)){
-//			 //Nothing Entered all errors present
-//			 driver.findElement(By.id(prop.getProperty("Btn_UserDetails_Submit"))).click();
-//		}else{
-//			 functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dob, address, email, phoneNum, dlNum, expiryDate, regNum, utaId);
-//		}
-//		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_UserDetails_CommonError"))).getAttribute("value").equals(expectedErrorMsg));
-//		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_UserDetails_FirstnameError"))).getAttribute("value").equals(expectedFirstNameError));
-//		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_UserDetails_MiddlenameError"))).getAttribute("value").equals(expectedMiddleNameError));
-//		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_UserDetails_LastnameError"))).getAttribute("value").equals(expectedLastNameError));
-//		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_UserDetails_DOBError"))).getAttribute("value").equals(expectedDobError));
-//		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_UserDetails_AddressError"))).getAttribute("value").equals(expectedAddressError));
-//		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_UserDetails_EmailError"))).getAttribute("value").equals(expectedEmailError));
-//		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_UserDetails_PhoneError"))).getAttribute("value").equals(expectedPhoneNumError));
-//		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_UserDetails_DLNOError"))).getAttribute("value").equals(expectedDlNumError));
-//		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_UserDetails_DLExpiryDteError"))).getAttribute("value").equals(expectedDlExpiryError));
-//		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_UserDetails_REGNOError"))).getAttribute("value").equals(RegNumError));
-//		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_UserDetails_UTAIDError"))).getAttribute("value").equals(utaIdError));
-//
-//	}
-//	
-//	@Test
-//	@FileParameters("tests/Excel/RegisterLoginFailures.csv")
-//	public void cParkingManagerLogin(String userName, String password, String expectedErrorMsg, String expectedUserNameError, String expectedPasswordError,String reguserName, String regpassword, String confirmPassword, String role,
-//			String permitType,String firstName, String middleName, String lastName, String sex,
-//			String dob, String address, String email, String phoneNum, String dlNum, String expiryDate, String regNum,
-//			String utaId){
-//		
-//		if (TestDAO.userExists(reguserName)) {
-//			TestDAO.deleteUser(reguserName);
-//		}
-//		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
-//		
-//		functions.Register(driver, reguserName, regpassword, confirmPassword, Role.ParkingManager.toString(), permitType);
-//		functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dob, address, email, phoneNum, dlNum, expiryDate, regNum, utaId);
-//		
-//		if("None".equals(userName)){
-//			functions.Login(driver, "", "");
-//		}else{
-//			functions.Login(driver, userName, password);
-//		}
-//		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Login_CommonError"))).getAttribute("value").equals(expectedErrorMsg));
-//		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Login_UsernameError"))).getAttribute("value").equals(expectedUserNameError));
-//		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Login_UsernameError"))).getAttribute("value").equals(expectedPasswordError));
-//		
-//	}
-//	
+		
+		if ("None".equals(userName)) {
+			// Nothing entered - all errors present
+			driver.findElement(By.id(prop.getProperty("Btn_Register_Register"))).click();
+		} else {
+			// UserName all ready in DataBase
+			functions.Register(driver, userName, password, confirmPassword, Role.ParkingManager.toString(), permitType);
+			if ("Username is already in database".equals(expectedUsernameError)) {
+				TestDAO.deleteUser(userName);
+			}
+		}
+		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Login_CommonError"))).getAttribute("value")
+				.equals(exceptedErrorMsg));
+		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Register_UsernameError"))).getAttribute("value")
+				.equals(expectedUsernameError));
+		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Register_PasswordError"))).getAttribute("value")
+				.equals(expectedPasswordError));
+		assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Register_ConfirmPasswordError")))
+				.getAttribute("value").equals(expectedConfirmPaswordError));
+
+	}
+
+	@Test
+	@FileParameters("tests/Excel/UserDetailsFailures.csv")
+	public void bParkingManagerUserDetails(String firstName, String middleName, String lastName, String sex,
+			String dob, String address, String email, String phoneNum, String dlNum, String expiryDate, String regNum,
+			String utaId, String expectedErrorMsg, String expectedFirstNameError, String expectedMiddleNameError,
+			String expectedLastNameError, String expectedDobError, String expectedAddressError,
+			String expectedEmailError, String expectedPhoneNumError, String expectedDlNumError,
+			String expectedDlExpiryError, String RegNumError, String utaIdError, String userName, String password, String confirmPassword, String role,
+			String permitType) throws Exception {
+		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
+		
+		if (TestDAO.userExists(userName)) {
+			TestDAO.deleteUser(userName);
+		}
+		
+		functions.Register(driver, userName, password, confirmPassword, Role.ParkingManager.toString(), permitType);
+
+
+		if("None".equals(firstName)){
+			 //Nothing Entered all errors present
+			 driver.findElement(By.id(prop.getProperty("Btn_UserDetails_Submit"))).click();
+		}else{
+			 functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dob, address, email, phoneNum, dlNum, expiryDate, regNum, utaId);
+		}
+		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_UserDetails_CommonError"))).getAttribute("value").equals(expectedErrorMsg));
+		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_UserDetails_FirstnameError"))).getAttribute("value").equals(expectedFirstNameError));
+		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_UserDetails_MiddlenameError"))).getAttribute("value").equals(expectedMiddleNameError));
+		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_UserDetails_LastnameError"))).getAttribute("value").equals(expectedLastNameError));
+		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_UserDetails_DOBError"))).getAttribute("value").equals(expectedDobError));
+		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_UserDetails_AddressError"))).getAttribute("value").equals(expectedAddressError));
+		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_UserDetails_EmailError"))).getAttribute("value").equals(expectedEmailError));
+		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_UserDetails_PhoneError"))).getAttribute("value").equals(expectedPhoneNumError));
+		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_UserDetails_DLNOError"))).getAttribute("value").equals(expectedDlNumError));
+		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_UserDetails_DLExpiryDteError"))).getAttribute("value").equals(expectedDlExpiryError));
+		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_UserDetails_REGNOError"))).getAttribute("value").equals(RegNumError));
+		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_UserDetails_UTAIDError"))).getAttribute("value").equals(utaIdError));
+
+	}
+	
+	@Test
+	@FileParameters("tests/Excel/RegisterLoginFailures.csv")
+	public void cParkingManagerLogin(String userName, String password, String expectedErrorMsg, String expectedUserNameError, String expectedPasswordError,String reguserName, String regpassword, String confirmPassword, String role,
+			String permitType,String firstName, String middleName, String lastName, String sex,
+			String dob, String address, String email, String phoneNum, String dlNum, String expiryDate, String regNum,
+			String utaId){
+		
+		if (TestDAO.userExists(reguserName)) {
+			TestDAO.deleteUser(reguserName);
+		}
+		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
+		
+		functions.Register(driver, reguserName, regpassword, confirmPassword, Role.ParkingManager.toString(), permitType);
+		functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dob, address, email, phoneNum, dlNum, expiryDate, regNum, utaId);
+		
+		if("None".equals(userName)){
+			functions.Login(driver, "", "");
+		}else{
+			functions.Login(driver, userName, password);
+		}
+		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Login_CommonError"))).getAttribute("value").equals(expectedErrorMsg));
+		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Login_UsernameError"))).getAttribute("value").equals(expectedUserNameError));
+		 assertTrue(driver.findElement(By.id(prop.getProperty("Txt_Login_UsernameError"))).getAttribute("value").equals(expectedPasswordError));
+		
+	}
+	
 
 	@Test
 	@FileParameters("tests/Excel/TC04Good.csv")
@@ -273,10 +273,9 @@ public class SeleniumTC02 extends BusinessFunctions {
 //		driver.manage().window().setSize(new Dimension(1936, 1056));
 		assertTrue(!isElementPresent(driver, "Txt_Register_Success"));
 		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
-		if (TestDAO.userExists(userName)) {
-			TestDAO.deleteReservation(userName);
-			TestDAO.deleteUser(userName);
-		}
+		TestDAO.deleteReservation(userName);
+		TestDAO.deleteUser(userName);
+	
 		functions.Register(driver, userName, password, confirmPassword, role, permitType);
 		functions.RegisterUserDetails(driver, firstName, middleName, lastName, sex, dayOfBirth, address, email,
 				phoneNum, dlNum, dayOfExpiry, regNum, utaId);
@@ -390,14 +389,13 @@ public class SeleniumTC02 extends BusinessFunctions {
 		Date date = new Date();
 		startdate = dateFormat.format(date) +" "+startdate;
 		enddate = dateFormat.format(date) +" "+enddate;
-		String pmUserName = userName +1;
+		String pmUserName = userName + firstName;
 		
 		//Register
-		if (TestDAO.userExists(userName)) {
-			TestDAO.deleteUser(pmUserName);
-			TestDAO.deleteReservation(userName);
-			TestDAO.deleteUser(userName);
-		}
+		TestDAO.deleteReservation(pmUserName);
+		TestDAO.deleteUser(pmUserName);
+		TestDAO.deleteReservation(userName);
+		TestDAO.deleteUser(userName);
 		
 		driver.findElement(By.id(prop.getProperty("Btn_Login_Register"))).click();
 		functions.Register(driver, userName, password, confirmPassword, role, permitType);
@@ -431,7 +429,15 @@ public class SeleniumTC02 extends BusinessFunctions {
 		functions.Login(driver, pmUserName, password);	    
 		//Modify Reservation
 		functions.modifyreservation(driver,1);
-		driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
+	    functions.reservationModifyTimeAndDate(driver, startdate, enddate, area);
+		functions.reservationFloorAndSpot(driver, reservationPermitType, floorNum, spotNum);
+		functions.makeReservation(driver, ccNum, expMon, expYear, cvv, cart, camera, history, cardType);
+		
+		functions.modifyreservation(driver,1);
+	    functions.reservationModifyTimeAndDate(driver, startdate, enddate, area);
+		functions.reservationFloorAndSpot(driver, reservationPermitType, floorNum, spotNum);
+		functions.makeReservation(driver, ccNum, expMon, expYear, cvv, false, false, false, cardType);
+//		driver.findElement(By.id(prop.getProperty("Btn_User_Home_Page"))).click();
 		//Delete Reservation
 		functions.deletereservation(driver, 2);
 		if (prop.getProperty("test_delay").equals("delay")) {

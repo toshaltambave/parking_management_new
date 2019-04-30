@@ -246,7 +246,7 @@ public class ParkingAreaController extends HttpServlet {
 		String url = "/CreatingParkingArea.jsp";
 		ParkingAreaHelperError error = new ParkingAreaHelperError();
 		getError(request, session, error, action);
-		request.setAttribute("parkingAreaError", error);
+		
 		if (error.getAreaNameError().isEmpty() && error.getFloorNumberError().isEmpty()
 				&& error.getNumberofSpotsError().isEmpty())
 		{
@@ -290,6 +290,8 @@ public class ParkingAreaController extends HttpServlet {
 				session.setAttribute("areastobeadded", listWithoutDuplicates);
 			}
 		}
+		else
+			request.setAttribute("parkingAreaError", error);
 		return url;
 	}
 

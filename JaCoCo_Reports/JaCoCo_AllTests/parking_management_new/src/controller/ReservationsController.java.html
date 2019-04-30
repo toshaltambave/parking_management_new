@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ReservationsController.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 29, 2019 5:46:49 AM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">controller</a> &gt; <span class="el_source">ReservationsController.java</span></div><h1>ReservationsController.java</h1><pre class="source lang-java linenums">package controller;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ReservationsController.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">Merged (Apr 30, 2019 2:51:49 AM)</a> &gt; <a href="../../index.html" class="el_group">parking_management_new</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">controller</a> &gt; <span class="el_source">ReservationsController.java</span></div><h1>ReservationsController.java</h1><pre class="source lang-java linenums">package controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -157,9 +157,9 @@ import model.*;
 <span class="fc" id="L157">					isReservationSuccessful = storeReservation(session, user);</span>
 <span class="fc" id="L158">					request.setAttribute(&quot;isReservationSuccessful&quot;, isReservationSuccessful);</span>
 <span class="fc" id="L159">					String url = &quot;&quot;;</span>
-<span class="pc bpc" id="L160" title="1 of 2 branches missed.">					if (user.getRole().equals(&quot;ParkingManager&quot;)){</span>
-<span class="nc" id="L161">						url=&quot;/parkingManagementHomePage.jsp&quot;;</span>
-<span class="nc" id="L162">					}</span>
+<span class="fc bfc" id="L160" title="All 2 branches covered.">					if (user.getRole().equals(&quot;ParkingManager&quot;)){</span>
+<span class="fc" id="L161">						url=&quot;/parkingManagementHomePage.jsp&quot;;</span>
+<span class="fc" id="L162">					}</span>
 					else
 					{
 <span class="fc" id="L165">						url=&quot;/parkingUserHomePage.jsp&quot;;</span>
@@ -173,9 +173,9 @@ import model.*;
 <span class="fc" id="L173">				isReservationSuccessful = storeReservation(session, user);	</span>
 <span class="fc" id="L174">				request.setAttribute(&quot;isReservationSuccessful&quot;, isReservationSuccessful);</span>
 <span class="fc" id="L175">				String url = &quot;&quot;;</span>
-<span class="pc bpc" id="L176" title="1 of 2 branches missed.">				if (user.getRole().equals(&quot;ParkingManager&quot;)){</span>
-<span class="nc" id="L177">					url=&quot;/parkingManagementHomePage.jsp&quot;;</span>
-<span class="nc" id="L178">				}</span>
+<span class="fc bfc" id="L176" title="All 2 branches covered.">				if (user.getRole().equals(&quot;ParkingManager&quot;)){</span>
+<span class="fc" id="L177">					url=&quot;/parkingManagementHomePage.jsp&quot;;</span>
+<span class="fc" id="L178">				}</span>
 				else
 				{
 <span class="fc" id="L181">					url=&quot;/parkingUserHomePage.jsp&quot;;</span>
@@ -493,11 +493,11 @@ import model.*;
 <span class="fc" id="L493">			double historyPrice = 1.95;</span>
 <span class="fc" id="L494">			Reservation res = new Reservation();</span>
 <span class="fc" id="L495">			boolean normalHours = res.checkNormalHours(startdate, enddate);</span>
-<span class="pc bpc" id="L496" title="1 of 2 branches missed.">			if(normalHours){</span>
-<span class="nc" id="L497">				request.setAttribute(&quot;cartPrice&quot;, cartPrice );</span>
-<span class="nc" id="L498">				request.setAttribute(&quot;cameraPrice&quot;, cameraPrice );</span>
-<span class="nc" id="L499">				request.setAttribute(&quot;historyPrice&quot;, historyPrice );</span>
-<span class="nc" id="L500">			}</span>
+<span class="fc bfc" id="L496" title="All 2 branches covered.">			if(normalHours){</span>
+<span class="fc" id="L497">				request.setAttribute(&quot;cartPrice&quot;, cartPrice );</span>
+<span class="fc" id="L498">				request.setAttribute(&quot;cameraPrice&quot;, cameraPrice );</span>
+<span class="fc" id="L499">				request.setAttribute(&quot;historyPrice&quot;, historyPrice );</span>
+<span class="fc" id="L500">			}</span>
 			else{
 <span class="fc" id="L502">				request.setAttribute(&quot;cartPrice&quot;, 2 * cartPrice );</span>
 <span class="fc" id="L503">				request.setAttribute(&quot;cameraPrice&quot;, cameraPrice );</span>
@@ -556,4 +556,4 @@ import model.*;
 	
 	
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 29, 2019 5:46:49 AM)</div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>Merged (Apr 30, 2019 2:51:49 AM)</div></body></html>

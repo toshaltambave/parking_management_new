@@ -107,7 +107,6 @@ public class UserDetailsController extends HttpServlet {
 	private String handleSaveUserDetails(HttpServletRequest request, String action, String url, HttpSession session,
 			UserDetails userdetails, UserDetailsErrorMsgs errorMsgs) {
 		Users user = (Users) session.getAttribute("user");
-		if (user != null && !user.getUsername().isEmpty())
 			userdetails.setUsername(user.getUsername());		
 		getUserDetailsParam(request, userdetails);
 		userdetails.validateUserDetails(action, userdetails, errorMsgs);
